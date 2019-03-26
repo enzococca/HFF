@@ -1,6 +1,6 @@
 # ![](hfflogo.png) HFF-Survey - QGIS plugin
 [![GitHub release](https://img.shields.io/github/release/enzococca/HFF.svg?style=flat-square)](https://github.com/enzococca/HFF)
-[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/pyarchinit/pyarchinit.svg?style=flat-square)](https://github.com/enzococca/HFF)
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size//enzococca/HFF.svg?style=flat-square)](https://github.com/enzococca/HFF)
 [![HitCount](http://hits.dwyl.io/enzococca/HFF.svg)](http://hits.dwyl.io/enzococca/HFF)
 [![Donate to QGIS](https://img.shields.io/badge/donate%20to-QGIS-green.svg?style=flat-square)](http://qgis.org/en/site/getinvolved/donations.html)
 
