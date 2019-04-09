@@ -28,7 +28,7 @@ from builtins import range
 from builtins import str
 import PIL as Image
 from PIL import *
-from qgis.PyQt.QtCore import Qt,QSize
+from qgis.PyQt.QtCore import Qt, QSize
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QAbstractItemView, QListWidgetItem, QFileDialog, QTableWidgetItem
 from qgis.PyQt.uic import loadUiType
@@ -97,7 +97,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     ]
 
     SEARCH_DICT_TEMP = ""
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
     DB_SERVER = 'not defined'
     def __init__(self):
         # This is always the same
@@ -988,7 +988,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             for c in range(col):
                 value = eval(self.tablename+".item(r,c)")
                 if value != None:
-                    sub_list.append(unicode(value.text()))
+                    sub_list.append(str(value.text()))
                     
             if bool(sub_list) == True:
                 lista.append(sub_list)

@@ -27,11 +27,11 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>pyArchInit Underwater Artifacts</string>
+   <string>HFF Artifacts</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/images/pottery.png</normaloff>:/images/pottery.png</iconset>
+   <iconset resource="../../resources/resources.qrc">
+    <normaloff>:/icons/radar.png</normaloff>:/icons/radar.png</iconset>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedKingdom"/>
@@ -1020,11 +1020,23 @@
        <height>30</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Export PDF</string>
      </property>
+     <property name="icon">
+      <iconset resource="../../resources/resources.qrc">
+       <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
+     </property>
     </widget>
     <widget class="QPushButton" name="pushButton_exptab">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -1046,8 +1058,17 @@
        <height>28</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Export List</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../resources/resources.qrc">
+       <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
      </property>
     </widget>
     <widget class="QTabWidget" name="tabWidget_2">
@@ -1122,6 +1143,11 @@
        <width>111</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="toolTip">
       <string/>
@@ -1446,8 +1472,8 @@
          <string>New rec</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/newrec.png</normaloff>:/images/newrec.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
         </property>
        </widget>
       </item>
@@ -1460,8 +1486,8 @@
          <string>Last rec</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/7_rightArrows.png</normaloff>:/images/7_rightArrows.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
         </property>
        </widget>
       </item>
@@ -1479,8 +1505,8 @@
          <string>Save</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/b_save.png</normaloff>:/images/b_save.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/b_save.png</normaloff>:/icons/b_save.png</iconset>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -1501,8 +1527,8 @@
          <string>Go Search</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
         </property>
        </widget>
       </item>
@@ -1520,8 +1546,8 @@
          <string>Order by</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/sort.png</normaloff>:/images/sort.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
         </property>
        </widget>
       </item>
@@ -1539,8 +1565,8 @@
          <string>Restore setting</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/view_all.png</normaloff>:/images/view_all.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
         </property>
        </widget>
       </item>
@@ -1558,8 +1584,8 @@
          <string>Search</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/new_search.png</normaloff>:/images/new_search.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/new_search copy.png</normaloff>:/icons/new_search copy.png</iconset>
         </property>
        </widget>
       </item>
@@ -1578,8 +1604,8 @@
          <string>Prev rec</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/4_leftArrow.png</normaloff>:/images/4_leftArrow.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
         </property>
        </widget>
       </item>
@@ -1603,8 +1629,8 @@
          <string>Delete</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/delete.png</normaloff>:/images/delete.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
         </property>
         <property name="flat">
          <bool>false</bool>
@@ -1620,8 +1646,8 @@
          <string>Next rec</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/6_rightArrow.png</normaloff>:/images/6_rightArrow.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
         </property>
        </widget>
       </item>
@@ -1640,8 +1666,8 @@
          <string>First rec</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/images/5_leftArrows.png</normaloff>:/images/5_leftArrows.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
         </property>
        </widget>
       </item>
@@ -1950,7 +1976,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources.qrc"/>
+  <include location="../../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

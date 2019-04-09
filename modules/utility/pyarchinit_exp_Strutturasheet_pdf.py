@@ -291,9 +291,9 @@ class single_Struttura_pdf_sheet(object):
         # 0 row
         intestazione = Paragraph("<b>SCHEDA STRUTTURA<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b><br/>www.pyarchinit.blogspot.com", styNormal)
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -527,9 +527,9 @@ class single_Struttura_pdf_sheet(object):
         # 0 row
         intestazione = Paragraph("<b>FORMULA STRUKTUR<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b><br/>www.pyarchinit.blogspot.com", styNormal)
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
         logo = Image(logo_path)
 
@@ -762,9 +762,9 @@ class single_Struttura_pdf_sheet(object):
         # 0 row
         intestazione = Paragraph("<b>STRUCTURE FORM<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b><br/>www.pyarchinit.blogspot.com", styNormal)
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -980,7 +980,7 @@ class single_Struttura_pdf_sheet(object):
 
         return t    
 class generate_struttura_pdf(object):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
 
@@ -1002,9 +1002,9 @@ class generate_struttura_pdf(object):
         f.close()
 
     def build_index_Struttura(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)
@@ -1057,9 +1057,9 @@ class generate_struttura_pdf(object):
         f.close()
 
     def build_index_Struttura_de(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
 
         logo = Image(logo_path)
@@ -1112,9 +1112,9 @@ class generate_struttura_pdf(object):
         f.close()
 
     def build_index_Struttura_en(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)

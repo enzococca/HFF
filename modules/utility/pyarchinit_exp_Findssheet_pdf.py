@@ -163,9 +163,9 @@ class single_Finds_pdf_sheet(object):
         intestazione = Paragraph("<b>SCHEDA INVENTARIO REPERTI<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -390,9 +390,9 @@ class single_Finds_pdf_sheet(object):
         intestazione = Paragraph("<b>FORMULAR MATERIALINVENTAR<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
         logo = Image(logo_path)
 
@@ -617,9 +617,9 @@ class single_Finds_pdf_sheet(object):
         intestazione = Paragraph("<b>ARTEFACT FORM<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -866,9 +866,9 @@ class Box_labels_Finds_pdf_sheet(object):
         styNormal.leading = 15
 
         # format labels
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -960,9 +960,9 @@ class Box_labels_Finds_pdf_sheet(object):
         styNormal.leading = 15
 
         # format labels
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
         logo = Image(logo_path)
 
@@ -1054,9 +1054,9 @@ class Box_labels_Finds_pdf_sheet(object):
         styNormal.leading = 15
 
         # format labels
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -1458,7 +1458,7 @@ class FINDS_index_pdf_sheet(object):
 
 
 class generate_reperti_pdf(object):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
 
@@ -1501,9 +1501,9 @@ class generate_reperti_pdf(object):
         doc.build(elements, canvasmaker=NumberedCanvas_Findssheet)
         f.close()   
     def build_index_Finds(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)
@@ -1545,9 +1545,9 @@ class generate_reperti_pdf(object):
 
         f.close()
     def build_index_Finds_de(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
 
         logo = Image(logo_path)
@@ -1589,9 +1589,9 @@ class generate_reperti_pdf(object):
 
         f.close()
     def build_index_Finds_en(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)
@@ -1633,9 +1633,9 @@ class generate_reperti_pdf(object):
 
         f.close()   
     def build_index_Casse(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)
@@ -1678,9 +1678,9 @@ class generate_reperti_pdf(object):
 
         f.close()
     def build_index_Casse_de(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
 
         logo = Image(logo_path)
@@ -1723,9 +1723,9 @@ class generate_reperti_pdf(object):
 
         f.close()
     def build_index_Casse_en(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)

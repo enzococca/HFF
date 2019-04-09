@@ -24,7 +24,7 @@ import os
 
 
 class Order_layers_non_funzia:
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
 

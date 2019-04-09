@@ -9,10 +9,10 @@
 
 
 [general]
-name=HFF-Survey
+name=HFF
 qgisMinimumVersion=3.0
 description=pyarchinit an tool for archaeological works
-version=0.1
+version=0.1.0
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
 

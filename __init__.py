@@ -34,7 +34,7 @@ sys.path.insert(0, os.path.abspath(
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'gui', 'ui')))
 
-pyarchinit_home = os.path.expanduser("~") + os.sep + 'HFF-survey'
+pyarchinit_home = os.path.expanduser("~") + os.sep + 'HFF'
 fi = pyarchinit_Folder_installation()
 if not os.path.exists(pyarchinit_home):
     fi.install_dir()

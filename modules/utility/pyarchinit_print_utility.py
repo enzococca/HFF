@@ -45,7 +45,7 @@ from .settings import Settings
 class Print_utility(QObject):
     progressBarUpdated = pyqtSignal(int, int)
 
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
     REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "pyarchinit_Report_folder")
     FILEPATH = os.path.dirname(__file__)
     LAYER_STYLE_PATH = '{}{}{}{}'.format(FILEPATH, os.sep, 'styles', os.sep)
@@ -258,7 +258,7 @@ class Print_utility(QObject):
         self.remove_layer()
 
     def open_connection_postgis(self):
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -269,7 +269,7 @@ class Print_utility(QObject):
         self.uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
     
     def open_connection_sqlite(self):
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -289,7 +289,7 @@ class Print_utility(QObject):
 
     def charge_layer_sqlite(self, sito, area, us):
         
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -298,7 +298,7 @@ class Print_utility(QObject):
         settings = Settings(con_sett)
         settings.set_configuration()
         
-        sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+        sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
 
         
         db_file_path='{}{}'.format(self.HOME, sqliteDB_path)

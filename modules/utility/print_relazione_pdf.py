@@ -106,7 +106,7 @@ class exp_rel_pdf(object):
     DATA_LIST = []
     SITO = ""
 
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
     Title = "Controllo in corso d'opera di via Parini 60"
@@ -175,9 +175,9 @@ class exp_rel_pdf(object):
 
     def export_rel_pdf(self):
         Story = []
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -381,9 +381,9 @@ class exp_rel_pdf(object):
         Story.append(PageBreak())
 
         # Immagini
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
         #logo = os.path.join(os.path.dirname(__file__), "..", "..", "iconadarte.png")

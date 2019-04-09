@@ -151,9 +151,9 @@ class single_Documentazione_pdf_sheet:
         # 0 row
         intestazione = Paragraph("<b>SCHEDA DOCUMENTAZIONE<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -240,9 +240,9 @@ class single_Documentazione_pdf_sheet:
         # 0 row
         intestazione = Paragraph("<b>FORMULAR DOCUMENTATION<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
         logo = Image(logo_path)
 
@@ -329,9 +329,9 @@ class single_Documentazione_pdf_sheet:
         # 0 row
         intestazione = Paragraph("<b>DOCUMENTATION FORM<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -450,7 +450,7 @@ class Box_labels_Campioni_pdf_sheet:
         elif os.name == 'nt':
             home = os.environ['HOMEPATH']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -758,7 +758,7 @@ class Documentazione_index_pdf_sheet:
 
 
 class generate_documentazione_pdf:
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
 
@@ -801,9 +801,9 @@ class generate_documentazione_pdf:
         doc.build(elements, canvasmaker=NumberedCanvas_Documentazionesheet)
         f.close()   
     def build_index_Documentazione(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)
@@ -844,9 +844,9 @@ class generate_documentazione_pdf:
 
         f.close()
     def build_index_Documentazione_de(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
 
         logo = Image(logo_path)
@@ -887,9 +887,9 @@ class generate_documentazione_pdf:
 
         f.close()
     def build_index_Documentazione_en(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)

@@ -773,9 +773,9 @@ class single_Tafonomia_pdf_sheet(object):
         # intestazione2 = Paragraph("<b>pyArchInit</b><br/>pyarchinit", styNormal)
 
         # intestazione2  = Paragraph("<b>Ditta esecutrice</b><br/>", styNormal)
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -1098,9 +1098,9 @@ class single_Tafonomia_pdf_sheet(object):
         # intestazione2 = Paragraph("<b>pyArchInit</b><br/>pyarchinit", styNormal)
 
         # intestazione2  = Paragraph("<b>Ditta esecutrice</b><br/>", styNormal)
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -1423,9 +1423,9 @@ class single_Tafonomia_pdf_sheet(object):
         # intestazione2 = Paragraph("<b>pyArchInit</b><br/>pyarchinit", styNormal)
 
         # intestazione2  = Paragraph("<b>Ditta esecutrice</b><br/>", styNormal)
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -1728,7 +1728,7 @@ class single_Tafonomia_pdf_sheet(object):
         return t    
 class generate_tafonomia_pdf(object):
     L=QgsSettings().value("locale/userLocale")[0:2]
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
 
@@ -1772,9 +1772,9 @@ class generate_tafonomia_pdf(object):
         f.close()   
     def build_index_Tafonomia(self, records, sito):
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         
         if self.L=='de':
             logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')

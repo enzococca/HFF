@@ -27,11 +27,11 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>pyArchInit Underwater Anchor</string>
+   <string>HFF Underwater Anchor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-    <normaloff>:/images/iconANC.png</normaloff>:/images/iconANC.png</iconset>
+   <iconset resource="../../resources/resources.qrc">
+    <normaloff>:/icons/iconANC.png</normaloff>:/icons/iconANC.png</iconset>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedKingdom"/>
@@ -81,7 +81,7 @@
    </property>
    <widget class="QWidget" name="tabWidgetPage1">
     <attribute name="icon">
-     <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
+     <iconset>
       <normaloff>:/images/iconANC.png</normaloff>:/images/iconANC.png</iconset>
     </attribute>
     <attribute name="title">
@@ -1671,40 +1671,61 @@
     <widget class="QPushButton" name="pushButton_exppdf">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>20</x>
        <y>30</y>
        <width>121</width>
        <height>30</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Export PDF</string>
      </property>
+     <property name="icon">
+      <iconset resource="../../resources/resources.qrc">
+       <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
+     </property>
     </widget>
     <widget class="QPushButton" name="pushButton_exptab">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>80</y>
+       <x>20</x>
+       <y>110</y>
        <width>121</width>
        <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>Export TAB</string>
+      <string notr="true">Export TAB</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_explist">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>130</y>
+       <x>20</x>
+       <y>70</y>
        <width>121</width>
        <height>28</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Export List</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../resources/resources.qrc">
+       <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
      </property>
     </widget>
     <widget class="QTabWidget" name="tabWidget_2">
@@ -1774,11 +1795,16 @@
     <widget class="QToolButton" name="toolButtonPreviewMedia">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>170</y>
-       <width>111</width>
+       <x>20</x>
+       <y>150</y>
+       <width>121</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="toolTip">
       <string/>
@@ -1787,7 +1813,7 @@
       <string>Preview </string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
+      <iconset>
        <normaloff>:/images/GIS.png</normaloff>:/images/GIS.png</iconset>
      </property>
      <property name="shortcut">
@@ -1809,15 +1835,15 @@
     <widget class="QPushButton" name="pushButton_showLayer">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>200</y>
-       <width>111</width>
+       <x>20</x>
+       <y>180</y>
+       <width>121</width>
        <height>29</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <pointsize>8</pointsize>
       </font>
      </property>
      <property name="toolTip">
@@ -1827,18 +1853,26 @@
       <string>Disegna US</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
+      <iconset>
        <normaloff>:/images/sheet.png</normaloff>:/images/sheet.png</iconset>
      </property>
     </widget>
     <widget class="QToolButton" name="toolButtonPreview">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>240</y>
-       <width>111</width>
+       <x>20</x>
+       <y>220</y>
+       <width>121</width>
        <height>27</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="toolTip">
       <string/>
@@ -1847,7 +1881,7 @@
       <string>Preview pianta US</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
+      <iconset>
        <normaloff>:/images/GIS.png</normaloff>:/images/GIS.png</iconset>
      </property>
      <property name="shortcut">
@@ -2163,8 +2197,8 @@
          <string>New rec</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/newrec.png</normaloff>:/images/newrec.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
         </property>
        </widget>
       </item>
@@ -2177,8 +2211,8 @@
          <string>Last rec</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/7_rightArrows.png</normaloff>:/images/7_rightArrows.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
         </property>
        </widget>
       </item>
@@ -2196,8 +2230,8 @@
          <string>Save</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/b_save.png</normaloff>:/images/b_save.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/b_save.png</normaloff>:/icons/b_save.png</iconset>
         </property>
         <property name="autoDefault">
          <bool>false</bool>
@@ -2218,8 +2252,8 @@
          <string>Go Search</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
         </property>
        </widget>
       </item>
@@ -2237,8 +2271,8 @@
          <string>Order by</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/sort.png</normaloff>:/images/sort.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
         </property>
        </widget>
       </item>
@@ -2256,8 +2290,8 @@
          <string>Restore setting</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/view_all.png</normaloff>:/images/view_all.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
         </property>
        </widget>
       </item>
@@ -2275,8 +2309,8 @@
          <string>Search</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/new_search.png</normaloff>:/images/new_search.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/new_search copy.png</normaloff>:/icons/new_search copy.png</iconset>
         </property>
        </widget>
       </item>
@@ -2295,8 +2329,8 @@
          <string>Prev rec</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/4_leftArrow.png</normaloff>:/images/4_leftArrow.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
         </property>
        </widget>
       </item>
@@ -2320,8 +2354,8 @@
          <string>Delete</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/delete.png</normaloff>:/images/delete.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
         </property>
         <property name="flat">
          <bool>false</bool>
@@ -2337,8 +2371,8 @@
          <string>Next rec</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/6_rightArrow.png</normaloff>:/images/6_rightArrow.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
         </property>
        </widget>
       </item>
@@ -2357,8 +2391,8 @@
          <string>First rec</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc">
-          <normaloff>:/images/5_leftArrows.png</normaloff>:/images/5_leftArrows.png</iconset>
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
         </property>
        </widget>
       </item>
@@ -2660,8 +2694,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources.qrc"/>
-  <include location="../../../../../.qgis2/python/plugins/pyarchinit/modules/gui/resources2.qrc"/>
+  <include location="../../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

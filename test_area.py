@@ -23,7 +23,7 @@ import os
 
 
 class Test_area:
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "pyarchinit_Test_folder")
 

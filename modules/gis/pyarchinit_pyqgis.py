@@ -32,7 +32,7 @@ from ..utility.settings import Settings
 
 
 class Pyarchinit_pyqgis(QDialog):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
     FILEPATH = os.path.dirname(__file__)
     LAYER_STYLE_PATH = '{}{}{}{}'.format(FILEPATH, os.sep, 'styles', os.sep)
     LAYER_STYLE_PATH_SPATIALITE = '{}{}{}{}'.format(FILEPATH, os.sep, 'styles_spatialite', os.sep)
@@ -169,7 +169,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -191,7 +191,7 @@ class Pyarchinit_pyqgis(QDialog):
         else:
             name_layer_q='Elevation view'   
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = "id_us = '" + str(data[0]) + "'"
@@ -268,7 +268,7 @@ class Pyarchinit_pyqgis(QDialog):
         # self.find_us_cutted(data)
         self.idus = idus
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -289,7 +289,7 @@ class Pyarchinit_pyqgis(QDialog):
         else:
             name_layer_q='Elevation view'
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = "id_us = '" + str(self.idus) + "'"
@@ -369,7 +369,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -380,7 +380,7 @@ class Pyarchinit_pyqgis(QDialog):
         
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             docstr = ""
@@ -584,7 +584,7 @@ class Pyarchinit_pyqgis(QDialog):
         tipo_documentazione = lista_draw_doc[3]
         nome_doc = lista_draw_doc[4]
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -622,7 +622,7 @@ class Pyarchinit_pyqgis(QDialog):
             name_layer_s_n='SU negative view'   
             
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             doc_from_us_str = "sito = '" + sito + "' AND tipo_doc = '" + tipo_documentazione + "' AND nome_doc = '" + nome_doc + "'"
@@ -822,7 +822,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -843,7 +843,7 @@ class Pyarchinit_pyqgis(QDialog):
         else:
             name_layer_q='Elevation view'
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = "id_us = '" + str(data[0].id_us) + "'"
@@ -938,7 +938,7 @@ class Pyarchinit_pyqgis(QDialog):
         # QgsProject.instance().removeAllMapLayers()
         # Get the user input, starting with the table name
         # self.find_us_cutted(data)
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -956,7 +956,7 @@ class Pyarchinit_pyqgis(QDialog):
             layer_name_label_quote = "Elevations SU - Per: %s / Phase: %s" % (self.per_label, self.fas_label)
         
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             uri = QgsDataSourceUri()
@@ -1040,7 +1040,7 @@ class Pyarchinit_pyqgis(QDialog):
         """ if has geometry column load to map canvas """
         layerToSet = []
         srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
-        sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_DB_folder")
+        sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_DB_folder")
         path_cfg = '{}{}{}'.format(sqlite_DB_path, os.sep, 'config.cfg')
         conf = open(path_cfg, "r")
         con_sett = conf.read()
@@ -1078,7 +1078,7 @@ class Pyarchinit_pyqgis(QDialog):
             return layerToSet
 
         elif settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
@@ -1116,7 +1116,7 @@ class Pyarchinit_pyqgis(QDialog):
         """ if has geometry column load to map canvas """
         layerToSet = []
         srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
-        sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_DB_folder")
+        sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_DB_folder")
         path_cfg = '{}{}{}'.format(sqlite_DB_path, os.sep, 'config.cfg')
         conf = open(path_cfg, "r")
         con_sett = conf.read()
@@ -1158,7 +1158,7 @@ class Pyarchinit_pyqgis(QDialog):
             return layerToSet
 
         elif settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
@@ -1268,7 +1268,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -1278,7 +1278,7 @@ class Pyarchinit_pyqgis(QDialog):
         settings.set_configuration()
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
@@ -1333,7 +1333,7 @@ class Pyarchinit_pyqgis(QDialog):
         self.col = col
         self.val = val
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -1343,7 +1343,7 @@ class Pyarchinit_pyqgis(QDialog):
         settings.set_configuration()
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
@@ -1687,7 +1687,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -1697,7 +1697,7 @@ class Pyarchinit_pyqgis(QDialog):
         settings.set_configuration()
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = "sito_nome= '" + str(data[0].sito) + "'"
@@ -1749,7 +1749,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -1765,7 +1765,7 @@ class Pyarchinit_pyqgis(QDialog):
         else:
             name_layer='Artefact view'
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = "numero_inventario = '" + str(data[0].numero_inventario) + "'"
@@ -1822,7 +1822,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -1832,7 +1832,7 @@ class Pyarchinit_pyqgis(QDialog):
         settings.set_configuration()
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = "id_struttura = '" + str(data[0].id_struttura) + "'"
@@ -1883,7 +1883,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -1893,7 +1893,7 @@ class Pyarchinit_pyqgis(QDialog):
         settings.set_configuration()
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', settings.DATABASE)
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = "id_scheda_ind = '" + str(data[0].id_scheda_ind) + "'"
@@ -1948,7 +1948,7 @@ class Pyarchinit_pyqgis(QDialog):
 
 
 class Order_layers_DEPRECATED(object):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "pyarchinit_Report_folder")
 
@@ -2089,7 +2089,7 @@ class Order_layers_DEPRECATED(object):
 class Order_layer_v2(object):
     order_dict = {}
     order_count = 0
-    db = ''  # Pyarchinit_db_management('sqlite:////Users//Windows//pyarchinit_DB_folder//pyarchinit_db.sqlite')
+    db = ''  # Pyarchinit_db_management('sqlite:////Users//Windows//HFF_DB_folder//pyarchinit_db.sqlite')
     # db.connection()
     SITO = ""
     AREA = ""

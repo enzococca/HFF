@@ -29,14 +29,14 @@ from .pyarchinit_OS_utility import Pyarchinit_OS_Utility
 
 class pyarchinit_Folder_installation(object):
     HOME = expanduser("~")
-    HOME += os.sep + 'pyarchinit'
-    os.environ['PYARCHINIT_HOME'] = HOME
+    HOME += os.sep + 'HFF'
+    os.environ['HFF_HOME'] = HOME
     RESOURCES_PATH = os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'resources')
 
     OS_UTILITY = Pyarchinit_OS_Utility()
 
     def install_dir(self):
-        home_DB_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_DB_folder')
         self.OS_UTILITY.create_dir(home_DB_path)
 
         self.installConfigFile(home_DB_path)

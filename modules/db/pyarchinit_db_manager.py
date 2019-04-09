@@ -33,10 +33,10 @@ from sqlalchemy.sql.schema import MetaData
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 from qgis.utils import iface
 
-from modules.db.pyarchinit_db_mapper import US, UT, SITE, PERIODIZZAZIONE, \
-    STRUTTURA, SCHEDAIND, INVENTARIO_MATERIALI, DETSESSO, DOCUMENTAZIONE, DETETA, MEDIA, \
-    MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, TAFONOMIA, CAMPIONI, PYARCHINIT_THESAURUS_SIGLE, \
-    ARCHEOZOOLOGY, INVENTARIO_LAPIDEI, PDF_ADMINISTRATOR
+from modules.db.pyarchinit_db_mapper import UW, ART, ANC, POTTERY, SITE,  \
+    MEDIA, \
+    MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, PYARCHINIT_THESAURUS_SIGLE, \
+    PDF_ADMINISTRATOR
 from modules.db.pyarchinit_db_update import DB_update
 from modules.db.pyarchinit_utility import Utility
 
@@ -66,7 +66,7 @@ class Pyarchinit_db_management(object):
             conn = self.engine.connect()
         except Exception as e:
             QgsMessageLog.logMessage(
-                "Something gone wrong on db connection: " + str(e), tag="PyArchInit", level=Qgis.Warning)
+                "Something gone wrong on db connection: " + str(e), tag="HFF", level=Qgis.Warning)
             iface.messageBar().pushMessage("Error",
                                             "Something gone wrong on db connection, view log message",
                                             level=Qgis.Warning)
@@ -79,7 +79,7 @@ class Pyarchinit_db_management(object):
             db_upd.update_table()
         except Exception as e:
             QgsMessageLog.logMessage(
-                "Something gone wrong on update table: " + str(e), tag="PyArchInit", level=Qgis.Warning)
+                "Something gone wrong on update table: " + str(e), tag="HFF", level=Qgis.Warning)
             iface.messageBar().pushMessage("Error",
                                             "Something gone wrong on update table, view log message",
                                             level=Qgis.Warning)
@@ -88,160 +88,11 @@ class Pyarchinit_db_management(object):
 
         # insert statement
 
-    def insert_values(self, *arg):
+    
+    def insert_uw_values(self, *arg):
         """Istanzia la classe US da pyarchinit_db_mapper"""
 
-        us = US(arg[0],
-                arg[1],
-                arg[2],
-                arg[3],
-                arg[4],
-                arg[5],
-                arg[6],
-                arg[7],
-                arg[8],
-                arg[9],
-                arg[10],
-                arg[11],
-                arg[12],
-                arg[13],
-                arg[14],
-                arg[15],
-                arg[16],
-                arg[17],
-                arg[18],
-                arg[19],
-                arg[20],
-                arg[21],
-                arg[22],
-                arg[23],
-                arg[24],
-                arg[25],
-                arg[26],
-                arg[27],
-                arg[28],
-                arg[29],
-                arg[30],
-                arg[31],
-                arg[32],
-                arg[33],
-                arg[34],
-                arg[35],
-                arg[36],
-                arg[37],
-                arg[38],
-                arg[39],
-                arg[40],
-                arg[41],
-                arg[42],
-                arg[43],
-                arg[44],
-                arg[45],
-                arg[46],
-                arg[47],
-                arg[48],
-                arg[49],
-                arg[50],
-                arg[51],    # 51 campi aggiunti per archeo 3.0 e allineamento ICCD
-                arg[52],
-                arg[53],
-                arg[54],
-                arg[55],
-                arg[56],
-                arg[57],
-                arg[58],
-                arg[59],
-                arg[60],
-                arg[61],
-                arg[62],
-                arg[63],
-                arg[64],
-                arg[65],
-                arg[66],
-                arg[67],
-                arg[68],
-                arg[69],
-                arg[70],
-                arg[71],
-                arg[72],
-                arg[73],
-                arg[74],
-                arg[75],
-                arg[76],
-                arg[77],
-                arg[78],
-                arg[79],
-                arg[80],
-                arg[81],
-                arg[82],
-                arg[83],
-                arg[84],
-                arg[85],
-                arg[86],
-                arg[87],
-                arg[88],
-                arg[89],
-                arg[90],
-                arg[91],
-                arg[92],
-                arg[93],
-                arg[94],
-                arg[95]
-                )
-
-        return us
-
-    def insert_ut_values(self, *arg):
-        """Istanzia la classe UT da pyarchinit_db_mapper"""
-
-        ut = UT(arg[0],
-                arg[1],
-                arg[2],
-                arg[3],
-                arg[4],
-                arg[5],
-                arg[6],
-                arg[7],
-                arg[8],
-                arg[9],
-                arg[10],
-                arg[11],
-                arg[12],
-                arg[13],
-                arg[14],
-                arg[15],
-                arg[16],
-                arg[17],
-                arg[18],
-                arg[19],
-                arg[20],
-                arg[21],
-                arg[22],
-                arg[23],
-                arg[24],
-                arg[25],
-                arg[26],
-                arg[27],
-                arg[28],
-                arg[29],
-                arg[30],
-                arg[31],
-                arg[32],
-                arg[33],
-                arg[34],
-                arg[35],
-                arg[36],
-                arg[37],
-                arg[38],
-                arg[39],
-                arg[40],
-                arg[41])
-
-        return ut
-
-    def insert_site_values(self, *arg):
-        """Istanzia la classe SITE da pyarchinit_db_mapper"""
-        sito = SITE(arg[0],
+        uw = UW(arg[0],
                     arg[1],
                     arg[2],
                     arg[3],
@@ -250,160 +101,140 @@ class Pyarchinit_db_management(object):
                     arg[6],
                     arg[7],
                     arg[8],
-                    arg[9])
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15],
+                    arg[16],
+                    arg[17],
+                    arg[18],
+                    arg[19],
+                    arg[20],
+                    arg[21],
+                    arg[22],
+                    arg[23],
+                    arg[24],
+                    arg[25],
+                    arg[26],
+                    arg[27],
+                    arg[28],
+                    arg[29],
+                    arg[30],
+                    arg[31],
+                    arg[32]
+                    )
 
-        return sito
+        return uw
+    
+    def insert_art_values(self, *arg):
+        """Istanzia la classe US da pyarchinit_db_mapper"""
 
-    def insert_periodizzazione_values(self, *arg):
-        """Istanzia la classe Periodizzazione da pyarchinit_db_mapper"""
-        periodizzazione = PERIODIZZAZIONE(arg[0],
-                                          arg[1],
-                                          arg[2],
-                                          arg[3],
-                                          arg[4],
-                                          arg[5],
-                                          arg[6],
-                                          arg[7],
-                                          arg[8])
+        art = ART(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15],
+                    arg[16],
+                    arg[17],
+                    arg[18],
+                    arg[19],
+                    arg[20],
+                    arg[21],
+                    arg[22],
+                    arg[23],
+                    arg[24],
+                    arg[25],
+                    arg[26],
+                    arg[27]
+                    )
 
-        return periodizzazione
+        return art
+    
+    def insert_anc_values(self, *arg):
+        """Istanzia la classe ANC da pyarchinit_db_mapper"""
 
-    def insert_values_reperti(self, *arg):
-        """Istanzia la classe Reperti da pyarchinit_db_mapper"""
-        inventario_materiali = INVENTARIO_MATERIALI(arg[0],
-                                                    arg[1],
-                                                    arg[2],
-                                                    arg[3],
-                                                    arg[4],
-                                                    arg[5],
-                                                    arg[6],
-                                                    arg[7],
-                                                    arg[8],
-                                                    arg[9],
-                                                    arg[10],
-                                                    arg[11],
-                                                    arg[12],
-                                                    arg[13],
-                                                    arg[14],
-                                                    arg[15],
-                                                    arg[16],
-                                                    arg[17],
-                                                    arg[18],
-                                                    arg[19],
-                                                    arg[20],
-                                                    arg[21],
-                                                    arg[22],
-                                                    arg[23],
-                                                    arg[24],
-                                                    arg[25],
-                                                    arg[26],
-                                                    arg[27],
-                                                    arg[28])
+        anc = ANC(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15],
+                    arg[16],
+                    arg[17],
+                    arg[18],
+                    arg[19],
+                    arg[20],
+                    arg[21],
+                    arg[22],
+                    arg[23],
+                    arg[24],
+                    arg[25],
+                    arg[26],
+                    arg[27],
+                    arg[28],
+                    arg[29],
+                    arg[30],
+                    arg[31],
+                    arg[32],
+                    arg[33],
+                    arg[34],
+                    arg[35],
+                    arg[36],
+                    arg[37],
+                    arg[38],
+                    arg[39],
+                    arg[40],
+                    arg[41],
+                    arg[42],
+                    arg[43],
+                    arg[44],
+                    arg[45],
+                    arg[46],
+                    arg[47],
+                    arg[48],
+                    arg[49],
+                    arg[50],
+                    arg[51],
+                    arg[52],
+                    arg[53],
+                    arg[54],
+                    arg[55],
+                    arg[56],
+                    arg[57],
+                    arg[58],
+                    arg[59]
+                    )
 
-        return inventario_materiali
+        return anc
 
-    def insert_struttura_values(self, *arg):
-        """Istanzia la classe Struttura da pyarchinit_db_mapper"""
-        struttura = STRUTTURA(arg[0],
-                              arg[1],
-                              arg[2],
-                              arg[3],
-                              arg[4],
-                              arg[5],
-                              arg[6],
-                              arg[7],
-                              arg[8],
-                              arg[9],
-                              arg[10],
-                              arg[11],
-                              arg[12],
-                              arg[13],
-                              arg[14],
-                              arg[15],
-                              arg[16],
-                              arg[17])
 
-        return struttura
-
-    def insert_values_ind(self, *arg):
-        """Istanzia la classe SCHEDAIND da pyarchinit_db_mapper"""
-        schedaind = SCHEDAIND(arg[0],
-                              arg[1],
-                              arg[2],
-                              arg[3],
-                              arg[4],
-                              arg[5],
-                              arg[6],
-                              arg[7],
-                              arg[8],
-                              arg[9],
-                              arg[10],
-                              arg[11])
-
-        return schedaind
-
-    def insert_values_detsesso(self, *arg):
-        """Istanzia la classe DETSESSO da pyarchinit_db_mapper"""
-        detsesso = DETSESSO(arg[0],
-                            arg[1],
-                            arg[2],
-                            arg[3],
-                            arg[4],
-                            arg[5],
-                            arg[6],
-                            arg[7],
-                            arg[8],
-                            arg[9],
-                            arg[10],
-                            arg[11],
-                            arg[12],
-                            arg[13],
-                            arg[14],
-                            arg[15],
-                            arg[16],
-                            arg[17],
-                            arg[18],
-                            arg[19],
-                            arg[20],
-                            arg[21],
-                            arg[22],
-                            arg[23],
-                            arg[24],
-                            arg[25],
-                            arg[26],
-                            arg[27],
-                            arg[28],
-                            arg[29],
-                            arg[30],
-                            arg[31],
-                            arg[32],
-                            arg[33],
-                            arg[34],
-                            arg[35],
-                            arg[36],
-                            arg[37],
-                            arg[38],
-                            arg[39],
-                            arg[40],
-                            arg[41],
-                            arg[42],
-                            arg[43],
-                            arg[44],
-                            arg[45],
-                            arg[46],
-                            arg[47],
-                            arg[48],
-                            arg[49],
-                            arg[50],
-                            arg[51],
-                            arg[52],
-                            arg[53])
-
-        return detsesso
-
-    def insert_values_deteta(self, *arg):
-        """Istanzia la classe DETETA da pyarchinit_db_mapper"""
-        deteta = DETETA(arg[0],
+    def insert_pottery_values(self, *arg):
+        """Istanzia la classe POTTERY da pyarchinit_db_mapper"""
+        pottery = POTTERY(arg[0],
                         arg[1],
                         arg[2],
                         arg[3],
@@ -442,26 +273,33 @@ class Pyarchinit_db_management(object):
                         arg[36],
                         arg[37],
                         arg[38],
-                        arg[39],
-                        arg[40],
-                        arg[41],
-                        arg[42],
-                        arg[43],
-                        arg[44],
-                        arg[45],
-                        arg[46],
-                        arg[47],
-                        arg[48],
-                        arg[49],
-                        arg[50],
-                        arg[51],
-                        arg[52],
-                        arg[53],
-                        arg[54],
-                        arg[55],
-                        arg[56])
+                        arg[39])
 
-        return deteta
+        return pottery
+    
+    
+    
+
+    def insert_site_values(self, *arg):
+        """Istanzia la classe SITE da pyarchinit_db_mapper"""
+        sito = SITE(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9])
+
+        return sito
+
+   
+
+   
+
+    
 
     def insert_media_values(self, *arg):
         """Istanzia la classe MEDIA da pyarchinit_db_mapper"""
@@ -513,63 +351,7 @@ class Pyarchinit_db_management(object):
 
         return mediaentity_view 
     
-    def insert_values_tafonomia(self, *arg):
-        """Istanzia la classe TAFONOMIA da pyarchinit_db_mapper"""
-
-        tafonomia = TAFONOMIA(arg[0],
-                              arg[1],
-                              arg[2],
-                              arg[3],
-                              arg[4],
-                              arg[5],
-                              arg[6],
-                              arg[7],
-                              arg[8],
-                              arg[9],
-                              arg[10],
-                              arg[11],
-                              arg[12],
-                              arg[13],
-                              arg[14],
-                              arg[15],
-                              arg[16],
-                              arg[17],
-                              arg[18],
-                              arg[19],
-                              arg[20],
-                              arg[21],
-                              arg[22],
-                              arg[23],
-                              arg[24],
-                              arg[25],
-                              arg[26],
-                              arg[27],
-                              arg[28],
-                              arg[29],
-                              arg[30],
-                              arg[31],
-                              arg[32],
-                              arg[33],
-                              arg[34])
-
-        return tafonomia
-
-    def insert_values_campioni(self, *arg):
-        """Istanzia la classe CAMPIONI da pyarchinit_db_mapper"""
-
-        campioni = CAMPIONI(arg[0],
-                            arg[1],
-                            arg[2],
-                            arg[3],
-                            arg[4],
-                            arg[5],
-                            arg[6],
-                            arg[7],
-                            arg[8],
-                            arg[9])
-
-        return campioni
-
+    
     def insert_values_thesaurus(self, *arg):
         """Istanzia la classe PYARCHINIT_THESAURUS_SIGLE da pyarchinit_db_mapper"""
 
@@ -583,83 +365,7 @@ class Pyarchinit_db_management(object):
 
         return thesaurus
 
-    def insert_values_archeozoology(self, *arg):
-        """Istanzia la classe ARCHEOZOOLOGY da pyarchinit_db_mapper"""
-
-        archeozoology = ARCHEOZOOLOGY(arg[0],
-                                        arg[1],
-                                        arg[2],
-                                        arg[3],
-                                        arg[4],
-                                        arg[5],
-                                        arg[6],
-                                        arg[7],
-                                        arg[8],
-                                        arg[9],
-                                        arg[10],
-                                        arg[11],
-                                        arg[12],
-                                        arg[13],
-                                        arg[14],
-                                        arg[15],
-                                        arg[16],
-                                        arg[17],
-                                        arg[18],
-                                        arg[19],
-                                        arg[20],
-                                        arg[21],
-                                        arg[22],
-                                        arg[23],
-                                        arg[24],
-                                        arg[25],
-                                        arg[26],
-                                        arg[27],
-                                        arg[28],
-                                        arg[29],
-                                        arg[30])
-
-        return archeozoology
-
-    def insert_values_Lapidei(self, *arg):
-        """Istanzia la classe Inventario_Lapidei da pyarchinit_db_mapper"""
-
-        inventario_lapidei = INVENTARIO_LAPIDEI(arg[0],
-                                                arg[1],
-                                                arg[2],
-                                                arg[3],
-                                                arg[4],
-                                                arg[5],
-                                                arg[6],
-                                                arg[7],
-                                                arg[8],
-                                                arg[9],
-                                                arg[10],
-                                                arg[11],
-                                                arg[12],
-                                                arg[13],
-                                                arg[14],
-                                                arg[15],
-                                                arg[16],
-                                                arg[17],
-                                                arg[18],
-                                                arg[19])
-
-        return inventario_lapidei
-
-    def insert_values_documentazione(self, *arg):
-        """Istanzia la classe DOCUMENTAZIONE da pyarchinit_db_mapper"""
-
-        documentazione = DOCUMENTAZIONE(arg[0],
-                                        arg[1],
-                                        arg[2],
-                                        arg[3],
-                                        arg[4],
-                                        arg[5],
-                                        arg[6],
-                                        arg[7],
-                                        arg[8])
-
-        return documentazione
+    
 
     def insert_pdf_administrator_values(self, *arg):
         """Istanzia la classe PDF_ADMINISTRATOR da pyarchinit_db_mapper"""
@@ -671,35 +377,7 @@ class Pyarchinit_db_management(object):
 
         return pdf_administrator
 
-    def insert_campioni_values(self, *arg):
-        """Istanzia la classe CAMPIONI da pyarchinit_db_mapper"""
-        campioni = CAMPIONI(arg[0],
-                            arg[1],
-                            arg[2],
-                            arg[3],
-                            arg[4],
-                            arg[5],
-                            arg[6],
-                            arg[7],
-                            arg[8],
-                            arg[9])
-
-        return campioni
-
-    ##  def insert_relationship_check_values(self, *arg):
-    ##      """Istanzia la classe RELATIONSHIP_CHECK da pyarchinit_db_mapper"""
-    ##      relationship_check = RELATIONSHIP_CHECK(arg[0],
-    ##                                              arg[1],
-    ##                                              arg[2],
-    ##                                              arg[3],
-    ##                                              arg[4],
-    ##                                              arg[5],
-    ##                                              arg[6],
-    ##                                              arg[7],
-    ##                                              arg[8],
-    ##                                              arg[9])
-    ##
-    ##      return relationship_check
+    
 
 
     def execute_sql_create_db(self):
@@ -1259,7 +937,7 @@ class Pyarchinit_db_management(object):
 
 
 def main():
-    db = Pyarchinit_db_management('sqlite:////Users//Luca//pyarchinit_DB_folder//pyarchinit_db.sqlite')
+    db = Pyarchinit_db_management('sqlite:////Users//Luca//HFF_DB_folder//pyarchinit_db.sqlite')
     db.connection()
 
     db.insert_arbitrary_number_of_records(10, 'Giorgio', 1, 1, 'US')  # us_range, sito, area, n_us)

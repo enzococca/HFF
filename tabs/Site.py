@@ -182,7 +182,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         self.pyQGIS = Pyarchinit_pyqgis(iface)
         self.setupUi(self)
         self.currentLayerId = None
-        self.HOME = os.environ['PYARCHINIT_HOME']
+        self.HOME = os.environ['HFF_HOME']
         try:
             self.on_pushButton_connect_pressed()
         except Exception as e:
@@ -373,7 +373,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_provincia.addItems(province_list)
         l = QgsSettings().value("locale/userLocale", QVariant)
         lang=""
-        for key, values in self.LANG.items():
+        for key, values in list(self.LANG.items()):
             if values.__contains__(l):
                 lang = str(key)
         lang = "'"+lang+"'"
@@ -636,7 +636,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 self.fill_fields(0)
                 self.set_rec_counter(self.REC_TOT, self.REC_CORR + 1)
             except Exception as e:
-                QMessageBox.warning(self, "Errore", str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, "Error", str(e), QMessageBox.Ok)
 
     def on_pushButton_last_rec_pressed(self):
         if self.check_record_state() == 1:

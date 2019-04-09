@@ -106,9 +106,9 @@ class single_Invlap_pdf_sheet:
         intestazione = Paragraph("<b>SCHEDA REPERTI LAPIDEI<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         alma_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         alma = Image(alma_path)
 
@@ -306,9 +306,9 @@ class single_Invlap_pdf_sheet:
         intestazione = Paragraph("<b>STEINARTEFAKTFORMULAR<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         alma_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
         alma = Image(alma_path)
 
@@ -506,9 +506,9 @@ class single_Invlap_pdf_sheet:
         intestazione = Paragraph("<b>STONE FORM<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
         # intestazione2 = Paragraph("<b>pyArchInit</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         alma_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         alma = Image(alma_path)
 
@@ -688,7 +688,7 @@ class single_Invlap_pdf_sheet:
 
         return t
 class generate_reperti_pdf:
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
 

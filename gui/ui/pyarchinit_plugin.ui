@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
-    <height>607</height>
+    <width>337</width>
+    <height>729</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,6 +20,12 @@
    <iconset resource="../../resources/resources.qrc">
     <normaloff>:/icons/pai_us.png</normaloff>:/icons/pai_us.png</iconset>
   </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(99, 138, 146, 255), stop:1 rgba(255, 255, 255, 255));
 background-color: rgb(112, 112, 84);
@@ -28,12 +34,55 @@ background-color: rgb(168, 168, 168);</string>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
+  <property name="features">
+   <set>QDockWidget::AllDockWidgetFeatures</set>
+  </property>
   <property name="windowTitle">
-   <string>pyArchInit - Archaeological Data Management</string>
+   <string>HFF Data Management</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label_6">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/icons/sfondo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="../../resources/resources.qrc">:/icons/sfondo.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
      <widget class="QScrollArea" name="scrollArea">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -58,8 +107,8 @@ background-color: rgb(168, 168, 168);</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>326</width>
-         <height>515</height>
+         <width>304</width>
+         <height>628</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -144,11 +193,11 @@ selection-color: rgb(140, 140, 105);</string>
               </property>
               <property name="url" stdset="0">
                <url>
-                <string>https://www.youtube.com/embed/pX8aUdbJNJM?list=PL7kOlG31GrMNo_z_HU782LbVk6a5Xeq8b</string>
+                <string>https://honorfrostfoundation.org/</string>
                </url>
               </property>
               <property name="zoomFactor" stdset="0">
-               <double>1.500000000000000</double>
+               <double>1.000000000000000</double>
               </property>
              </widget>
             </item>
@@ -1290,22 +1339,6 @@ p, li { white-space: pre-wrap; }
       </widget>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap resource="../../resources/resources.qrc">:/icons/sfondo.png</pixmap>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
  </widget>
@@ -1318,7 +1351,6 @@ p, li { white-space: pre-wrap; }
  </customwidgets>
  <resources>
   <include location="../../resources/resources.qrc"/>
-  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -42,7 +42,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
     UTILITY = Utility()
     OS_UTILITY = Pyarchinit_OS_Utility()
     DB_MANAGER = ""
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     ##  if os.name == 'posix':
     ##      HOME = os.environ['HOME']
@@ -106,7 +106,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         self.comboBox_sito.addItems(sito_vl)
 
     #def set_home_path(self):
-        #self.HOME = os.environ['PYARCHINIT_HOME']
+        #self.HOME = os.environ['HFF_HOME']
 
     def on_pushButton_exp_icons_pressed(self):
         sito = str(self.comboBox_sito.currentText())

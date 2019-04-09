@@ -31,7 +31,7 @@ from ..utility.settings import Settings
 
 
 class Pyarchinit_pyqgis(QDialog):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
     FILEPATH = os.path.dirname(__file__)
     LAYER_STYLE_PATH = '{}{}{}{}'.format(FILEPATH, os.sep, 'styles', os.sep)
     LAYER_STYLE_PATH_SPATIALITE = '{}{}{}{}'.format(FILEPATH, os.sep, 'styles_spatialite', os.sep)
@@ -54,7 +54,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -64,7 +64,7 @@ class Pyarchinit_pyqgis(QDialog):
         settings.set_configuration()
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'pyarchinit_db.sqlite')
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', 'pyarchinit_db.sqlite')
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = id_us = "id_us = '" + str(data[0]) + "'"
@@ -138,7 +138,7 @@ class Pyarchinit_pyqgis(QDialog):
 
         # self.find_us_cutted(data)
 
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -148,7 +148,7 @@ class Pyarchinit_pyqgis(QDialog):
         settings.set_configuration()
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'pyarchinit_db.sqlite')
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', 'pyarchinit_db.sqlite')
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             gidstr = "id_us = '" + str(data[0].id_us) + "'"
@@ -234,7 +234,7 @@ class Pyarchinit_pyqgis(QDialog):
         # QgsMapLayerRegistry.instance().removeAllMapLayers()
         # Get the user input, starting with the table name
         # self.find_us_cutted(data)
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
         con_sett = conf.read()
@@ -243,7 +243,7 @@ class Pyarchinit_pyqgis(QDialog):
         settings.set_configuration()
 
         if settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'pyarchinit_db.sqlite')
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', 'pyarchinit_db.sqlite')
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
 
             uri = QgsDataSourceUri()
@@ -324,7 +324,7 @@ class Pyarchinit_pyqgis(QDialog):
         """ if has geometry column load to map canvas """
         layerToSet = []
         srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
-        sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_DB_folder")
+        sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_DB_folder")
         path_cfg = '{}{}{}'.format(sqlite_DB_path, os.sep, 'config.cfg')
         conf = open(path_cfg, "r")
         con_sett = conf.read()
@@ -362,7 +362,7 @@ class Pyarchinit_pyqgis(QDialog):
             return layerToSet
 
         elif settings.SERVER == 'sqlite':
-            sqliteDB_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'pyarchinit_db.sqlite')
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', 'pyarchinit_db.sqlite')
             db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
@@ -447,7 +447,7 @@ class Pyarchinit_pyqgis(QDialog):
 
 
 class Order_layers(object):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "pyarchinit_Report_folder")
 

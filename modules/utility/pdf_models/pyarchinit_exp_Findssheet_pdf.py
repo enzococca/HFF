@@ -333,7 +333,7 @@ class single_Finds_pdf_sheet(object):
 
 
 class generate_pdf(object):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
 

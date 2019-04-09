@@ -26,10 +26,10 @@ from ..utility.settings import Settings
 
 
 class Connection(object):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     def conn_str(self):
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
 
@@ -57,7 +57,7 @@ class Connection(object):
                 conn_str_dict["port"], conn_str_dict["db_name"])
         elif conn_str_dict["server"] == 'sqlite':
             sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
-                                           "pyarchinit_DB_folder")
+                                           "HFF_DB_folder")
 
             dbname_abs = sqlite_DB_path + os.sep + conn_str_dict["db_name"]
 
@@ -68,7 +68,7 @@ class Connection(object):
         return conn_str
 
     def thumb_path(self):
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
 
@@ -81,7 +81,7 @@ class Connection(object):
         return thumb_path
     
     def thumb_resize(self):
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
 

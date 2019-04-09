@@ -85,7 +85,7 @@ class pyarchinit_pdf_export(QDialog, MAIN_DIALOG_CLASS):
 
     def connect(self):
         #QMessageBox.warning(self, "Alert",
-                            #"Sistema sperimentale. Esporta le schede PDF in /vostro_utente/pyarchinit_DB_folder. Sostituisce i documenti gia' presenti. Se volete conservarli fatene una copia o rinominateli.",
+                            #"Sistema sperimentale. Esporta le schede PDF in /vostro_utente/HFF_DB_folder. Sostituisce i documenti gia' presenti. Se volete conservarli fatene una copia o rinominateli.",
                             #QMessageBox.Ok)
 
         conn = Connection()
@@ -135,7 +135,7 @@ class pyarchinit_pdf_export(QDialog, MAIN_DIALOG_CLASS):
         self.comboBox_sito.addItems(sito_vl)
 
     def set_home_path(self):
-        self.HOME = os.environ['PYARCHINIT_HOME']
+        self.HOME = os.environ['HFF_HOME']
 
     def on_pushButton_open_dir_pressed(self):
         path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_PDF_folder")

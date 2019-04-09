@@ -26,7 +26,7 @@ from .pyarchinit_OS_utility import Pyarchinit_OS_Utility
 
 
 class HarrisMatrix:
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     def __init__(self, sequence, periodi):
         self.sequence = sequence

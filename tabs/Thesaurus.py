@@ -280,7 +280,7 @@ class pyarchinit_Thesaurus(QDialog, MAIN_DIALOG_CLASS):
         #pass
         self.comboBox_lingua.clear()
         lingua = []
-        for key, values in self.LANG.items():
+        for key, values in list(self.LANG.items()):
             lingua.append(key)
         self.comboBox_lingua.addItems(lingua)
 
@@ -1055,7 +1055,7 @@ class pyarchinit_Thesaurus(QDialog, MAIN_DIALOG_CLASS):
     def set_LIST_REC_TEMP(self):
         lingua=""
         l = self.comboBox_lingua.currentText()
-        for key,values in self.LANG.items():
+        for key,values in list(self.LANG.items()):
             if values.__contains__(l):
                 lingua = key
         # data

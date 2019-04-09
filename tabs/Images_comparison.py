@@ -95,7 +95,7 @@ class Comparision(QDialog, MAIN_DIALOG_CLASS):
             self.PATH = path
 
     def on_pushButton_chose_file_pressed(self):
-        file = QFileDialog.getOpenFileName(self, 'Open file', os.environ['PYARCHINIT_HOME'], '(*.png *.xpm *.jpg)')
+        file, __ = QFileDialog.getOpenFileName(self, 'Open file', os.environ['HFF_HOME'], '(*.png *.xpm *.jpg)')
         if file:
             self.FILE = str(file[0])
 

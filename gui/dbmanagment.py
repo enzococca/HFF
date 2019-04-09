@@ -76,9 +76,9 @@ class pyarchinit_dbmanagment(QDialog, MAIN_DIALOG_CLASS):
         conn_str = conn.conn_str()
         
         a = conn_str.lstrip('sqlite:///')
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
         # conn_import = '%s%s%s' % (home, os.sep,
-                                  # 'pyarchinit_DB_folder/pyarchinit_db.sqlite'
+                                  # 'HFF_DB_folder/pyarchinit_db.sqlite'
                                   # )
         conn_export = '%s%s%s' % (home, os.sep,
                                   'pyarchinit_db_backup/pyarchinit_db_'
@@ -121,11 +121,11 @@ class pyarchinit_dbmanagment(QDialog, MAIN_DIALOG_CLASS):
             
     def on_backup_pressed(self):
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
         PDF_path = '%s%s%s' % (home, os.sep, 'pyarchinit_db_backup/')
         
-        cfg_rel_path = os.path.join(os.sep, 'pyarchinit_DB_folder', 'config.cfg')
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(home, cfg_rel_path)
         conf = open(file_path, "r")
 
@@ -187,7 +187,7 @@ class pyarchinit_dbmanagment(QDialog, MAIN_DIALOG_CLASS):
                 self.layout().addWidget(self.image)
     # def on_backup_total_pressed(self):
 
-        # home = os.environ['PYARCHINIT_HOME']
+        # home = os.environ['HFF_HOME']
         # PDF_path = '%s%s%s' % (home, os.sep, 'pyarchinit_db_backup/')
         # filename = '%s%s%s' % (PDF_path, os.sep, 'semivariogramma.png')
 

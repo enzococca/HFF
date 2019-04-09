@@ -239,9 +239,9 @@ class single_Periodizzazione_pdf_sheet(object):
         # 0 row
         intestazione = Paragraph("<b>SCHEDA PERIODIZZAZIONE<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -331,9 +331,9 @@ class single_Periodizzazione_pdf_sheet(object):
         # 0 row
         intestazione = Paragraph("<b>FORMULAR PERIOD<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
         logo = Image(logo_path)
 
@@ -423,9 +423,9 @@ class single_Periodizzazione_pdf_sheet(object):
         # 0 row
         intestazione = Paragraph("<b>PERIODIZATION FORM<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
 
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
         logo = Image(logo_path)
 
@@ -498,7 +498,7 @@ class single_Periodizzazione_pdf_sheet(object):
 
         return t
 class generate_Periodizzazione_pdf(object):
-    HOME = os.environ['PYARCHINIT_HOME']
+    HOME = os.environ['HFF_HOME']
 
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
 
@@ -541,9 +541,9 @@ class generate_Periodizzazione_pdf(object):
         doc.build(elements, canvasmaker=NumberedCanvas_Periodizzazionesheet)
         f.close()   
     def build_index_Periodizzazione(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)
@@ -584,9 +584,9 @@ class generate_Periodizzazione_pdf(object):
 
         f.close()
     def build_index_Periodizzazione_de(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
 
         logo = Image(logo_path)
@@ -627,9 +627,9 @@ class generate_Periodizzazione_pdf(object):
 
         f.close()
     def build_index_Periodizzazione_en(self, records, sito):
-        home = os.environ['PYARCHINIT_HOME']
+        home = os.environ['HFF_HOME']
 
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'pyarchinit_DB_folder')
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
 
         logo = Image(logo_path)
