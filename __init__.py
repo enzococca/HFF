@@ -34,26 +34,26 @@ sys.path.insert(0, os.path.abspath(
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'gui', 'ui')))
 
-pyarchinit_home = os.path.expanduser("~") + os.sep + 'HFF'
+hff_home = os.path.expanduser("~") + os.sep + 'HFF'
 fi = pyarchinit_Folder_installation()
-if not os.path.exists(pyarchinit_home):
+if not os.path.exists(hff_home):
     fi.install_dir()
 else:
-    os.environ['HFF_HOME'] = pyarchinit_home
+    os.environ['HFF_HOME'] = hff_home
 
-confing_path = os.path.join(os.sep, pyarchinit_home, 'HFF_DB_folder', 'config.cfg')
+confing_path = os.path.join(os.sep, hff_home, 'HFF_DB_folder', 'config.cfg')
 if not os.path.isfile(confing_path):
     fi.installConfigFile(os.path.dirname(confing_path))
 
 missing_libraries = []
 
-# try:
-    # import pkg_resources
-    # pkg_resources.require("pip")
-    # import pip
+try:
+    import pkg_resources
+    pkg_resources.require("pip")
+    import pip
     
-# except Exception as e:
-    # missing_libraries.append(str(e))
+except Exception as e:
+    missing_libraries.append(str(e))
 
 
 try:
@@ -76,7 +76,28 @@ try:
 except Exception as e:
     missing_libraries.append(str(e))
 
+try:
+    import pandas
+except Exception as e:
+    missing_libraries.append(str(e))
+	
+try:
+    import psycopg2
+except Exception as e:
+    missing_libraries.append(str(e))
 
+try:
+    import elasticsearch
+except Exception as e:
+    missing_libraries.append(str(e))	
+
+try:
+    import pysftp
+except Exception as e:
+    missing_libraries.append(str(e))		
+	
+	
+	
     
 install_libraries = []
 for l in missing_libraries:

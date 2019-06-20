@@ -38,7 +38,7 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>Impostazioni del sistema</string>
+   <string>Setting</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -100,7 +100,7 @@
        </sizepolicy>
       </property>
       <attribute name="title">
-       <string>Parametri di connessione</string>
+       <string>Connection settings</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_11">
        <item row="0" column="1">
@@ -349,6 +349,9 @@
          <layout class="QGridLayout" name="gridLayout_10">
           <item row="6" column="0">
            <widget class="QPushButton" name="pushButton_upd_sqlite">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -389,6 +392,9 @@
           </item>
           <item row="5" column="0">
            <widget class="QPushButton" name="pushButton_upd_postgres">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="maximumSize">
              <size>
               <width>150</width>
@@ -435,6 +441,9 @@
           </item>
           <item row="6" column="1">
            <widget class="QLineEdit" name="lineEdit_crs">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="maximumSize">
              <size>
               <width>100</width>
@@ -456,13 +465,13 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Installazione layers</string>
+       <string>Install layers</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_9">
        <item row="0" column="0">
         <widget class="QgsCollapsibleGroupBox" name="groupBox">
          <property name="title">
-          <string>Installa il database (PostgreSQL/PostGIS)</string>
+          <string>Install database (PostgreSQL/PostGIS)</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_7">
           <property name="leftMargin">
@@ -485,7 +494,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Inserisci password</string>
+               <string>password</string>
               </property>
              </widget>
             </item>
@@ -505,14 +514,14 @@
                <bool>true</bool>
               </property>
               <property name="text">
-               <string>Installa</string>
+               <string>Install</string>
               </property>
              </widget>
             </item>
             <item row="5" column="0">
              <widget class="QLabel" name="label_8">
               <property name="text">
-               <string>Seleziona SRID</string>
+               <string>crs</string>
               </property>
              </widget>
             </item>
@@ -522,7 +531,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Inserisci utente</string>
+               <string>user</string>
               </property>
              </widget>
             </item>
@@ -548,7 +557,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Inserisci numero porta</string>
+               <string>port</string>
               </property>
              </widget>
             </item>
@@ -568,7 +577,7 @@
                <set>Qt::ImhNone</set>
               </property>
               <property name="text">
-               <string>pyarchinit</string>
+               <string>hff</string>
               </property>
               <property name="dragEnabled">
                <bool>false</bool>
@@ -587,7 +596,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Puoi inserire un nome differente da quello presente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Inserisci nome db</string>
+               <string>db name</string>
               </property>
              </widget>
             </item>
@@ -604,7 +613,7 @@
             <item row="1" column="0">
              <widget class="QLabel" name="label_6">
               <property name="text">
-               <string>Inserisi host</string>
+               <string>host</string>
               </property>
              </widget>
             </item>
@@ -616,7 +625,7 @@
        <item row="1" column="0">
         <widget class="QgsCollapsibleGroupBox" name="groupBox_2">
          <property name="title">
-          <string>Installa il database (SpatiaLite)</string>
+          <string>Install database (SpatiaLite)</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_8">
           <property name="leftMargin">
@@ -642,7 +651,7 @@
                <bool>true</bool>
               </property>
               <property name="text">
-               <string>Installa</string>
+               <string>Install</string>
               </property>
              </widget>
             </item>
@@ -671,14 +680,14 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Puoi inserire un nome differente da quello presente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Inserisci nome db</string>
+               <string>name db</string>
               </property>
              </widget>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_13">
               <property name="text">
-               <string>Seleziona SRID</string>
+               <string>crs</string>
               </property>
              </widget>
             </item>
@@ -784,7 +793,7 @@
        <item row="0" column="1">
         <widget class="QLabel" name="label_11">
          <property name="text">
-          <string>Esportazione directories</string>
+          <string>Export directory</string>
          </property>
         </widget>
        </item>
@@ -793,6 +802,9 @@
        </item>
        <item row="2" column="1">
         <widget class="QPushButton" name="pushButton_exp_directories">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Esportazione experimental</string>
          </property>
@@ -949,7 +961,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Importazione dati</string>
+          <string>Data import</string>
          </property>
         </widget>
        </item>
@@ -1010,7 +1022,7 @@
        <item row="6" column="3">
         <widget class="QLabel" name="label_21">
          <property name="text">
-          <string>Mappatura pyArchInit</string>
+          <string>HFF table</string>
          </property>
         </widget>
        </item>

@@ -26,7 +26,7 @@ from modules.db.entities.MEDIATOENTITY import MEDIATOENTITY
 from modules.db.entities.MEDIA_THUMB import MEDIA_THUMB
 from modules.db.entities.MEDIAVIEW import MEDIAVIEW
 from modules.db.entities.PDF_ADMINISTRATOR import PDF_ADMINISTRATOR
-from modules.db.entities.PYARCHINIT_THESAURUS_SIGLE import PYARCHINIT_THESAURUS_SIGLE
+
 from modules.db.entities.SITE import SITE
 from modules.db.entities.UW import UW
 from modules.db.entities.ART import ART
@@ -40,7 +40,7 @@ from modules.db.structures.Media_thumb_table import Media_thumb_table
 from modules.db.structures.Media_to_Entity_table import Media_to_Entity_table
 from modules.db.structures.Media_to_Entity_table_view import Media_to_Entity_table_view
 from modules.db.structures.PDF_administrator_table import PDF_administrator_table
-from modules.db.structures.Pyarchinit_thesaurus_sigle import Pyarchinit_thesaurus_sigle
+
 from modules.db.structures.Site_table import Site_table
 from modules.db.structures.UW_table import UW_table
 from modules.db.structures.ART_table import ART_table
@@ -65,9 +65,7 @@ try:
     # mapper
     mapper(PDF_ADMINISTRATOR, PDF_administrator_table.pdf_administrator_table)
 
-    # mapper
-    mapper(PYARCHINIT_THESAURUS_SIGLE, Pyarchinit_thesaurus_sigle.pyarchinit_thesaurus_sigle)
-
+   
     
     # mapper
     mapper(SITE, Site_table.site_table)

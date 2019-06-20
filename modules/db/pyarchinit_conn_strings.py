@@ -26,7 +26,7 @@ from ..utility.settings import Settings
 
 
 class Connection(object):
-    HOME = os.environ['HFF_HOME']
+    HOME = os.environ["HFF_HOME"]
 
     def conn_str(self):
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
@@ -66,7 +66,10 @@ class Connection(object):
             conn_str = None
 
         return conn_str
-
+    
+    
+    
+    
     def thumb_path(self):
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)

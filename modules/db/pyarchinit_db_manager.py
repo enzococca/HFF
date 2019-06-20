@@ -35,7 +35,7 @@ from qgis.utils import iface
 
 from modules.db.pyarchinit_db_mapper import UW, ART, ANC, POTTERY, SITE,  \
     MEDIA, \
-    MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, PYARCHINIT_THESAURUS_SIGLE, \
+    MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, \
     PDF_ADMINISTRATOR
 from modules.db.pyarchinit_db_update import DB_update
 from modules.db.pyarchinit_utility import Utility
@@ -124,7 +124,10 @@ class Pyarchinit_db_management(object):
                     arg[29],
                     arg[30],
                     arg[31],
-                    arg[32]
+                    arg[32],
+                    arg[33],
+                    arg[34],
+                    arg[35]
                     )
 
         return uw
@@ -271,9 +274,7 @@ class Pyarchinit_db_management(object):
                         arg[34],
                         arg[35],
                         arg[36],
-                        arg[37],
-                        arg[38],
-                        arg[39])
+                        arg[37])
 
         return pottery
     
@@ -291,7 +292,45 @@ class Pyarchinit_db_management(object):
                     arg[6],
                     arg[7],
                     arg[8],
-                    arg[9])
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15],
+                    arg[16],
+                    arg[17],
+                    arg[18],
+                    arg[19],
+                    arg[20],
+                    arg[21],
+                    arg[22],
+                    arg[23],
+                    arg[24],
+                    arg[25],
+                    arg[26],
+                    arg[27],
+                    arg[28],
+                    arg[29],
+                    arg[30],
+                    arg[31],
+                    arg[32],
+                    arg[33],
+                    arg[34],
+                    arg[35],
+                    arg[36],
+                    arg[37],
+                    arg[38],
+                    arg[39],
+                    arg[40],
+                    arg[41],
+                    arg[42],
+                    arg[43],
+                    arg[44],
+                    arg[45],
+                    arg[46],
+                    arg[47])
 
         return sito
 
@@ -352,19 +391,7 @@ class Pyarchinit_db_management(object):
         return mediaentity_view 
     
     
-    def insert_values_thesaurus(self, *arg):
-        """Istanzia la classe PYARCHINIT_THESAURUS_SIGLE da pyarchinit_db_mapper"""
-
-        thesaurus = PYARCHINIT_THESAURUS_SIGLE(arg[0],
-                                               arg[1],
-                                               arg[2],
-                                               arg[3],
-                                               arg[4],
-                                               arg[5],
-                                               arg[6])
-
-        return thesaurus
-
+    
     
 
     def insert_pdf_administrator_values(self, *arg):
@@ -689,14 +716,14 @@ class Pyarchinit_db_management(object):
         else:
             return [c.name for c in table.columns][int(s)]
 
-    def query_in_idus(self, id_list):
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
-        session = Session()
-        res = session.query(US).filter(US.id_us.in_(id_list)).all()
+    # def query_in_idus(self, id_list):
+        # Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        # session = Session()
+        # res = session.query(US).filter(US.id_us.in_(id_list)).all()
 
-        session.close()
+        # session.close()
 
-        return res
+        # return res
 
     def query_sort(self, id_list, op, to, tc, idn):
         self.order_params = op
@@ -729,23 +756,23 @@ class Pyarchinit_db_management(object):
         #session.close()
         return res_list
 
-    def update_for(self):
-        """
-        table = Table('us_table_toimp', self.metadata, autoload=True)
-        s = table.select(table.c.id_us > 0)
-        res_list = self.run(s)
-        cont = 11900
-        for i in res_list:
-            self.update('US_toimp', 'id_us', [i], ['id_us'], [cont])
-            cont = cont+1
-        """
-        table = Table('inventario_materiali_table_toimp', self.metadata, autoload=True)
-        s = table.select(table.c.id_invmat > 0)
-        res_list = self.run(s)
-        cont = 900
-        for i in res_list:
-            self.update('INVENTARIO_MATERIALI_TOIMP', 'id_invmat', [i], ['id_invmat'], [cont])
-            cont = cont + 1
+    # def update_for(self):
+        # """
+        # table = Table('us_table_toimp', self.metadata, autoload=True)
+        # s = table.select(table.c.id_us > 0)
+        # res_list = self.run(s)
+        # cont = 11900
+        # for i in res_list:
+            # self.update('US_toimp', 'id_us', [i], ['id_us'], [cont])
+            # cont = cont+1
+        # """
+        # table = Table('inventario_materiali_table_toimp', self.metadata, autoload=True)
+        # s = table.select(table.c.id_invmat > 0)
+        # res_list = self.run(s)
+        # cont = 900
+        # for i in res_list:
+            # self.update('INVENTARIO_MATERIALI_TOIMP', 'id_invmat', [i], ['id_invmat'], [cont])
+            # cont = cont + 1
 
     def group_by(self, tn, fn, CD):
         """Group by the values by table name - string, field name - string, table class DB from mapper - string"""
@@ -772,43 +799,43 @@ class Pyarchinit_db_management(object):
         session.close()
         return res
 
-    def update_cont_per(self, s):
-        self.sito = s
+    # def update_cont_per(self, s):
+        # self.sito = s
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
-        session = Session()
+        # Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        # session = Session()
 
-        string = ('%s%s%s%s%s') % ('session.query(US).filter_by(', 'sito', "='", str(self.sito), "')")
-        # print string
-        session.close()
-        lista_us = eval(string)
+        # string = ('%s%s%s%s%s') % ('session.query(US).filter_by(', 'sito', "='", str(self.sito), "')")
+        # # print string
+        # session.close()
+        # lista_us = eval(string)
 
-        for i in lista_us:
-            if not i.periodo_finale and i.periodo_iniziale:
-                    periodiz = self.query_bool(
-                        {'sito': "'" + str(self.sito) + "'", 'periodo': i.periodo_iniziale, 'fase': i.fase_iniziale},
-                        'PERIODIZZAZIONE')
-                    self.update('US', 'id_us', [int(i.id_us)], ['cont_per'], [periodiz[0].cont_per])
-            elif i.periodo_finale and i.periodo_iniziale:
-                cod_cont_iniz_temp = self.query_bool(
-                    {'sito': "'" + str(self.sito) + "'", 'periodo': int(i.periodo_iniziale),
-                     'fase': int(i.fase_iniziale)}, 'PERIODIZZAZIONE')
-                cod_cont_fin_temp = self.query_bool(
-                    {'sito': "'" + str(self.sito) + "'", 'periodo': int(i.periodo_finale), 'fase': int(i.fase_finale)},
-                    'PERIODIZZAZIONE')
+        # for i in lista_us:
+            # if not i.periodo_finale and i.periodo_iniziale:
+                    # periodiz = self.query_bool(
+                        # {'sito': "'" + str(self.sito) + "'", 'periodo': i.periodo_iniziale, 'fase': i.fase_iniziale},
+                        # 'PERIODIZZAZIONE')
+                    # self.update('US', 'id_us', [int(i.id_us)], ['cont_per'], [periodiz[0].cont_per])
+            # elif i.periodo_finale and i.periodo_iniziale:
+                # cod_cont_iniz_temp = self.query_bool(
+                    # {'sito': "'" + str(self.sito) + "'", 'periodo': int(i.periodo_iniziale),
+                     # 'fase': int(i.fase_iniziale)}, 'PERIODIZZAZIONE')
+                # cod_cont_fin_temp = self.query_bool(
+                    # {'sito': "'" + str(self.sito) + "'", 'periodo': int(i.periodo_finale), 'fase': int(i.fase_finale)},
+                    # 'PERIODIZZAZIONE')
 
-                cod_cont_iniz = cod_cont_iniz_temp[0].cont_per
-                cod_cont_fin = cod_cont_fin_temp[0].cont_per
+                # cod_cont_iniz = cod_cont_iniz_temp[0].cont_per
+                # cod_cont_fin = cod_cont_fin_temp[0].cont_per
 
-                cod_cont_var_n = cod_cont_iniz
-                cod_cont_var_txt = str(cod_cont_iniz)
+                # cod_cont_var_n = cod_cont_iniz
+                # cod_cont_var_txt = str(cod_cont_iniz)
 
-                while cod_cont_var_n != cod_cont_fin:
-                    cod_cont_var_n += 1
+                # while cod_cont_var_n != cod_cont_fin:
+                    # cod_cont_var_n += 1
 
-                    cod_cont_var_txt = cod_cont_var_txt + "/" + str(cod_cont_var_n)
+                    # cod_cont_var_txt = cod_cont_var_txt + "/" + str(cod_cont_var_n)
 
-                self.update('US', 'id_us', [int(i.id_us)], ['cont_per'], [cod_cont_var_txt])
+                # self.update('US', 'id_us', [int(i.id_us)], ['cont_per'], [cod_cont_var_txt])
 
     def select_quote_from_db_sql(self, sito, area, us):
         sql_query_string = ("SELECT * FROM pyarchinit_quote WHERE sito_q = '%s' AND area_q = '%s' AND us_q = '%s'") % (
@@ -847,101 +874,77 @@ class Pyarchinit_db_management(object):
         res = self.engine.execute(sql_query_string)
         return res
     
-    def query_in_contains(self, value_list, sitof, areaf):
-        self.value_list = value_list
+    # def query_in_contains(self, value_list, sitof, areaf):
+        # self.value_list = value_list
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
-        session = Session()
+        # Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        # session = Session()
 
-        res_list = []
-        n = len(self.value_list) - 1
-        while self.value_list:
-            chunk = self.value_list[0:n]
-            self.value_list = self.value_list[n:]
-            res_list.extend(session.query(US).filter_by(sito=sitof).filter_by(area=areaf).filter(
-                or_(*[US.rapporti.contains(v) for v in chunk])))
-            # res_list.extend(us for us, in session.query(US.us).filter(or_(*[US.rapporti.contains(v) for v in chunk])))
-        session.close()
-        return res_list
+        # res_list = []
+        # n = len(self.value_list) - 1
+        # while self.value_list:
+            # chunk = self.value_list[0:n]
+            # self.value_list = self.value_list[n:]
+            # res_list.extend(session.query(US).filter_by(sito=sitof).filter_by(area=areaf).filter(
+                # or_(*[US.rapporti.contains(v) for v in chunk])))
+            # # res_list.extend(us for us, in session.query(US.us).filter(or_(*[US.rapporti.contains(v) for v in chunk])))
+        # session.close()
+        # return res_list
 
-    def insert_arbitrary_number_of_us_records(self, us_range, sito, area, n_us, unita_tipo):
-        id_us = self.max_num_id('US', 'id_us')
+    # def insert_arbitrary_number_of_us_records(self, us_range, sito, area, n_us, unita_tipo):
+        # id_us = self.max_num_id('US', 'id_us')
         
-        l=QgsSettings().value("locale/userLocale")[0:2]
-        for i in range(us_range):
-            id_us += 1
-            n_us += 1
+        # l=QgsSettings().value("locale/userLocale")[0:2]
+        # for i in range(us_range):
+            # id_us += 1
+            # n_us += 1
             
-            data_ins = self.insert_values(id_us, sito, area, n_us, '', '', '', '', '', '', '', '', '', '', '', '', '[]',
-                                          '[]', '[]', '', '', '', '', '', '', '', '', '0', '[]', unita_tipo, '', '', '', '',
-                                          '', '', '', '', '', '', '', '', '', None, None, '', '[]','[]', '[]', '[]', '[]','','','','',None,None,'','','','','','','[]','[]',None,None,None,None,None,None,None,None,None,None,'','','','','','','','','','',None,None,None,'','','','','','','','')
+            # data_ins = self.insert_values(id_us, sito, area, n_us, '', '', '', '', '', '', '', '', '', '', '', '', '[]',
+                                          # '[]', '[]', '', '', '', '', '', '', '', '', '0', '[]', unita_tipo, '', '', '', '',
+                                          # '', '', '', '', '', '', '', '', '', None, None, '', '[]','[]', '[]', '[]', '[]','','','','',None,None,'','','','','','','[]','[]',None,None,None,None,None,None,None,None,None,None,'','','','','','','','','','',None,None,None,'','','','','','','','')
                                            
-            self.insert_data_session(data_ins)
+            # self.insert_data_session(data_ins)
 
     def select_like_from_db_sql(self, rapp_list, us_rapp_list):
         # this is a test
         pass
 
-    ##      self.us_rapp_list = us_rapp_list
-    ##      rapp_type = rapp_list
-    ##      query_string_base = """session.query(US).filter(or_("""
-    ##      query_list = []
-    ##
-    ##      #costruisce la stringa che trova i like
-    ##      for sing_us_rapp in self.us_rapp_list:
-    ##          for sing_rapp in rapp_type:
-    ##              sql_query_string = """US.rapporti.contains("[u'%s', u'%s']")""" % (sing_rapp,sing_us_rapp) #funziona!!!
-    ##              query_list.append(sql_query_string)
-    ##
-    ##      string_contains = ""
-    ##      for sing_contains in range(len(query_list)):
-    ##          if sing_contains == 0:
-    ##              string_contains = query_list[sing_contains]
-    ##          else:
-    ##              string_contains = string_contains + "," + query_list[sing_contains]
-    ##
-    ##      query_string_execute = query_string_base + string_contains + '))'
-    ##
-    ##      Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
-    ##      session = Session()
-    ##      res = eval(query_string_execute)
-    ##
-    ##      return res
+   
 
-    def select_not_like_from_db_sql(self, sitof, areaf):
-        # NB per funzionare con postgres è necessario che al posto di " ci sia '
-        l=QgsSettings().value("locale/userLocale")[0:2]
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
-        session = Session()
+    # def select_not_like_from_db_sql(self, sitof, areaf):
+        # # NB per funzionare con postgres è necessario che al posto di " ci sia '
+        # l=QgsSettings().value("locale/userLocale")[0:2]
+        # Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        # session = Session()
         
-        if l=='it':
-            res = session.query(US).filter_by(sito=sitof).filter_by(area=areaf).filter(
-                and_(~US.rapporti.like("%'Taglia'%"), ~US.rapporti.like("%'Si appoggia a'%"),
-                     ~US.rapporti.like("%'Copre'%"), ~US.rapporti.like("%'Riempie'%")))
-                # MyModel.query.filter(sqlalchemy.not_(Mymodel.name.contains('a_string')))
-        elif l=='en':
-            res = session.query(US).filter_by(sito=sitof).filter_by(area=areaf).filter(
-                and_(~US.rapporti.like("%'Cut'%"), ~US.rapporti.like("%'Abuts'%"),
-                     ~US.rapporti.like("%'Cover'%"), ~US.rapporti.like("%'Fill'%")))
-            # MyModel.query.filter(sqlalchemy.not_(Mymodel.name.contains('a_string')))
-        elif l=='de':
-            res = session.query(US).filter_by(sito=sitof).filter_by(area=areaf).filter(
-                and_(~US.rapporti.like("%'Schneidet'%"), ~US.rapporti.like("%'Stützt sich auf'%"),
-                     ~US.rapporti.like("%'Liegt über'%"), ~US.rapporti.like("%'Verfüllt'%")))
-            # MyModel.query.filter(sqlalchemy.not_(Mymodel.name.contains('a_string')))
-        session.close()
-        return res
+        # if l=='it':
+            # res = session.query(US).filter_by(sito=sitof).filter_by(area=areaf).filter(
+                # and_(~US.rapporti.like("%'Taglia'%"), ~US.rapporti.like("%'Si appoggia a'%"),
+                     # ~US.rapporti.like("%'Copre'%"), ~US.rapporti.like("%'Riempie'%")))
+                # # MyModel.query.filter(sqlalchemy.not_(Mymodel.name.contains('a_string')))
+        # elif l=='en':
+            # res = session.query(US).filter_by(sito=sitof).filter_by(area=areaf).filter(
+                # and_(~US.rapporti.like("%'Cut'%"), ~US.rapporti.like("%'Abuts'%"),
+                     # ~US.rapporti.like("%'Cover'%"), ~US.rapporti.like("%'Fill'%")))
+            # # MyModel.query.filter(sqlalchemy.not_(Mymodel.name.contains('a_string')))
+        # elif l=='de':
+            # res = session.query(US).filter_by(sito=sitof).filter_by(area=areaf).filter(
+                # and_(~US.rapporti.like("%'Schneidet'%"), ~US.rapporti.like("%'Stützt sich auf'%"),
+                     # ~US.rapporti.like("%'Liegt über'%"), ~US.rapporti.like("%'Verfüllt'%")))
+            # # MyModel.query.filter(sqlalchemy.not_(Mymodel.name.contains('a_string')))
+        # session.close()
+        # return res
         
     def query_in_idusb(self):
         pass
 
 
-def main():
-    db = Pyarchinit_db_management('sqlite:////Users//Luca//HFF_DB_folder//pyarchinit_db.sqlite')
-    db.connection()
+# def main():
+    # db = Pyarchinit_db_management('sqlite:////Users//Luca//HFF_DB_folder//pyarchinit_db.sqlite')
+    # db.connection()
 
-    db.insert_arbitrary_number_of_records(10, 'Giorgio', 1, 1, 'US')  # us_range, sito, area, n_us)
+    # #db.insert_arbitrary_number_of_records(10, 'Giorgio', 1, 1, 'US')  # us_range, sito, area, n_us)
     
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+    # main()

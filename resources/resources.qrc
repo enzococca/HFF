@@ -1,12 +1,12 @@
 <RCC>
   <qresource prefix="/">
+    <file>resources.qrc</file>
     <file>icons/4_leftArrow.png</file>
     <file>icons/5_leftArrows.png</file>
     <file>icons/6_rightArrow.png</file>
     <file>icons/7_rightArrows.png</file>
     <file>icons/b_save.png</file>
     <file>icons/backup.png</file>
-    
     <file>icons/banner.png</file>
     <file>icons/champion.png</file>
     <file>icons/comparision.png</file>
@@ -31,8 +31,6 @@
     <file>icons/iconUpd.png</file>
     <file>icons/iconUT.png</file>
     <file>icons/iconZoo.png</file>
-    
-    
     <file>icons/mActionAddLayer.png</file>
     <file>icons/mActionPan.png</file>
     <file>icons/mActionZoomIn.png</file>
@@ -42,23 +40,22 @@
     <file>icons/new_search.png.qrc</file>
     <file>icons/newrec.png</file>
     <file>icons/pai_us.png</file>
-   
     <file>icons/pdf-icon.png</file>
     <file>icons/photo.png</file>
-   
     <file>icons/pottery.png</file>
     <file>icons/rect3413.png</file>
     <file>icons/s_error.png</file>
     <file>icons/search.png</file>
     <file>icons/sfondo.png</file>
     <file>icons/sheet.png</file>
-    
     <file>icons/sort.png</file>
     <file>icons/thesaurusicon.png</file>
     <file>icons/view_all.png</file>
-	<file>icons/hfflogo.png</file>
-	<file>icons/snorkel.png</file>
-	<file>icons/radar.png</file>
-	<file>icons/iconANC.png</file>
+    <file>icons/hfflogo.png</file>
+    <file>icons/snorkel.png</file>
+    <file>icons/radar.png</file>
+    <file>icons/iconANC.png</file>
+	<file>icons/excel-export.png</file>
+	<file>icons/import-excel.png</file>
   </qresource>
 </RCC>

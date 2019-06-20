@@ -113,27 +113,54 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.setWindowTitle("pyArchInit - Media Manager")
         self.charge_data()
         self.view_num_rec()
+    
+    # def customize_gui(self):
+        # self.tableWidgetTags_US.setColumnWidth(0, 300)
+        # self.tableWidgetTags_US.setColumnWidth(1, 100)
+        # self.tableWidgetTags_US.setColumnWidth(2, 100)
 
+        # self.tableWidget_tags.setColumnWidth(2, 300)
+        # self.iconListWidget.setIconSize(QSize(100, 200))
+        # self.iconListWidget.setLineWidth(2)
+        # self.iconListWidget.setMidLineWidth(2)
+        # valuesSites = self.charge_sito_list()
+        # self.delegateSites = ComboBoxDelegate()
+        # self.delegateSites.def_values(valuesSites)
+        # self.delegateSites.def_editable('False')
+
+        # self.tableWidgetTags_US.setItemDelegateForColumn(0, self.delegateSites)
+
+        # self.tableWidgetTags_MAT.setItemDelegateForColumn(0, self.delegateSites)
+
+        # self.charge_sito_list()
     def customize_gui(self):
-        self.tableWidgetTags_US.setColumnWidth(0, 300)
-        self.tableWidgetTags_US.setColumnWidth(1, 100)
-        self.tableWidgetTags_US.setColumnWidth(2, 100)
-
-        self.tableWidget_tags.setColumnWidth(2, 300)
+        ##self.tableWidgetTags_US.setColumnWidth(0,300)
+        #self.tableWidgetTags_US.setColumnWidth(1,50)
+        #self.tableWidgetTags_US.setColumnWidth(2,50)
+        # self.iconListWidget.setMovement(QListView.Snap)
+        # self.iconListWidget.setResizeMode(QListView.Adjust)
+        # self.iconListWidget.setLayoutMode(QListView.Batched)
+        #self.iconListWidget.setGridSize(QtCore.QSize(2000, 1000))
+        #self.iconListWidget.setViewMode(QtGui.QListView.IconMode)
+        self.iconListWidget.setUniformItemSizes(True)
+        #self.iconListWidget.setBatchSize(1500)
+        self.iconListWidget.setObjectName("iconListWidget")
+        self.iconListWidget.SelectionMode()
+        self.iconListWidget.setSelectionMode(QAbstractItemView.MultiSelection)
+        # self.connect(self.iconListWidget, SIGNAL("itemDoubleClicked(QListWidgetItem *)"),self.openWide_image)
+        #self.connect(self.iconListWidget, SIGNAL("itemClicked(QListWidgetItem *)"),self.open_tags)
+        #self.connect(self.iconListWidget, SIGNAL("itemSelectionChanged()"),self.open_tags)
+        self.setWindowTitle("HFF - Media Manager")
+        self.tableWidget_tags.setColumnWidth(2,300)
         self.iconListWidget.setIconSize(QSize(100, 200))
         self.iconListWidget.setLineWidth(2)
         self.iconListWidget.setMidLineWidth(2)
+        
+        
         valuesSites = self.charge_sito_list()
         self.delegateSites = ComboBoxDelegate()
         self.delegateSites.def_values(valuesSites)
-        self.delegateSites.def_editable('False')
-
-        self.tableWidgetTags_US.setItemDelegateForColumn(0, self.delegateSites)
-
-        self.tableWidgetTags_MAT.setItemDelegateForColumn(0, self.delegateSites)
-
-        self.charge_sito_list()
-
+        self.delegateSites.def_editable('False')    
     def connection(self):
         QMessageBox.warning(self, "Alert", "system under development", QMessageBox.Ok)
 
@@ -524,7 +551,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             dlg.exec_()
 
     def charge_sito_list(self):
-        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'sito', 'SITE'))
+        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'name_site', 'SITE'))
         try:
             sito_vl.remove('')
         except:
@@ -533,71 +560,167 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         sito_vl.sort()
         return sito_vl
 
-    def generate_US(self):
-        tags_list = self.table2dict('self.tableWidgetTags_US')
+    def generate_Doc_UW(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_3')
+        record_doc_list = []
+        for sing_tags in tags_list:
+                search_dict = {'divelog_id'  : "'"+str(sing_tags[0])+"'",
+                                'years': "'"+str(sing_tags[1])+"'"}
+                record_doc_list.append(self.DB_MANAGER.query_bool(search_dict, 'UW'))
+
+        doc_list = []
+        for r in record_doc_list:
+            doc_list.append([r[0].id_dive, 'DOC', 'dive_log'])
+        return doc_list 
+        
+    def remove_Doc_UW(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_3')
         record_us_list = []
         for sing_tags in tags_list:
-            search_dict = {'sito': "'" + str(sing_tags[0]) + "'",
-                           'area': "'" + str(sing_tags[1]) + "'",
-                           'us': "'" + str(sing_tags[2]) + "'"
-                           }
-            record_us_list.append(self.DB_MANAGER.query_bool(search_dict, 'US'))
+                search_dict = {'divelog_id'  : "'"+str(sing_tags[0])+"'",
+                                'years': "'"+str(sing_tags[1])+"'"}
+                record_doc_list.remove(self.DB_MANAGER.query_bool(search_dict, 'UW'))
 
-        if not record_us_list[0]:
-            QMessageBox.warning(self, "Errore", "Scheda US non presente.", QMessageBox.Ok)
-            return
-
-        us_list = []
-        for r in record_us_list:
-            us_list.append([r[0].id_us, 'US', 'us_table'])
-        return us_list
-    
-    
-    def remove_US(self):
-        tags_list = self.table2dict('self.tableWidgetTags_US')
-        record_us_list = []
+        doc_list = []
+        for r in record_doc_list:
+            doc_list.remove([r[0].id_dive, 'DOC', 'dive_log'])
+        return doc_list 
+        
+        
+    def generate_pe_UW(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_5')
+        record_pe_list = []
         for sing_tags in tags_list:
-                search_dict = {'sito': "'" + str(sing_tags[0]) + "'",
-                           'area': "'" + str(sing_tags[1]) + "'",
-                           'us': "'" + str(sing_tags[2]) + "'"
-                           }
-                record_us_list.remove(self.DB_MANAGER.query_bool(search_dict, 'US'))
+                search_dict = {'divelog_id'  : "'"+str(sing_tags[0])+"'",
+                                'years': "'"+str(sing_tags[1])+"'"}
+                record_pe_list.append(self.DB_MANAGER.query_bool(search_dict, 'UW'))
 
-        us_list = []
-        for r in record_us_list:
-            us_list.remove([r[0].id_us, 'US', 'us_table'])
-        return us_list  
-    def generate_Reperti(self):
-        tags_list = self.table2dict('self.tableWidgetTags_MAT')
-        record_rep_list = []
+        pe_list = []
+        for r in record_pe_list:
+            pe_list.append([r[0].id_dive, 'PE', 'dive_log'])
+        return pe_list  
+        
+        
+    def remove_pe_UW(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_5')
+        record_pe_list = []
         for sing_tags in tags_list:
-            search_dict = {'sito': "'" + str(sing_tags[0]) + "'",
-                           'numero_inventario': "'" + str(sing_tags[1]) + "'"
-                           }
-            record_rep_list.append(self.DB_MANAGER.query_bool(search_dict, 'INVENTARIO_MATERIALI'))
+                search_dict = {'divelog_id'  : "'"+str(sing_tags[0])+"'",
+                                'years': "'"+str(sing_tags[1])+"'"}
+                record_pe_list.remove(self.DB_MANAGER.query_bool(search_dict, 'UW'))
 
-        if not record_rep_list[0]:
-            QMessageBox.warning(self, "Errore", "Scheda Inventario materiali non presente", QMessageBox.Ok)
-            return
+        pe_list = []
+        for r in record_pe_list:
+            pe_list.remove([r[0].id_dive, 'PE', 'dive_log'])
+        return pe_list  
+        
+        
+        
+    def generate_Artefact(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_4')
+        record_art_list = []
+        for sing_tags in tags_list:
+                search_dict = {'artefact_id'  : "'"+str(sing_tags[0])+"'"}
+                                
+                record_art_list.append(self.DB_MANAGER.query_bool(search_dict, 'ART'))
 
-        rep_list = []
-        for r in record_rep_list:
-            rep_list.append([r[0].id_invmat, 'REPERTO', 'inventario_materiali_table'])
-        return rep_list
+        art_list = []
+        for r in record_art_list:
+            art_list.append([r[0].id_art, 'ARTEFACT', 'artefact_log'])
+        return art_list
+
+    def remove_Artefact(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_4')
+        record_art_list = []
+        for sing_tags in tags_list:
+                search_dict = {'artefact_id'  : "'"+str(sing_tags[0])+"'"}
+                                
+                record_art_list.remove(self.DB_MANAGER.query_bool(search_dict, 'ART'))
+
+        art_list = []
+        for r in record_art_list:
+            art_list.remove([r[0].id_art, 'ARTEFACT', 'artefact_log'])
+        return art_list 
+        
+        
+        
+    def generate_Anchor(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_9')
+        record_anc_list = []
+        for sing_tags in tags_list:
+                search_dict = {'anchors_id'  : "'"+str(sing_tags[0])+"'"}
+                record_anc_list.append(self.DB_MANAGER.query_bool(search_dict, 'ANC'))
+
+        anc_list = []
+        for r in record_anc_list:
+            anc_list.append([r[0].id_anc, 'ANCHORS', 'anchor_table'])
+        return anc_list 
     
-    def remove_reperti(self):
-        tags_list = self.table2dict('self.tableWidgetTags_MAT')
-        record_mat_list = []
+        
+    def remove_Anchor(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_9')
+        record_anc_list = []
         for sing_tags in tags_list:
-                search_dict = {'sito': "'" + str(sing_tags[0]) + "'",
-                           'numero_inventario': "'" + str(sing_tags[1]) + "'"
-                           }
-                record_mat_list.remove(self.DB_MANAGER.query_bool(search_dict, 'INVENTARIO_MATERIALI'))
+                search_dict = {'anchors_id'  : "'"+str(sing_tags[0])+"'"}
+                record_anc_list.remove(self.DB_MANAGER.query_bool(search_dict, 'ANC'))
 
-        rep_list = []
-        for r in record_rep_list:
-            rep_list.append([r[0].id_invmat, 'REPERTO', 'inventario_materiali_table'])
-        return rep_list
+        anc_list = []
+        for r in record_anc_list:
+            anc_list.remove([r[0].id_anc, 'ANCHORS', 'anchor_table'])
+        return anc_list     
+        
+        
+    def generate_Pottery(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_10')
+        record_pottery_list = []
+        for sing_tags in tags_list:
+                search_dict = {'artefact_id'  : "'"+str(sing_tags[0])+"'"}
+                record_pottery_list.append(self.DB_MANAGER.query_bool(search_dict, 'POTTERY'))
+
+        pottery_list = []
+        for r in record_pottery_list:
+            pottery_list.append([r[0].id_rep, 'POTTERY', 'pottery_table'])
+        return pottery_list 
+    
+        
+    def remove_Pottery(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_10')
+        record_pottery_list = []
+        for sing_tags in tags_list:
+                search_dict = {'artefact_id'  : "'"+str(sing_tags[0])+"'"}
+                record_pottery_list.remove(self.DB_MANAGER.query_bool(search_dict, 'POTTERY'))
+
+        pottery_list = []
+        for r in record_pottery_list:
+            pottery_list.remove([r[0].id_rep, 'POTTERY', 'pottery_table'])
+        return pottery_list
+
+
+
+    def generate_Survey(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_11')
+        record_survey_list = []
+        for sing_tags in tags_list:
+                search_dict = {'name_site'  : "'"+str(sing_tags[0])+"'"}
+                record_survey_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
+
+        survey_list = []
+        for r in record_survey_list:
+            survey_list.append([r[0].id_sito, 'SITE', 'site_table'])
+        return survey_list 
+    
+        
+    def remove_Survey(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_11')
+        record_survey_list = []
+        for sing_tags in tags_list:
+                search_dict = {'name_site'  : "'"+str(sing_tags[0])+"'"}
+                record_survey_list.remove(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
+
+        survey_list = []
+        for r in record_survey_list:
+            survey_list.remove([r[0].id_sito, 'SITE', 'site_table'])
+        return survey_list      
     def table2dict(self, n):
         self.tablename = n
         row = eval(self.tablename + ".rowCount()")
@@ -654,19 +777,45 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
         self.getDirectory()
 
-    def on_pushButton_addRow_US_pressed(self):
-        self.insert_new_row('self.tableWidgetTags_US')
+    def on_pushButton_addRow_POT_2_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_3')
 
-    def on_pushButton_removeRow_US_pressed(self):
-        self.remove_row('self.tableWidgetTags_US')
+    def on_pushButton_removeRow_POT_2_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_3')
     
-    def on_pushButton_addRow_MAT_pressed(self):
-        self.insert_new_row('self.tableWidgetTags_MAT')
+    def on_pushButton_addRow_POT_3_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_4')
 
-    def on_pushButton_removeRow_MAT_pressed(self):
-        self.remove_row('self.tableWidgetTags_MAT')
+    def on_pushButton_removeRow_POT_3_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_4')
     
-    def on_pushButton_assignTags_US_pressed(self):
+    def on_pushButton_addRow_POT_4_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_5')
+
+    def on_pushButton_removeRow_POT_4_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_5')
+    
+    def on_pushButton_addRow_POT_8_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_9')
+
+    def on_pushButton_removeRow_POT_8_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_9')
+        
+        
+    def on_pushButton_addRow_POT_9_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_10')
+
+    def on_pushButton_removeRow_POT_9_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_10')
+    
+    def on_pushButton_addRow_POT_10_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_11')
+
+    def on_pushButton_removeRow_POT_10_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_11')
+    
+    
+    def on_pushButton_assignTags_docuw_pressed(self):
         """
         id_mediaToEntity,
         id_entity,
@@ -677,20 +826,18 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         media_name
         """
         items_selected = self.iconListWidget.selectedItems()
-        us_list = self.generate_US()
-        if not us_list:
-            return
+        doc_list = self.generate_Doc_UW()
 
         for item in items_selected:
-            for us_data in us_list:
-                id_orig_item = item.text()  # return the name of original file
-                search_dict = {'id_media': "'" + str(id_orig_item) + "'"}
+            for uw_data in doc_list:
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
                 media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
 
-                self.insert_mediaToEntity_rec(us_data[0], us_data[1], us_data[2], media_data[0].id_media,
-                                              media_data[0].filepath, media_data[0].filename)
+                self.insert_mediaToEntity_rec(uw_data[0], uw_data[1], uw_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
 
-    def on_pushButton_assignTags_MAT_pressed(self):
+    
+    def on_pushButton_assignTags_artefact_pressed(self):
         """
         id_mediaToEntity,
         id_entity,
@@ -701,19 +848,105 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         media_name
         """
         items_selected = self.iconListWidget.selectedItems()
-        reperti_list = self.generate_Reperti()
-        if not reperti_list:
-            return
+        art_list = self.generate_Artefact()
 
         for item in items_selected:
-            for reperti_data in reperti_list:
-                id_orig_item = item.text()  # return the name of original file
-                search_dict = {'id_media': "'" + str(id_orig_item) + "'"}
+            for art_data in art_list:
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
                 media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
 
-                self.insert_mediaToEntity_rec(reperti_data[0], reperti_data[1], reperti_data[2], media_data[0].id_media,
-                                              media_data[0].filepath, media_data[0].filename)
+                self.insert_mediaToEntity_rec(art_data[0], art_data[1], art_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
+                
+    
 
+    def on_pushButton_assignTags_panouw_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        pe_list = self.generate_pe_UW()
+
+        for item in items_selected:
+            for uw_data in pe_list:
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(uw_data[0], uw_data[1], uw_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
+    
+
+
+    def on_pushButton_assignTags_anchor_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        anc_list = self.generate_Anchor()
+
+        for item in items_selected:
+            for anc_data in anc_list:
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(anc_data[0], anc_data[1], anc_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
+    
+    def on_pushButton_assignTags_pottery_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        pottery_list = self.generate_Pottery()
+
+        for item in items_selected:
+            for pottery_data in pottery_list:
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(pottery_data[0], pottery_data[1], pottery_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
+    
+    def on_pushButton_assignTags_survey_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        survey_list = self.generate_Survey()
+
+        for item in items_selected:
+            for survey_data in survey_list:
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(survey_data[0], survey_data[1], survey_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
+    
+    
     def on_pushButton_openMedia_pressed(self):
         self.charge_data()
         self.view_num_rec()
@@ -1018,66 +1251,106 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             self.open_tags()
 
     def open_tags(self):
-        if self.toolButton_tags_on_off.isChecked():
+        if self.toolButton_tags_on_off.isChecked() == True:
             items = self.iconListWidget.selectedItems()
             items_list = []
             mediaToEntity_list = []
             for item in items:
-                id_orig_item = item.text()  # return the name of original file
-                search_dict = {'id_media': "'" + str(id_orig_item) + "'"}
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
                 u = Utility()
                 search_dict = u.remove_empty_items_fr_dict(search_dict)
                 res_media = self.DB_MANAGER.query_bool(search_dict, "MEDIA")
-                ##          if bool(items) == True:
-                ##              res_media = []
-                ##              for item in items:
-                ##                  res_media = []
-                ##                  id_orig_item = item.text() #return the name of original file
-                ##                  search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
-                ##                  u = Utility()
-                ##                  search_dict = u.remove_empty_items_fr_dict(search_dict)
-                ##                  res_media = self.DB_MANAGER.query_bool(search_dict, "MEDIA")
-                if bool(res_media):
+##          if bool(items) == True:
+##              res_media = []
+##              for item in items:
+##                  res_media = []
+##                  id_orig_item = item.text() #return the name of original file
+##                  search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
+##                  u = Utility()
+##                  search_dict = u.remove_empty_items_fr_dict(search_dict)
+##                  res_media = self.DB_MANAGER.query_bool(search_dict, "MEDIA")
+                if bool(res_media) == True:
 
                     for sing_media in res_media:
-                        search_dict = {'id_media': "'" + str(id_orig_item) + "'"}
+                        search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
                         u = Utility()
                         search_dict = u.remove_empty_items_fr_dict(search_dict)
                         res_mediaToEntity = self.DB_MANAGER.query_bool(search_dict, "MEDIATOENTITY")
 
-                    if bool(res_mediaToEntity):
+                    if bool(res_mediaToEntity) == True:
                         for sing_res_media in res_mediaToEntity:
-                            if sing_res_media.entity_type == 'US':
-                                search_dict = {'id_us': "'" + str(sing_res_media.id_entity) + "'"}
+                            
+                                
+                                
+                            if sing_res_media.entity_type == 'DOC':
+                                search_dict = {'id_dive' : "'"+str(sing_res_media.id_entity)+"'"}
                                 u = Utility()
                                 search_dict = u.remove_empty_items_fr_dict(search_dict)
-                                us_data = self.DB_MANAGER.query_bool(search_dict, "US")
+                                uw_data = self.DB_MANAGER.query_bool(search_dict, "UW")
+                            
+                                Doc_string = ( 'Divelog_id: %d - Year: %d') % (uw_data[0].divelog_id, uw_data[0].years)
+    ##              #else
+                                mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Doc_string])
 
-                                US_string = ('Sito: %s - Area: %s - US: %d') % (
-                                    us_data[0].sito, us_data[0].area, us_data[0].us)
-                                ##              #else
-                                mediaToEntity_list.append(
-                                    [str(sing_res_media.id_entity), sing_res_media.entity_type, US_string])
-                            elif sing_res_media.entity_type == 'REPERTO':
-                                search_dict = {'id_invmat': "'" + str(sing_res_media.id_entity) + "'"}
+                            elif sing_res_media.entity_type == 'ARTEFACT':
+                                search_dict = {'id_art' : "'"+str(sing_res_media.id_entity)+"'"}
                                 u = Utility()
                                 search_dict = u.remove_empty_items_fr_dict(search_dict)
-                                rep_data = self.DB_MANAGER.query_bool(search_dict, "INVENTARIO_MATERIALI")
+                                art_data = self.DB_MANAGER.query_bool(search_dict, "ART")
+                            
+                                Art_string = ( 'ARTEFACT ID: %s') % (art_data[0].artefact_id)
+    ##              #else
+                                mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Art_string])
 
-                                Rep_string = ('Sito: %s - N. Inv.: %d') % (
-                                    rep_data[0].sito, rep_data[0].numero_inventario)
-                                ##              #else
-                                mediaToEntity_list.append(
-                                    [str(sing_res_media.id_entity), sing_res_media.entity_type, Rep_string])
+                            elif sing_res_media.entity_type == 'PE':
+                                search_dict = {'id_dive' : "'"+str(sing_res_media.id_entity)+"'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                uw_data = self.DB_MANAGER.query_bool(search_dict, "UW")
+                            
+                                Pe_string = ( 'Divelog_id: %d - Year: %d') % (uw_data[0].divelog_id, uw_data[0].years)
+    ##              #else
+                                mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Pe_string])
+                                
+                            elif sing_res_media.entity_type == 'ANCHORS':
+                                search_dict = {'id_anc' : "'"+str(sing_res_media.id_entity)+"'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                anc_data = self.DB_MANAGER.query_bool(search_dict, "ANC")
+                            
+                                Anc_string = ( 'ANCHORS ID: %s') % (anc_data[0].anchors_id)
+    ##              #else
+                                mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Anc_string])
 
-            if bool(mediaToEntity_list):
+                            elif sing_res_media.entity_type == 'POTTERY':
+                                search_dict = {'id_rep' : "'"+str(sing_res_media.id_entity)+"'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                pottery_data = self.DB_MANAGER.query_bool(search_dict, "POTTERY")
+                            
+                                Pottery_string = ( 'Pottery ID: %s') % (pottery_data[0].artefact_id)
+    ##              #else
+                                mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Pottery_string])
+                            
+                            elif sing_res_media.entity_type == 'SITE':
+                                search_dict = {'id_sito' : "'"+str(sing_res_media.id_entity)+"'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                survey_data = self.DB_MANAGER.query_bool(search_dict, "SITE")
+                            
+                                Site_string = ( 'Name site: %s') % (survey_data[0].name_site)
+    ##              #else
+                                mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Site_string])
+                                
+            if bool(mediaToEntity_list) == True:
                 tags_row_count = self.tableWidget_tags.rowCount()
                 for i in range(tags_row_count):
                     self.tableWidget_tags.removeRow(0)
 
                 self.tableInsertData('self.tableWidget_tags', str(mediaToEntity_list))
-
-            if not bool(items):
+            
+            if bool(items) == False:
                 tags_row_count = self.tableWidget_tags.rowCount()
                 for i in range(tags_row_count):
                     self.tableWidget_tags.removeRow(0)

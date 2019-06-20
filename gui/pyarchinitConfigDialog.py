@@ -37,7 +37,7 @@ from qgis.core import QgsApplication, QgsSettings, QgsProject
 
 from modules.db.pyarchinit_conn_strings import Connection
 from modules.db.pyarchinit_db_manager import Pyarchinit_db_management
-#from modules.db.pyarchinit_db_update import DB_update
+from modules.db.pyarchinit_db_update import DB_update
 from modules.db.db_createdump import CreateDatabase, RestoreSchema, DropDatabase, SchemaDump
 from modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
 
@@ -221,7 +221,7 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
     def on_pushButton_crea_database_pressed(self,):
         schema_file = os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'dbfiles',
-                                   'pyarchinit_schema_clean.sql')
+                                   'schema.sql')
         view_file = os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'dbfiles',
                                    'create_view.sql')
         create_database = CreateDatabase(self.lineEdit_dbname.text(), self.lineEdit_db_host.text(),
@@ -473,7 +473,7 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         
         
         db_file = os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'dbfiles',
-                                   'pyarchinit.sqlite')
+                                   'hff_db_empty.sqlite')
 
         home_DB_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_DB_folder')
 
@@ -505,59 +505,7 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
     
     
     
-    # def on_pushButton_crea_layer_pressed(self):
-        # import time
-        # try:
-            # qgis_dir = QgsApplication.qgisSettingsDirPath()
-            # module_path_rel = os.path.join(os.sep, 'python', 'plugins', 'pyarchinit', 'modules', 'utility',
-                                           # 'dbfiles', 'pyarchinit_postgis15_empty.dump')
-            # module_path = '{}{}'.format(qgis_dir, module_path_rel)
-            # postgis15 = os.popen(
-                # "pg_restore --host localhost --port %s --username postgres --dbname %s --role postgres --no-password  --verbose %s" % (
-                    # self.lineEdit_port_db.text(), self.lineEdit_dbname.text(), module_path))
-            # barra2 = self.pyarchinit_progressBar_template
-            # barra2.setMinimum(0)
-            # barra2.setMaximum(9)
-            # for a in range(10):
-                # time.sleep(1)
-                # barra2.setValue(a)
-            # QMessageBox.warning(self, "ok", "Installazione avvenuta con successo", QMessageBox.Ok)
-        # except Exception as e:
-            # QMessageBox.warning(self, "opss", "qualcosa non va" + str(e), QMessageBox.Ok)
-
-    # def on_pushButton_crea_layer_2_pressed(self):
-        # import time
-        # try:
-            # qgis_dir = QgsApplication.qgisSettingsDirPath()
-            # module_path_rel = os.path.join(os.sep, 'python', 'plugins', 'pyarchinit', 'modules', 'utility',
-                                           # 'dbfiles', 'pyarchinit_postgis20_empty.dump')
-            # module_path = '{}{}'.format(qgis_dir, module_path_rel)
-            # postgis15 = os.popen(
-                # "pg_restore --host localhost --port %s --username postgres --dbname %s --role postgres --no-password  --verbose %s" % (
-                    # self.lineEdit_port_db.text(), self.lineEdit_dbname.text(), module_path))
-            # barra2 = self.pyarchinit_progressBar_template
-            # barra2.setMinimum(0)
-            # barra2.setMaximum(9)
-            # for a in range(10):
-                # time.sleep(1)
-                # barra2.setValue(a)
-            # QMessageBox.warning(self, "ok", "Installazione avvenuta con successo", QMessageBox.Ok)
-        # except Exception as e:
-            # QMessageBox.warning(self, "opss", "qualcosa non va" + str(e), QMessageBox.Ok)
-
-    # def on_pushButton_crea_db_sqlite_pressed(self):
-        # try:
-            # conn = Connection()
-            # conn_str = conn.conn_str()
-            # self.DB_MANAGER = Pyarchinit_db_management(conn_str)
-            # self.DB_MANAGER.connection()
-            # self.DB_MANAGER.execute_sql_create_spatialite_db()
-        # except:
-            # QMessageBox.warning(self, "Alert",
-                                # "L'installazione e' fallita. Riavvia Qgis. Se l'errore persiste verifica che i layer non siano gia' installati oppure sia stia usando un db Postgres",
-                                # QMessageBox.Ok)
-        # else:
-            # QMessageBox.warning(self, "Alert", "L'installazione ha avuto successo!", QMessageBox.Ok)
+    
 
     def try_connection(self):
         conn = Connection()
@@ -599,16 +547,9 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_import_pressed(self):
         
         id_table_class_mapper_conv_dict = {
-            'SU': 'id_us',
-            'TU': 'id_ut',
+            
             'SITE': 'id_sito',
-            'PERIODIATION': 'id_perfas',
-            'ARTEFACT': 'id_invmat',
-            'STRUCTURE': 'id_struttura',
-            'TAPHONOMY': 'id_tafonomia',
-            'INDIVIDUAL': 'id_scheda_ind',
-            'SAMPLE': 'id_campione',
-            'DOCUMENTATION': 'id_documentazione'
+            
         }       
         # creazione del cursore di lettura
         if os.name == 'posix':
@@ -741,6 +682,51 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         msg = 'id_sito'+": gia' presente nel database"
                         return 0
                 ####PERIODIZZAZIONE TABLE
+        
+        if mapper_class_write == 'ART' :
+            for sing_rec in range(len(data_list_toimp)):
+                data = self.DB_MANAGER_write.insert_art_values(
+                    self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                     id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                    data_list_toimp[sing_rec].divelog_id,
+                    data_list_toimp[sing_rec].artefact_id,
+                    data_list_toimp[sing_rec].material,
+                    data_list_toimp[sing_rec].treatment,
+                    data_list_toimp[sing_rec].description,
+                    data_list_toimp[sing_rec].recovered,
+                    data_list_toimp[sing_rec].list,
+                    data_list_toimp[sing_rec].photographed,
+                    data_list_toimp[sing_rec].conservation_completed,
+                    data_list_toimp[sing_rec].years,
+                    data_list_toimp[sing_rec].date_,
+                    data_list_toimp[sing_rec].obj,
+                    data_list_toimp[sing_rec].shape,
+                    data_list_toimp[sing_rec].depth,
+                    data_list_toimp[sing_rec].tool_markings,
+                    data_list_toimp[sing_rec].lmin,
+                    data_list_toimp[sing_rec].lmax,
+                    data_list_toimp[sing_rec].wmin,
+                    data_list_toimp[sing_rec].wmax,
+                    data_list_toimp[sing_rec].tmin,
+                    data_list_toimp[sing_rec].tmax,
+                    data_list_toimp[sing_rec].biblio,
+                    data_list_toimp[sing_rec].storage_,
+                    data_list_toimp[sing_rec].box,
+                    data_list_toimp[sing_rec].washed,
+                    data_list_toimp[sing_rec].site,
+                    data_list_toimp[sing_rec].area)
+                    
+                try:    
+                    self.DB_MANAGER_write.insert_data_session(data)
+                    QMessageBox.warning(self, "Pyarchinit", "Importazione completata",  QMessageBox.Ok)
+                    return 1
+                except Exception as  e:
+                    e_str = str(e)
+                    #QMessageBox.warning(self, "Errore", "Attenzione 1 ! \n"+ str(e_str),  QMessageBox.Ok)
+                    if e_str.__contains__("Integrity"):
+                        msg = 'id_art'+": gia' presente nel database"
+                        return 0
+        
         
         # #### US TABLE
         

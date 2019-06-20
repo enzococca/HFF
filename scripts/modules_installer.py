@@ -37,8 +37,9 @@ if not packages:
                 'reportlab',
                 'networkx',
                 'matplotlib',
-                'PypeR',
-                'graphviz==0.8.3',
+                'pandas',
+                'psycopg2',
+                'elasticsearch',
                 'pysftp'
                 ]
 
