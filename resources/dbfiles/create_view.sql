@@ -2,7 +2,6 @@
 -- TOC entry 298 (class 1259 OID 92603)
 -- Name: pyarchinit_anchor_view; Type: VIEW; Schema: public; Owner: postgres
 --
-
 CREATE VIEW public.pyarchinit_anchor_view AS
  SELECT anchor_point.gid,
     anchor_point.sito,
@@ -37,15 +36,11 @@ CREATE VIEW public.pyarchinit_anchor_view AS
     anchor_table.area
    FROM (public.anchor_point
      JOIN public.anchor_table ON (((anchor_point.code)::text = (anchor_table.anchors_id)::text)));
-
-
 ALTER TABLE public.pyarchinit_anchor_view OWNER TO postgres;
-
 --
 -- TOC entry 299 (class 1259 OID 92608)
 -- Name: pyarchinit_art_view; Type: VIEW; Schema: public; Owner: postgres
 --
-
 CREATE VIEW public.pyarchinit_art_view AS
  SELECT artefact_log.divelog_id,
     artefact_log.artefact_id,
@@ -83,20 +78,11 @@ CREATE VIEW public.pyarchinit_art_view AS
     artefact_point.the_geom
    FROM (public.artefact_point
      JOIN public.artefact_log ON (((artefact_point.code)::text = (artefact_log.artefact_id)::text)));
-
-
 ALTER TABLE public.pyarchinit_art_view OWNER TO postgres;
-
-
-
-
-
-
 --
 -- TOC entry 329 (class 1259 OID 106144)
 -- Name: pyarchinit_pot_view; Type: VIEW; Schema: public; Owner: postgres
 --
-
 CREATE VIEW public.pyarchinit_pot_view AS
  SELECT pottery_table.id_rep,
     pottery_table.divelog_id,
@@ -143,15 +129,11 @@ CREATE VIEW public.pyarchinit_pot_view AS
    FROM (public.pottery_point
      JOIN public.pottery_table ON (((pottery_point.code)::text = (pottery_table.artefact_id)::text)))
   ORDER BY pottery_table.artefact_id DESC, pottery_point.gid;
-
-
 ALTER TABLE public.pyarchinit_pot_view OWNER TO postgres;
-
 --
 -- TOC entry 327 (class 1259 OID 97896)
 -- Name: pyarchinit_site_view; Type: VIEW; Schema: public; Owner: postgres
 --
-
 CREATE VIEW public.pyarchinit_grabspot_view AS
  SELECT site_table.id_sito,
     site_table.location_,
@@ -195,15 +177,12 @@ CREATE VIEW public.pyarchinit_grabspot_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-    grab_spot.name_grab,
-    grab_spot.the_geom AS aa
+    grab_spot.gid,
+	grab_spot.name_grab,
+    grab_spot.the_geom
    FROM (public.site_table
      JOIN public.grab_spot ON (((grab_spot.name_grab)::text = (site_table.name_site)::text)));
-     
-
-
 ALTER TABLE public.pyarchinit_grabspot_view OWNER TO postgres;
-
 CREATE VIEW public.pyarchinit_feature_p_view AS
  SELECT site_table.id_sito,
     site_table.location_,
@@ -247,16 +226,12 @@ CREATE VIEW public.pyarchinit_feature_p_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-   
-    
-    features.name_feat,
-    features.the_geom AS dd
-
+    features.gid,
+	features.name_feat,
+    features.the_geom
 	 FROM (public.site_table
      JOIN public.features ON (((features.name_feat)::text = (site_table.name_site)::text)));
-     
 ALTER TABLE public.pyarchinit_feature_p_view OWNER TO postgres;
-
 CREATE VIEW public.pyarchinit_feature_point_view AS
  SELECT site_table.id_sito,
     site_table.location_,
@@ -300,15 +275,12 @@ CREATE VIEW public.pyarchinit_feature_point_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-    
-    features_point.name_f_p,
-    features_point.the_geom AS bb
+    features_point.gid,
+	features_point.name_f_p,
+    features_point.the_geom
 FROM (public.site_table
 JOIN public.features_point ON (((features_point.name_f_p)::text = (site_table.name_site)::text)));
-     
 ALTER TABLE public.pyarchinit_feature_point_view OWNER TO postgres;
-
-
 CREATE VIEW public.pyarchinit_feature_l_view AS
  SELECT site_table.id_sito,
     site_table.location_,
@@ -352,16 +324,12 @@ CREATE VIEW public.pyarchinit_feature_l_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-    
-    features_line.name_f_l,
-    features_line.the_geom AS cc
-
+    features_line.gid,
+	features_line.name_f_l,
+    features_line.the_geom
 FROM (public.site_table
 JOIN public.features_line ON (((features_line.name_f_l)::text = (site_table.name_site)::text)));
-     
 ALTER TABLE public.pyarchinit_feature_l_view OWNER TO postgres;
-
-
 CREATE VIEW public.pyarchinit_transect_view AS
  SELECT site_table.id_sito,
     site_table.location_,
@@ -405,25 +373,15 @@ CREATE VIEW public.pyarchinit_transect_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-    
-    
-    transect.name_tr,
-    transect.the_geom AS ff
-
+    transect.gid,
+	transect.name_tr,
+    transect.the_geom
 FROM (public.site_table
      JOIN public.transect ON (((transect.name_tr)::text = (site_table.name_site)::text)));
 ALTER TABLE public.pyarchinit_transect_view OWNER TO postgres;
-
-
-
-
-
-
-
 -- TOC entry 328 (class 1259 OID 97938)
 -- Name: mediaentity_view; Type: VIEW; Schema: public; Owner: postgres
 --
-
 CREATE VIEW public.mediaentity_view AS
  SELECT media_thumb_table.id_media_thumb,
     media_thumb_table.id_media,
@@ -435,6 +393,4 @@ CREATE VIEW public.mediaentity_view AS
    FROM (public.media_thumb_table
      JOIN public.media_to_entity_table ON ((media_thumb_table.id_media = media_to_entity_table.id_media)))
   ORDER BY media_to_entity_table.id_entity;
-
-
 ALTER TABLE public.mediaentity_view OWNER TO postgres;

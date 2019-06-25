@@ -1,1 +1,0 @@
-SELECT AddFDOGeometryColumn('pyarchinit_reperti', 'the_geom', 4326, 'POINT', 'XY');

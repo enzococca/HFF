@@ -41,9 +41,9 @@ class pyarchinit_Folder_installation(object):
 
         self.installConfigFile(home_DB_path)
 
-        db_copy_from_path_rel = os.path.join(os.sep, 'dbfiles', 'pyarchinit_db.sqlite')
+        db_copy_from_path_rel = os.path.join(os.sep, 'dbfiles', 'hff_survey.sqlite')
         db_copy_from_path = '{}{}'.format(self.RESOURCES_PATH, db_copy_from_path_rel)
-        db_copy_to_path = '{}{}{}'.format(home_DB_path, os.sep, 'pyarchinit_db.sqlite')
+        db_copy_to_path = '{}{}{}'.format(home_DB_path, os.sep, 'hff_survey.sqlite')
 
         logo_copy_from_path_rel = os.path.join(os.sep, 'dbfiles', 'logo.jpg')
         logo_copy_from_path = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel)

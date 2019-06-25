@@ -570,6 +570,18 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         self.comboBox_nome_site.clear()
         sito_vl.sort()
         self.comboBox_nome_site.addItems(sito_vl)
+        
+        
+        location_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
+
+        try:
+            location_vl.remove('')
+        except :
+            pass
+
+        self.comboBox_location.clear()
+        location_vl.sort()
+        self.comboBox_location.addItems(location_vl)
 
     def generate_list_pdf(self):
         data_list = []
@@ -1012,9 +1024,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             return 1  # ci sono errori di immissione
         elif self.records_equal_check() == 1 and ec == 0:
 
-            # self.update_if(
-                # QMessageBox.warning(self, "Error", "The record has been changed. You want to save the changes?",
-                                    # QMessageBox.Ok | QMessageBox.Cancel))
+            # self.update_if()
             # self.charge_records()
             return 0  # non ci sono errori di immissione
 
@@ -1039,7 +1049,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
             self.label_sort.setText(self.SORTED_ITEMS["n"])
 
-            # records surf functions
+            if self.toolButtonPreviewMedia.isChecked() == True:
+                self.loadMediaPreview(1)
 
     def on_pushButton_first_rec_pressed(self):
         if self.check_record_state() == 1:
@@ -1327,9 +1338,9 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         self.pyQGIS.charge_layers_for_draw(["1", "3", "5", "7", "8", "9", "10","11"])
 
     def on_pushButton_sites_geometry_pressed(self):
-        sito = str(self.comboBox_nome_site.currentText())
+        sito = str(self.comboBox_location.currentText())
         self.pyQGIS.charge_sites_geometry([],
-                                          "name_sito", sito)
+                                          "location", sito)
 
     # def on_pushButton_draw_sito_pressed(self):
         # sing_layer = [self.DATA_LIST[self.REC_CORR]]
