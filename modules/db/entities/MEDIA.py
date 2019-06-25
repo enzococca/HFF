@@ -27,7 +27,7 @@ class MEDIA(object):
 
     # def __repr__"
     def __repr__(self):
-        return "<MEDIA('%d', '%s', '%s', %s, '%s','%s')>" % (
+        return "<MEDIA('%d', '%s', '%s', %s, '%s','%s', '%s')>" % (
             self.id_media,
             self.mediatype,
             self.filename,

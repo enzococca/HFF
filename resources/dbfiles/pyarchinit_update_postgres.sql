@@ -1,14 +1,19 @@
  /* alter table dive_log add column bar_start_2 character varying(255);
  alter table dive_log add column bar_end_2 character varying(255);
  alter table dive_log add column dp_2 character varying(255); */
- alter table site_table add column ets character varying(255);
+ /* alter table site_table add column ets character varying(255);
  alter table site_table add column material_c text;
  alter table site_table add column morphology_c text;
- alter table site_table add column collection_c text;
-
+ alter table site_table add column collection_c text; */
+/*  alter table grab_spot RENAME COLUMN id to gid; */
+drop view pyarchinit_grabspot_view;
+drop view pyarchinit_feature_p_view;
+drop view pyarchinit_feature_point_view;
+drop view pyarchinit_feature_l_view;
+drop view pyarchinit_transect_view ;
 
 CREATE or replace VIEW public.pyarchinit_grabspot_view AS
- SELECT site_table.id_sito,
+	SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
     site_table.casa,
@@ -50,17 +55,14 @@ CREATE or replace VIEW public.pyarchinit_grabspot_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-    grab_spot.name_grab,
-    grab_spot.the_geom AS aa
-   FROM (public.site_table
-     JOIN public.grab_spot ON (((grab_spot.name_grab)::text = (site_table.name_site)::text)));
-     
-
-
+    grab_spot.gid,
+	grab_spot.name_grab,
+    grab_spot.the_geom
+    FROM (public.site_table
+	JOIN public.grab_spot ON (((grab_spot.name_grab)::text = (site_table.name_site)::text)));
 ALTER TABLE public.pyarchinit_grabspot_view OWNER TO postgres;
-
 CREATE or replace VIEW public.pyarchinit_feature_p_view AS
- SELECT site_table.id_sito,
+	SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
     site_table.casa,
@@ -102,18 +104,14 @@ CREATE or replace VIEW public.pyarchinit_feature_p_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-   
-    
-    features.name_feat,
-    features.the_geom AS dd
-
+    features.gid,
+	features.name_feat,
+    features.the_geom
 	 FROM (public.site_table
      JOIN public.features ON (((features.name_feat)::text = (site_table.name_site)::text)));
-     
 ALTER TABLE public.pyarchinit_feature_p_view OWNER TO postgres;
-
-CREATE or replace public.pyarchinit_feature_point_view AS
- SELECT site_table.id_sito,
+CREATE or replace view  public.pyarchinit_feature_point_view AS
+	SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
     site_table.casa,
@@ -155,16 +153,13 @@ CREATE or replace public.pyarchinit_feature_point_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-    
-    features_point.name_f_p,
-    features_point.the_geom AS bb
-FROM (public.site_table
-JOIN public.features_point ON (((features_point.name_f_p)::text = (site_table.name_site)::text)));
-     
+    features_point.gid,
+	features_point.name_f_p,
+    features_point.the_geom 
+	FROM (public.site_table
+	JOIN public.features_point ON (((features_point.name_f_p)::text = (site_table.name_site)::text)));
 ALTER TABLE public.pyarchinit_feature_point_view OWNER TO postgres;
-
-
-CREATE or replace public.pyarchinit_feature_l_view AS
+CREATE or replace view public.pyarchinit_feature_l_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -207,17 +202,13 @@ CREATE or replace public.pyarchinit_feature_l_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-    
-    features_line.name_f_l,
-    features_line.the_geom AS cc
-
+    features_line.gid,
+	features_line.name_f_l,
+    features_line.the_geom
 FROM (public.site_table
-JOIN public.features_line ON (((features_line.name_f_l)::text = (site_table.name_site)::text)));
-     
+	JOIN public.features_line ON (((features_line.name_f_l)::text = (site_table.name_site)::text)));
 ALTER TABLE public.pyarchinit_feature_l_view OWNER TO postgres;
-
-
-CREATE or replace public.pyarchinit_transect_view AS
+CREATE or replace view  public.pyarchinit_transect_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -260,15 +251,9 @@ CREATE or replace public.pyarchinit_transect_view AS
     site_table.biblio,
     site_table.description,
     site_table.interpretation,
-   
-    
-    transect.name_tr,
-    transect.the_geom AS ff
-
+    transect.gid,
+	transect.name_tr,
+    transect.the_geom
 FROM (public.site_table
      JOIN public.transect ON (((transect.name_tr)::text = (site_table.name_site)::text)));
 ALTER TABLE public.pyarchinit_transect_view OWNER TO postgres;
-
-
-
-

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1296</width>
-    <height>884</height>
+    <height>885</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1512,7 +1512,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
     <rect>
      <x>20</x>
      <y>123</y>
-     <width>941</width>
+     <width>991</width>
      <height>67</height>
     </rect>
    </property>
@@ -2169,7 +2169,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
     <rect>
      <x>20</x>
      <y>200</y>
-     <width>970</width>
+     <width>1008</width>
      <height>27</height>
     </rect>
    </property>
@@ -2272,7 +2272,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
       <property name="minimumSize">
        <size>
-        <width>115</width>
+        <width>176</width>
         <height>0</height>
        </size>
       </property>
@@ -2372,7 +2372,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
       <property name="minimumSize">
        <size>
-        <width>127</width>
+        <width>104</width>
         <height>0</height>
        </size>
       </property>

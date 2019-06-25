@@ -2453,9 +2453,9 @@
   <widget class="QComboBox" name="comboBox_area_reference">
    <property name="geometry">
     <rect>
-     <x>800</x>
+     <x>910</x>
      <y>200</y>
-     <width>121</width>
+     <width>151</width>
      <height>21</height>
     </rect>
    </property>
@@ -2472,7 +2472,7 @@
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>790</x>
      <y>200</y>
      <width>121</width>
      <height>21</height>
@@ -2499,7 +2499,7 @@
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>550</x>
      <y>200</y>
      <width>91</width>
      <height>21</height>
@@ -2526,7 +2526,7 @@
   <widget class="QLabel" name="label_21">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>370</x>
      <y>200</y>
      <width>91</width>
      <height>21</height>
@@ -2553,9 +2553,9 @@
   <widget class="QLineEdit" name="lineEdit_divelog_id">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>460</x>
      <y>200</y>
-     <width>113</width>
+     <width>71</width>
      <height>22</height>
     </rect>
    </property>
@@ -2569,9 +2569,9 @@
   <widget class="QLineEdit" name="lineEdit_date">
    <property name="geometry">
     <rect>
-     <x>1070</x>
+     <x>1180</x>
      <y>200</y>
-     <width>111</width>
+     <width>161</width>
      <height>22</height>
     </rect>
    </property>
@@ -2585,7 +2585,7 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>960</x>
+     <x>1070</x>
      <y>200</y>
      <width>111</width>
      <height>22</height>
@@ -2612,9 +2612,9 @@
   <widget class="QComboBox" name="comboBox_years">
    <property name="geometry">
     <rect>
-     <x>540</x>
+     <x>640</x>
      <y>200</y>
-     <width>111</width>
+     <width>121</width>
      <height>22</height>
     </rect>
    </property>
@@ -2631,9 +2631,9 @@
   <widget class="QLabel" name="label_25">
    <property name="geometry">
     <rect>
-     <x>1220</x>
+     <x>1370</x>
      <y>200</y>
-     <width>121</width>
+     <width>71</width>
      <height>21</height>
     </rect>
    </property>
@@ -2687,7 +2687,7 @@
     <rect>
      <x>90</x>
      <y>200</y>
-     <width>131</width>
+     <width>261</width>
      <height>21</height>
     </rect>
    </property>
@@ -2704,9 +2704,9 @@
   <widget class="QLineEdit" name="lineEdit_layer">
    <property name="geometry">
     <rect>
-     <x>1340</x>
+     <x>1440</x>
      <y>200</y>
-     <width>141</width>
+     <width>71</width>
      <height>21</height>
     </rect>
    </property>
@@ -2714,15 +2714,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+  <customwidget>
    <class>Mplwidget</class>
    <extends>QWidget</extends>
    <header>mplwidget</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKit/QWebView</header>
   </customwidget>
  </customwidgets>
  <resources>
