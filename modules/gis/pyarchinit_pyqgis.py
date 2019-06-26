@@ -48,7 +48,8 @@ class Pyarchinit_pyqgis(QDialog):
                             "8" : "features_point",
                             "9" : "features_line",
                             "10": "features",
-                            "11": "transect",}
+                            "11": "transect",
+                            "12": "track"}
  
     LAYERS_CONVERT_DIZ = {"anchor_point": "Anchors Point",
                         "pyarchinit_anchor_view": "Anchors view",
@@ -60,7 +61,8 @@ class Pyarchinit_pyqgis(QDialog):
                         "features_point":"Features Point",
                         "features_line": "Features Line",
                         "features": "Features Polygon",
-                        "transect": "Transect",}
+                        "transect": "Transect",
+                        "track": "Track"}
                       
     def __init__(self, iface):
         super().__init__()
@@ -735,63 +737,7 @@ class Pyarchinit_pyqgis(QDialog):
                 else:
                     QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
                 
-            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
-            layer_name = 'anchor_point'
-            layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
-            eval(cmq_set_uri_data_source)
-            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
-            layer_label_conv = "'"+layer_label+"'"
-            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
-            layer= eval(cmq_set_vector_layer)
-
-            if  layer.isValid() == True:
-                #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
-                QgsProject.instance().addMapLayers([layer], True)
-            else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
             
-            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
-            layer_name = 'pottery_point'
-            layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
-            eval(cmq_set_uri_data_source)
-            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
-            layer_label_conv = "'"+layer_label+"'"
-            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
-            layer= eval(cmq_set_vector_layer)
-
-            if  layer.isValid() == True:
-                #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
-                QgsProject.instance().addMapLayers([layer], True)
-            else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
-            
-            
-            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
-            layer_name = 'artefact_point'
-            layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
-            eval(cmq_set_uri_data_source)
-            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
-            layer_label_conv = "'"+layer_label+"'"
-            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
-            layer= eval(cmq_set_vector_layer)
-
-            if  layer.isValid() == True:
-                #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
-                QgsProject.instance().addMapLayers([layer], True)
-            else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'grab_spot'
@@ -921,63 +867,7 @@ class Pyarchinit_pyqgis(QDialog):
                 else:
                     QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
                 
-            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
-            layer_name = 'anchor_point'
-            layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
-            eval(cmq_set_uri_data_source)
-            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
-            layer_label_conv = "'"+layer_label+"'"
-            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
-            layer= eval(cmq_set_vector_layer)
-
-            if  layer.isValid() == True:
-                #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
-                QgsProject.instance().addMapLayers([layer], True)
-            else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
             
-            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
-            layer_name = 'pottery_point'
-            layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
-            eval(cmq_set_uri_data_source)
-            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
-            layer_label_conv = "'"+layer_label+"'"
-            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
-            layer= eval(cmq_set_vector_layer)
-
-            if  layer.isValid() == True:
-                #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
-                QgsProject.instance().addMapLayers([layer], True)
-            else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
-            
-            
-            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
-            layer_name = 'artefact_point'
-            layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
-            eval(cmq_set_uri_data_source)
-            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
-            layer_label_conv = "'"+layer_label+"'"
-            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
-            layer= eval(cmq_set_vector_layer)
-
-            if  layer.isValid() == True:
-                #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
-                QgsProject.instance().addMapLayers([layer], True)
-            else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'grab_spot'
@@ -1075,57 +965,300 @@ class Pyarchinit_pyqgis(QDialog):
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
             
-    # def charge_sites_from_research(self, data):
-        # #Clean Qgis Map Later Registry
-        # #QgsProject.instance().removeAllMapLayers()
-        # # Get the user input, starting with the table name
-        
-        # #self.find_us_cutted(data)
-
-        # cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
-        # file_path = '{}{}'.format(self.HOME, cfg_rel_path)
-        # conf = open(file_path, "r")
-        # con_sett = conf.read()
-        # conf.close()
-
-        # settings = Settings(con_sett)
-        # settings.set_configuration()
-
-        
-        # if settings.SERVER == 'postgres':
-
-            # uri = QgsDataSourceUri()
-
-            # uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
-
-            # gidstr =  "sito_nome= '" + str(data[0].name_site) +"'"
-            # if len(data) > 1:
-                # for i in range(len(data)):
-                    # gidstr += " OR siti = '" + str(data[i].name_site) +"'"
-
-            # uri = QgsDataSourceUri()
-            # uri.setDatabase(db_file_path)
-            
-            # uri.setDataSource('','pyarchinit_site_view', 'the_geom', gidstr, "gid")
-            # layerSITE=QgsVectorLayer(uri.uri(), 'pyarchinit_site_view', 'postgres')
-
-            # if layerSITE.isValid() == True:
-                # QMessageBox.warning(self, "TESTER", "OK",QMessageBox.Ok)
-
-                # #self.USLayerId = layerUS.getLayerID()
-# ##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-# ##              layerUS.loadNamedStyle(style_path)
-                # self.iface.mapCanvas().setExtent(layerSITE.extent())
-                # QgsProject.instance().addMapLayers([layerSITE], True)
-            # else:
-                # QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
-        
     
+    
+    
+    def charge_uw_geometry(self, options, col, val):
+        self.options = options
+        self.col = col
+        self.val = val
 
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
 
+        settings = Settings(con_sett)
+        settings.set_configuration()
 
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
 
+        
+            for option in self.options:
+                layer_name = self.LAYERS_DIZ[option]
+                layer_name_conv = "'"+str(layer_name)+"'"
+                value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+                eval(cmq_set_uri_data_source)
+                layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+                layer_label_conv = "'"+layer_label+"'"
+                cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+                layer= eval(cmq_set_vector_layer)
 
+                if  layer.isValid() == True:
+                    #self.USLayerId = layerUS.getLayerID()
+                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                    ##ayerUS.loadNamedStyle(style_path)
+                    QgsProject.instance().addMapLayers([layer], True)
+                else:
+                    QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'anchor_point'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'pottery_point'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'artefact_point'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            
+        elif settings.SERVER == 'postgres':
+
+            uri = QgsDataSourceUri()
+
+            uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
+
+                
+            for option in self.options:
+                layer_name = self.LAYERS_DIZ[option]
+                layer_name_conv = "'"+str(layer_name)+"'"
+                value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+                eval(cmq_set_uri_data_source)
+                layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+                layer_label_conv = "'"+layer_label+"'"
+                cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+                layer= eval(cmq_set_vector_layer)
+
+                if  layer.isValid() == True:
+                    #self.USLayerId = layerUS.getLayerID()
+                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                    ##ayerUS.loadNamedStyle(style_path)
+                    QgsProject.instance().addMapLayers([layer], True)
+                else:
+                    QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'anchor_point'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'pottery_point'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'artefact_point'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            
+    
+    
+    
+    def charge_track_geometry(self, options, col, val):
+        self.options = options
+        self.col = col
+        self.val = val
+
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
+
+        settings = Settings(con_sett)
+        settings.set_configuration()
+
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
+
+        
+            for option in self.options:
+                layer_name = self.LAYERS_DIZ[option]
+                layer_name_conv = "'"+str(layer_name)+"'"
+                value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'geom'", value_conv)
+                eval(cmq_set_uri_data_source)
+                layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+                layer_label_conv = "'"+layer_label+"'"
+                cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+                layer= eval(cmq_set_vector_layer)
+
+                if  layer.isValid() == True:
+                    #self.USLayerId = layerUS.getLayerID()
+                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                    ##ayerUS.loadNamedStyle(style_path)
+                    QgsProject.instance().addMapLayers([layer], True)
+                else:
+                    QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'track'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"name_site = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                
+                
+        elif settings.SERVER == 'postgres':
+
+            uri = QgsDataSourceUri()
+
+            uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
+
+                
+            for option in self.options:
+                layer_name = self.LAYERS_DIZ[option]
+                layer_name_conv = "'"+str(layer_name)+"'"
+                value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'geom'", value_conv)
+                eval(cmq_set_uri_data_source)
+                layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+                layer_label_conv = "'"+layer_label+"'"
+                cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+                layer= eval(cmq_set_vector_layer)
+
+                if  layer.isValid() == True:
+                    #self.USLayerId = layerUS.getLayerID()
+                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                    ##ayerUS.loadNamedStyle(style_path)
+                    QgsProject.instance().addMapLayers([layer], True)
+                else:
+                    QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'track'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"name_site = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+            
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
 class MyError(Exception):
         def __init__(self, value):
             self.value = value

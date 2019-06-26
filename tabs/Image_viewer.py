@@ -110,7 +110,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.iconListWidget.itemDoubleClicked.connect(self.openWide_image)
         # self.connect(self.iconListWidget, SIGNAL("itemClicked(QListWidgetItem *)"),self.open_tags)
         self.iconListWidget.itemSelectionChanged.connect(self.open_tags)
-        self.setWindowTitle("pyArchInit - Media Manager")
+        self.setWindowTitle("HFF - Media Manager")
         self.charge_data()
         self.view_num_rec()
     
@@ -194,7 +194,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 self.charge_sito_list()
                 self.fill_fields()
             else:
-                QMessageBox.warning(self, "WELCOME", "Welcome in pyArchInit" + self.NOME_SCHEDA + ". The database is empty. Push 'Ok' and good work!",  QMessageBox.Ok)
+                QMessageBox.warning(self, "WELCOME", "Welcome in HFF survey" + self.NOME_SCHEDA + ". The database is empty. Push 'Ok' and good work!",  QMessageBox.Ok)
                 self.charge_sito_list()
                 self.BROWSE_STATUS = 'x'
                 self.on_pushButton_new_rec_pressed()

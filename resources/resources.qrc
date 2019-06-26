@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/">
+    <file>icons/layers-icon.png</file>
+    <file>icons/tracking-icon.png</file>
     <file>resources.qrc</file>
     <file>icons/4_leftArrow.png</file>
     <file>icons/5_leftArrows.png</file>
@@ -55,7 +57,7 @@
     <file>icons/snorkel.png</file>
     <file>icons/radar.png</file>
     <file>icons/iconANC.png</file>
-	<file>icons/excel-export.png</file>
-	<file>icons/import-excel.png</file>
+    <file>icons/excel-export.png</file>
+    <file>icons/import-excel.png</file>
   </qresource>
 </RCC>

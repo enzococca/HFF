@@ -1469,7 +1469,7 @@
          <string>New record</string>
         </property>
         <property name="text">
-         <string>New rec</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1483,7 +1483,7 @@
          <string>Last rec</string>
         </property>
         <property name="text">
-         <string>Last rec</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1502,7 +1502,7 @@
          <string>Save</string>
         </property>
         <property name="text">
-         <string>Save</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1524,7 +1524,7 @@
          <string>search !!!</string>
         </property>
         <property name="text">
-         <string>Go Search</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1543,7 +1543,7 @@
          <string>Order by</string>
         </property>
         <property name="text">
-         <string>Order by</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1562,7 +1562,7 @@
          <string>View alls records</string>
         </property>
         <property name="text">
-         <string>Restore setting</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1581,11 +1581,11 @@
          <string>new search</string>
         </property>
         <property name="text">
-         <string>Search</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/new_search copy.png</normaloff>:/icons/new_search copy.png</iconset>
+          <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
         </property>
        </widget>
       </item>
@@ -1601,7 +1601,7 @@
          <string>Prev rec</string>
         </property>
         <property name="text">
-         <string>Prev rec</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1626,7 +1626,7 @@
          <string>Delete record</string>
         </property>
         <property name="text">
-         <string>Delete</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1643,7 +1643,7 @@
          <string>Next rec</string>
         </property>
         <property name="text">
-         <string>Next rec</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1663,7 +1663,7 @@
          <string>First rec</string>
         </property>
         <property name="text">
-         <string>First rec</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
@@ -1710,7 +1710,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
