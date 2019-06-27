@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1296</width>
-    <height>885</height>
+    <height>451</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1668,7 +1668,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
       <property name="icon">
        <iconset resource="../../resources/resources.qrc">
-        <normaloff>:/icons/new_search copy.png</normaloff>:/icons/new_search copy.png</iconset>
+        <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
       </property>
      </widget>
     </item>

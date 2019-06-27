@@ -12,7 +12,7 @@
 name=HFF
 qgisMinimumVersion=3.0
 description=pyarchinit an tool for archaeological works
-version=0.1.0
+version=1.0.0
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
 
@@ -23,11 +23,11 @@ changelog=
    
   
 # tags are comma separated with spaces allowed
-tags=archaeology, analysis, database, digitizing, postgres, postgis, spatialite, sqlite, archeologia, funerary archaeology, pottery, bones, excavations, scavi, archeologici, siti, carte, archeologiche, carta di potenzialita, strutture, antiche, tempio, medioevo, romana, preistoria, roman, medieval, prehistoric
+tags=archaeology, analysis, database, digitizing, postgres, postgis, spatialite, sqlite, UderWater survey, Terrestrial survey, pottery, bones, excavations,  preistoria, roman, medieval, prehistoric
 
-homepage=https://sites.google.com/site/pyarchinit/
-tracker=https://github.com/pyarchinit/pyarchinit/issues
-repository=https://github.com/pyarchinit/pyarchinit
+homepage=https://honorfrostfoundation.org/
+tracker=https://github.com/enzococca/HFF/iusse
+repository=https://github.com/enzococca/HFF
 icon=icon.png
 # experimental flag
 experimental=False

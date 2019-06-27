@@ -133,8 +133,8 @@ class PyArchInitPlugin(object):
         self.siteToolButton = QToolButton(self.toolBar)
         self.siteToolButton.setPopupMode(QToolButton.MenuButtonPopup)
         icon_site = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'iconSite.png'))
-        self.actionSite = QAction(QIcon(icon_site), "Siti", self.iface.mainWindow())
-        self.actionSite.setWhatsThis("Siti")
+        self.actionSite = QAction(QIcon(icon_site), "Site", self.iface.mainWindow())
+        self.actionSite.setWhatsThis("Site")
         self.actionSite.triggered.connect(self.runSite)
 
         self.siteToolButton.addActions(
@@ -188,19 +188,19 @@ class PyArchInitPlugin(object):
 
        
         icon_imageViewer = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'photo.png'))
-        self.actionimageViewer = QAction(QIcon(icon_imageViewer), "Gestione immagini", self.iface.mainWindow())
-        self.actionimageViewer.setWhatsThis("Gestione immagini")
+        self.actionimageViewer = QAction(QIcon(icon_imageViewer), "Media manager", self.iface.mainWindow())
+        self.actionimageViewer.setWhatsThis("Media manager")
         self.actionimageViewer.triggered.connect(self.runImageViewer)
 
         icon_Directory_export = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'directoryExp.png'))
-        self.actionImages_Directory_export = QAction(QIcon(icon_Directory_export), "Esportazione immagini",
+        self.actionImages_Directory_export = QAction(QIcon(icon_Directory_export), "Download image",
                                                      self.iface.mainWindow())
-        self.actionImages_Directory_export.setWhatsThis("Esportazione immagini")
+        self.actionImages_Directory_export.setWhatsThis("Download image")
         self.actionImages_Directory_export.triggered.connect(self.runImages_directory_export)
 
         icon_pdf_exp = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'pdf-icon.png'))
-        self.actionpdfExp = QAction(QIcon(icon_pdf_exp), "Esportazione PDF", self.iface.mainWindow())
-        self.actionpdfExp.setWhatsThis("Esportazione PDF")
+        self.actionpdfExp = QAction(QIcon(icon_pdf_exp), "Download PDF", self.iface.mainWindow())
+        self.actionpdfExp.setWhatsThis("Download PDF")
         self.actionpdfExp.triggered.connect(self.runPdfexp)
 
       
@@ -227,13 +227,13 @@ class PyArchInitPlugin(object):
 
 
         icon_Con = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'iconConn.png'))
-        self.actionConf = QAction(QIcon(icon_Con), "Configurazione plugin", self.iface.mainWindow())
-        self.actionConf.setWhatsThis("Configurazione plugin")
+        self.actionConf = QAction(QIcon(icon_Con), "Config plugin", self.iface.mainWindow())
+        self.actionConf.setWhatsThis("Config plugin")
         self.actionConf.triggered.connect(self.runConf)
 
         icon_Dbmanagment = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'backup.png'))
-        self.actionDbmanagment = QAction(QIcon(icon_Dbmanagment), "Gestione database", self.iface.mainWindow())
-        self.actionDbmanagment.setWhatsThis("Gestione database")
+        self.actionDbmanagment = QAction(QIcon(icon_Dbmanagment), "Database manager", self.iface.mainWindow())
+        self.actionDbmanagment.setWhatsThis("Database manager")
         self.actionDbmanagment.triggered.connect(self.runDbmanagment)
 
         icon_Info = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'iconInfo.png'))
@@ -250,26 +250,26 @@ class PyArchInitPlugin(object):
         self.toolBar.addSeparator()
 
         # menu
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionUW)
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionANC)
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionART)
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionPottery)
+        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionUW)
+        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionANC)
+        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionART)
+        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionPottery)
         
         
         
         
         
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionSite)
+        self.iface.addPluginToMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionSite)
        
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionimageViewer)
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionpdfExp)
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionImages_Directory_export)
+        self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionimageViewer)
+        self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionpdfExp)
+        self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionImages_Directory_export)
 
         
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionConf)
+        self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionConf)
         
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionDbmanagment)
-        self.iface.addPluginToMenu("HFF - Archaeological GIS Tools", self.actionInfo)
+        self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionDbmanagment)
+        self.iface.addPluginToMenu("HFF - Info GIS Tools", self.actionInfo)
 
         # MENU
         self.menu = QMenu("HFF")
@@ -356,21 +356,21 @@ class PyArchInitPlugin(object):
     def unload(self):
         # Remove the plugin
         
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionUW)
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionANC)
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionART)
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionPottery)
+        self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionUW)
+        self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionANC)
+        self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionART)
+        self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionPottery)
         
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionSite)
+        self.iface.removePluginMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionSite)
         
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionimageViewer)
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionImages_Directory_export)
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionpdfExp)
+        self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionimageViewer)
+        self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionImages_Directory_export)
+        self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionpdfExp)
         
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionConf)
+        self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionConf)
        
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionInfo)
-        self.iface.removePluginMenu("HFF - Archaeological GIS Tools", self.actionDbmanagment)
+        self.iface.removePluginMenu("HFF - Info GIS Tools", self.actionInfo)
+        self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionDbmanagment)
 
         self.iface.removeToolBarIcon(self.actionUW)
         self.iface.removeToolBarIcon(self.actionART)

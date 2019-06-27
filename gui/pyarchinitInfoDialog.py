@@ -38,38 +38,30 @@ class pyArchInitDialog_Info(QDialog, MAIN_DIALOG_CLASS):
         config = configparser.ConfigParser()
         metadata_file = os.path.join(os.path.dirname(__file__), os.pardir, 'metadata.txt')
         config.read(metadata_file)
-        self.text = "<b>PyArchinit version: " + config['general']['version'] + "</b><br>" \
-                    "<i>Archeological GIS Tools - PyArchInit it's a tool to manage archaeological dataset with an high portability on the main platform</i><br><br>"
+        self.text = "<b>HFF version: " + config['general']['version'] + "</b><br>" \
+                    "<i>Archeological GIS Tools - HFF it's a tool to manage archaeological survey dataset with an high portability on the main platform</i><br><br>"
 
         self.text += """<b>Developers:</b><br>
-                        Luca Mandolesi<br>
-                        adArte snc - Rimini - www.adartesnc.com<br>
                         Enzo Cocca<br>
-                        Simona Gugnali<br><br>
+                        adArte srl - Rimini - www.adarteinfo.com<br>
                         """
         self.text += """<b>Special thanks for testing to:</b><br>
-                        Giovanni Manghi<br>
-                        Jerzy Sikora<br>
-                        Michele Zappitelli<br>
-                        Chiara Cesaretti<br>
-                        Chiara Di Fronzo<br>
-                        Valeria Casicci<br>
-                        Fabio Alboni<br>
-                        Yuri Godino<br>
-                        Manuela Battaglia<br>
-                        Tommaso Gallo<br><br>
+                        Honor Frost Foundation<br>
+						Lucy Blue<br>
+                        Lucy Semaan<br>
+                        Stepahen McPhillips<br>
+                        Jennie Bradbury<br>
+                        All UW team's members<br><br>
                         """
-        self.text += """<b>and supporting to:</b><br>
-                        Stefano Costa<br>
-                        Francesco de Virgilio<br>
-                        Giuseppe Naponiello<br><br>
+        self.text += """<b>and supporting of:</b><br>
+                        Clara Fuquen<br><br>
                          """
         self.text += """<b>Help:</b><br>
-                        http://groups.google.it/group/pyarchinit-users<br>
-                        or email me pyarchinit@gmail.com<br><br>
+                        email enzo.ccc@gmail.com<br><br>
                         """
         self.text += """<b>Site:</b><br>
-                        <a href="https://sites.google.com/site/pyarchinit/">https://sites.google.com/site/pyarchinit/</a>
+                        <a href="https://honorfrostfoundation.org/">
+						https://www.adarteinfo.it/</a>
         """
         self.textBrowser.setText(self.text)
 
