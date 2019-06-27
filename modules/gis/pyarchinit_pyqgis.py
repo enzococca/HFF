@@ -1180,7 +1180,7 @@ class Pyarchinit_pyqgis(QDialog):
                 layer_name = self.LAYERS_DIZ[option]
                 layer_name_conv = "'"+str(layer_name)+"'"
                 value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
-                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'geom'", value_conv)
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
                 eval(cmq_set_uri_data_source)
                 layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
                 layer_label_conv = "'"+layer_label+"'"
@@ -1199,7 +1199,7 @@ class Pyarchinit_pyqgis(QDialog):
             layer_name = 'track'
             layer_name_conv = "'"+str(layer_name)+"'"
             value_conv =  ('"name_site = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'geom'", value_conv)
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
             layer_label_conv = "'"+layer_label+"'"
@@ -1226,7 +1226,7 @@ class Pyarchinit_pyqgis(QDialog):
                 layer_name = self.LAYERS_DIZ[option]
                 layer_name_conv = "'"+str(layer_name)+"'"
                 value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
-                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'geom'", value_conv)
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
                 eval(cmq_set_uri_data_source)
                 layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
                 layer_label_conv = "'"+layer_label+"'"
@@ -1245,7 +1245,7 @@ class Pyarchinit_pyqgis(QDialog):
             layer_name = 'track'
             layer_name_conv = "'"+str(layer_name)+"'"
             value_conv =  ('"name_site = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'geom'", value_conv)
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
             layer_label_conv = "'"+layer_label+"'"
