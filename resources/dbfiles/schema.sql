@@ -293,6 +293,23 @@ CREATE TABLE public.artefact_point (
     "Layer" integer
 );
 ALTER TABLE public.artefact_point OWNER TO postgres;
+
+
+--
+-- TOC entry 271 (class 1259 OID 152736)
+-- Name: coastline_kcs19; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.coastline(
+    id int NOT NULL,
+    the_geom public.geometry(MultiLineString,32636),
+    "name_site" character(255)
+);
+
+
+ALTER TABLE public.coastline OWNER TO postgres;
+
+
 --
 -- TOC entry 269 (class 1259 OID 92254)
 -- Name: dive_log_id_dive_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -829,7 +846,65 @@ CREATE TABLE public.site_table (
 	collection_c text
 );
 ALTER TABLE public.site_table OWNER TO postgres;
+--
+-- TOC entry 270 (class 1259 OID 152727)
+-- Name: sites_grid; Type: TABLE; Schema: public; Owner: postgres
+--
 
+CREATE TABLE public.grid (
+    id bigint NOT NULL,
+    the_geom public.geometry(MultiPolygon,32636),
+    "left" numeric,
+    top numeric,
+    "right" numeric,
+    bottom numeric,
+    name character varying(254),
+    name_site character varying(254)
+);
+
+
+ALTER TABLE public.grid OWNER TO postgres;
+
+
+
+--
+-- TOC entry 275 (class 1259 OID 152767)
+-- Name: track; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.track (
+    id integer NOT NULL,
+    the_geom public.geometry(MultiPoint,-1),
+    y_proj numeric,
+    x_proj numeric,
+    ltime character varying(254),
+    divelog bigint,
+    divers character varying(254),
+    obj character varying(254),
+    name_site character(255),
+    day smallint,
+    month smallint
+);
+
+
+ALTER TABLE public.track OWNER TO postgres;
+
+
+--
+-- TOC entry 274 (class 1259 OID 152765)
+-- Name: track_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.track_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.track_id_seq OWNER TO postgres;
 --
 -- TOC entry 321 (class 1259 OID 92772)
 -- Name: site_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -1202,6 +1277,50 @@ ALTER TABLE ONLY public.pyarchinit_thesaurus_sigle
 --
 ALTER TABLE ONLY public.qgis_projects
     ADD CONSTRAINT qgis_projects_pkey PRIMARY KEY (name);
+
+
+--
+-- TOC entry 4435 (class 2604 OID 152770)
+-- Name: track id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.track ALTER COLUMN id SET DEFAULT nextval('public.track_id_seq'::regclass);
+
+--
+-- TOC entry 4513 (class 2606 OID 152740)
+-- Name: coastline_kcs19 coastline_kcs19_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coastline
+    ADD CONSTRAINT coastline_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4511 (class 2606 OID 152731)
+-- Name: sites_grid sites_grid_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.grid
+    ADD CONSTRAINT grid_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4519 (class 2606 OID 152772)
+-- Name: track track_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.track
+    ADD CONSTRAINT track_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+
+
+
 --
 -- TOC entry 4846 (class 2606 OID 97924)
 -- Name: site_table site_table_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
