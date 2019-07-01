@@ -684,7 +684,7 @@
       <enum>QFrame::Panel</enum>
      </property>
      <property name="text">
-      <string>Camera of</string>
+      <string>Camera</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_camera_of">

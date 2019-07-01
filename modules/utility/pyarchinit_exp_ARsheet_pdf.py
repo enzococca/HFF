@@ -103,42 +103,74 @@ class single_AR_pdf_sheet:
         return today
 
     def create_sheet(self):
-        #self.unzip_rapporti_stratigrafici()
-        #self.unzip_documentazione()
-
+        styleSheet = getSampleStyleSheet()
+        stylogo = styleSheet['Normal']
+        stylogo.spaceBefore = 20
+        stylogo.spaceAfter = 20
+        stylogo.alignment = 1  # LEFT    
+        
+        
+        styleSheet = getSampleStyleSheet()
+        styInt = styleSheet['Normal']
+        styInt.spaceBefore = 20
+        styInt.spaceAfter = 20
+        styInt.fontSize = 8
+        styInt.alignment = 1  # LEFT    
+        
+        
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
-        styNormal.alignment = 0 #LEFT
-        
+        styNormal.fontSize = 6
+        styNormal.alignment = 0  # LEFT
         
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
-        styDescrizione.alignment = 4 #Justified
+        styDescrizione.fontSize = 6
+        styDescrizione.alignment = 4  # Justified
         
+        styleSheet = getSampleStyleSheet()
+        styUnitaTipo = styleSheet['Normal']
+        styUnitaTipo.spaceBefore = 20
+        styUnitaTipo.spaceAfter = 20
+        styUnitaTipo.fontSize = 14
+        styUnitaTipo.alignment = 1  # CENTER
         
+        styleSheet = getSampleStyleSheet()
+        styTitoloComponenti = styleSheet['Normal']
+        styTitoloComponenti.spaceBefore = 20
+        styTitoloComponenti.spaceAfter = 20
+        styTitoloComponenti.fontSize = 6
+        styTitoloComponenti.alignment = 1  # CENTER
+        
+        # styleSheet = getSampleStyleSheet()
+        # styVerticale = styleSheet['Normal']
+        # styVerticale.spaceBefore = 20
+        # styVerticale.spaceAfter = 20
+        # styVerticale.fontSize = 6
+        # styVerticale.alignment = 1  # CENTER
+        # styVerticale.leading=8
         #format labels
-
         #0 row
-        intestazione = Paragraph("<b>Artefact FORM<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
+        intestazione = Paragraph("<b>Archaeological Underwater Survey - ARTEFACT FORM<br/>" + "</b>", styInt)
         #intestazione2 = Paragraph("<b>Anfeh UnderWater Project</b><br/>http://honorfrostfoundation.org/university-of-balamand-lebanon/", styNormal)
-
-        if os.name == 'posix':
-            home = os.environ['HOME']
-        elif os.name == 'nt':
-            home = os.environ['HOMEPATH']
-
-        home_DB_path = ('%s%s%s') % (home, os.sep, 'pyarchinit_DB_folder')
-        logo_path = ('%s%s%s') % (home_DB_path, os.sep, 'logo.jpg')
+        home = os.environ['HFF_HOME']
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
         logo = Image(logo_path)
-
         ##      if test_image.drawWidth < 800:
-
-        logo.drawHeight = 1*inch*logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 1*inch
+        logo.drawHeight = 0.5*inch*logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 0.5*inch
+        
+        
+        logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
+        logo2 = Image(logo_path2)
+        ##      if test_image.drawWidth < 800:
+        logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        logo2.drawWidth = 0.5*inch
 
 
         #1 row
@@ -180,15 +212,17 @@ class single_AR_pdf_sheet:
         #schema
         cell_schema =  [
                         #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
-                        [intestazione, '01', '02', '03', '04','05', '06', logo, '08', '09'], #0 row ok
+                        [logo2, '01', intestazione,'03' , '04','05', '06', '07', '08', '09','10','11','12','13', '14','15',logo,'17'], #0 row ok
+                        [site, '01', '02', '03', '04','05', '06', '07', '08',artefact_id,'10','11','12','13', '14','15','16','17'], #1 row ok
+                        [area, '01', '02', '03', '04','05', divelog_id, '07', '08', '09','10','11',years,'13', '14','15','16','17'], #2 row ok
+                        [material, '01', '02', '03', '04','05', obj, '07', '08', '09','10','11',date_,'13', '14','15','16','17'], #2 row ok
+                        [photographed , '01', '02', '03', '04','05', conservation_completed, '07', '08', '09','10','11',recovered,'13', '14','15','16','17'], #2 row ok
+                        [treatment, '01', '02', '03', '04','05', shape, '07', '08', '09','10','11',depth,'13', '14','15','16','17'], #2 row ok
+                        [lmin, '01', '02', '03', '04','05', lmax, '07', '08', '09','10','11',wmin,'13', '14','15','16','17'], #2 row ok
+                        [wmax, '01', '02', '03', '04','05', tmin, '07', '08', '09','10','11',tmax,'13', '14','15','16','17'], #2 row ok
+                        [description, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #8 row ok
                         
-                        [site, '01', area,'03',divelog_id, artefact_id, '06', years,  date_,'09'], #1 row ok
-                        [description, '01', '02','05','04', '05','06', '07', '08','09'], #2 row ok
-                        [material,'01','02', obj, '04',  '05', '06', '07','08','09'], #9
-                        [photographed, '01', '02', conservation_completed, '04','05',recovered, '07','08'],
-                        [treatment, '01', '02', shape, '04',tool_markings, '06',depth,'08','09'],
-                        [lmin, '01','02',lmax,'04','05', wmin,'07','08','09'],
-                        [ wmax, '01','02', tmin,'04','05',tmax,'07',list,'09'],
+                        
                         
                         ]
 
@@ -196,59 +230,55 @@ class single_AR_pdf_sheet:
         table_style=[
                     ('GRID',(0,0),(-1,-1),0.5,colors.black),
                     #0 row
-                    ('SPAN', (0,0),(6,0)),  #intestazione
-                    ('SPAN', (7,0),(9,0)),  #intestazione
+                    ('SPAN', (0,0),(1,0)),  #logo2
+                    ('SPAN', (2,0),(15,0)),  #intestazione
+                    ('SPAN', (16,0),(17,0)),  #logo
                     
                     
-                    ('SPAN', (0,1),(1,1)),  #intestazione
-                    ('SPAN', (2,1),(3,1)),  #intestazione
-                    ('SPAN', (4,1),(4,1)),  #intestazione
-                    ('SPAN', (5,1),(6,1)),  #intestazione
-                    ('SPAN', (7,1),(7,1)),  #dati identificativi
-                    ('SPAN', (8,1),(9,1)),  #dati identificativi
+                    ('SPAN', (0,1),(8,1)),  #sito
+                    ('SPAN', (9,1),(17,1)),#divelogid
                     
+                    ('SPAN', (0,2),(5,2)),  #diver1
+                    ('SPAN', (6,2),(11,2)),  #date_
+                    ('SPAN', (12,2),(17,2)),  #area_id
+                   
+                    ('SPAN', (0,3),(5,3)),  #diver2
+                    ('SPAN', (6,3),(11,3)),  #time_in
+                    ('SPAN', (12,3),(17,3)),  #time_out
                     
-                    ('SPAN', (0,2),(9,2)),  #dati identificativi
+                    ('SPAN', (0,4),(5,4)),  #standby
+                    ('SPAN', (6,4),(11,4)),  #bottom_time
+                    ('SPAN', (12,4),(17,4)),  #maxdepth
+                     
+                    ('SPAN', (0,5),(5,5)),  #standby
+                    ('SPAN', (6,5),(11,5)),  #bottom_time
+                    ('SPAN', (12,5),(17,5)),  #maxdepth 
                     
+                    ('SPAN', (0,6),(5,6)),  #standby
+                    ('SPAN', (6,6),(11,6)),  #bottom_time
+                    ('SPAN', (12,6),(17,6)),  #maxdepth 
                     
-                    ('SPAN', (0,3),(2,3)),  #dati identificativi
-                    ('SPAN', (3,3),(9,3)),  #Definizione - interpretazone
-                    
-                    
-                    
-                    
-                    #3 row
-                    ('SPAN', (0,4),(2,4)),  #conservazione - consistenza - colore
-                    ('SPAN', (3,4),(5,4)),  #conservazione - consistenza - colore
-                    ('SPAN', (6,4),(9,4)),  #conservazione - consistenza - colore
-                    
-                    ('SPAN', (0,5),(2,5)),  #conservazione - consistenza - colore
-                    ('SPAN', (3,5),(4,5)),  #conservazione - consistenza - colore
-                    ('SPAN', (5,5),(6,5)),  #conservazione - consistenza - colore
-                    ('SPAN', (7,5),(9,5)),  #conservazione - consistenza - colore
-                    
-                    ('SPAN', (0,6),(2,6)),  #intestazione
-                    ('SPAN', (3,6),(5,6)),  #intestazione
-                    ('SPAN', (6,6),(9,6)),  #intestazione
-                    
-                    ('SPAN', (0,7),(2,7)),  #intestazione
-                    ('SPAN', (3,7),(5,7)),  #dati identificativi
-                    ('SPAN', (6,7),(7,7)),  #dati identificativi
-                    ('SPAN', (8,7),(9,7)),  #dati identificativi
-                
+                    ('SPAN', (0,7),(5,7)),  #standby
+                    ('SPAN', (6,7),(11,7)),  #bottom_time
+                    ('SPAN', (12,7),(17,7)),  #maxdepth 
+                    ('SPAN', (0,8),(17,8)),  #standby
 
                     ]
 
 
-        t=Table(cell_schema, colWidths=55, rowHeights=None,style= table_style)
+        colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
+
+        rowHeights = None
+
+
+
+        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
+
+
+
+
 
         return t
-
-
-
-
-
-    
 
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
@@ -349,7 +379,7 @@ class generate_AR_pdf:
         HOME = os.environ['HFF_HOME']
 
         PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
-        logo_path = '{}{}{}'.format(PDF_path, os.sep, 'logo.jpg')
+        logo_path = '{}{}{}'.format(PDF_path, os.sep, 'logo.png')
 
         logo = Image(logo_path)
         logo.drawHeight = 1.5*inch*logo.drawHeight / logo.drawWidth

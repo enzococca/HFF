@@ -105,8 +105,8 @@ class Pyarchinit_pyqgis(QDialog):
                 QMessageBox.warning(self, "TESTER", "OK Layer Anchor available",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
-##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-##              layerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'anchor.qml')
+                layer.loadNamedStyle(style_path)    
                 self.iface.mapCanvas().setExtent(layerIndividui.extent())
                 QgsProject.instance().addMapLayers([layerIndividui], True)
             else:
@@ -129,7 +129,8 @@ class Pyarchinit_pyqgis(QDialog):
         
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
-                    
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'anchor.qml')
+                layerUS.loadNamedStyle(style_path)    
                 QgsProject.instance().addMapLayers([layerUS], True)
                 
             else:
@@ -166,8 +167,8 @@ class Pyarchinit_pyqgis(QDialog):
                 QMessageBox.warning(self, "TESTER", "OK Layer artefact available",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
-##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-##              layerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'artefact.qml')
+                layer.loadNamedStyle(style_path)    
                 self.iface.mapCanvas().setExtent(layerIndividui.extent())
                 QgsProject.instance().addMapLayers([layerIndividui], True)
             else:
@@ -190,7 +191,8 @@ class Pyarchinit_pyqgis(QDialog):
         
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
-                    
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'artefact.qml')
+                layer.loadNamedStyle(style_path)        
                 QgsProject.instance().addMapLayers([layerUS], True)
                 
             else:
@@ -228,8 +230,8 @@ class Pyarchinit_pyqgis(QDialog):
                 QMessageBox.warning(self, "TESTER", "OK Layer pottery available",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
-##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-##              layerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'pottery.qml')
+                layer.loadNamedStyle(style_path)    
                 self.iface.mapCanvas().setExtent(layerIndividui.extent())
                 QgsProject.instance().addMapLayers([layerIndividui], True)
             else:
@@ -252,7 +254,8 @@ class Pyarchinit_pyqgis(QDialog):
         
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
-                    
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'pottery.qml')
+                layer.loadNamedStyle(style_path)        
                 QgsProject.instance().addMapLayers([layerUS], True)
                 
             else:
@@ -1002,8 +1005,8 @@ class Pyarchinit_pyqgis(QDialog):
 
                 if  layer.isValid() == True:
                     #self.USLayerId = layerUS.getLayerID()
-                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                    ##ayerUS.loadNamedStyle(style_path)
+                    # style_path = '{}{}' % (self.LAYER_STYLE_PATH, 'anchor.qml')
+                    # layer.loadNamedStyle(style_path)    
                     QgsProject.instance().addMapLayers([layer], True)
                 else:
                     QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
@@ -1021,8 +1024,8 @@ class Pyarchinit_pyqgis(QDialog):
 
             if  layer.isValid() == True:
                 #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'anchor.qml')
+                layer.loadNamedStyle(style_path)    
                 QgsProject.instance().addMapLayers([layer], True)
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
@@ -1040,8 +1043,8 @@ class Pyarchinit_pyqgis(QDialog):
 
             if  layer.isValid() == True:
                 #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'pottery.qml')
+                layer.loadNamedStyle(style_path)    
                 QgsProject.instance().addMapLayers([layer], True)
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
@@ -1060,8 +1063,8 @@ class Pyarchinit_pyqgis(QDialog):
 
             if  layer.isValid() == True:
                 #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'artefact.qml')
+                layer.loadNamedStyle(style_path)    
                 QgsProject.instance().addMapLayers([layer], True)
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
@@ -1106,8 +1109,8 @@ class Pyarchinit_pyqgis(QDialog):
 
             if  layer.isValid() == True:
                 #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'anchor.qml')
+                layer.loadNamedStyle(style_path)    
                 QgsProject.instance().addMapLayers([layer], True)
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
@@ -1125,8 +1128,8 @@ class Pyarchinit_pyqgis(QDialog):
 
             if  layer.isValid() == True:
                 #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'pottery.qml')
+                layer.loadNamedStyle(style_path)    
                 QgsProject.instance().addMapLayers([layer], True)
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
@@ -1145,8 +1148,8 @@ class Pyarchinit_pyqgis(QDialog):
 
             if  layer.isValid() == True:
                 #self.USLayerId = layerUS.getLayerID()
-                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
-                ##ayerUS.loadNamedStyle(style_path)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'artefact.qml')
+                layer.loadNamedStyle(style_path)    
                 QgsProject.instance().addMapLayers([layer], True)
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)

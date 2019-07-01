@@ -36,7 +36,7 @@ class NumberedCanvas_sitesheet(canvas.Canvas):
 
     def draw_page_number(self, page_count):
         self.setFont("Helvetica", 8)
-        self.drawRightString(200*mm, 20*mm, "Pag. %d di %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
+        self.drawRightString(200*mm, 20*mm, "Page %d of %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
 
 
 class NumberedCanvas_siteindex(canvas.Canvas):
@@ -216,41 +216,56 @@ class single_site_pdf_sheet:
         return today
 
     def create_sheet(self):
-        #self.unzip_photolog()
-        #self.unzip_documentazione()
-
+        styleSheet = getSampleStyleSheet()
+        stylogo = styleSheet['Normal']
+        stylogo.spaceBefore = 20
+        stylogo.spaceAfter = 20
+        stylogo.alignment = 1  # LEFT    
+        styleSheet = getSampleStyleSheet()
+        styInt = styleSheet['Normal']
+        styInt.spaceBefore = 20
+        styInt.spaceAfter = 20
+        styInt.fontSize = 8
+        styInt.alignment = 1  # LEFT    
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
         styNormal.fontSize = 6
-        styNormal.alignment = 0 #LEFT
-        
-        
+        styNormal.alignment = 0  # LEFT
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
         styDescrizione.fontSize = 6
-        styDescrizione.alignment = 4 #Justified
-        
-        
-        #format labels
-
-        #0 row
-        intestazione = Paragraph("<b>HFF Survey: SITE FORM<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
-        #intestazione2 = Paragraph("<b>Anfeh UnderWater Project</b><br/>http://honorfrostfoundation.org/university-of-balamand-lebanon/", styNormal)
-
+        styDescrizione.alignment = 4  # Justified
+        styleSheet = getSampleStyleSheet()
+        styUnitaTipo = styleSheet['Normal']
+        styUnitaTipo.spaceBefore = 20
+        styUnitaTipo.spaceAfter = 20
+        styUnitaTipo.fontSize = 14
+        styUnitaTipo.alignment = 1  # CENTER
+        styleSheet = getSampleStyleSheet()
+        styTitoloComponenti = styleSheet['Normal']
+        styTitoloComponenti.spaceBefore = 20
+        styTitoloComponenti.spaceAfter = 20
+        styTitoloComponenti.fontSize = 6
+        styTitoloComponenti.alignment = 1  # CENTER
+        intestazione = Paragraph("<b>Archaeological Terrestrial Survey - SITE FORM<br/>" + "</b>", styInt)
         home = os.environ['HFF_HOME']
-
         home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
-        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
         logo = Image(logo_path)
-
         ##      if test_image.drawWidth < 800:
-
-        logo.drawHeight = 1.5*inch*logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 1.5*inch
+        logo.drawHeight = 0.5*inch*logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 0.5*inch
+        logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
+        logo2 = Image(logo_path2)
+        ##      if test_image.drawWidth < 800:
+        logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        logo2.drawWidth = 0.5*inch
+        logo.hAlign = "CENTER"
+        logo2.hAlign = "CENTER"
 
 
         #1 row
@@ -281,17 +296,131 @@ class single_site_pdf_sheet:
         height_ = Paragraph("<b>Height</b><br/>"  + self.height_, styNormal)
         material = Paragraph("<b>Material</b><br/>"  + self.material, styNormal)
         dating = Paragraph("<b>Dating</b><br/>"  + self.dating, styNormal)
-        biblio = Paragraph("<b>Bibliography</b><br/>"  + self.biblio, styNormal)
-        features = Paragraph("<b>Features</b><br/>"  + self.features, styNormal)
-        disturbance = Paragraph("<b>Disturbance</b><br/>"  + self.disturbance, styNormal)
-        documentation = Paragraph("<b>Documentation</b><br/>"  + self.documentation, styNormal)
-        photolog2 = Paragraph("<b>Photolog</b><br/>", styNormal)
+        
+        
+        
+        biblio = Paragraph("<b>Bibliography</b><br/>" , styInt)
+        biblios = eval(self.biblio)
+        author='' 
+        year=''
+        title=''
+        pag=''   
+        fig=''
+           
+       
+        for i in biblios:
+            if author=='':
+                try:
+                    author += "<br/>" + str(i[0]) + "<br/>"
+                    year += "<br/>" + str(i[1]) + "<br/>"
+                    title += "<br/>" + str(i[2]) + "<br/>"
+                    pag += "<br/>" + str(i[3]) + "<br/>"
+                    fig += "<br/>" + str(i[4]) + "<br/>"
+                except:
+                    pass
+            else:
+                try:
+                    author +=  "<br/>" ' ' + str(i[0]) + "<br/>"
+                    year +=  "<br/>" ' ' + str(i[1]) + "<br/>"
+                    title +=  "<br/>" ' ' + str(i[2]) + "<br/>"
+                    pag +=  "<br/>" ' ' + str(i[3]) + "<br/>"
+                    fig +=  "<br/>" ' ' + str(i[4]) + "<br/>"
+                    
+                except:
+                    pass
+                                
+        
+        author=Paragraph("<b>Author</b><br/>" + author, styNormal)
+        year=Paragraph("<b>Year</b><br/>" + year, styNormal)
+        title=Paragraph("<b>Title</b><br/>" + title, styNormal)
+        pag=Paragraph("<b>Pages</b><br/>" + pag, styNormal)
+        fig=Paragraph("<b>Fig.</b><br/>" + fig, styNormal)
+        
+        
+        
+        
+        
+        features = Paragraph("<b>Features</b><br/>"  , styInt)
+        f = eval(self.features)
+        ft='' 
+        st=''
+        at=''
+        c=''   
+        
+           
+       
+        for i in f:
+            if ft=='':
+                try:
+                    ft += "<br/>" + str(i[0]) + "<br/>"
+                    st += "<br/>" + str(i[1]) + "<br/>"
+                    at += "<br/>" + str(i[2]) + "<br/>"
+                    c+= "<br/>" + str(i[3]) + "<br/>"
+                    
+                except:
+                    pass
+            else:
+                try:
+                    ft +=  "<br/>" ' ' + str(i[0]) + "<br/>"
+                    st +=  "<br/>" ' ' + str(i[1]) + "<br/>"
+                    at +=  "<br/>" ' ' + str(i[2]) + "<br/>"
+                    c +=  "<br/>" ' ' + str(i[3]) + "<br/>"
+                    
+                    
+                except:
+                    pass
+                                
+        
+        ft=Paragraph("<b>Feature types</b><br/>" + ft, styNormal)
+        st=Paragraph("<b>Shape types</b><br/>" + st, styNormal)
+        at=Paragraph("<b>Arrangement types</b><br/>" + at, styNormal)
+        c=Paragraph("<b>Certainties</b><br/>" + c, styNormal)
+        
+        
+        
+        disturbance = Paragraph("<b>Feature interpretation</b><br/>"  , styInt)
+        
+        d = eval(self.disturbance)
+        fi='' 
+        ce=''
+        
+        
+           
+       
+        for i in d:
+            if fi=='':
+                try:
+                    fi += "<br/>" + str(i[0]) + "<br/>"
+                    ce += "<br/>" + str(i[1]) + "<br/>"
+                   
+                    
+                except:
+                    pass
+            else:
+                try:
+                    fi +=  "<br/>" ' ' + str(i[0]) + "<br/>"
+                    ce +=  "<br/>" ' ' + str(i[1]) + "<br/>"
+                   
+                    
+                    
+                except:
+                    pass
+                                
+        
+        fi=Paragraph("<b>Feature interpretation</b><br/>" + fi, styNormal)
+        ce=Paragraph("<b>Certainties</b><br/>" + ce, styNormal)
+        
+        
+        
+        
+        
+        photolog2 = Paragraph("<b>Photolog</b><br/>", styInt)
         
         
         photologs = eval(self.photolog)
-        camera_id=photologs 
-        orientation2=photologs 
-        dec=photologs 
+        camera_id='' 
+        orientation2=''
+        dec=''
            
            
        
@@ -313,7 +442,7 @@ class single_site_pdf_sheet:
                                 
         camera_id = Paragraph("<b>ID</b><br/>" + camera_id, styNormal)
         orientation2 = Paragraph("<b>Orientation</b><br/>" + orientation2, styNormal)
-        dec = Paragraph("<b>Description Photo</b><br/>" + dec, styNormal)
+        dec = Paragraph("<b>Photo Description</b><br/>" + dec, styNormal)
         description = ''
         try:
             description = Paragraph("<b>Description</b><br/>" + self.description,styDescrizione)
@@ -328,95 +457,103 @@ class single_site_pdf_sheet:
         #schema
         cell_schema =  [
                         #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
-                        [intestazione, '01', '02', '03', '04','05', '06', logo, '08', '09'], #0 row ok
-                        [location, '01', name_site, '03', proj_name, proj_code, geometry_collection, definition,'08', '09'], #1 row ok
-                        [description, '01', '02','05','04', '05','06', '07', '08','09'], #2 row ok
-                        [interpretation, '01', '02','05','04', '05','06', '07', '08','09'], #3 row ok
-                        [mouhafasat, '01', '02',casa,'04', '05',village, '07', antique_name,'09'], #4 row ok
-                        [type_class, '01', grab, '03',survey_type, '05', certainties, '07', '08', '09'], #5 row ok
-                        [soil_type, '01', '02',  topographic_setting,'04', '05', visibility,'07', condition_state, orientation], #6
-                        [length_, '01','02', width_, '04','05', depth_, '07', height_,'09' ], #7
-                        [material, '01','02', '03', dating,'05', supervisor, '07', date_start, '09'], #8
-                        [biblio,'01', '02', '03', '04','05','06','07', '08','09'], #9
-                        [features,'01', '02', '03', '04','05','06','07', '08','09'], #10
-                        [disturbance,'01', '02', '03', '04','05','06','07', '08','09'], #11
-                        [documentation,'01', '02', '03', '04','05','06','07', '08','09'], #12
-                        [photolog2,'01', '02', '03', '04','05','06','07', '08','09'], #13
-                        [camera_id,orientation2, '02', dec, '04','05','06','07', '08','09'] #13
+                        [logo2, '01', intestazione,'03' , '04','05', '06', '07', '08', '09','10','11','12','13', '14','15',logo,'17'], #0 row ok
+                        [location, '01', '02', '03', '04','05', '06', '07', '08',name_site,'10','11','12','13', '14','15','16','17'], #1 row ok
+                        [proj_name, '01', '02', '03', '04','05', proj_code, '07', '08', '09','10','11',geometry_collection,'13', '14','15','16','17'], #2 row ok
+                        [definition, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #2 row ok
+                        [mouhafasat, '01', '02', '03', '04','05',casa, '07', '08', '09','10','11',village,'13', '14','15','16','17'], #2 row ok
+                        [type_class, '01', '02', '03', '04','05', grab, '07', '08', '09','10','11',survey_type,'13', '14','15','16','17'], #2 row ok
+                        [certainties, '01', '02', '03', '04','05', soil_type, '07', '08', '09','10','11',topographic_setting,'13', '14','15','16','17'], #2 row ok
+                        [visibility, '01', '02', '03', '04','05',  condition_state, '07', '08', '09','10','11',orientation,'13', '14','15','16','17'], #2 row ok
+                        [dating, '01', '02', '03', '04','05', supervisor, '07', '08', '09','10','11',date_start,'13', '14','15','16','17'], #2 row ok
+                        [description, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #8 row ok
+                        [interpretation, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #8 row ok
+                        [biblio, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #2 row ok
+                        [author, '01', '02', '03', year,'05', '06', title, '08', '09','10','11',pag,'13', '14',fig,'16','17'], #2 row ok
+                        
+                        [features, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #2 row ok
+                        [ft, '01', '02', '03', st,'05', '06', '07', at, '09','10','11','12',c, '14','15','16','17'], #2 row ok
+                        
+                        [disturbance, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #2 row ok
+                        [fi, '01', '02', '03', '04','05', '06', '07', '08', ce,'10','11','12','13', '14','15','16','17'], #2 row ok
+                        
+                        [photolog2, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #2 row ok
+                        [camera_id, '01', '02', '03', '04','05', orientation2, '07', '08', '09','10','11',dec,'13', '14','15','16','17'], #2 row ok
+                        
                         ]
 
         #table style
         table_style=[
                     ('GRID',(0,0),(-1,-1),0.5,colors.black),
                     #0 row
-                    ('SPAN', (0,0),(6,0)),  #intestazione
-                    ('SPAN', (7,0),(9,0)),  #intestazione
+                    ('SPAN', (0,0),(1,0)),  #logo2
+                    ('SPAN', (2,0),(15,0)),  #intestazione
+                    ('SPAN', (16,0),(17,0)),  #logo
                     
-                    ('SPAN', (0,1),(1,1)),  #intestazione
-                    ('SPAN', (2,1),(3,1)),  #intestazione
-                    ('SPAN', (4,1),(4,1)),  #dati identificativi
-                    ('SPAN', (5,1),(5,1)),  #dati identificativi
-                    ('SPAN', (6,1),(6,1)),  #dati identificativi
-                    ('SPAN', (7,1),(9,1)),  #dati identificativi
+                    ('SPAN', (0,1),(8,1)),  #sito
+                    ('SPAN', (9,1),(17,1)),#divelogid
                     
-                    #1 row
-                    ('SPAN', (0,2),(9,2)),  #dati identificativi
-                 
-                    ('SPAN', (0,3),(9,3)),  #dati identificativi
-                  
-                    ('SPAN', (0,4),(2,4)),  #dati identificativi
-                    ('SPAN', (3,4),(5,4)),  #dati identificativi
-                    ('SPAN', (6,4),(7,4)),  #dati identificativi
-                    ('SPAN', (8,4),(9,4)),  #dati identificativi
-
-                    #2 row
-                    ('SPAN', (0,5),(1,5)),  #Definizione - interpretazone
-                    ('SPAN', (2,5),(3,5)),  #definizione - intepretazione
-                    ('SPAN', (4,5),(5,5)),  #dati identificativi
-                    ('SPAN', (6,5),(9,5)),  #dati identificativi
+                    ('SPAN', (0,2),(5,2)),  #diver1
+                    ('SPAN', (6,2),(11,2)),  #date_
+                    ('SPAN', (12,2),(17,2)),  #area_id
                     
-                    
-                    #3 row
-                    ('SPAN', (0,6),(2,6)),  #conservazione - consistenza - colore
-                    ('SPAN', (3,6),(5,6)),  #conservazione - consistenza - colore
-                    ('SPAN', (6,6),(7,6)),  #conservazione - consistenza - colore
-                    ('SPAN', (8,6),(8,6)),  #conservazione - consistenza - colore
-                    ('SPAN', (9,6),(9,6)),  #conservazione - consistenza - colore
-
-                    #4 row
-                    ('SPAN', (0,7),(2,7)),  #inclusi - campioni - formazione -processi di formazione
-                    ('SPAN', (3,7),(5,7)),  #inclusi - campioni - formazione -processi di formazione
-                    ('SPAN', (6,7),(7,7)),  #inclusi - campioni - formazione -processi di formazione
-                    ('SPAN', (8,7),(9,7)),  #inclusi - campioni - formazione -processi di formazione
-                    
-
-                    #5 row
-                    ('SPAN', (0,8),(3,8)),  #descrizione
-                    ('SPAN', (4,8),(5,8)),  #interpretazione #6 row
-                    ('SPAN', (6,8),(7,8)),  #inclusi - campioni - formazione -processi di formazione
-                    ('SPAN', (8,8),(9,8)),  #inclusi - campioni - formazione -processi di formazione
-                    
-                    
-                    #7 row
-                    ('SPAN', (0,9),(9,9)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (0,10),(9,10)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (0,11),(9,11)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (0,12),(9,12)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (0,13),(9,13)),  #Attivita - Struttura - Quota min - Quota max
-                    
-                    ('SPAN', (0,14),(0,14)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (1,14),(2,14)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (3,14),(9,14)),  #Attivita - Struttura - Quota min - Quota max
-                    
-
+                    ('SPAN', (0,3),(17,3)),  #standby
                    
-                
+                    ('SPAN', (0,4),(5,4)),  #standby
+                    ('SPAN', (6,4),(11,4)),  #bottom_time
+                    ('SPAN', (12,4),(17,4)),  #maxdepth
+                    
+                    ('SPAN', (0,5),(5,5)),  #standby
+                    ('SPAN', (6,5),(11,5)),  #bottom_time
+                    ('SPAN', (12,5),(17,5)),  #maxdepth 
+                    
+                    ('SPAN', (0,6),(5,6)),  #standby
+                    ('SPAN', (6,6),(11,6)),  #bottom_time
+                    ('SPAN', (12,6),(17,6)),  #maxdepth 
+                    
+                    ('SPAN', (0,7),(5,7)),  #standby
+                    ('SPAN', (6,7),(11,7)),  #bottom_time
+                    ('SPAN', (12,7),(17,7)),  #maxdepth 
+                    
+                    ('SPAN', (0,8),(5,8)),  #standby
+                    ('SPAN', (6,8),(11,8)),  #bottom_time
+                    ('SPAN', (12,8),(17,8)),  #maxdepth 
+                    
+                    ('SPAN', (0,9),(17,9)),  #standby
+                    
+                    ('SPAN', (0,10),(17,10)),  #standby
+                    
+                    ('SPAN', (0,11),(17,11)),  #standby
+                    ('SPAN', (0,12),(3,12)),  #standby
+                    ('SPAN', (4,12),(6,12)),  #bottom_time
+                    ('SPAN', (7,12),(11,12)),  #maxdepth 
+                    ('SPAN', (12,12),(14,12)),  #bottom_time
+                    ('SPAN', (15,12),(17,12)),  #maxdepth 
+                    
+                    
+                    ('SPAN', (0,13),(17,13)),  #standby
+                    ('SPAN', (0,14),(3,14)),  #standby
+                    ('SPAN', (4,14),(7,14)),  #bottom_time
+                    ('SPAN', (8,14),(12,14)),  #maxdepth 
+                    ('SPAN', (13,14),(17,14)),  #maxdepth 
+                    
+                    ('SPAN', (0,15),(17,15)),  #standby
+                    ('SPAN', (0,16),(8,16)),  #standby
+                    ('SPAN', (9,16),(17,16)),  #bottom_time
+                   
+                    
+                    ('SPAN', (0,17),(17,17)),  #standby
+                    ('SPAN', (0,18),(5,18)),  #standby
+                    ('SPAN', (6,18),(11,18)),  #bottom_time
+                    ('SPAN', (12,18),(17,18)),  #maxdepth 
+
 
                     ]
 
 
-        t=Table(cell_schema, colWidths=55, rowHeights=None,style= table_style)
-
+        colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
+        rowHeights = None
+        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
         return t
 
 

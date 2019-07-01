@@ -1,5 +1,4 @@
 from datetime import date
-
 from builtins import object
 from builtins import range
 from builtins import str
@@ -10,22 +9,16 @@ from reportlab.lib.units import inch, cm, mm
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer, TableStyle, Image
 from reportlab.platypus.paragraph import Paragraph
-
 from .pyarchinit_OS_utility import *
-
-
 class NumberedCanvas_USsheet(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
         self._saved_page_states = []
-        
     def define_position(self, pos):
         self.page_position(pos)
-
     def showPage(self):
         self._saved_page_states.append(dict(self.__dict__))
         self._startPage()
-
     def save(self):
         """add page info to each page (page x of y)"""
         num_pages = len(self._saved_page_states)
@@ -34,24 +27,18 @@ class NumberedCanvas_USsheet(canvas.Canvas):
             self.draw_page_number(num_pages)
             canvas.Canvas.showPage(self)
         canvas.Canvas.save(self)
-
     def draw_page_number(self, page_count):
         self.setFont("Helvetica", 8)
-        self.drawRightString(200*mm, 20*mm, "Pag. %d di %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
-
-
+        self.drawRightString(200*mm, 20*mm, "Page %d of %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
 class NumberedCanvas_USindex(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
         self._saved_page_states = []
-
     def define_position(self, pos):
         self.page_position(pos)
-
     def showPage(self):
         self._saved_page_states.append(dict(self.__dict__))
         self._startPage()
-
     def save(self):
         """add page info to each page (page x of y)"""
         num_pages = len(self._saved_page_states)
@@ -60,18 +47,12 @@ class NumberedCanvas_USindex(canvas.Canvas):
             self.draw_page_number(num_pages)
             canvas.Canvas.showPage(self)
         canvas.Canvas.save(self)
-
     def draw_page_number(self, page_count):
         self.setFont("Helvetica", 8)
-        self.drawRightString(270*mm, 10*mm, "Pag. %d di %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
-
+        self.drawRightString(270*mm, 10*mm, "Page %d of %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
 class single_US_pdf_sheet:
-    
-
-
     def __init__(self, data):
         #self.id_dive=[0]
-        
         self.divelog_id=data[0]
         self.area_id=data[1]
         self.diver_1=data[2]
@@ -104,63 +85,79 @@ class single_US_pdf_sheet:
         self.video_id=data[29]
         self.sito=data[30]
         self.layer=data[31]
-    
+        self.bar_start_2=data[32]
+        self.bar_end_2=data[33]
+        self.dp_2=data[34]
     def datestrfdate(self):
         now = date.today()
         today = now.strftime("%d-%m-%Y")
         return today
-
     def create_sheet(self):
-        #self.unzip_rapporti_stratigrafici()
-        #self.unzip_documentazione()
-
+        styleSheet = getSampleStyleSheet()
+        stylogo = styleSheet['Normal']
+        stylogo.spaceBefore = 20
+        stylogo.spaceAfter = 20
+        stylogo.alignment = 1  # LEFT    
+        styleSheet = getSampleStyleSheet()
+        styInt = styleSheet['Normal']
+        styInt.spaceBefore = 20
+        styInt.spaceAfter = 20
+        styInt.fontSize = 8
+        styInt.alignment = 1  # LEFT    
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
-        styNormal.alignment = 0 #LEFT
-        
-        
+        styNormal.fontSize = 6
+        styNormal.alignment = 0  # LEFT
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
-        styDescrizione.alignment = 4 #Justified
-        
-        
-        #format labels
-
-        #0 row
-        intestazione = Paragraph("<b>DIVELOG FORM<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
-        #intestazione2 = Paragraph("<b>Anfeh UnderWater Project</b><br/>http://honorfrostfoundation.org/university-of-balamand-lebanon/", styNormal)
-
+        styDescrizione.fontSize = 6
+        styDescrizione.alignment = 4  # Justified
+        styleSheet = getSampleStyleSheet()
+        styUnitaTipo = styleSheet['Normal']
+        styUnitaTipo.spaceBefore = 20
+        styUnitaTipo.spaceAfter = 20
+        styUnitaTipo.fontSize = 14
+        styUnitaTipo.alignment = 1  # CENTER
+        styleSheet = getSampleStyleSheet()
+        styTitoloComponenti = styleSheet['Normal']
+        styTitoloComponenti.spaceBefore = 20
+        styTitoloComponenti.spaceAfter = 20
+        styTitoloComponenti.fontSize = 6
+        styTitoloComponenti.alignment = 1  # CENTER
+        intestazione = Paragraph("<b>Archaeological Underwater Survey - DIVELOG FORM<br/>" + "</b>", styInt)
         home = os.environ['HFF_HOME']
-
         home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
-        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
         logo = Image(logo_path)
-
         ##      if test_image.drawWidth < 800:
-
-        logo.drawHeight = 1*inch*logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 1*inch
-
-
-        #1 row
-        divelog = Paragraph("<b>Dive ID</b><br/>"  + str(self.divelog_id), styNormal)
+        logo.drawHeight = 0.5*inch*logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 0.5*inch
+        logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
+        logo2 = Image(logo_path2)
+        ##      if test_image.drawWidth < 800:
+        logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        logo2.drawWidth = 0.5*inch
+        logo.hAlign = "CENTER"
+        logo2.hAlign = "CENTER"
+		#1 row
+        divelog = Paragraph("<b>Dive log number:  </b>"  + str(self.divelog_id), styNormal)
         area_id = Paragraph("<b>Area</b><br/>"  + str(self.area_id), styNormal)
         years = Paragraph("<b>Year</b><br/>"  + str(self.years), styNormal)
-        diver_1 = Paragraph("<b>Diver</b><br/>" + self.diver_1, styNormal)
-        diver_2 = Paragraph("<b>Buddy</b><br/>"  + self.diver_2, styNormal)
+        diver_1 = Paragraph("<b>Diver 1</b><br/>" + self.diver_1, styNormal)
+        diver_2 = Paragraph("<b>Diver 2</b><br/>"  + self.diver_2, styNormal)
         diver_3 = Paragraph("<b>Additional Diver</b><br/>"  + self.diver_3, styNormal)
         standby = Paragraph("<b>Standby Diver</b><br/>"  + self.standby_diver, styNormal)
-        tender = Paragraph("<b>Tender</b><br/>" + self.tender,styNormal)
-        bar_start = Paragraph("<b>Bar Start</b><br/>" + self.bar_start,styNormal)
-        bar_end = Paragraph("<b>Bar End</b><br/>"+ self.bar_end,styNormal)
+        tender = Paragraph("<b>Dive Supervisor</b><br/>" + self.tender,styNormal)
+        bar_start = Paragraph("<b>Bar Start Diver 1: </b>" + self.bar_start +"<br/>""<b>Bar Start Diver 2: </b>" + self.bar_start_2,styNormal )
+        bar_end = Paragraph("<b>Bar End Diver 1: </b>"+ self.bar_end +"<br/>""<b>Bar End Diver 2: </b>" + self.bar_end_2,styNormal )
         bottom_time = Paragraph("<b>Bottom Time</b><br/>"+ self.bottom_time,styNormal)
-        temperature = Paragraph("<b>Temperature</b><br/>"+ self.temperature,styNormal)
-        visibility = Paragraph("<b>Visibility</b><br/>" + self.visibility,styNormal)
-        current = Paragraph("<b>Current</b><br/>" + self.current_,styNormal)
+        temperature = Paragraph("<b>UW Temperature</b><br/>"+ self.temperature,styNormal)
+        visibility = Paragraph("<b>UW Visibility</b><br/>" + self.visibility,styNormal)
+        current = Paragraph("<b>UW Current direction & strength</b><br/>" + self.current_,styNormal)
         wind = Paragraph("<b>Wind</b><br/>"+ self.wind,styNormal)
         breathing_mix = Paragraph("<b>Breathing mix</b><br/>" + self.breathing_mix,styNormal)
         max_depth = Paragraph("<b>Max Depth</b><br/>" + self.max_depth,styNormal)
@@ -168,15 +165,17 @@ class single_US_pdf_sheet:
         time_in = Paragraph("<b>Time in</b><br/>" + self.time_out,styNormal)
         time_out = Paragraph("<b>Time out</b><br/>"  + self.time_in, styNormal)
         date_ = Paragraph("<b>Date</b><br/>"  + self.date_, styNormal)
-        dp = Paragraph("<b>DP</b><br/>"  + self.dp, styNormal)
-        camera_of = Paragraph("<b>Camera of</b><br/>"  + self.camera_of, styNormal)
-        photo_nbr = Paragraph("<b>Photo N</b><br/>"  + str(self.photo_nbr), styNormal)
-        video_nbr = Paragraph("<b>Video N</b><br/>"  + str(self.video_nbr), styNormal)
-        sito = Paragraph("<b>Site</b><br/>"  + str(self.sito), styNormal)
+        dp = Paragraph("<b>DP Diver 1: </b>"  + self.dp + "<br/>""<b>DP Diver 2: </b>" + self.dp_2,styNormal )
+        photos_taken = Paragraph("<b>Photos Taken</b><br/>"  , styInt)
+        videos_taken = Paragraph("<b>Videos taken</b><br/>"  , styInt)
+        conditions = Paragraph("<b>U/W Conditions</b><br/>"  , styInt)
+        camera_of = Paragraph("<b>Camera: </b>"  + self.camera_of, styNormal)
+        photo_nbr = Paragraph("<b>Number of pictures: </b>"  + str(self.photo_nbr), styNormal)
+        video_nbr = Paragraph("<b>Number of videos: </b>"  + str(self.video_nbr), styNormal)
+        sito = Paragraph("<b>Location: </b>" + str(self.sito), styNormal)
         layer = Paragraph("<b>Layer</b><br/>"  + str(self.layer), styNormal)
-        
         photo_id = ''
-        if eval(self.photo_id) > 0 :
+        if eval(self.photo_id) != 0 :
             for i in eval(self.photo_id):
                 if photo_id == '':
                     try:
@@ -189,9 +188,8 @@ class single_US_pdf_sheet:
                     except:
                         pass
         photo_id = Paragraph("<b>Photo ID</b><br/>"  + photo_id, styNormal)
-        
         video_id = ''
-        if eval(self.video_id) > 0 :
+        if eval(self.video_id) != 0 :
             for i in eval(self.video_id):
                 if video_id == '':
                     try:
@@ -204,14 +202,11 @@ class single_US_pdf_sheet:
                     except:
                         pass
         video_id = Paragraph("<b>Video ID</b><br/>"  + video_id, styNormal)
-        
-        
         task = ''
         try:
             task = Paragraph("<b>Task</b><br/>" + self.task, styDescrizione)
         except:
             pass
-
         result = ''
         try:
             result = Paragraph("<b>Result</b><br/>" + self.result,styDescrizione)
@@ -222,117 +217,85 @@ class single_US_pdf_sheet:
             comments_ = Paragraph("<b>Comments</b><br/>" + self.comments_,styDescrizione)
         except:
             pass
-
         #schema
         cell_schema =  [
                         #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
-                        [intestazione, '01', '02', '03', '04','05', '06', logo, '08', '09'], #0 row ok
-                        [divelog, '01', sito, '03', area_id, '05', layer, years,date_, '09'], #1 row ok
-                        [task, '01', '02','05','04', '05','06', '07', '08','09'], #2 row ok
-                        [result, '01', '02','05','04', '05','06', '07', '08','09'], #3 row ok
-                        [comments_, '01', '02','05','04', '05','06', '07', '08','09'], #4 row ok
-                        [diver_1, '01', '02', diver_2,'04', '05', diver_3, '07', standby, '09'], #5 row ok
-                        [tender, '01', '02',  bar_start,'04', '05', bar_end,'07', '08', '09'], #6
-                        [temperature, '01','02', '03', visibility,'05', '06', '07', current, '09'], #7
-                        [wind, '01','02', '03', breathing_mix,'05', dp, '07', max_depth, '09'], #8
-                        [surface_interval,'01', camera_of, '03', time_in,'05',time_out,'07', bottom_time,'09'], #9
-                        [photo_id, '01', '02', '03', '04', photo_nbr, video_id, '07', '08', video_nbr] #10
-                        
+                        [logo2, '01', intestazione,'03' , '04','05', '06', '07', '08', '09','10','11','12','13', '14','15',logo,'17'], #0 row ok
+                        [sito, '01', '02', '03', '04','05', '06', '07', '08',divelog,'10','11','12','13', '14','15','16','17'], #1 row ok
+                        [diver_1, '01', '02', '03', '04','05', date_, '07', '08', '09','10','11',area_id,'13', '14','15','16','17'], #2 row ok
+                        [diver_2, '01', '02', '03', '04','05', time_in, '07', '08', '09','10','11',time_out,'13', '14','15','16','17'], #3 row ok
+                        [standby, '01', '02', '03', '04','05', bottom_time, '07', '08', '09','10','11',max_depth,'13', '14','15','16','17'], #4 row ok
+                        [tender, '01', '02', '03', '04','05', bar_start, '07', '08', '09','10','11',bar_end,'13', '14','15','16','17'], #5 row ok
+                        [dp, '01', '02', '03', '04','05', breathing_mix, '07', '08', '09','10','11',wind,'13', '14','15','16','17'], #6 row ok
+                        [task, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #7 row ok
+                        [result, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #8 row ok
+                        [comments_, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #9 row ok
+                        [photos_taken, '01', '02', '03', '04','05', videos_taken, '07', '08', '09','10','11',conditions,'13', '14','15','16','17'], #10 row ok
+                        [camera_of, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11',temperature,'13', '14','15','16','17'], #11
+                        [photo_nbr,'01', '02', '03', '04','05', video_nbr, '07', '08', '09','10','11',visibility,'13', '14','15','16','17'], #12
+                        [photo_id,'01', '02', '03', '04','05', video_id, '07', '08', '09','10','11',current,'13', '14','15','16','17'], #13
                         ]
-
         #table style
         table_style=[
                     ('GRID',(0,0),(-1,-1),0.5,colors.black),
                     #0 row
-                    ('SPAN', (0,0),(6,0)),  #intestazione
-                    ('SPAN', (7,0),(9,0)),  #intestazione
+                    ('SPAN', (0,0),(1,0)),  #logo2
+                    ('SPAN', (2,0),(15,0)),  #intestazione
+                    ('SPAN', (16,0),(17,0)),  #logo
                     
-                    ('SPAN', (0,1),(1,1)),  #intestazione
-                    ('SPAN', (2,1),(3,1)),  #intestazione
-                    ('SPAN', (4,1),(5,1)),  #dati identificativi
-                    ('SPAN', (6,1),(6,1)),  #dati identificativi
-                    ('SPAN', (7,1),(7,1)),  #dati identificativi
-                    ('SPAN', (8,1),(9,1)),  #dati identificativi
+					('SPAN', (0,1),(8,1)),  #sito
+                    ('SPAN', (9,1),(17,1)),#divelogid
                     
-                    #1 row
-                    ('SPAN', (0,2),(9,2)),  #dati identificativi
+					('SPAN', (0,2),(5,2)),  #diver1
+                    ('SPAN', (6,2),(11,2)),  #date_
+                    ('SPAN', (12,2),(17,2)),  #area_id
                     
+					('SPAN', (0,3),(5,3)),  #diver2
+                    ('SPAN', (6,3),(11,3)),  #time_in
+                    ('SPAN', (12,3),(17,3)),  #time_out
                     
-                    ('SPAN', (0,3),(9,3)),  #dati identificativi
+					('SPAN', (0,4),(5,4)),  #standby
+                    ('SPAN', (6,4),(11,4)),  #bottom_time
+                    ('SPAN', (12,4),(17,4)),  #maxdepth
                     
+					('SPAN', (0,5),(5,5)),  #standby
+                    ('SPAN', (6,5),(11,5)),  #bottom_time
+                    ('SPAN', (12,5),(17,5)),  #maxdepth 
                     
-                    ('SPAN', (0,4),(9,4)),  #dati identificativi
-
-                    #2 row
-                    ('SPAN', (0,5),(2,5)),  #Definizione - interpretazone
-                    ('SPAN', (3,5),(5,5)),  #definizione - intepretazione
-                    ('SPAN', (6,5),(7,5)),  #dati identificativi
-                    ('SPAN', (8,5),(9,5)),  #dati identificativi
+					('SPAN', (0,6),(5,6)),  #standby
+                    ('SPAN', (6,6),(11,6)),  #bottom_time
+                    ('SPAN', (12,6),(17,6)),  #maxdepth 
                     
+					('SPAN', (0,7),(17,7)),  #standby
                     
-                    #3 row
-                    ('SPAN', (0,6),(2,6)),  #conservazione - consistenza - colore
-                    ('SPAN', (3,6),(5,6)),  #conservazione - consistenza - colore
-                    ('SPAN', (6,6),(9,6)),  #conservazione - consistenza - colore
-
-                    #4 row
-                    ('SPAN', (0,7),(3,7)),  #inclusi - campioni - formazione -processi di formazione
-                    ('SPAN', (4,7),(7,7)),  #inclusi - campioni - formazione -processi di formazione
-                    ('SPAN', (8,7),(9,7)),  #inclusi - campioni - formazione -processi di formazione
+					('SPAN', (0,8),(17,8)),  #standby
                     
-
-                    #5 row
-                    ('SPAN', (0,8),(3,8)),  #descrizione
-                    ('SPAN', (4,8),(5,8)),  #interpretazione #6 row
-                    ('SPAN', (6,8),(7,8)),  #inclusi - campioni - formazione -processi di formazione
-                    ('SPAN', (8,8),(9,8)),  #inclusi - campioni - formazione -processi di formazione
+					('SPAN', (0,9),(17,9)),  #standby
                     
+					('SPAN', (0,10),(5,10)),  #standby
+                    ('SPAN', (6,10),(11,10)),  #bottom_time
+                    ('SPAN', (12,10),(17,10)),  #maxdepth 
                     
-                    #7 row
-                    ('SPAN', (0,9),(1,9)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (2,9),(3,9)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (4,9),(5,9)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (6,9),(7,9)),  #Attivita - Struttura - Quota min - Quota max
-                    ('SPAN', (8,9),(9,9)),  #Attivita - Struttura - Quota min - Quota max
+					('SPAN', (0,11),(11,11)),  #standby
+                    ('SPAN', (12,11),(17,11)),  #bottom_time
                     
-
-                    #8 row
-                    ('SPAN', (0,10),(4,10)),  #iniziale
-                    ('SPAN', (5,10),(5,10)),  #periodo inizlae
-                    ('SPAN', (6,10),(8,10)),  #fase iniziale
-                    ('SPAN', (9,10),(9,10)),  #finale
+					('SPAN', (0,12),(5,12)),  #standby
+                    ('SPAN', (6,12),(11,12)),  #bottom_time
+                    ('SPAN', (12,12),(17,12)),  #maxdepth 
                     
-                    
-                    #9 row
-                    #('SPAN', (0,10),(2,10)),  #Rapporti stratigrafici - Titolo
-                    #('SPAN', (3,10),(5,10)),  #Piante - Titolo
-                    #('SPAN', (6,10),(7,10)),  #Rapporti stratigrafici - Titolo
-                    #('SPAN', (8,10),(9,10)),  #Piante - Titolo
-                
-
+					('SPAN', (0,13),(5,13)),  #standby
+                    ('SPAN', (6,13),(11,13)),  #bottom_time
+                    ('SPAN', (12,13),(17,13)),  #maxdepth 
                     ]
-
-
-        t=Table(cell_schema, colWidths=55, rowHeights=None,style= table_style)
-
+        colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
+        rowHeights = None
+        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
         return t
-
-
-
-
-
-    
-
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
         ])  #finale
-
         return styles
-
 class US_index_pdf:
-    
-
-
     def __init__(self, data):
         self.divelog_id =                               data[0]
         self.artefact_id =                          data[1]
@@ -340,9 +303,6 @@ class US_index_pdf:
         self.obj =                  data[3]
         self.years =                    data[4]
         #self.date_ =                       data[5]
-
-    
-
     def getTable(self):
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
@@ -350,23 +310,16 @@ class US_index_pdf:
         styNormal.spaceAfter = 20
         styNormal.alignment = 0 #LEFT
         styNormal.fontSize = 8
-
-        #self.unzip_rapporti_stratigrafici()
-
         divelog_id = Paragraph("<b>Dive ID</b><br/>" + str(self.divelog_id),styNormal)
         artefact_id = Paragraph("<b>Artefact ID</b><br/>" + str(self.artefact_id),styNormal)
         material = Paragraph("<b>Material</b><br/>" + str(self.material),styNormal)
         obj = Paragraph("<b>Object</b><br/>" + str(self.obj),styNormal)
         years = Paragraph("<b>Years</b><br/>" + str(self.years),styNormal)
-        #date_ = Paragraph("<b>Date </b><br/>" + str(self.date_),styNormal)
-        
-
         data = [divelog_id,
                 artefact_id,
                 material,
                 obj,
                 years]
-
         """
         for i in range(20):
             data.append([area = Paragraph("<b>Sector</b><br/>" + str(area),styNormal),
@@ -383,40 +336,26 @@ class US_index_pdf:
                         connected_to = Paragraph("<b>Connected to</b><br/>" + str(connected_to),styNormal)])
         """
         #t = Table(data,  colWidths=55.5)
-
         return data
-
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
         ])  #finale
-
         return styles
-
-
 class generate_US_pdf:
     HOME = os.environ['HFF_HOME']
-
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
-
     def datestrfdate(self):
         now = date.today()
         today = now.strftime("%d-%m-%Y")
         return today
-
     def build_US_sheets(self, records):
         elements = []
         for i in range(len(records)):
             single_US_sheet = single_US_pdf_sheet(records[i])
             elements.append(single_US_sheet.create_sheet())
             elements.append(PageBreak())
-
         filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Divelog_forms.pdf')
         f = open(filename, "wb")
-
         doc = SimpleDocTemplate(f, pagesize=A4)
         doc.build(elements, canvasmaker=NumberedCanvas_USsheet)
-
         f.close()
-        
-    
-    

@@ -30,7 +30,7 @@ class NumberedCanvas_USsheet(canvas.Canvas):
         canvas.Canvas.save(self)
     def draw_page_number(self, page_count):
         self.setFont("Helvetica", 8)
-        self.drawRightString(200*mm, 20*mm, "Pag. %d di %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
+        self.drawRightString(200*mm, 20*mm, "Page %d of %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
 class NumberedCanvas_USindex(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
@@ -50,7 +50,7 @@ class NumberedCanvas_USindex(canvas.Canvas):
         canvas.Canvas.save(self)
     def draw_page_number(self, page_count):
         self.setFont("Helvetica", 8)
-        self.drawRightString(270*mm, 10*mm, "Pag. %d di %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
+        self.drawRightString(270*mm, 10*mm, "Page %d of %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
 class single_ANC_pdf_sheet:
     
     def __init__(self, data):
@@ -124,36 +124,82 @@ class single_ANC_pdf_sheet:
         today = now.strftime("%d-%m-%Y")
         return today
     def create_sheet(self):
-        #self.unzip_rapporti_stratigrafici()
-        #self.unzip_documentazione()
+        
+        styleSheet = getSampleStyleSheet()
+        styNum= styleSheet['Normal']
+        styNum.spaceBefore = 20
+        styNum.spaceAfter = 20
+        styNum.fontSize = 4
+        styNum.alignment = 0  # LEFT
+        
+        
+        styleSheet = getSampleStyleSheet()
+        styInt = styleSheet['Normal']
+        styInt.spaceBefore = 20
+        styInt.spaceAfter = 20
+        styInt.fontSize = 8
+        styInt.alignment = 1  # LEFT    
+        
+        
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
-        styNormal.alignment = 0 #LEFT
-        
+        styNormal.fontSize = 6
+        styNormal.alignment = 0  # LEFT
         
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
-        styDescrizione.alignment = 4 #Justified
+        styDescrizione.fontSize = 6
+        styDescrizione.alignment = 4  # Justified
         
+        styleSheet = getSampleStyleSheet()
+        styUnitaTipo = styleSheet['Normal']
+        styUnitaTipo.spaceBefore = 20
+        styUnitaTipo.spaceAfter = 20
+        styUnitaTipo.fontSize = 14
+        styUnitaTipo.alignment = 1  # CENTER
         
+        styleSheet = getSampleStyleSheet()
+        styTitoloComponenti = styleSheet['Normal']
+        styTitoloComponenti.spaceBefore = 20
+        styTitoloComponenti.spaceAfter = 20
+        styTitoloComponenti.fontSize = 6
+        styTitoloComponenti.alignment = 1  # CENTER
+        
+        # styleSheet = getSampleStyleSheet()
+        # styVerticale = styleSheet['Normal']
+        # styVerticale.spaceBefore = 20
+        # styVerticale.spaceAfter = 20
+        # styVerticale.fontSize = 6
+        # styVerticale.alignment = 1  # CENTER
+        # styVerticale.leading=8
         #format labels
         #0 row
-        intestazione = Paragraph("<b>Anchor Form<br/>" + str(self.datestrfdate()) + "</b>", styNormal)
+        intestazione = Paragraph("<b>Archaeological Underwater Survey - ANCHOR FORM<br/>" + "</b>", styInt)
         #intestazione2 = Paragraph("<b>Anfeh UnderWater Project</b><br/>http://honorfrostfoundation.org/university-of-balamand-lebanon/", styNormal)
-        if os.name == 'posix':
-            home = os.environ['HOME']
-        elif os.name == 'nt':
-            home = os.environ['HOMEPATH']
-        home_DB_path = ('%s%s%s') % (home, os.sep, 'pyarchinit_DB_folder')
-        logo_path = ('%s%s%s') % (home_DB_path, os.sep, 'logo.jpg')
+        home = os.environ['HFF_HOME']
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
         logo = Image(logo_path)
         ##      if test_image.drawWidth < 800:
-        logo.drawHeight = 1*inch*logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 1*inch
+        logo.drawHeight = 0.5*inch*logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 0.5*inch
+        
+        
+        logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
+        logo2 = Image(logo_path2)
+        ##      if test_image.drawWidth < 800:
+        logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        logo2.drawWidth = 0.5*inch
+        
+        ##      if test_image.drawWidth < 800:
+        logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        logo2.drawWidth = 0.5*inch
+        
+        
         site = Paragraph("<b>Site</b><br/>"  + str(self.site), styNormal)
         divelog_id = Paragraph("<b>Dive ID</b><br/>"  + str(self.divelog_id), styNormal)
         anchors_id = Paragraph("<b>Anchor ID</b><br/>"  + str(self.anchors_id), styNormal)
@@ -175,46 +221,58 @@ class single_ANC_pdf_sheet:
         depth = Paragraph("<b>Depth</b><br/>"  + str(self.depth), styNormal)
         tool_markings = Paragraph("<b>Tool markings</b><br/>"  + str(self.tool_markings), styNormal)
         #list = list
-        description_i = Paragraph("<b>Description</b><br/>"  + str(self.description_i), styNormal)
-        petrography_r = Paragraph("<b>Petrography</b><br/>"  + str(self.petrography_r), styNormal)
-        area = Paragraph("<b>Area</b><br/>"  + str(self.area), styNormal)
-        ll = Paragraph("<b>LL</b><br/>"  + str(self.ll), styNormal)
-        rl = Paragraph("<b>RL</b><br/>"  + str(self.rl), styNormal)
-        ml = Paragraph("<b>ML</b><br/>"  + str(self.ml), styNormal)
-        tw = Paragraph("<b>TW</b><br/>"  + str(self.tw), styNormal)
-        bw = Paragraph("<b>BW</b><br/>"  + str(self.bw), styNormal)
-        hw = Paragraph("<b>MW</b><br/>"  + str(self.hw), styNormal)
-        rtt = Paragraph("<b>RTT</b><br/>"  + str(self.rtt), styNormal)
-        ltt = Paragraph("<b>LTT</b><br/>"  + str(self.ltt), styNormal)
-        rtb = Paragraph("<b>RTB</b><br/>"  + str(self.rtb), styNormal)
-        ltb = Paragraph("<b>LTB</b><br/>"  + str(self.ltb),  styNormal)#[32]
-        tt = Paragraph("<b>TT</b><br/>"  + str(self.tt),  styNormal)#[33]
-        bt = Paragraph("<b>BT</b><br/>"  + str(self.bt),  styNormal)#[34]
-        hrt = Paragraph("<b>TD</b><br/>"  + str(self.hrt),  styNormal)#[35]
-        hrr = Paragraph("<b>RD</b><br/>"  + str(self.hrr),  styNormal)#[36]
-        hrl = Paragraph("<b>LD</b><br/>"  + str(self.hrl),  styNormal)#[37]
-        hdt = Paragraph("<b>TDE</b><br/>"  + str(self.hdt),  styNormal)#[38]
-        hd5 = Paragraph("<b>RDE</b><br/>"  + str(self.hd5),  styNormal)#[39]
-        hdl = Paragraph("<b>LDE</b><br/>"  + str(self.hdl),  styNormal)#[40]
-        flt = Paragraph("<b>TFL</b><br/>"  + str(self.flt),  styNormal)#[41]
-        flr = Paragraph("<b>RFL</b><br/>"  + str(self.flr),  styNormal)#[42]
-        fll = Paragraph("<b>LFL</b><br/>"  + str(self.fll),  styNormal)#[43]
-        frt = Paragraph("<b>TFR</b><br/>"  + str(self.frt),  styNormal)#[44]
-        frr = Paragraph("<b>RFR</b><br/>"  + str(self.frr),  styNormal)#[45]
-        frl = Paragraph("<b>LFR</b><br/>"  + str(self.frl),  styNormal)#[46]
-        fbt = Paragraph("<b>TFB</b><br/>"  + str(self.fbt),  styNormal)#[47]
-        fbr = Paragraph("<b>RFB</b><br/>"  + str(self.fbr),  styNormal)#[48]
-        fbl = Paragraph("<b>LFB</b><br/>"  + str(self.fbl),  styNormal)#[49]
-        ftt = Paragraph("<b>TFT</b><br/>"  + str(self.ftt),  styNormal)#[50]
-        ftr = Paragraph("<b>RFT</b><br/>"  + str(self.ftt),  styNormal)#[51]
-        ftl = Paragraph("<b>LFT</b><br/>"  + str(self.ftl),  styNormal)#[52]
-        bd = Paragraph("<b>BD</b><br/>"  + str(self.bd),  styNormal)#[53]
-        bde = Paragraph("<b>BDE</b><br/>"  + str(self.bde),  styNormal)#[54]
-        bfl = Paragraph("<b>BFL</b><br/>"  + str(self.bfl),  styNormal)#[55]
-        bfr = Paragraph("<b>BFR</b><br/>"  + str(self.bfr),  styNormal)#[56]
-        bfb = Paragraph("<b>BFB</b><br/>"  + str(self.bfb),  styNormal)#[57]
-        bft = Paragraph("<b>BFT</b><br/>"  + str(self.bft),  styNormal)#[58]
         
+        area = Paragraph("<b>Area</b><br/>"  + str(self.area), styNormal)
+        ll = Paragraph("<b>LL</b><br/>"  + str(self.ll), styNum)
+        rl = Paragraph("<b>RL</b><br/>"  + str(self.rl), styNum)
+        ml = Paragraph("<b>ML</b><br/>"  + str(self.ml), styNum)
+        tw = Paragraph("<b>TW</b><br/>"  + str(self.tw), styNum)
+        bw = Paragraph("<b>BW</b><br/>"  + str(self.bw), styNum)
+        hw = Paragraph("<b>MW</b><br/>"  + str(self.hw), styNum)
+        rtt = Paragraph("<b>RTT</b><br/>"  + str(self.rtt), styNum)
+        ltt = Paragraph("<b>LTT</b><br/>"  + str(self.ltt), styNum)
+        rtb = Paragraph("<b>RTB</b><br/>"  + str(self.rtb), styNum)
+        ltb = Paragraph("<b>LTB</b><br/>"  + str(self.ltb),  styNum)#[32]
+        tt = Paragraph("<b>TT</b><br/>"  + str(self.tt),  styNum)#[33]
+        bt = Paragraph("<b>BT</b><br/>"  + str(self.bt),  styNum)#[34]
+        hrt = Paragraph("<b>TD</b><br/>"  + str(self.hrt),  styNum)#[35]
+        hrr = Paragraph("<b>RD</b><br/>"  + str(self.hrr),  styNum)#[36]
+        hrl = Paragraph("<b>LD</b><br/>"  + str(self.hrl),  styNum)#[37]
+        hdt = Paragraph("<b>TDE</b><br/>"  + str(self.hdt),  styNum)#[38]
+        hd5 = Paragraph("<b>RDE</b><br/>"  + str(self.hd5),  styNum)#[39]
+        hdl = Paragraph("<b>LDE</b><br/>"  + str(self.hdl),  styNum)#[40]
+        flt = Paragraph("<b>TFL</b><br/>"  + str(self.flt),  styNum)#[41]
+        flr = Paragraph("<b>RFL</b><br/>"  + str(self.flr),  styNum)#[42]
+        fll = Paragraph("<b>LFL</b><br/>"  + str(self.fll),  styNum)#[43]
+        frt = Paragraph("<b>TFR</b><br/>"  + str(self.frt),  styNum)#[44]
+        frr = Paragraph("<b>RFR</b><br/>"  + str(self.frr),  styNum)#[45]
+        frl = Paragraph("<b>LFR</b><br/>"  + str(self.frl),  styNum)#[46]
+        fbt = Paragraph("<b>TFB</b><br/>"  + str(self.fbt),  styNum)#[47]
+        fbr = Paragraph("<b>RFB</b><br/>"  + str(self.fbr),  styNum)#[48]
+        fbl = Paragraph("<b>LFB</b><br/>"  + str(self.fbl),  styNum)#[49]
+        ftt = Paragraph("<b>TFT</b><br/>"  + str(self.ftt),  styNum)#[50]
+        ftr = Paragraph("<b>RFT</b><br/>"  + str(self.ftt),  styNum)#[51]
+        ftl = Paragraph("<b>LFT</b><br/>"  + str(self.ftl),  styNum)#[52]
+        bd = Paragraph("<b>BD</b><br/>"  + str(self.bd),  styNum)#[53]
+        bde = Paragraph("<b>BDE</b><br/>"  + str(self.bde),  styNum)#[54]
+        bfl = Paragraph("<b>BFL</b><br/>"  + str(self.bfl),  styNum)#[55]
+        bfr = Paragraph("<b>BFR</b><br/>"  + str(self.bfr),  styNum)#[56]
+        bfb = Paragraph("<b>BFB</b><br/>"  + str(self.bfb),  styNum)#[57]
+        bft = Paragraph("<b>BFT</b><br/>"  + str(self.bft),  styNum)#[58]
+       
+        
+        description_i = ''
+        try:
+            description_i = Paragraph("<b>Description</b><br/>"  + str(self.description_i), styNormal)
+        except:
+            pass
+        
+        
+        petrography_r = ''
+        try:
+            petrography_r = Paragraph("<b>Petrography</b><br/>"  + str(self.petrography_r), styNormal)
+        except:
+            pass
         
         
         
@@ -225,63 +283,80 @@ class single_ANC_pdf_sheet:
         #schema
         cell_schema =  [
                         #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
-                        [intestazione, '01', '02', '03', '04','05', '06', logo, '08', '09'], #0 row ok
-                        [site, '01', '02', '03', '04','05', '06', area, '08', '09'], #0 row ok
-                        [divelog_id, '01', '02', anchors_id, '04', '05', years, '07', date_, '09'], #1 row ok
-                        [description_i, '01', '02','05','04', '05','06', '07', '08','09'], #2 row ok
-                        [petrography_r, '01', '02','05','04', '05','06', '07', '08','09'], #2 row ok
-                        [stone_type,'01','02', anchor_type, '04',  anchor_shape, '06', type_hole,'08','09'], #9
-                        [comparision,'01','02', typology, '04',  depth, '06', tool_markings,'08','09'], #9
-                        [inscription,'01','02', petrography, '04',  wight, '06', origin,'08','09'], #9
-                        [photographed, '01', '02', conservation_completed, '04','05','06', recovered, '08', '09'], #10
-                        
-                        [ll,rl,ml,tw,bw,hw,rtt,ltt,rtb,ltb], #
-                        [tt,bt,hrt,hrr,hrl,hdt,hd5,hdl,flt,flr], #9
-                        [fll,frt,frr,frl,fbt,fbr,fbl,ftt,ftr,ftl], #9
-                        [bd,bde,bfl,bfr,bfb,bft,'06', '07', '08', '09'],
+                        [logo2, '01', intestazione,'03' , '04','05', '06', '07', '08', '09','10','11','12','13', '14','15',logo,'17'], #0 row ok
                         
                         
+                        [site, '01', '02', '03', '04','05', '06', '07', '08',anchors_id,'10','11','12','13', '14','15','16','17'], #1 row ok
+                        [divelog_id, '01', '02', '03', '04','05', years, '07', '08', '09','10','11',date_,'13', '14','15','16','17'], #2 row ok
+                        [stone_type, '01', '02', '03', '04','05', anchor_type, '07', '08', '09','10','11',anchor_shape,'13', '14','15','16','17'], #3 row ok
+                        [type_hole, '01', '02', '03', '04','05', comparision, '07', '08', '09','10','11',typology,'13', '14','15','16','17'], #4 row ok
+                        [depth, '01', '02', '03', '04','05', tool_markings,'07', '08', '09','10','11',inscription,'13', '14','15','16','17'], #5 row ok
+                        [petrography, '01', '02', '03', '04','05', wight, '07', '08', '09','10','11', origin,'13', '14','15','16','17'], #6 row ok
+                        [photographed, '01', '02', '03', '04','05', conservation_completed, '07', '08', '09','10','11',recovered,'13', '14','15','16','17'], #7 row ok
+                        
+                        [ll,rl,ml,tw,bw,hw,rtt,ltt,rtb,ltb,tt,bt,hrt,hrr,hrl,hdt,hd5,hdl],#9
+                        [flt,flr,fll,frt,frr,frl,fbt,fbr,fbl,ftt,ftr,ftl,bd,bde,bfl,bfr,bfb,bft],#10
                         
                         
+                        [description_i, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #10 row ok
+                        [petrography_r, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #11row ok
+             
                         ]
         #table style
         table_style=[
                     ('GRID',(0,0),(-1,-1),0.5,colors.black),
                     #0 row
-                    ('SPAN', (0,0),(6,0)),  #intestazione
-                    ('SPAN', (7,0),(9,0)),  #intestazione
+                    ('SPAN', (0,0),(1,0)),  #logo2
+                    ('SPAN', (2,0),(15,0)),  #intestazione
+                    ('SPAN', (16,0),(17,0)),  #logo
                     
-                    ('SPAN', (0,1),(6,1)),  #intestazione
-                    ('SPAN', (7,1),(9,1)),  #intestazione
+                    ('SPAN', (0,1),(8,1)),  #sito
+                    ('SPAN', (9,1),(17,1)),#divelogid
+
+                    ('SPAN', (0,2),(5,2)),  #diver1
+                    ('SPAN', (6,2),(11,2)),  #date_
+                    ('SPAN', (12,2),(17,2)),  #area_id
+                   
+                    ('SPAN', (0,3),(5,3)),  #diver2
+                    ('SPAN', (6,3),(11,3)),  #time_in
+                    ('SPAN', (12,3),(17,3)),  #time_out
                     
-                    ('SPAN', (0,2),(2,2)),  #intestazione
-                    ('SPAN', (3,2),(5,2)),  #intestazione
-                    ('SPAN', (6,2),(7,2)),  #dati identificativi
-                    ('SPAN', (8,2),(9,2)),  #dati identificativi
+                    ('SPAN', (0,4),(5,4)),  #standby
+                    ('SPAN', (6,4),(11,4)),  #bottom_time
+                    ('SPAN', (12,4),(17,4)),  #maxdepth
+                     
+                    ('SPAN', (0,5),(5,5)),  #standby
+                    ('SPAN', (6,5),(11,5)),  #bottom_time
+                    ('SPAN', (12,5),(17,5)),  #maxdepth 
                     
+                    ('SPAN', (0,6),(5,6)),  #standby
+                    ('SPAN', (6,6),(11,6)),  #bottom_time
+                    ('SPAN', (12,6),(17,6)),  #maxdepth 
                     
-                    ('SPAN', (0,3),(9,3)),  #dati identificativi
+                    ('SPAN', (0,7),(5,7)),  #standby
+                    ('SPAN', (6,7),(11,7)),  #bottom_time
+                    ('SPAN', (12,7),(17,7)),  #maxdepth 
                     
-                    ('SPAN', (0,4),(9,4)),  #dati identificativi
+                                        
+                    ('SPAN', (0,8),(0,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (1,8),(1,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (2,8),(2,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (3,8),(3,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (4,8),(4,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (5,8),(5,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (6,8),(6,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (7,8),(7,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (8,8),(8,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (9,8),(9,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (10,8),(10,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (11,8),(11,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (12,8),(12,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (13,8),(13,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (14,8),(14,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (15,8),(15,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (16,8),(16,8)),  #conservazione - consistenza - colore
+                    ('SPAN', (17,8),(17,8)),  #conservazione - consistenza - colore
                     
-                    ('SPAN', (0,5),(2,5)),  #intestazione
-                    ('SPAN', (3,5),(4,5)),  #intestazione
-                    ('SPAN', (5,5),(6,5)),  #dati identificativi
-                    ('SPAN', (7,5),(9,5)),  #dati identificativi
-                    
-                    ('SPAN', (0,6),(2,6)),  #intestazione
-                    ('SPAN', (3,6),(4,6)),  #intestazione
-                    ('SPAN', (5,6),(6,6)),  #dati identificativi
-                    ('SPAN', (7,6),(9,6)),  #dati identificativi
-                    
-                    ('SPAN', (0,7),(2,7)),  #intestazione
-                    ('SPAN', (3,7),(4,7)),  #intestazione
-                    ('SPAN', (5,7),(6,7)),  #dati identificativi
-                    ('SPAN', (7,7),(9,7)),  #dati identificativi
-                    
-                    ('SPAN', (0,8),(2,8)),  #conservazione - consistenza - colore
-                    ('SPAN', (3,8),(6,8)),  #conservazione - consistenza - colore
-                    ('SPAN', (7,8),(9,8)),  #conservazione - consistenza - colore
                     
                     ('SPAN', (0,9),(0,9)),  #conservazione - consistenza - colore
                     ('SPAN', (1,9),(1,9)),  #conservazione - consistenza - colore
@@ -293,37 +368,28 @@ class single_ANC_pdf_sheet:
                     ('SPAN', (7,9),(7,9)),  #conservazione - consistenza - colore
                     ('SPAN', (8,9),(8,9)),  #conservazione - consistenza - colore
                     ('SPAN', (9,9),(9,9)),  #conservazione - consistenza - colore
+                    ('SPAN', (10,9),(10,9)),  #conservazione - consistenza - colore
+                    ('SPAN', (11,9),(11,9)),  #conservazione - consistenza - colore
+                    ('SPAN', (12,9),(12,9)),  #conservazione - consistenza - colore
+                    ('SPAN', (13,9),(13,9)),  #conservazione - consistenza - colore
+                    ('SPAN', (14,9),(14,9)),  #conservazione - consistenza - colore
+                    ('SPAN', (15,9),(15,9)),  #conservazione - consistenza - colore
+                    ('SPAN', (16,9),(16,9)),  #conservazione - consistenza - colore
+                    ('SPAN', (17,9),(17,9)),  #conservazione - consistenza - colore
                     
-                    ('SPAN', (0,10),(0,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (1,10),(1,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (2,10),(2,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (3,10),(3,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (4,10),(4,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (5,10),(5,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (6,10),(6,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (7,10),(7,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (8,10),(8,10)),  #conservazione - consistenza - colore
-                    ('SPAN', (9,10),(9,10)),  #conservazione - consistenza - colore
-                     
-                    ('SPAN', (0,11),(0,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (1,11),(1,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (2,11),(2,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (3,11),(3,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (4,11),(4,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (5,11),(5,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (6,11),(6,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (7,11),(7,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (8,11),(8,11)),  #conservazione - consistenza - colore
-                    ('SPAN', (9,11),(9,11)),  #conservazione - consistenza - colore
-                    
-                    ('SPAN', (0,12),(0,12)),  #conservazione - consistenza - colore
-                    ('SPAN', (1,12),(1,12)),  #conservazione - consistenza - colore
-                    ('SPAN', (2,12),(2,12)),  #conservazione - consistenza - colore
-                    ('SPAN', (3,12),(3,12)),  #conservazione - consistenza - colore
-                    ('SPAN', (4,12),(4,12)),  #conservazione - consistenza - colore
-					('SPAN', (5,12),(9,12)),  #conservazione - consistenza - colore
+                    ('SPAN', (0,10),(17,10)),  #standby
+                    ('SPAN', (0,11),(17,11)),  #standby
                     ]
-        t=Table(cell_schema, colWidths=55, rowHeights=None,style= table_style)
+        colWidths = (30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
+
+        rowHeights = None
+
+
+
+        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
+
+
+
         return t
     
     def makeStyles(self):
@@ -401,11 +467,8 @@ class ANC_index_pdf:
         ])  #finale
         return styles
 class generate_ANC_pdf:
-    if os.name == 'posix':
-        HOME = os.environ['HOME']
-    elif os.name == 'nt':
-        HOME = os.environ['HOMEPATH']
-    PDF_path = ('%s%s%s') % (HOME, os.sep, "pyarchinit_PDF_folder")
+    HOME = os.environ['HFF_HOME']
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
     def datestrfdate(self):
         now = date.today()
         today = now.strftime("%d-%m-%Y")
@@ -423,12 +486,9 @@ class generate_ANC_pdf:
         f.close()
         
     def build_index_ANC(self, records, divelog_id):
-        if os.name == 'posix':
-            home = os.environ['HOME']
-        elif os.name == 'nt':
-            home = os.environ['HOMEPATH']
-        home_DB_path = ('%s%s%s') % (home, os.sep, 'pyarchinit_DB_folder')
-        logo_path = ('%s%s%s') % (home_DB_path, os.sep, 'logo.jpg')
+        HOME = os.environ['HFF_HOME']
+        PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+        logo_path = ('%s%s%s') % (home_DB_path, os.sep, 'logo.png')
         logo = Image(logo_path)
         logo.drawHeight = 1.5*inch*logo.drawHeight / logo.drawWidth
         logo.drawWidth = 1.5*inch

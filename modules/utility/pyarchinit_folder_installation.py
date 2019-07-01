@@ -45,14 +45,14 @@ class pyarchinit_Folder_installation(object):
         db_copy_from_path = '{}{}'.format(self.RESOURCES_PATH, db_copy_from_path_rel)
         db_copy_to_path = '{}{}{}'.format(home_DB_path, os.sep, 'hff_survey.sqlite')
 
-        logo_copy_from_path_rel = os.path.join(os.sep, 'dbfiles', 'logo.jpg')
+        logo_copy_from_path_rel = os.path.join(os.sep, 'dbfiles', 'logo.png')
         logo_copy_from_path = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel)
-        logo_copy_to_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
+        logo_copy_to_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
 
         ### logo per la versione tedesca
-        logo_copy_from_path_rel_de = os.path.join(os.sep, 'dbfiles', 'logo_de.jpg')
+        logo_copy_from_path_rel_de = os.path.join(os.sep, 'dbfiles', 'logo2.png')
         logo_copy_from_path_de = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel_de)
-        logo_copy_to_path_de = '{}{}{}'.format(home_DB_path, os.sep, 'logo_de.jpg')
+        logo_copy_to_path_de = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
         
         self.OS_UTILITY.copy_file(db_copy_from_path, db_copy_to_path)
         self.OS_UTILITY.copy_file(logo_copy_from_path, logo_copy_to_path)
@@ -96,12 +96,12 @@ class pyarchinit_Folder_installation(object):
         self.OS_UTILITY.copy_file(config_copy_from_path, config_copy_to_path)
 
         #added by pyarchinit test for logo re-installation
-        logo_copy_from_path_rel = os.path.join(os.sep, 'dbfiles', 'logo.jpg')
+        logo_copy_from_path_rel = os.path.join(os.sep, 'dbfiles', 'logo.png')
         logo_copy_from_path = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel)
-        logo_copy_to_path = '{}{}{}'.format(path, os.sep, 'logo.jpg')
+        logo_copy_to_path = '{}{}{}'.format(path, os.sep, 'logo.png')
         self.OS_UTILITY.copy_file(logo_copy_from_path, logo_copy_to_path)
         
-        logo_copy_from_path_rel_de = os.path.join(os.sep, 'dbfiles', 'logo_de.jpg')
+        logo_copy_from_path_rel_de = os.path.join(os.sep, 'dbfiles', 'logo2.png')
         logo_copy_from_path_de = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel_de)
-        logo_copy_to_path_de = '{}{}{}'.format(path, os.sep, 'logo_de.jpg')
+        logo_copy_to_path_de = '{}{}{}'.format(path, os.sep, 'logo2.png')
         self.OS_UTILITY.copy_file(logo_copy_from_path_de, logo_copy_to_path_de)

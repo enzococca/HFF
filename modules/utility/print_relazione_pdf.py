@@ -179,7 +179,7 @@ class exp_rel_pdf(object):
         home = os.environ['HFF_HOME']
 
         home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
-        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
         logo = Image(logo_path)
 
         ##      if test_image.drawWidth < 800:
@@ -385,7 +385,7 @@ class exp_rel_pdf(object):
         home = os.environ['HFF_HOME']
 
         home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
-        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.jpg')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
         logo = Image(logo_path)
         #logo = os.path.join(os.path.dirname(__file__), "..", "..", "iconadarte.png")
         #im = Image(logo)
