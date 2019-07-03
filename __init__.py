@@ -80,7 +80,7 @@ try:
     import pandas
 except Exception as e:
     missing_libraries.append(str(e))
-	
+    
 try:
     import psycopg2
 except Exception as e:
@@ -89,15 +89,18 @@ except Exception as e:
 try:
     import elasticsearch
 except Exception as e:
-    missing_libraries.append(str(e))	
+    missing_libraries.append(str(e))    
 
 try:
     import pysftp
 except Exception as e:
-    missing_libraries.append(str(e))		
-	
-	
-	
+    missing_libraries.append(str(e))        
+    
+try:
+    import xlsxwriter
+except Exception as e:
+    missing_libraries.append(str(e))        
+    
     
 install_libraries = []
 for l in missing_libraries:

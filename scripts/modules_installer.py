@@ -40,7 +40,8 @@ if not packages:
                 'pandas',
                 'psycopg2',
                 'elasticsearch',
-                'pysftp'
+                'pysftp',
+                'xlsxwriter'
                 ]
 
 
