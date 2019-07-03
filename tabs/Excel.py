@@ -1,18 +1,17 @@
+import os
+
 import psycopg2
 import pandas as pd
 
-        
-   
-conn = psycopg2.connect("dbname='den19' user='postgres' host='localhost' password='postgres' port =5433")
+from ..modules.db.pyarchinit_conn_strings import Connection
 
-cur = conn.cursor()
+conn = Connection()
 
-cur.execute("SELECT * FROM site_table;")
+conn_str = conn.conn_str()
 
-rows = cur.fetchall()
+df = pd.read_sql_query('select * from "site_table"',con=conn_str)
 col_names = []
-for i in cur.description:
-  col_names.append(i[0])
+# for i in df:
+  # col_names.append(i[0])
 
-pd.DataFrame(rows,columns=col_names).to_excel("C:\\Users\\enzo\\Desktop\\sample\\site.xls",index=True)
-        
+pd.DataFrame(col_names,columns=col_names).to_excel("C:\\Users\\enzo\\HFF\\test1.xls",index=True) 

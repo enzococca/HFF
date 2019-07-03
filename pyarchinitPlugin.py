@@ -198,9 +198,9 @@ class PyArchInitPlugin(object):
         self.actionImages_Directory_export.setWhatsThis("Download image")
         self.actionImages_Directory_export.triggered.connect(self.runImages_directory_export)
 
-        icon_pdf_exp = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'pdf-icon.png'))
-        self.actionpdfExp = QAction(QIcon(icon_pdf_exp), "Download PDF", self.iface.mainWindow())
-        self.actionpdfExp.setWhatsThis("Download PDF")
+        icon_pdf_exp = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'excel-export.png'))
+        self.actionpdfExp = QAction(QIcon(icon_pdf_exp), "Download EXCEL", self.iface.mainWindow())
+        self.actionpdfExp.setWhatsThis("Download EXCEL")
         self.actionpdfExp.triggered.connect(self.runPdfexp)
 
       

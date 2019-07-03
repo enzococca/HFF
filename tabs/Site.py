@@ -1739,7 +1739,6 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         f.close()
 
     def on_pushButton_export_excel_pressed(self):
-
         cmd = 'python3'
         subprocess.call([cmd,'{}'.format(os.path.join(os.path.dirname(__file__), 'Excel.py'))])
 
