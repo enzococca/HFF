@@ -54,11 +54,17 @@ class pyarchinit_Folder_installation(object):
         logo_copy_from_path_de = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel_de)
         logo_copy_to_path_de = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
         
+        
+        ### logo per la versione tedesca
+        logo_copy_from_path_rel_banner = os.path.join(os.sep, 'dbfiles', 'banner.png')
+        logo_copy_from_path_banner = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel_banner)
+        logo_copy_to_path_banner = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
+        
         self.OS_UTILITY.copy_file(db_copy_from_path, db_copy_to_path)
         self.OS_UTILITY.copy_file(logo_copy_from_path, logo_copy_to_path)
         ### logo per versione tedesca
         self.OS_UTILITY.copy_file(logo_copy_from_path_de, logo_copy_to_path_de)   
-
+        self.OS_UTILITY.copy_file(logo_copy_from_path_banner, logo_copy_to_path_banner)   
         
         home_PDF_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_PDF_folder')
         self.OS_UTILITY.create_dir(home_PDF_path)
@@ -108,3 +114,8 @@ class pyarchinit_Folder_installation(object):
         logo_copy_from_path_de = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel_de)
         logo_copy_to_path_de = '{}{}{}'.format(path, os.sep, 'logo2.png')
         self.OS_UTILITY.copy_file(logo_copy_from_path_de, logo_copy_to_path_de)
+        
+        logo_copy_from_path_rel_banner = os.path.join(os.sep, 'dbfiles', 'banner.png')
+        logo_copy_from_path_banner = '{}{}'.format(self.RESOURCES_PATH, logo_copy_from_path_rel_banner)
+        logo_copy_to_path_banner = '{}{}{}'.format(path, os.sep, 'banner.png')
+        self.OS_UTILITY.copy_file(logo_copy_from_path_banner, logo_copy_to_path_banner)
