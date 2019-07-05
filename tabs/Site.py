@@ -648,9 +648,9 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 str(self.DATA_LIST[i].dating),  # 33 saggio
                 str(self.DATA_LIST[i].biblio),  # 34 - elem_datanti
                 str(self.DATA_LIST[i].features),  # 35 - funz_statica
-                str(self.DATA_LIST[i].documentation),  # 36 lavorazione
                 str(self.DATA_LIST[i].disturbance),  # 36 lavorazione
-                str(self.DATA_LIST[i].photolog),  # 36 lavorazione
+                str(self.DATA_LIST[i].documentation),  # 36 lavorazione
+                str(self.DATA_LIST[i].photolog),
                 str(self.DATA_LIST[i].description),            #42 posa opera
                 str(self.DATA_LIST[i].interpretation),
                 str(self.DATA_LIST[i].est),
@@ -664,7 +664,11 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         SITE_pdf_sheet = generate_site_pdf()
         data_list = self.generate_list_pdf()
         SITE_pdf_sheet.build_site_sheets(data_list)
-
+        
+        
+        PHOTOLOG_pdf_sheet = generate_site_pdf()
+        data_list = self.generate_list_pdf()
+        PHOTOLOG_pdf_sheet.build_photolog_sheets(data_list)
     def on_pushButton_sort_pressed(self):
         if self.check_record_state() == 1:
             pass

@@ -87,6 +87,9 @@ class pyarchinit_Folder_installation(object):
         home_image_export_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_image_export')
         self.OS_UTILITY.create_dir(home_image_export_path)
         
+        home_excel_export_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_EXCEL_folder')
+        self.OS_UTILITY.create_dir(home_excel_export_path)
+        
         home_R_export_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_R_export')
         self.OS_UTILITY.create_dir(home_image_export_path)
     def installConfigFile(self, path):
