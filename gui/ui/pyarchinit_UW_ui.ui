@@ -10,7 +10,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1611</width>
+    <width>1634</width>
     <height>874</height>
    </rect>
   </property>
@@ -50,7 +50,7 @@
     <rect>
      <x>20</x>
      <y>240</y>
-     <width>1561</width>
+     <width>1601</width>
      <height>621</height>
     </rect>
    </property>
@@ -708,7 +708,7 @@
       <rect>
        <x>550</x>
        <y>0</y>
-       <width>1031</width>
+       <width>1061</width>
        <height>251</height>
       </rect>
      </property>
@@ -755,10 +755,13 @@
       <bool>true</bool>
      </property>
      <property name="columnCount">
-      <number>1</number>
+      <number>2</number>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>1000</number>
+      <number>513</number>
+     </attribute>
+     <attribute name="horizontalHeaderMinimumSectionSize">
+      <number>45</number>
      </attribute>
      <attribute name="verticalHeaderMinimumSectionSize">
       <number>22</number>
@@ -771,6 +774,11 @@
      <column>
       <property name="text">
        <string>Photo id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Description</string>
       </property>
      </column>
     </widget>
@@ -801,7 +809,7 @@
       <rect>
        <x>550</x>
        <y>300</y>
-       <width>1021</width>
+       <width>1051</width>
        <height>251</height>
       </rect>
      </property>
@@ -833,7 +841,7 @@
       <bool>true</bool>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>1000</number>
+      <number>512</number>
      </attribute>
      <row>
       <property name="text">
@@ -845,7 +853,15 @@
        <string>Video id</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Description</string>
+      </property>
+     </column>
      <item row="0" column="0">
+      <property name="text">
+       <string/>
+      </property>
       <property name="foreground">
        <brush brushstyle="Dense6Pattern">
         <color alpha="255">
@@ -1443,38 +1459,6 @@
       <string>Photo Environment</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_chose_dir">
-     <property name="geometry">
-      <rect>
-       <x>760</x>
-       <y>10</y>
-       <width>71</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Upload</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_assignTags_US">
-     <property name="geometry">
-      <rect>
-       <x>760</x>
-       <y>40</y>
-       <width>71</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>tags</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -1705,29 +1689,6 @@
     <attribute name="title">
      <string>Tools</string>
     </attribute>
-    <widget class="QPushButton" name="pushButton_exppdf">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>121</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>MS Shell Dlg 2</family>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Export PDF</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
-       <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButton_exptab">
      <property name="enabled">
       <bool>false</bool>
@@ -1844,7 +1805,7 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>180</y>
+       <y>40</y>
        <width>121</width>
        <height>28</height>
       </rect>
@@ -1863,7 +1824,7 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>220</y>
+       <y>170</y>
        <width>111</width>
        <height>22</height>
       </rect>
@@ -2471,6 +2432,23 @@
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
           <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QPushButton" name="pushButton_exppdf">
+        <property name="font">
+         <font>
+          <family>MS Shell Dlg 2</family>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Export PDF</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
         </property>
        </widget>
       </item>

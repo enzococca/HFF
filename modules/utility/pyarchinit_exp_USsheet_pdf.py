@@ -1,4 +1,6 @@
+
 from datetime import date
+
 from builtins import object
 from builtins import range
 from builtins import str
@@ -143,7 +145,7 @@ class single_US_pdf_sheet:
         logo2.drawWidth = 0.5*inch
         logo.hAlign = "CENTER"
         logo2.hAlign = "CENTER"
-		#1 row
+        #1 row
         divelog = Paragraph("<b>Dive log number:  </b>"  + str(self.divelog_id), styNormal)
         area_id = Paragraph("<b>Area</b><br/>"  + str(self.area_id), styNormal)
         years = Paragraph("<b>Year</b><br/>"  + str(self.years), styNormal)
@@ -166,42 +168,16 @@ class single_US_pdf_sheet:
         time_out = Paragraph("<b>Time out</b><br/>"  + self.time_in, styNormal)
         date_ = Paragraph("<b>Date</b><br/>"  + self.date_, styNormal)
         dp = Paragraph("<b>DP Diver 1: </b>"  + self.dp + "<br/>""<b>DP Diver 2: </b>" + self.dp_2,styNormal )
-        photos_taken = Paragraph("<b>Photos Taken</b><br/>"  , styInt)
-        videos_taken = Paragraph("<b>Videos taken</b><br/>"  , styInt)
+        # photos_taken = Paragraph("<b>Photos Taken</b><br/>"  , styInt)
+        # videos_taken = Paragraph("<b>Videos taken</b><br/>"  , styInt)
         conditions = Paragraph("<b>U/W Conditions</b><br/>"  , styInt)
         camera_of = Paragraph("<b>Camera: </b>"  + self.camera_of, styNormal)
         photo_nbr = Paragraph("<b>Number of pictures: </b>"  + str(self.photo_nbr), styNormal)
         video_nbr = Paragraph("<b>Number of videos: </b>"  + str(self.video_nbr), styNormal)
         sito = Paragraph("<b>Location: </b>" + str(self.sito), styNormal)
         layer = Paragraph("<b>Layer</b><br/>"  + str(self.layer), styNormal)
-        photo_id = ''
-        if eval(self.photo_id) != 0 :
-            for i in eval(self.photo_id):
-                if photo_id == '':
-                    try:
-                        photo_id += ("%s") % (str(i[0]))
-                    except:
-                        pass
-                else:
-                    try:
-                        photo_id += (", %s") % (str(i[0]))
-                    except:
-                        pass
-        photo_id = Paragraph("<b>Photo ID</b><br/>"  + photo_id, styNormal)
-        video_id = ''
-        if eval(self.video_id) != 0 :
-            for i in eval(self.video_id):
-                if video_id == '':
-                    try:
-                        video_id += ("%s") % (str(i[0]))
-                    except:
-                        pass
-                else:
-                    try:
-                        video_id += (", %s") % (str(i[0]))
-                    except:
-                        pass
-        video_id = Paragraph("<b>Video ID</b><br/>"  + video_id, styNormal)
+        
+      
         task = ''
         try:
             task = Paragraph("<b>Task</b><br/>" + self.task, styDescrizione)
@@ -230,10 +206,11 @@ class single_US_pdf_sheet:
                         [task, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #7 row ok
                         [result, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #8 row ok
                         [comments_, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #9 row ok
-                        [photos_taken, '01', '02', '03', '04','05', videos_taken, '07', '08', '09','10','11',conditions,'13', '14','15','16','17'], #10 row ok
+                        [conditions, '01', '02', '03', '04','05', '08', '07', '08', '09','10','11','12','13', '14','15','16','17'], #10 row ok
                         [camera_of, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11',temperature,'13', '14','15','16','17'], #11
-                        [photo_nbr,'01', '02', '03', '04','05', video_nbr, '07', '08', '09','10','11',visibility,'13', '14','15','16','17'], #12
-                        [photo_id,'01', '02', '03', '04','05', video_id, '07', '08', '09','10','11',current,'13', '14','15','16','17'], #13
+                        [photo_nbr,'01', '02', video_nbr, '04','05', current, '07', '08', '09','10','11',visibility,'13', '14','15','16','17'], #12
+                        
+                        # [photo_id,'01', '02', '03', '04','05', video_id, '07', '08', '09','10','11',current,'13', '14','15','16','17'], #13
                         ]
         #table style
         table_style=[
@@ -243,49 +220,50 @@ class single_US_pdf_sheet:
                     ('SPAN', (2,0),(15,0)),  #intestazione
                     ('SPAN', (16,0),(17,0)),  #logo
                     
-					('SPAN', (0,1),(8,1)),  #sito
+                    ('SPAN', (0,1),(8,1)),  #sito
                     ('SPAN', (9,1),(17,1)),#divelogid
                     
-					('SPAN', (0,2),(5,2)),  #diver1
+                    ('SPAN', (0,2),(5,2)),  #diver1
                     ('SPAN', (6,2),(11,2)),  #date_
                     ('SPAN', (12,2),(17,2)),  #area_id
                     
-					('SPAN', (0,3),(5,3)),  #diver2
+                    ('SPAN', (0,3),(5,3)),  #diver2
                     ('SPAN', (6,3),(11,3)),  #time_in
                     ('SPAN', (12,3),(17,3)),  #time_out
                     
-					('SPAN', (0,4),(5,4)),  #standby
+                    ('SPAN', (0,4),(5,4)),  #standby
                     ('SPAN', (6,4),(11,4)),  #bottom_time
                     ('SPAN', (12,4),(17,4)),  #maxdepth
                     
-					('SPAN', (0,5),(5,5)),  #standby
+                    ('SPAN', (0,5),(5,5)),  #standby
                     ('SPAN', (6,5),(11,5)),  #bottom_time
                     ('SPAN', (12,5),(17,5)),  #maxdepth 
                     
-					('SPAN', (0,6),(5,6)),  #standby
+                    ('SPAN', (0,6),(5,6)),  #standby
                     ('SPAN', (6,6),(11,6)),  #bottom_time
                     ('SPAN', (12,6),(17,6)),  #maxdepth 
                     
-					('SPAN', (0,7),(17,7)),  #standby
+                    ('SPAN', (0,7),(17,7)),  #standby
                     
-					('SPAN', (0,8),(17,8)),  #standby
+                    ('SPAN', (0,8),(17,8)),  #standby
                     
-					('SPAN', (0,9),(17,9)),  #standby
+                    ('SPAN', (0,9),(17,9)),  #standby
                     
-					('SPAN', (0,10),(5,10)),  #standby
-                    ('SPAN', (6,10),(11,10)),  #bottom_time
-                    ('SPAN', (12,10),(17,10)),  #maxdepth 
+                    ('SPAN', (0,10),(17,10)),  #standby
+                    # ('SPAN', (6,10),(11,10)),  #bottom_time
+                    # ('SPAN', (12,10),(17,10)),  #maxdepth 
                     
-					('SPAN', (0,11),(11,11)),  #standby
+                    ('SPAN', (0,11),(11,11)),  #standby
                     ('SPAN', (12,11),(17,11)),  #bottom_time
                     
-					('SPAN', (0,12),(5,12)),  #standby
-                    ('SPAN', (6,12),(11,12)),  #bottom_time
+                    ('SPAN', (0,12),(2,12)),  #standby
+                    ('SPAN', (3,12),(5,12)),  #bottom_time
+                    ('SPAN', (6,12),(11,12)),  #maxdepth 
                     ('SPAN', (12,12),(17,12)),  #maxdepth 
                     
-					('SPAN', (0,13),(5,13)),  #standby
-                    ('SPAN', (6,13),(11,13)),  #bottom_time
-                    ('SPAN', (12,13),(17,13)),  #maxdepth 
+                    # ('SPAN', (0,13),(5,13)),  #standby
+                    # ('SPAN', (6,13),(11,13)),  #bottom_time
+                    # ('SPAN', (12,13),(17,13)),  #maxdepth 
                     ]
         colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
         rowHeights = None
@@ -295,52 +273,117 @@ class single_US_pdf_sheet:
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
         ])  #finale
         return styles
-class US_index_pdf:
+
+
+class Photo_index_pdf(object):
+    
+    
     def __init__(self, data):
-        self.divelog_id =                               data[0]
-        self.artefact_id =                          data[1]
-        self.material   =                               data[2]
-        self.obj =                  data[3]
-        self.years =                    data[4]
-        #self.date_ =                       data[5]
+        self.divelog_id=data[0]
+        self.area_id=data[1]
+        self.photo_id=data[28]
+        self.video_id=data[29]
+        self.sito=data[30]
+    
+    def getintestazione(self):
+        styleSheet = getSampleStyleSheet()
+        styNormal = styleSheet['Normal']
+        styNormal.spaceBefore = 20
+        styNormal.spaceAfter = 20
+        styNormal.alignment = 0  # LEFT
+        styNormal.fontSize = 9
+        #1 row
+        
+        
+        divelog1 = Paragraph("DIVEID", styNormal)
+        area_id1 = Paragraph("Area", styNormal)
+        photo_id1 = Paragraph("PhotoID", styNormal)
+        description_p1 = Paragraph("Description", styNormal)
+        video_id1 = Paragraph("VideoID", styNormal)
+        description_v1 = Paragraph("Description", styNormal)
+    
+    
     def getTable(self):
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
-        styNormal.alignment = 0 #LEFT
-        styNormal.fontSize = 8
-        divelog_id = Paragraph("<b>Dive ID</b><br/>" + str(self.divelog_id),styNormal)
-        artefact_id = Paragraph("<b>Artefact ID</b><br/>" + str(self.artefact_id),styNormal)
-        material = Paragraph("<b>Material</b><br/>" + str(self.material),styNormal)
-        obj = Paragraph("<b>Object</b><br/>" + str(self.obj),styNormal)
-        years = Paragraph("<b>Years</b><br/>" + str(self.years),styNormal)
-        data = [divelog_id,
-                artefact_id,
-                material,
-                obj,
-                years]
-        """
-        for i in range(20):
-            data.append([area = Paragraph("<b>Sector</b><br/>" + str(area),styNormal),
-                        us = Paragraph("<b>SU</b><br/>" + str(us),styNormal),
-                        covers = Paragraph("<b>Covers</b><br/>" + str(covers),styNormal),
-                        covered_to = Paragraph("<b>Covered by</b><br/>" + str(covered_to),styNormal),
-                        cuts = Paragraph("<b>Cuts</b><br/>" + str(cuts),styNormal),
-                        cut_by = Paragraph("<b>Cut by</b><br/>" + str(cut_by),styNormal),
-                        fills = Paragraph("<b>Fills</b><br/>" + str(fills),styNormal),
-                        filled_by = Paragraph("<b>Filled by</b><br/>" + str(filled_by),styNormal),
-                        abuts_on = Paragraph("<b>Abuts</b><br/>" + str(abuts_on),styNormal),
-                        supports = Paragraph("<b>Supports</b><br/>" + str(gli_si_appoggia),styNormal),
-                        same_as = Paragraph("<b>Same as</b><br/>" + str(same_as),styNormal),
-                        connected_to = Paragraph("<b>Connected to</b><br/>" + str(connected_to),styNormal)])
-        """
-        #t = Table(data,  colWidths=55.5)
+        styNormal.alignment = 0  # LEFT
+        styNormal.fontSize = 9
+        #1 row
+        
+        
+        
+        
+        
+        
+        divelog = Paragraph("<b>DIVEID: </b>"+str(self.divelog_id), styNormal)
+        area_id = Paragraph( "<b>Area</b><br/>"+str(self.area_id), styNormal)
+        
+        sito = Paragraph( str(self.sito), styNormal)
+        
+        
+        photos = eval(self.photo_id)
+        photo_id = ''
+        description_p = ''
+        
+        for i in photos:
+            if photo_id == '':
+                try:
+                    photo_id += str(i[0])+ "<br/>"
+                    description_p += str(i[1])+ "<br/>"
+                except:
+                    pass
+            else:
+                try:
+                    photo_id += ' ' + str(i[0])+ "<br/>"
+                    description_p += ' ' + str(i[1])+ "<br/>"
+                except:
+                    pass
+        photo_id = Paragraph("<b>PhotoID</b><br/>"+ photo_id, styNormal)
+        description_p = Paragraph( "<b>Description</b><br/>"+ description_p, styNormal)
+        
+        videos = eval(self.video_id)
+        video_id = ''
+        description_v= ''
+        
+        for i in videos:
+            if video_id == '':
+                try:
+                    video_id += ' ' + str(i[0])+ "<br/>"
+                    description_v += str(i[1])+ "<br/>"
+                except:
+                    pass
+            else:
+                try:
+                    video_id += ' ' +str(i[0])+ "<br/>"
+                    description_v += ' ' + str(i[1])+ "<br/>"
+                except:
+                    pass
+        video_id = Paragraph( "<b>VideoID</b><br/>"+video_id, styNormal)
+        description_v = Paragraph( "<b>Description</b><br/>"+ description_v, styNormal)
+        
+        
+        data =[
+            
+            divelog,
+            area_id,
+            photo_id,
+            description_p,
+            video_id,
+            description_v 
+            ]
         return data
+        
+       
+        
+        
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
         ])  #finale
         return styles
+
+
 class generate_US_pdf:
     HOME = os.environ['HFF_HOME']
     PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
@@ -359,3 +402,99 @@ class generate_US_pdf:
         doc = SimpleDocTemplate(f, pagesize=A4)
         doc.build(elements, canvasmaker=NumberedCanvas_USsheet)
         f.close()
+        
+class generate_photo_pdf:
+    HOME = os.environ['HFF_HOME']
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    # @staticmethod
+    # def _header_footer(canvas, doc):
+
+        # # Save the state of our canvas so we can draw on it
+
+        # canvas.saveState()
+
+        # styles = getSampleStyleSheet()
+
+ 
+
+        # # Header
+
+        # header = Paragraph('' , styles['Normal'])
+
+        # w, h = header.wrap(doc.width, doc.topMargin)
+
+        # header.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h)
+
+ 
+
+        # # Footer
+
+        # footer = Paragraph('' , styles['Normal'])
+
+        # w, h = footer.wrap(doc.width, doc.bottomMargin)
+
+        # footer.drawOn(canvas, doc.leftMargin, h)
+
+ 
+
+        # # Release the canvas
+
+        # canvas.restoreState()
+    def datestrfdate(self):
+        now = date.today()
+        today = now.strftime("%d-%m-%Y")
+        return today
+    
+    def build_P_sheets(self,records,sito):
+        home = os.environ['HFF_HOME']
+        self.width, self.height = (A4)
+
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
+        
+        
+        logo = Image(logo_path)
+        logo.drawHeight = 1.5 * inch * logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 1.5 * inch
+        logo.hAlign = "LEFT"
+        
+       
+        
+        styleSheet = getSampleStyleSheet()
+        styNormal = styleSheet['Normal']
+        styBackground = ParagraphStyle('background', parent=styNormal, backColor=colors.pink)
+        styH1 = styleSheet['Heading3']
+
+        data = self.datestrfdate()
+        list=[]
+        list.append(logo)
+        
+        list.append(Paragraph("<b>HFF Archaeologcal Survey UW - Photo Index</b><br/><br/><b>Location: %s,  Data: %s</b><br/>" % (sito, data), styH1))
+     
+       
+        table_data = [] 
+       
+        
+        
+        for i in range(len(records)):
+            exp_index = Photo_index_pdf(records[i])
+            
+            table_data.append(exp_index.getTable())
+
+        styles = exp_index.makeStyles()
+        colWidths = [70, 110, 110, 190, 110, 190]
+
+        table_data_formatted = Table( table_data, colWidths, style=styles)
+        table_data_formatted.hAlign = "LEFT"
+
+        list.append(table_data_formatted)
+        list.append(Spacer(0, 0))
+
+        filename = '{}{}{}'.format(self.PDF_path, os.sep, 'Photo_index_UW.pdf')
+        f = open(filename, "wb")
+
+        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 21 * cm), showBoundary=0, topMargin=15, bottomMargin=40,
+                                leftMargin=30, rightMargin=30)
+        doc.build(list, canvasmaker=NumberedCanvas_USindex)
+
+        f.close()  
