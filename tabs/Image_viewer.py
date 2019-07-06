@@ -162,7 +162,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.delegateSites.def_values(valuesSites)
         self.delegateSites.def_editable('False')    
     def connection(self):
-        QMessageBox.warning(self, "Alert", "system under development", QMessageBox.Ok)
+        #QMessageBox.warning(self, "Alert", "system under development", QMessageBox.Ok)
 
         conn = Connection()
         conn_str = conn.conn_str()
