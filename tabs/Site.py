@@ -545,8 +545,130 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             self.mapPreview.setLayers([])
             self.mapPreview.zoomToFullExtent()
 
+    # def on_toolButton_tags_on_off_clicked(self):
+        # items = self.iconListWidget.selectedItems()
+        # if len(items) > 0:
+            # # QMessageBox.warning(self, "Errore", "Vai Gigi 1",  QMessageBox.Ok)
+            # self.open_tags()
+    
+    # def open_tags(self):
+        # if self.toolButton_tags_on_off.isChecked() == True:
+            # items = self.iconListWidget.selectedItems()
+            # items_list = []
+            # mediaToEntity_list = []
+            # for item in items:
+                # id_orig_item = item.text() #return the name of original file
+                # search_dict = {'media_filename' : "'"+str(id_orig_item)+"'"}
+                # u = Utility()
+                # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                # res_media = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
+# ##          if bool(items) == True:
+# ##              res_media = []
+# ##              for item in items:
+# ##                  res_media = []
+# ##                  id_orig_item = item.text() #return the name of original file
+# ##                  search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
+# ##                  u = Utility()
+# ##                  search_dict = u.remove_empty_items_fr_dict(search_dict)
+# ##                  res_media = self.DB_MANAGER.query_bool(search_dict, "MEDIA")
+                # if bool(res_media) == True:
 
+                    # for sing_media in res_media:
+                        # search_dict = {'media_name' : "'"+str(id_orig_item)+"'"}
+                        # u = Utility()
+                        # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                        # res_mediaToEntity = self.DB_MANAGER.query_bool(search_dict, "MEDIATOENTITY")
 
+                    # if bool(res_mediaToEntity) == True:
+                        # for sing_res_media in res_mediaToEntity:
+                            
+                                
+                                
+                            # if sing_res_media.entity_type == 'DOC':
+                                # search_dict = {'id_dive' : "'"+str(sing_res_media.id_entity)+"'"}
+                                # u = Utility()
+                                # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                # uw_data = self.DB_MANAGER.query_bool(search_dict, "UW")
+                            
+                                # Doc_string = ( 'Divelog_id: %d - Year: %d') % (uw_data[0].divelog_id, uw_data[0].years)
+    # ##              #else
+                                # mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Doc_string])
+
+                            # elif sing_res_media.entity_type == 'ARTEFACT':
+                                # search_dict = {'id_art' : "'"+str(sing_res_media.id_entity)+"'"}
+                                # u = Utility()
+                                # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                # art_data = self.DB_MANAGER.query_bool(search_dict, "ART")
+                            
+                                # Art_string = ( 'ARTEFACT ID: %s') % (art_data[0].artefact_id)
+    # ##              #else
+                                # mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Art_string])
+
+                            # elif sing_res_media.entity_type == 'PE':
+                                # search_dict = {'id_dive' : "'"+str(sing_res_media.id_entity)+"'"}
+                                # u = Utility()
+                                # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                # uw_data = self.DB_MANAGER.query_bool(search_dict, "UW")
+                            
+                                # Pe_string = ( 'Divelog_id: %d - Year: %d') % (uw_data[0].divelog_id, uw_data[0].years)
+    # ##              #else
+                                # mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Pe_string])
+                                
+                            # elif sing_res_media.entity_type == 'ANCHORS':
+                                # search_dict = {'id_anc' : "'"+str(sing_res_media.id_entity)+"'"}
+                                # u = Utility()
+                                # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                # anc_data = self.DB_MANAGER.query_bool(search_dict, "ANC")
+                            
+                                # Anc_string = ( 'ANCHORS ID: %s') % (anc_data[0].anchors_id)
+    # ##              #else
+                                # mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Anc_string])
+
+                            # elif sing_res_media.entity_type == 'POTTERY':
+                                # search_dict = {'id_rep' : "'"+str(sing_res_media.id_entity)+"'"}
+                                # u = Utility()
+                                # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                # pottery_data = self.DB_MANAGER.query_bool(search_dict, "POTTERY")
+                            
+                                # Pottery_string = ( 'Pottery ID: %s') % (pottery_data[0].artefact_id)
+    # ##              #else
+                                # mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Pottery_string])
+                            
+                            # elif sing_res_media.entity_type == 'SITE':
+                                # search_dict = {'id_media' : "'"+str(sing_res_media.id_entity)+"'"}
+                                # u = Utility()
+                                # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                # survey_data = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
+                            
+                                # Site_string = ( '%s') % (survey_data[0].media_filename)
+    # ##              #else
+                                # mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Site_string])
+                                
+                            # elif sing_res_media.entity_type == 'SPM':
+                                # search_dict = {'id_sito' : "'"+str(sing_res_media.id_entity)+"'"}
+                                # u = Utility()
+                                # search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                # survey2_data = self.DB_MANAGER.query_bool(search_dict, "SITE")
+                            
+                                # Site_string = ( 'Name site: %s') % (survey2_data[0].name_site)
+    # ##              #else
+                                # mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Site_string])   
+                                
+                                
+                                
+            # if bool(mediaToEntity_list) == True:
+                # tags_row_count = self.tableWidget_photolog.rowCount()
+                # for i in range(tags_row_count):
+                    # self.tableWidget_photolog.removeRow(0)
+
+                # self.tableInsertData('self.tableWidget_photolog', str(mediaToEntity_list))
+            
+            # if bool(items) == False:
+                # tags_row_count = self.tableWidget_photolog.rowCount()
+                # for i in range(tags_row_count):
+                    # self.tableWidget_photolog.removeRow(0)
+
+            # items = []
     def loadMediaPreview(self, mode = 0):
 
         self.iconListWidget.clear()
