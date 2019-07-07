@@ -1137,7 +1137,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
 
             if self.toolButtonPreviewMedia.isChecked() == True:
                 self.loadMediaPreview(1)
-
+                self.loadMediaPreview2(1)
     def on_pushButton_first_rec_pressed(self):
         if self.check_record_state() == 1:
             pass

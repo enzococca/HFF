@@ -2791,7 +2791,7 @@
             <attribute name="title">
              <string>Photo Material</string>
             </attribute>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>1</x>
