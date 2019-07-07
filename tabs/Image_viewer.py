@@ -560,6 +560,31 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         sito_vl.sort()
         return sito_vl
 
+    def generate_SPM_SITE(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_12')
+        record_spm_list = []
+        for sing_tags in tags_list:
+                search_dict = {'name_site'  : "'"+str(sing_tags[0])+"'"}
+                record_spm_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
+
+        spm_list = []
+        for r in record_spm_list:
+            spm_list.append([r[0].id_site, 'SPM', 'site_table'])
+        return spm_list 
+        
+    def remove_SPM_SITE(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_12')
+        record_spm_list = []
+        for sing_tags in tags_list:
+                search_dict = {'name_site'  : "'"+str(sing_tags[0])+"'"}
+                record_doc_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
+
+        spm_list = []
+        for r in record_spm_list:
+            spm_list.remove([r[0].id_site, 'SPM', 'site_table'])
+        return spm_list 
+    
+    
     def generate_Doc_UW(self):
         tags_list = self.table2dict('self.tableWidgetTags_MAT_3')
         record_doc_list = []
@@ -814,6 +839,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_removeRow_POT_10_pressed(self):
         self.remove_row('self.tableWidgetTags_MAT_11')
     
+    def on_pushButton_addRow_POT_11_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_12')
+
+    def on_pushButton_removeRow_POT_11_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_12')
     
     def on_pushButton_assignTags_docuw_pressed(self):
         """
@@ -946,7 +976,26 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
                 self.insert_mediaToEntity_rec(survey_data[0], survey_data[1], survey_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
     
-    
+    def on_pushButton_assignTags_survey_2_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        survey2_list = self.generate_SPM_SITE()
+
+        for item in items_selected:
+            for survey2_data in survey2_list:
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'id_media' : "'"+str(id_orig_item)+"'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(survey2_data[0], survey2_data[1], survey2_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
     def on_pushButton_openMedia_pressed(self):
         self.charge_data()
         self.view_num_rec()
@@ -1342,6 +1391,18 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 Site_string = ( 'Name site: %s') % (survey_data[0].name_site)
     ##              #else
                                 mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Site_string])
+                                
+                            elif sing_res_media.entity_type == 'SPM':
+                                search_dict = {'id_sito' : "'"+str(sing_res_media.id_entity)+"'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                survey2_data = self.DB_MANAGER.query_bool(search_dict, "SITE")
+                            
+                                Site_string = ( 'Name site: %s') % (survey2_data[0].name_site)
+    ##              #else
+                                mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Site_string])   
+                                
+                                
                                 
             if bool(mediaToEntity_list) == True:
                 tags_row_count = self.tableWidget_tags.rowCount()

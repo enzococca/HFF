@@ -128,6 +128,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         "Material Collection" : "material_c",
         "Morphology" : "morphology_c",
         "Collection/Survey types" : "collection_c",
+        "Photo Material" : "photo_material",
         
         
     }
@@ -180,6 +181,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         "Material Collection",
         "Morphology",
         "Collection/Survey types",
+        "Photo Material"
     ]
     TABLE_FIELDS = [
         "location_",
@@ -227,7 +229,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         "est",
         "material_c",
         "morphology_c",
-        "collection_c"
+        "collection_c",
+        "photo_material"
     ]
 
 
@@ -387,12 +390,35 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         self.iconListWidget.SelectionMode()
         self.iconListWidget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.iconListWidget.itemDoubleClicked.connect(self.openWide_image)
+        
+        self.iconListWidget_2.setLineWidth(2)
+        self.iconListWidget_2.setMidLineWidth(2)
+        self.iconListWidget_2.setProperty("showDropIndicator", False)
+        self.iconListWidget_2.setIconSize(QSize(1000, 1000))
+        self.iconListWidget_2.setMovement(QListView.Snap)
+        self.iconListWidget_2.setResizeMode(QListView.Adjust)
+        self.iconListWidget_2.setLayoutMode(QListView.Batched)
+        self.iconListWidget_2.setUniformItemSizes(True)
+        self.iconListWidget_2.setObjectName("iconListWidget_2")
+        self.iconListWidget_2.SelectionMode()
+        self.iconListWidget_2.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.iconListWidget_2.itemDoubleClicked.connect(self.openWide_image)
+        
+        
+        
         try:
             valuesMater = ["Lithics","Pottery","Bone","Metal","Glass","Definite","Tile/Building Materials",""]
             self.delegateMater = ComboBoxDelegate()
             self.delegateMater.def_values(valuesMater)
             self.delegateMater.def_editable('True')
             self.tableWidget_material.setItemDelegateForColumn(0,self.delegateMater)
+            
+            valuesMater2 = ["Lithics","Pottery","Bone","Metal","Glass","Definite","Tile/Building Materials",""]
+            self.delegateMater2 = ComboBoxDelegate()
+            self.delegateMater2.def_values(valuesMater2)
+            self.delegateMater2.def_editable('True')
+            self.tableWidget_photolog_2.setItemDelegateForColumn(1,self.delegateMater2)
+            
             
             valuesMO = ["Negative/Cut/Dug Feature","Positive/Built Feature","Surface Feature","Unknown",""]
             self.delegateMO = ComboBoxDelegate()
@@ -496,10 +522,12 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                                     "Survey Media Preview mode enabled. Survey images will be displayed in the Media section", QMessageBox.Ok)
 
             self.loadMediaPreview()
+            self.loadMediaPreview2()
 
         else:
 
             self.loadMediaPreview(1)
+            self.loadMediaPreview2(1)
 
 
     def loadMapPreview(self, mode=0):
@@ -541,9 +569,35 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 self.iconListWidget.addItem(item)
         elif mode == 1:
             self.iconListWidget.clear()
+            
+            
+            
+    def loadMediaPreview2(self, mode = 0):
+
+        self.iconListWidget_2.clear()
+        if mode == 0:
+            """ if has geometry column load to map canvas """
+            rec_list =  self.ID_TABLE + " = " + str(eval("self.DATA_LIST[int(self.REC_CORR)]." + self.ID_TABLE))
+            search_dict = {'id_entity'  : "'"+str(eval("self.DATA_LIST[int(self.REC_CORR)]." + self.ID_TABLE))+"'", 'entity_type' : "'SPM'"}
+            record_doc_list = self.DB_MANAGER.query_bool(search_dict, 'MEDIATOENTITY')
+            for i in record_doc_list:
+                search_dict = {'id_media' : "'"+str(i.id_media)+"'"}
+
+                u = Utility()
+                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                mediathumb_data = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
+                thumb_path = str(mediathumb_data[0].filepath)
+                item = QListWidgetItem(str(i.media_name))
+                item.setData(Qt.UserRole,str(i.media_name))
+                icon = QIcon(thumb_path)
+                item.setIcon(icon)
+                self.iconListWidget_2.addItem(item)
+        elif mode == 1:
+            self.iconListWidget_2.clear()       
 
     def openWide_image(self):
         items = self.iconListWidget.selectedItems()
+        items2 = self.iconListWidget2.selectedItems()
         for item in items:
             dlg = ImageViewer(self)
             id_orig_item = item.text()  # return the name of original file
@@ -558,7 +612,20 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             dlg.show_image(str(file_path))
             #item.data(QtCore.Qt.UserRole).toString()))
             dlg.exec_()
-
+        for item2 in items2:
+            dlg = ImageViewer(self)
+            id_orig_item2 = item2.text()  # return the name of original file
+            search_dict = {'media_filename': "'" + str(id_orig_item2) + "'"}
+            u = Utility()
+            search_dict = u.remove_empty_items_fr_dict(search_dict)
+            try:
+                res2 = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
+                file_path2 = str(res[0].path_resize)
+            except Exception as e:
+                QMessageBox.warning(self, "Error", "Warning 1 file: " + str(e), QMessageBox.Ok)
+            dlg.show_image(str(file_path2))
+            #item.data(QtCore.Qt.UserRole).toString()))
+            dlg.exec_()
     def charge_list(self):
         sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'name_site', 'SITE'))
 
@@ -656,7 +723,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 str(self.DATA_LIST[i].est),
                 str(self.DATA_LIST[i].material_c),
                 str(self.DATA_LIST[i].morphology_c),
-                str(self.DATA_LIST[i].collection_c)
+                str(self.DATA_LIST[i].collection_c),
+                str(self.DATA_LIST[i].photo_material)
                 
             ])
         return data_list
@@ -669,6 +737,10 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         PHOTOLOG_pdf_sheet = generate_site_pdf()
         data_list = self.generate_list_pdf()
         PHOTOLOG_pdf_sheet.build_photolog_sheets(data_list)
+    
+        PHOTOLOG_pdf_sheet2 = generate_site_pdf()
+        data_list = self.generate_list_pdf()
+        PHOTOLOG_pdf_sheet2.build_photolog_2_sheets(data_list)
     def on_pushButton_sort_pressed(self):
         if self.check_record_state() == 1:
             pass
@@ -800,6 +872,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         morphology_c = self.table2dict("self.tableWidget_morphology")
         
         collection_c = self.table2dict("self.tableWidget_collection")
+        
+        photo_material = self.table2dict("self.tableWidget_photolog_2")
 
         ##quota min usm
         if self.lineEdit_length.text() == "":
@@ -874,7 +948,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 str(self.comboBox_ets.currentText()), 
                 str(material_c),
                 str(morphology_c),
-                str(collection_c)
+                str(collection_c),
+                str(photo_material)
             )
 
             try:
@@ -947,7 +1022,14 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
 
     def on_pushButton_remove_row_collection_pressed(self):
         self.remove_row('self.tableWidget_collection')  
+    
+    def on_pushButton_insert_row_photolog_2_pressed(self):
+        self.insert_new_row('self.tableWidget_photolog_2')
 
+    def on_pushButton_remove_row_photolog_2_pressed(self):
+        self.remove_row('self.tableWidget_photolog_2')
+
+    
     def insert_new_row(self, table_name):
         """insert new row into a table based on table_name"""
         cmd = table_name + ".insertRow(0)"
@@ -1449,6 +1531,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         material_c_row_count = self.tableWidget_material.rowCount()
         morphology_c_row_count = self.tableWidget_morphology.rowCount()
         collection_c_row_count = self.tableWidget_collection.rowCount()
+        photo_material_row_count = self.tableWidget_photolog_2.rowCount()
+        
         self.comboBox_location.setEditText("")  # 1 - Sito
         self.comboBox_mouhafasat.setEditText("")  # 2 - Nazione
         self.comboBox_casa.setEditText("")  # 3 - Regione
@@ -1517,6 +1601,11 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         for i in range(collection_c_row_count):
             self.tableWidget_collection.removeRow(0)
         self.insert_new_row("self.tableWidget_collection")  # 16 - inclusi
+        
+        for i in range(photo_material_row_count):
+            self.tableWidget_photolog_2.removeRow(0)
+        self.insert_new_row("self.tableWidget_photolog_2")  # 16 - inclusi
+        
     def fill_fields(self, n=0):
         self.rec_num = n
         try:
@@ -1585,10 +1674,11 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             self.tableInsertData("self.tableWidget_material", self.DATA_LIST[self.rec_num].material_c)
             self.tableInsertData("self.tableWidget_morphology", self.DATA_LIST[self.rec_num].morphology_c)
             self.tableInsertData("self.tableWidget_collection", self.DATA_LIST[self.rec_num].collection_c)
-            
+            self.tableInsertData("self.tableWidget_photolog_2", self.DATA_LIST[self.rec_num].photo_material)
             
             if self.toolButtonPreviewMedia.isChecked() == True:
                 self.loadMediaPreview()
+                self.loadMediaPreview2()
         except Exception as e:
 
             pass
@@ -1613,7 +1703,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         material_c = self.table2dict("self.tableWidget_material")
         morphology_c = self.table2dict("self.tableWidget_morphology")
         collection_c = self.table2dict("self.tableWidget_collection")
-           
+        photo_material = self.table2dict("self.tableWidget_photolog_2")   
         ##quota min usm
         if self.lineEdit_length.text() == "":
             length = None
@@ -1685,6 +1775,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             str(material_c),
             str(morphology_c),
             str(collection_c),
+            str(photo_material),
         ]
 
     def set_LIST_REC_CORR(self):

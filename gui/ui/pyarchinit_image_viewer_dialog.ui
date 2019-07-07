@@ -18,12 +18,12 @@
     <rect>
      <x>554</x>
      <y>170</y>
-     <width>521</width>
-     <height>361</height>
+     <width>511</width>
+     <height>381</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>5</number>
+    <number>6</number>
    </property>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
@@ -511,6 +511,12 @@
        <height>251</height>
       </rect>
      </property>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>488</number>
+     </attribute>
+     <attribute name="horizontalHeaderMinimumSectionSize">
+      <number>55</number>
+     </attribute>
      <row>
       <property name="text">
        <string/>
@@ -561,6 +567,58 @@
       <string>Add tags</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QWidget" name="tab_6">
+    <attribute name="title">
+     <string>Survey Photo material</string>
+    </attribute>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_33">
+       <property name="text">
+        <string>Tags manager</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButton_addRow_POT_11">
+       <property name="text">
+        <string>+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="pushButton_removeRow_POT_11">
+       <property name="text">
+        <string>-</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="3">
+      <widget class="QTableWidget" name="tableWidgetTags_MAT_12">
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>473</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string/>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Name Site</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton_assignTags_survey_2">
+       <property name="text">
+        <string>Add tags</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QWidget" name="layoutWidget">

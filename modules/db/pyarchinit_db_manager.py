@@ -330,7 +330,8 @@ class Pyarchinit_db_management(object):
                     arg[44],
                     arg[45],
                     arg[46],
-                    arg[47])
+                    arg[47],
+                    arg[48])
 
         return sito
 

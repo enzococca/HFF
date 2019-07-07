@@ -2,7 +2,7 @@
 """
 /***************************************************************************
         pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
-        					 stored in Postgres
+                             stored in Postgres
                              -------------------
     begin                : 2007-12-01
     copyright            : (C) 2008 by Luca Mandolesi
@@ -54,6 +54,10 @@ class DB_update(object):
         if not table_column_names_list.__contains__('find_check'):
             self.engine.execute("ALTER TABLE site_table ADD COLUMN find_check INTEGER DEFAULT 0")
 
+        if not table_column_names_list.__contains__('photo_material'):
+            self.engine.execute("ALTER TABLE site_table ADD COLUMN photo_material text DEFAULT '[[]]' ")
+        
+        
         # ####US_table
         # table = Table("us_table", self.metadata, autoload=True)
         # table_column_names_list = []
@@ -387,5 +391,5 @@ class DB_update(object):
             # pass
             # verificare se aggiorna le tabelle con i campi nuovi
 
-		
-		
+        
+        
