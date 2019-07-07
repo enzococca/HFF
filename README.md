@@ -23,7 +23,8 @@
 * reportlab
 * matplotlib
 * networkx
-* pysftp
+* pscopgy2
+* elastichserach
 * pandas
 * xlxswriter
 
