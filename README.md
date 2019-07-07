@@ -14,9 +14,9 @@
 
 **Note3:** _If you use PostgreSQL, we raccomend to install PostgreSQL >=9.6_
 
-**Note4:** _If you have already an pyarchinit db, use "update posgres" or "update sqlite" tool in pyarchinit configuration  form to update  your db to the new release._
+**Note4:** _If you have already an hff db, use "update posgres" or "update sqlite" tool in pyarchinit configuration  form to update  your db to the new release._
 
-**Note5:** _If you have already installed pyarchinit before of the 01/02/2019, to install the new version, delete the file config.cfg in HFF_DB_folder and restart as admin._
+
 
 #### Dependencies
 * SQLAlchemy
