@@ -28,6 +28,8 @@
 * matplotlib
 * networkx
 * pysftp
+* pandas
+* xlxswriter
 
 The dependencies can be installed using the [modules_installer.py](/scripts/modules_installer.py) by running it from within a python shell:
 
