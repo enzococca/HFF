@@ -21,10 +21,6 @@
 #### Dependencies
 * SQLAlchemy
 * reportlab
-* PypeR (for R)
-* [R Software](https://www.r-project.org/)
-* [Graphviz Visualization Software](https://www.graphviz.org/)
-* [graphviz python module](https://github.com/xflr6/graphviz)
 * matplotlib
 * networkx
 * pysftp
