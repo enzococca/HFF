@@ -569,7 +569,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
         spm_list = []
         for r in record_spm_list:
-            spm_list.append([r[0].id_site, 'SPM', 'site_table'])
+            spm_list.append([r[0].id_sito, 'SPM', 'site_table'])
         return spm_list 
         
     def remove_SPM_SITE(self):
@@ -581,7 +581,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
         spm_list = []
         for r in record_spm_list:
-            spm_list.remove([r[0].id_site, 'SPM', 'site_table'])
+            spm_list.remove([r[0].id_sito, 'SPM', 'site_table'])
         return spm_list 
     
     
