@@ -719,7 +719,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
 
     def openWide_image(self):
         items = self.iconListWidget.selectedItems()
-        items2 = self.iconListWidget2.selectedItems()
+        items2 = self.iconListWidget_2.selectedItems()
         for item in items:
             dlg = ImageViewer(self)
             id_orig_item = item.text()  # return the name of original file
