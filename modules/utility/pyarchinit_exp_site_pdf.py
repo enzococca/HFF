@@ -587,206 +587,180 @@ class single_site_pdf_sheet:
 
         return styles
 
-class photolog_index_pdf:
+# class photolog_index_pdf:
     
 
 
-    def __init__(self, data):
-        self.location_=data[0]
-        self.name_site=data[1]
-        self.photolog= data[31]
+    # def __init__(self, data):
+        # self.location_=data[0]
+        # self.name_site=data[1]
+        # self.photolog= data[31]
 
     
 
-    def create_index(self):
-        styleSheet = getSampleStyleSheet()
-        stylogo = styleSheet['Normal']
-        stylogo.spaceBefore = 20
-        stylogo.spaceAfter = 20
-        stylogo.alignment = 1  # LEFT    
-        styleSheet = getSampleStyleSheet()
-        styInt = styleSheet['Normal']
-        styInt.spaceBefore = 20
-        styInt.spaceAfter = 20
-        styInt.fontSize = 8
-        styInt.alignment = 1  # LEFT    
-        styleSheet = getSampleStyleSheet()
+    # def create_index(self):
+        # styleSheet = getSampleStyleSheet()
+        # stylogo = styleSheet['Normal']
+        # stylogo.spaceBefore = 20
+        # stylogo.spaceAfter = 20
+        # stylogo.alignment = 1  # LEFT    
+        # styleSheet = getSampleStyleSheet()
+        # styInt = styleSheet['Normal']
+        # styInt.spaceBefore = 20
+        # styInt.spaceAfter = 20
+        # styInt.fontSize = 8
+        # styInt.alignment = 1  # LEFT    
+        # styleSheet = getSampleStyleSheet()
         
-        styNormal = styleSheet['Normal']
-        styNormal.spaceBefore = 10
-        styNormal.spaceAfter = 10
-        styNormal.fontSize = 6
-        styNormal.alignment = 0  # LEFT
-        styleSheet = getSampleStyleSheet()
-        styDescrizione = styleSheet['Normal']
-        styDescrizione.spaceBefore = 20
-        styDescrizione.spaceAfter = 20
-        styDescrizione.fontSize = 6
-        styDescrizione.alignment = 4  # Justified
-        styleSheet = getSampleStyleSheet()
-        styUnitaTipo = styleSheet['Normal']
-        styUnitaTipo.spaceBefore = 20
-        styUnitaTipo.spaceAfter = 20
-        styUnitaTipo.fontSize = 14
-        styUnitaTipo.alignment = 1  # CENTER
-        styleSheet = getSampleStyleSheet()
-        styTitoloComponenti = styleSheet['Normal']
-        styTitoloComponenti.spaceBefore = 20
-        styTitoloComponenti.spaceAfter = 20
-        styTitoloComponenti.fontSize = 6
-        styTitoloComponenti.alignment = 1  # CENTER
-        intestazione = Paragraph("<b>Archaeological Terrestrial Survey - Photo Index<br/>" + "</b>", styInt)
-        home = os.environ['HFF_HOME']
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
-        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
-        logo = Image(logo_path)
-        ##      if test_image.drawWidth < 800:
-        logo.drawHeight = 0.5*inch*logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 0.5*inch
-        logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
-        logo2 = Image(logo_path2)
-        ##      if test_image.drawWidth < 800:
-        logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
-        logo2.drawWidth = 0.5*inch
-        logo.hAlign = "CENTER"
-        logo2.hAlign = "CENTER"
+        # styNormal = styleSheet['Normal']
+        # styNormal.spaceBefore = 10
+        # styNormal.spaceAfter = 10
+        # styNormal.fontSize = 6
+        # styNormal.alignment = 0  # LEFT
+        # styleSheet = getSampleStyleSheet()
+        # styDescrizione = styleSheet['Normal']
+        # styDescrizione.spaceBefore = 20
+        # styDescrizione.spaceAfter = 20
+        # styDescrizione.fontSize = 6
+        # styDescrizione.alignment = 4  # Justified
+        # styleSheet = getSampleStyleSheet()
+        # styUnitaTipo = styleSheet['Normal']
+        # styUnitaTipo.spaceBefore = 20
+        # styUnitaTipo.spaceAfter = 20
+        # styUnitaTipo.fontSize = 14
+        # styUnitaTipo.alignment = 1  # CENTER
+        # styleSheet = getSampleStyleSheet()
+        # styTitoloComponenti = styleSheet['Normal']
+        # styTitoloComponenti.spaceBefore = 20
+        # styTitoloComponenti.spaceAfter = 20
+        # styTitoloComponenti.fontSize = 6
+        # styTitoloComponenti.alignment = 1  # CENTER
+        # intestazione = Paragraph("<b>Archaeological Terrestrial Survey - Photo Index<br/>" + "</b>", styInt)
+        # home = os.environ['HFF_HOME']
+        # home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
+        # logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
+        # logo = Image(logo_path)
+        # ##      if test_image.drawWidth < 800:
+        # logo.drawHeight = 0.5*inch*logo.drawHeight / logo.drawWidth
+        # logo.drawWidth = 0.5*inch
+        # logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
+        # logo2 = Image(logo_path2)
+        # ##      if test_image.drawWidth < 800:
+        # logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        # logo2.drawWidth = 0.5*inch
+        # logo.hAlign = "CENTER"
+        # logo2.hAlign = "CENTER"
 
 
-        #1 row
-        location = Paragraph("<b>Location</b><br/>"  + str(self.location_), styNormal)
-        name_site = Paragraph("<b>Site name</b><br/>"  + str(self.name_site), styNormal)
-        photolog2 = Paragraph("<b>Photolog</b><br/>", styInt)
+        # #1 row
+        # location = Paragraph("<b>Location</b><br/>"  + str(self.location_), styNormal)
+        # name_site = Paragraph("<b>Site name</b><br/>"  + str(self.name_site), styNormal)
+        # photolog2 = Paragraph("<b>Photolog</b><br/>", styInt)
         
-        #pp= range(len(self.photolog)))
-        photologs = eval(self.photolog)
-        camera_id='' 
-        orientation2=''
-        dec=''
+        # #pp= range(len(self.photolog)))
+        # photologs = eval(self.photolog)
+        # camera_id='' 
+        # orientation2=''
+        # dec=''
            
            
        
-        for i in photologs:
-            if camera_id=='':
-                try:
-                    camera_id += str(i[0]) + "<br/>"
-                    orientation2 +=  str(i[1]) + "<br/>"
-                    dec +=  str(i[2]) + "<br/>"
-                except:
-                    pass
-            else:
-                try:
-                    camera_id +=  ' ' + str(i[0]) + "<br/>"
-                    orientation2 += ' ' + str(i[1]) + "<br/>"
-                    dec +=   ' ' + str(i[2]) + "<br/>"
-                except:
-                    pass
+        # for i in photologs:
+            # if camera_id=='':
+                # try:
+                    # camera_id += str(i[0]) + "<br/>"
+                    # orientation2 +=  str(i[1]) + "<br/>"
+                    # dec +=  str(i[2]) + "<br/>"
+                # except:
+                    # pass
+            # else:
+                # try:
+                    # camera_id +=  ' ' + str(i[0]) + "<br/>"
+                    # orientation2 += ' ' + str(i[1]) + "<br/>"
+                    # dec +=   ' ' + str(i[2]) + "<br/>"
+                # except:
+                    # pass
                                 
-        camera_id = Paragraph("<b>ID</b><br/>" + str(camera_id), styNormal)
-        orientation2 = Paragraph("<b>Orientation Camera</b><br/>" + orientation2, styNormal)
-        dec = Paragraph("<b>Photo Description</b><br/>" + dec, styNormal)
-        cell_schema =  [
-                        #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
-                        [logo2, '01', intestazione,'03' , '04','05', '06', '07', '08', '09','10','11','12','13', '14','15',logo,'17'], #0 row ok
-                        [location, '01', '02', '03', '04','05', '06', '07', '08',name_site,'10','11','12','13', '14','15','16','17'], #1 row ok
-                        [photolog2, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #2 row ok
-                        [camera_id, '01', '02', orientation2, '04','05', '06', dec, '08', '09','10','11','12','13', '14','15','16','17']] #2 row ok
+        # camera_id = Paragraph("<b>ID</b><br/>" + str(camera_id), styNormal)
+        # orientation2 = Paragraph("<b>Orientation Camera</b><br/>" + orientation2, styNormal)
+        # dec = Paragraph("<b>Photo Description</b><br/>" + dec, styNormal)
+        # cell_schema =  [
+                        # #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
+                        # [logo2, '01', intestazione,'03' , '04','05', '06', '07', '08', '09','10','11','12','13', '14','15',logo,'17'], #0 row ok
+                        # [location, '01', '02', '03', '04','05', '06', '07', '08',name_site,'10','11','12','13', '14','15','16','17'], #1 row ok
+                        # [photolog2, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #2 row ok
+                        # [camera_id, '01', '02', orientation2, '04','05', '06', dec, '08', '09','10','11','12','13', '14','15','16','17']] #2 row ok
                         
-        table_style=[
-                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
-                    #0 row
-                    ('SPAN', (0,0),(1,0)),  #logo2
-                    ('SPAN', (2,0),(15,0)),  #intestazione
-                    ('SPAN', (16,0),(17,0)),  #logo
+        # table_style=[
+                    # ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                    # #0 row
+                    # ('SPAN', (0,0),(1,0)),  #logo2
+                    # ('SPAN', (2,0),(15,0)),  #intestazione
+                    # ('SPAN', (16,0),(17,0)),  #logo
                     
-                    ('SPAN', (0,1),(8,1)),  #sito
-                    ('SPAN', (9,1),(17,1)),#divelogid
+                    # ('SPAN', (0,1),(8,1)),  #sito
+                    # ('SPAN', (9,1),(17,1)),#divelogid
                     
-                    ('SPAN', (0,2),(17,2)),  #photolog
-                    ('SPAN', (0,3),(2,3)),  #camera id
-                    ('SPAN', (3,3),(6,3)),  #orientation 
-                    ('SPAN', (7,3),(17,3)),  #description
-                    ]
+                    # ('SPAN', (0,2),(17,2)),  #photolog
+                    # ('SPAN', (0,3),(2,3)),  #camera id
+                    # ('SPAN', (3,3),(6,3)),  #orientation 
+                    # ('SPAN', (7,3),(17,3)),  #description
+                    # ]
 
 
-        colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
-        rowHeights = None
-        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
-        return t    
-    def makeStyles(self):
-        styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
-        ])  #finale
+        # colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
+        # rowHeights = None
+        # t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
+        # return t    
+    # def makeStyles(self):
+        # styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
+        # ])  #finale
 
-        return styles
+        # return styles
 
-class photolog_index_pdf_2:
+class photolog_index_pdf_2(object):
     
-
-
+    
     def __init__(self, data):
         self.location_=data[0]
         self.name_site=data[1]
         self.photo_material= data[38]
-
     
+    def datestrfdate(self):
+        now = date.today()
+        today = now.strftime("%d-%m-%Y")
+        return today
 
-    def create_index(self):
+    def getintestazione(self):
         styleSheet = getSampleStyleSheet()
-        stylogo = styleSheet['Normal']
-        stylogo.spaceBefore = 20
-        stylogo.spaceAfter = 20
-        stylogo.alignment = 1  # LEFT    
-        styleSheet = getSampleStyleSheet()
-        styInt = styleSheet['Normal']
-        styInt.spaceBefore = 20
-        styInt.spaceAfter = 20
-        styInt.fontSize = 8
-        styInt.alignment = 1  # LEFT    
-        styleSheet = getSampleStyleSheet()
-        
         styNormal = styleSheet['Normal']
-        styNormal.spaceBefore = 10
-        styNormal.spaceAfter = 10
-        styNormal.fontSize = 6
+        styNormal.spaceBefore = 20
+        styNormal.spaceAfter = 20
         styNormal.alignment = 0  # LEFT
+        styNormal.fontSize = 9
+        #1 row
+        
+        
+        name_site = Paragraph("Name", styNormal)
+        photo_id1 = Paragraph("PhotoID", styNormal)
+        description_p1 = Paragraph("Material", styNormal)
+        video_id1 = Paragraph("Quantity", styNormal)
+        description_v1 = Paragraph("Description", styNormal)
+    
+    
+    def getTable(self):
         styleSheet = getSampleStyleSheet()
-        styDescrizione = styleSheet['Normal']
-        styDescrizione.spaceBefore = 20
-        styDescrizione.spaceAfter = 20
-        styDescrizione.fontSize = 6
-        styDescrizione.alignment = 4  # Justified
-        styleSheet = getSampleStyleSheet()
-        styUnitaTipo = styleSheet['Normal']
-        styUnitaTipo.spaceBefore = 20
-        styUnitaTipo.spaceAfter = 20
-        styUnitaTipo.fontSize = 14
-        styUnitaTipo.alignment = 1  # CENTER
-        styleSheet = getSampleStyleSheet()
-        styTitoloComponenti = styleSheet['Normal']
-        styTitoloComponenti.spaceBefore = 20
-        styTitoloComponenti.spaceAfter = 20
-        styTitoloComponenti.fontSize = 6
-        styTitoloComponenti.alignment = 1  # CENTER
-        intestazione = Paragraph("<b>Archaeological Terrestrial Survey - Photo Material Index<br/>" + "</b>", styInt)
-        home = os.environ['HFF_HOME']
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
-        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
-        logo = Image(logo_path)
-        ##      if test_image.drawWidth < 800:
-        logo.drawHeight = 0.5*inch*logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 0.5*inch
-        logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
-        logo2 = Image(logo_path2)
-        ##      if test_image.drawWidth < 800:
-        logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
-        logo2.drawWidth = 0.5*inch
-        logo.hAlign = "CENTER"
-        logo2.hAlign = "CENTER"
-
+        styNormal = styleSheet['Normal']
+        styNormal.spaceBefore = 20
+        styNormal.spaceAfter = 20
+        styNormal.alignment = 0  # LEFT
+        styNormal.fontSize = 9
+     
 
         #1 row
-        location = Paragraph("<b>Location</b><br/>"  + str(self.location_), styNormal)
-        name_site = Paragraph("<b>Site name</b><br/>"  + str(self.name_site), styNormal)
-        photolog2 = Paragraph("<b>Photolog</b><br/>", styInt)
+        a_location_ = Paragraph( str(self.location_), styNormal)
+        name_site = Paragraph( "<b>Name</b><br/>" +str(self.name_site), styNormal)
+        #photolog2 = Paragraph("<b>Photolog</b><br/>", styInt)
         
         #pp= range(len(self.photolog)))
         photologs2 = eval(self.photo_material)
@@ -819,40 +793,93 @@ class photolog_index_pdf_2:
         material = Paragraph("<b>Material</b><br/>" + str(material), styNormal)
         quantity = Paragraph("<b>Quantity</b><br/>" + str(quantity), styNormal)
         dec = Paragraph("<b>Photo Description</b><br/>" + str(dec), styNormal)
-        cell_schema =  [
-                        #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
-                        [logo2, '01', intestazione,'03' , '04','05', '06', '07', '08', '09','10','11','12','13', '14','15',logo,'17'], #0 row ok
-                        [location, '01', '02', '03', '04','05', '06', '07', '08',name_site,'10','11','12','13', '14','15','16','17'], #1 row ok
-                        [photolog2, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #2 row ok
-                        [camera_id, '01', '02', material, '04','05', quantity,'07', dec, '09','10','11','12','13', '14','15','16','17']] #2 row ok
-                        
-        table_style=[
-                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
-                    #0 row
-                    ('SPAN', (0,0),(1,0)),  #logo2
-                    ('SPAN', (2,0),(15,0)),  #intestazione
-                    ('SPAN', (16,0),(17,0)),  #logo
-                    
-                    ('SPAN', (0,1),(8,1)),  #sito
-                    ('SPAN', (9,1),(17,1)),#divelogid
-                    
-                    ('SPAN', (0,2),(17,2)),  #photolog
-                    ('SPAN', (0,3),(2,3)),  #camera id
-                    ('SPAN', (3,3),(5,3)),  #orientation 
-                    ('SPAN', (6,3),(7,3)),  #description
-                    ('SPAN', (8,3),(17,3)),  #description
-                    ]
-
-
-        colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
-        rowHeights = None
-        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
-        return t    
+        data =[
+            
+            name_site,
+            camera_id,
+            material,
+            quantity,
+            dec
+            ]
+        return data
+    
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
         ])  #finale
 
         return styles
+
+
+
+class generate_photo_pdf:
+    HOME = os.environ['HFF_HOME']
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    
+    def datestrfdate(self):
+        now = date.today()
+        today = now.strftime("%d-%m-%Y")
+        return today
+    
+    def build_photolog_2(self,records,a_location_):
+        home = os.environ['HFF_HOME']
+        self.width, self.height = (A4)
+
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
+        
+        
+        logo = Image(logo_path)
+        logo.drawHeight = 1.5 * inch * logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 1.5 * inch
+        logo.hAlign = "LEFT"
+        
+       
+        
+        styleSheet = getSampleStyleSheet()
+        styNormal = styleSheet['Normal']
+        styBackground = ParagraphStyle('background', parent=styNormal, backColor=colors.pink)
+        styH1 = styleSheet['Heading3']
+
+        data = self.datestrfdate()
+        list=[]
+        list.append(logo)
+        
+        list.append(Paragraph("<b>HFF Archaeologcal Survey TE - Photo Index</b><br/><br/><b>Location: %s,  Data: %s</b><br/>" % (a_location_,data), styH1))
+     
+       
+        table_data = [] 
+       
+        
+        
+        for i in range(len(records)):
+            exp_index = photolog_index_pdf_2(records[i])
+            
+            table_data.append(exp_index.getTable())
+
+        styles = exp_index.makeStyles()
+        colWidths = [70, 50,80, 50, 350]
+
+        table_data_formatted = Table( table_data, colWidths, style=styles)
+        table_data_formatted.hAlign = "LEFT"
+
+        list.append(table_data_formatted)
+        list.append(Spacer(0, 0))
+
+        filename = '{}{}{}'.format(self.PDF_path, os.sep, 'Photo_index_Material_TE.pdf')
+        f = open(filename, "wb")
+
+        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 21 * cm), showBoundary=0, topMargin=15, bottomMargin=40,
+                                leftMargin=30, rightMargin=30)
+        doc.build(list, canvasmaker=NumberedCanvas_siteindex)
+
+        f.close()  
+
+        
+    
+    
+
+
+
 class generate_site_pdf:
     HOME = os.environ['HFF_HOME']
 
@@ -863,38 +890,7 @@ class generate_site_pdf:
         today = now.strftime("%d-%m-%Y")
         return today
 
-    def build_photolog_sheets(self, records):
-        elements = []
-        for i in range(len(records)):
-            photolog_site_sheet = photolog_index_pdf(records[i])
-            
-            elements.append(photolog_site_sheet.create_index())
-            
-            elements.append(PageBreak())
-
-        filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Photolog_index.pdf')
-        f = open(filename, "wb")
-
-        doc = SimpleDocTemplate(f, pagesize=A4)
-        doc.build(elements, canvasmaker=NumberedCanvas_sitesheet)
-
-        f.close()
-    def build_photolog_2_sheets(self, records):
-        elements = []
-        for i in range(len(records)):
-            photolog_site_sheet_2 = photolog_index_pdf_2(records[i])
-            
-            elements.append(photolog_site_sheet_2.create_index())
-            
-            elements.append(PageBreak())
-
-        filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Photolog_index_site_material.pdf')
-        f = open(filename, "wb")
-
-        doc = SimpleDocTemplate(f, pagesize=A4)
-        doc.build(elements, canvasmaker=NumberedCanvas_sitesheet)
-
-        f.close()
+    
     def build_site_sheets(self, records):
         elements = []
         for i in range(len(records)):
@@ -913,3 +909,155 @@ class generate_site_pdf:
         f.close()    
     
     
+class photolog_index_pdf(object):
+    
+    
+    def __init__(self, data):
+        self.location_=data[0]
+        self.name_site=data[1]
+        self.photolog= data[31]
+    
+    def datestrfdate(self):
+        now = date.today()
+        today = now.strftime("%d-%m-%Y")
+        return today
+
+    def getintestazione(self):
+        styleSheet = getSampleStyleSheet()
+        styNormal = styleSheet['Normal']
+        styNormal.spaceBefore = 20
+        styNormal.spaceAfter = 20
+        styNormal.alignment = 0  # LEFT
+        styNormal.fontSize = 9
+        #1 row
+        
+        
+        name_site = Paragraph("Name", styNormal)
+        photo_id1 = Paragraph("PhotoID", styNormal)
+        description_p1 = Paragraph("Orientation", styNormal)
+        description_v1 = Paragraph("Description", styNormal)
+    
+    
+    def getTable(self):
+        styleSheet = getSampleStyleSheet()
+        styNormal = styleSheet['Normal']
+        styNormal.spaceBefore = 20
+        styNormal.spaceAfter = 20
+        styNormal.alignment = 0  # LEFT
+        styNormal.fontSize = 9
+     
+
+        #1 row
+        a_location_ = Paragraph( str(self.location_), styNormal)
+        name_site = Paragraph( "<b>Name</b><br/>" +str(self.name_site), styNormal)
+        #photolog2 = Paragraph("<b>Photolog</b><br/>", styInt)
+        
+        #pp= range(len(self.photolog)))
+        photologs2 = eval(self.photolog)
+        camera_id='' 
+        orientation=''
+        dec=''
+           
+           
+       
+        for i in photologs2:
+            if camera_id=='':
+                try:
+                    camera_id += str(i[0]) + "<br/>"
+                    orientation +=  str(i[1]) + "<br/>"
+                    dec +=  str(i[2]) + "<br/>"
+                    
+                except:
+                    pass
+            else:
+                try:
+                    camera_id +=  ' ' + str(i[0]) + "<br/>"
+                    orientation += ' ' + str(i[1]) + "<br/>"
+                    dec +=   ' ' + str(i[2]) + "<br/>"
+                    
+                except:
+                    pass
+                                
+        camera_id = Paragraph("<b>ID</b><br/>" + str(camera_id), styNormal)
+        orientation = Paragraph("<b>Orientation</b><br/>" + str(orientation), styNormal)
+        dec = Paragraph("<b>Photo Description</b><br/>" + str(dec), styNormal)
+        data =[
+            
+            name_site,
+            camera_id,
+            orientation,
+            
+            dec
+            ]
+        return data
+    
+    def makeStyles(self):
+        styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
+        ])  #finale
+
+        return styles
+
+
+
+class generate_photo_pdf_2:
+    HOME = os.environ['HFF_HOME']
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    
+    def datestrfdate(self):
+        now = date.today()
+        today = now.strftime("%d-%m-%Y")
+        return today
+    
+    def build_photolog(self,records,a_location_):
+        home = os.environ['HFF_HOME']
+        self.width, self.height = (A4)
+
+        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
+        
+        
+        logo = Image(logo_path)
+        logo.drawHeight = 1.5 * inch * logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 1.5 * inch
+        logo.hAlign = "LEFT"
+        
+       
+        
+        styleSheet = getSampleStyleSheet()
+        styNormal = styleSheet['Normal']
+        styBackground = ParagraphStyle('background', parent=styNormal, backColor=colors.pink)
+        styH1 = styleSheet['Heading3']
+
+        data = self.datestrfdate()
+        list=[]
+        list.append(logo)
+        
+        list.append(Paragraph("<b>HFF Archaeologcal Survey TE - Photo Index</b><br/><br/><b>Location: %s,  Data: %s</b><br/>" % (a_location_,data), styH1))
+     
+       
+        table_data = [] 
+       
+        
+        
+        for i in range(len(records)):
+            exp_index = photolog_index_pdf(records[i])
+            
+            table_data.append(exp_index.getTable())
+
+        styles = exp_index.makeStyles()
+        colWidths = [70, 80,70,420]
+
+        table_data_formatted = Table( table_data, colWidths, style=styles)
+        table_data_formatted.hAlign = "LEFT"
+
+        list.append(table_data_formatted)
+        list.append(Spacer(0, 0))
+
+        filename = '{}{}{}'.format(self.PDF_path, os.sep, 'Photo_index_TE.pdf')
+        f = open(filename, "wb")
+
+        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 21 * cm), showBoundary=0, topMargin=15, bottomMargin=40,
+                                leftMargin=30, rightMargin=30)
+        doc.build(list, canvasmaker=NumberedCanvas_siteindex)
+
+        f.close() 

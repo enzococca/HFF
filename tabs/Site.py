@@ -49,7 +49,7 @@ from ..test_area import Test_area
 from ..gui.imageViewer import ImageViewer
 from ..gui.sortpanelmain import SortPanelMain
 from qgis.gui import QgsMapCanvas, QgsMapToolPan
-from ..modules.utility.pyarchinit_exp_site_pdf import generate_site_pdf
+from ..modules.utility.pyarchinit_exp_site_pdf import *
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Site.ui'))
 
 
@@ -856,13 +856,13 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         SITE_pdf_sheet.build_site_sheets(data_list)
         
         
-        PHOTOLOG_pdf_sheet = generate_site_pdf()
+        PHOTOLOG_pdf_sheet = generate_photo_pdf_2()
         data_list = self.generate_list_pdf()
-        PHOTOLOG_pdf_sheet.build_photolog_sheets(data_list)
+        PHOTOLOG_pdf_sheet.build_photolog(data_list,data_list[0][0])
     
-        PHOTOLOG_pdf_sheet2 = generate_site_pdf()
+        PHOTOLOG_pdf_sheet2 = generate_photo_pdf()
         data_list = self.generate_list_pdf()
-        PHOTOLOG_pdf_sheet2.build_photolog_2_sheets(data_list)
+        PHOTOLOG_pdf_sheet2.build_photolog_2(data_list,data_list[0][0])
     def on_pushButton_sort_pressed(self):
         if self.check_record_state() == 1:
             pass
