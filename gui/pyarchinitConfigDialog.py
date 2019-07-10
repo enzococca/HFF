@@ -488,7 +488,8 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].est,
                         data_list_toimp[sing_rec].material_c,
                         data_list_toimp[sing_rec].morphology_c,
-                        data_list_toimp[sing_rec].collection_c)
+                        data_list_toimp[sing_rec].collection_c,
+                        data_list_toimp[sing_rec].photolog_material)
             
                       
                     self.DB_MANAGER_write.insert_data_session(data)
