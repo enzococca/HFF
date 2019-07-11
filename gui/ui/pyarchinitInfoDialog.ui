@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>pyArchInit - Info</string>
+   <string>HFF Survey - Info</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

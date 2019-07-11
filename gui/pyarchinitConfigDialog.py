@@ -503,7 +503,7 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 
                 except Exception as  e:
                     e_str = str(e)
-                    QMessageBox.warning(self, "Errore", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
+                    QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
                
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")

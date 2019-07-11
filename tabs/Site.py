@@ -742,7 +742,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             try:
                 res2 = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
-                file_path2 = str(res[0].path_resize)
+                file_path2 = str(res2[0].path_resize)
             except Exception as e:
                 QMessageBox.warning(self, "Error", "Warning 1 file: " + str(e), QMessageBox.Ok)
             dlg.show_image(str(file_path2))
