@@ -299,20 +299,20 @@ class generate_POTTERY_pdf:
     def build_index_POTTERY(self, records, divelog_id):
         HOME = os.environ['HFF_HOME']
         PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
-        home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
-        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
+        home_DB_path = '{}{}{}'.format(HOME, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
         logo = Image(logo_path)
         ##      if test_image.drawWidth < 800:
-        logo.drawHeight = 0.5*inch*logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 0.5*inch
-        logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
-        logo2 = Image(logo_path2)
-        ##      if test_image.drawWidth < 800:
-        logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
-        logo2.drawWidth = 0.5*inch
-        #1 row
-        logo.hAlign = "CENTER"
-        logo2.hAlign = "CENTER"
+        logo.drawHeight = 1.5*inch*logo.drawHeight / logo.drawWidth
+        logo.drawWidth = 1.5*inch
+        # logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
+        # logo2 = Image(logo_path2)
+        # ##      if test_image.drawWidth < 800:
+        # logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        # logo2.drawWidth = 0.5*inch
+        # #1 row
+        logo.hAlign = "LEFT"
+        # logo2.hAlign = "CENTER"
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styBackground = ParagraphStyle('background', parent=styNormal, backColor=colors.pink)

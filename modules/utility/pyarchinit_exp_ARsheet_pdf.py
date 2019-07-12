@@ -377,13 +377,19 @@ class generate_AR_pdf:
         
     def build_index_AR(self, records, divelog_id):
         HOME = os.environ['HFF_HOME']
-
         PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
-        logo_path = '{}{}{}'.format(PDF_path, os.sep, 'logo.png')
-
+        home_DB_path = '{}{}{}'.format(HOME, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
         logo = Image(logo_path)
+        ##      if test_image.drawWidth < 800:
         logo.drawHeight = 1.5*inch*logo.drawHeight / logo.drawWidth
         logo.drawWidth = 1.5*inch
+        # logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
+        # logo2 = Image(logo_path2)
+        # ##      if test_image.drawWidth < 800:
+        # logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        # logo2.drawWidth = 0.5*inch
+        # #1 row
         logo.hAlign = "LEFT"
 
         styleSheet = getSampleStyleSheet()

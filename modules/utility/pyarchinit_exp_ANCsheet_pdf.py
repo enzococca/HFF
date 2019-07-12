@@ -488,10 +488,18 @@ class generate_ANC_pdf:
     def build_index_ANC(self, records, divelog_id):
         HOME = os.environ['HFF_HOME']
         PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
-        logo_path = ('%s%s%s') % (home_DB_path, os.sep, 'logo.png')
+        home_DB_path = '{}{}{}'.format(HOME, os.sep, 'HFF_DB_folder')
+        logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
         logo = Image(logo_path)
+        ##      if test_image.drawWidth < 800:
         logo.drawHeight = 1.5*inch*logo.drawHeight / logo.drawWidth
         logo.drawWidth = 1.5*inch
+        # logo_path2 = '{}{}{}'.format(home_DB_path, os.sep, 'logo2.png')
+        # logo2 = Image(logo_path2)
+        # ##      if test_image.drawWidth < 800:
+        # logo2.drawHeight = 0.5*inch*logo2.drawHeight / logo2.drawWidth
+        # logo2.drawWidth = 0.5*inch
+        # #1 row
         logo.hAlign = "LEFT"
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
@@ -506,7 +514,7 @@ class generate_ANC_pdf:
             exp_index = ANC_index_pdf(records[i])
             table_data1.append(exp_index.getTable())
         styles = exp_index.makeStyles()
-        colWidths=[42,40,45,55,45,58,45,58,55,64,64,52,52,65]
+        colWidths=[70, 50, 50, 70, 50, 70]
         table_data1_formatted = Table(table_data1, colWidths, style=styles)
         table_data1_formatted.hAlign = "LEFT"
         lst.append(table_data1_formatted)
