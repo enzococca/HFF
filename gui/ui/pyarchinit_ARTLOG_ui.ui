@@ -1011,28 +1011,6 @@
     <attribute name="title">
      <string>Tools</string>
     </attribute>
-    <widget class="QPushButton" name="pushButton_exppdf">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>121</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Export PDF</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
-       <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButton_exptab">
      <property name="enabled">
       <bool>false</bool>
@@ -1047,28 +1025,6 @@
      </property>
      <property name="text">
       <string>Export TAB</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_explist">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>130</y>
-       <width>121</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Export List</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
-       <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
      </property>
     </widget>
     <widget class="QTabWidget" name="tabWidget_2">
@@ -1135,46 +1091,6 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QToolButton" name="toolButtonPreviewMedia">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>220</y>
-       <width>111</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
-     <property name="toolTip">
-      <string/>
-     </property>
-     <property name="text">
-      <string>Preview </string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>:/images/GIS.png</normaloff>:/images/GIS.png</iconset>
-     </property>
-     <property name="shortcut">
-      <string>Ctrl+G</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextOnly</enum>
-     </property>
-     <property name="arrowType">
-      <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
    </widget>
   </widget>
   <widget class="QWidget" name="layoutWidget">
@@ -1183,7 +1099,7 @@
      <x>11</x>
      <y>11</y>
      <width>1121</width>
-     <height>178</height>
+     <height>185</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -1458,6 +1374,60 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
       </property>
+      <item row="1" column="6">
+       <widget class="QPushButton" name="pushButton_sort">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Order by</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QToolButton" name="toolButtonGis_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="text">
+         <string>GIS View </string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/images/GIS.png</normaloff>:/images/GIS.png</iconset>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+G</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextOnly</enum>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="6">
        <widget class="QPushButton" name="pushButton_new_rec">
         <property name="font">
@@ -1474,6 +1444,25 @@
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
           <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QPushButton" name="pushButton_search_go">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>search !!!</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
         </property>
        </widget>
       </item>
@@ -1513,63 +1502,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="5">
-       <widget class="QPushButton" name="pushButton_search_go">
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>search !!!</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="6">
-       <widget class="QPushButton" name="pushButton_sort">
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>Order by</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="7">
-       <widget class="QPushButton" name="pushButton_view_all">
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>View alls records</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="4">
        <widget class="QPushButton" name="pushButton_new_search">
         <property name="font">
@@ -1586,26 +1518,6 @@
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
           <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="pushButton_prev_rec">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Prev rec</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
         </property>
        </widget>
       </item>
@@ -1637,6 +1549,26 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="pushButton_prev_rec">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Prev rec</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="4">
        <widget class="QPushButton" name="pushButton_next_rec">
         <property name="toolTip">
@@ -1648,6 +1580,25 @@
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
           <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="7">
+       <widget class="QPushButton" name="pushButton_view_all">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>View alls records</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
         </property>
        </widget>
       </item>
@@ -1671,19 +1622,50 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QToolButton" name="toolButtonGis_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="pushButton_exppdf">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Export PDF</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QPushButton" name="pushButton_explist">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Export List</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QToolButton" name="toolButtonPreviewMedia">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="toolTip">
          <string/>
         </property>
         <property name="text">
-         <string>GIS View </string>
+         <string>Preview </string>
         </property>
         <property name="icon">
          <iconset>
@@ -1696,7 +1678,7 @@
          <bool>true</bool>
         </property>
         <property name="checked">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonTextOnly</enum>

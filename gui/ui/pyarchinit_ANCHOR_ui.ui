@@ -1668,31 +1668,9 @@
     <attribute name="title">
      <string>Tools</string>
     </attribute>
-    <widget class="QPushButton" name="pushButton_exppdf">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>121</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Export PDF</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
-       <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButton_exptab">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -1704,28 +1682,6 @@
      </property>
      <property name="text">
       <string notr="true">Export TAB</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_explist">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>121</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Export List</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
-       <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
      </property>
     </widget>
     <widget class="QTabWidget" name="tabWidget_2">
@@ -1792,46 +1748,6 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QToolButton" name="toolButtonPreviewMedia">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>150</y>
-       <width>121</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
-     <property name="toolTip">
-      <string/>
-     </property>
-     <property name="text">
-      <string>Preview </string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>:/images/GIS.png</normaloff>:/images/GIS.png</iconset>
-     </property>
-     <property name="shortcut">
-      <string>Ctrl+G</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextOnly</enum>
-     </property>
-     <property name="arrowType">
-      <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButton_showLayer">
      <property name="enabled">
       <bool>false</bool>
@@ -1853,7 +1769,7 @@
       <string>Show Selcted Features</string>
      </property>
      <property name="text">
-      <string>Disegna US</string>
+      <string>...</string>
      </property>
      <property name="icon">
       <iconset>
@@ -1881,7 +1797,7 @@
       <string/>
      </property>
      <property name="text">
-      <string>Preview pianta US</string>
+      <string>...</string>
      </property>
      <property name="icon">
       <iconset>
@@ -1911,7 +1827,7 @@
      <x>11</x>
      <y>11</y>
      <width>1121</width>
-     <height>151</height>
+     <height>185</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -2186,6 +2102,74 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
       </property>
+      <item row="0" column="4">
+       <widget class="QPushButton" name="pushButton_next_rec">
+        <property name="toolTip">
+         <string>Next rec</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QPushButton" name="pushButton_last_rec">
+        <property name="toolTip">
+         <string>Last rec</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_first_rec">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>First rec</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="pushButton_prev_rec">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Prev rec</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="6">
        <widget class="QPushButton" name="pushButton_new_rec">
         <property name="font">
@@ -2202,20 +2186,6 @@
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">
           <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QPushButton" name="pushButton_last_rec">
-        <property name="toolTip">
-         <string>Last rec</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
         </property>
        </widget>
       </item>
@@ -2238,6 +2208,98 @@
         </property>
         <property name="autoDefault">
          <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QPushButton" name="pushButton_new_search">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>new search</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QPushButton" name="pushButton_exppdf">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Export PDF</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QPushButton" name="toolButtonGis">
+        <property name="text">
+         <string>GIS View</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="pushButton_delete">
+        <property name="maximumSize">
+         <size>
+          <width>75</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Delete record</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="pushButton_explist">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Export List</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
         </property>
        </widget>
       </item>
@@ -2298,117 +2360,37 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="4">
-       <widget class="QPushButton" name="pushButton_new_search">
+      <item row="2" column="4">
+       <widget class="QToolButton" name="toolButtonPreviewMedia">
         <property name="font">
          <font>
-          <pointsize>9</pointsize>
+          <pointsize>8</pointsize>
          </font>
         </property>
         <property name="toolTip">
-         <string>new search</string>
-        </property>
-        <property name="text">
          <string/>
         </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="pushButton_prev_rec">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Prev rec</string>
-        </property>
         <property name="text">
-         <string/>
+         <string>Preview </string>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
+         <iconset>
+          <normaloff>:/images/GIS.png</normaloff>:/images/GIS.png</iconset>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="pushButton_delete">
-        <property name="maximumSize">
-         <size>
-          <width>75</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>Delete record</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QPushButton" name="pushButton_next_rec">
-        <property name="toolTip">
-         <string>Next rec</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton_first_rec">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>First rec</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="toolButtonGis">
-        <property name="text">
-         <string>GIS View</string>
+        <property name="shortcut">
+         <string>Ctrl+G</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
         </property>
         <property name="checked">
-         <bool>false</bool>
+         <bool>true</bool>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextOnly</enum>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
         </property>
        </widget>
       </item>

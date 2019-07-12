@@ -1712,6 +1712,9 @@
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_explist">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -2720,15 +2723,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKit/QWebView</header>
-  </customwidget>
-  <customwidget>
    <class>Mplwidget</class>
    <extends>QWidget</extends>
    <header>mplwidget</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
   </customwidget>
  </customwidgets>
  <resources>
