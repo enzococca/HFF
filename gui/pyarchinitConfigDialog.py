@@ -735,7 +735,7 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].bottom_time,
                         data_list_toimp[sing_rec].photo_nbr,
                         data_list_toimp[sing_rec].video_nbr,
-                        data_list_toimp[sing_rec].camera_of,
+                        data_list_toimp[sing_rec].camera,
                         data_list_toimp[sing_rec].time_in,
                         data_list_toimp[sing_rec].time_out,
                         data_list_toimp[sing_rec].date_,
