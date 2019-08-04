@@ -106,7 +106,7 @@ class Pyarchinit_pyqgis(QDialog):
 
                 #self.USLayerId = layerUS.getLayerID()
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'anchor.qml')
-                layer.loadNamedStyle(style_path)    
+                layerIndividui.loadNamedStyle(style_path)    
                 self.iface.mapCanvas().setExtent(layerIndividui.extent())
                 QgsProject.instance().addMapLayers([layerIndividui], True)
             else:
@@ -192,7 +192,7 @@ class Pyarchinit_pyqgis(QDialog):
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'artefact.qml')
-                layer.loadNamedStyle(style_path)        
+                layerUS.loadNamedStyle(style_path)        
                 QgsProject.instance().addMapLayers([layerUS], True)
                 
             else:
@@ -231,7 +231,7 @@ class Pyarchinit_pyqgis(QDialog):
 
                 #self.USLayerId = layerUS.getLayerID()
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'pottery.qml')
-                layer.loadNamedStyle(style_path)    
+                layerIndividui.loadNamedStyle(style_path)    
                 self.iface.mapCanvas().setExtent(layerIndividui.extent())
                 QgsProject.instance().addMapLayers([layerIndividui], True)
             else:
@@ -255,7 +255,7 @@ class Pyarchinit_pyqgis(QDialog):
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'pottery.qml')
-                layer.loadNamedStyle(style_path)        
+                layerUS.loadNamedStyle(style_path)        
                 QgsProject.instance().addMapLayers([layerUS], True)
                 
             else:
@@ -1014,7 +1014,7 @@ class Pyarchinit_pyqgis(QDialog):
             #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'anchor_point'
             layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            value_conv =  ('"site = %s"') % ("'"+str(self.val)+"'")
             cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
@@ -1033,7 +1033,7 @@ class Pyarchinit_pyqgis(QDialog):
             #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'pottery_point'
             layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            value_conv =  ('"site = %s"') % ("'"+str(self.val)+"'")
             cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
@@ -1053,7 +1053,7 @@ class Pyarchinit_pyqgis(QDialog):
             #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'artefact_point'
             layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            value_conv =  ('"site = %s"') % ("'"+str(self.val)+"'")
             cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
@@ -1099,7 +1099,7 @@ class Pyarchinit_pyqgis(QDialog):
             #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'anchor_point'
             layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            value_conv =  ('"site = %s"') % ("'"+str(self.val)+"'")
             cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
@@ -1118,7 +1118,7 @@ class Pyarchinit_pyqgis(QDialog):
             #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'pottery_point'
             layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            value_conv =  ('"site = %s"') % ("'"+str(self.val)+"'")
             cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
@@ -1138,7 +1138,7 @@ class Pyarchinit_pyqgis(QDialog):
             #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'artefact_point'
             layer_name_conv = "'"+str(layer_name)+"'"
-            value_conv =  ('"sito = %s"') % ("'"+str(self.val)+"'")
+            value_conv =  ('"site = %s"') % ("'"+str(self.val)+"'")
             cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]

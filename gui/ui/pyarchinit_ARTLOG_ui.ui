@@ -1688,6 +1688,17 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="5">
+       <widget class="QPushButton" name="pushButton_open_dir">
+        <property name="text">
+         <string>Open folder</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/directoryExp.png</normaloff>:/icons/directoryExp.png</iconset>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>

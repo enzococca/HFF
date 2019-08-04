@@ -87,7 +87,8 @@ class single_pottery_pdf_sheet:
         self.anno=data[31]
         self.description=data[32]
         self.photographed=data[33]                                       
-        self.drawing=data[34]                   
+        self.drawing=data[34]
+        self.wheel_made=data[35]    
     def datestrfdate(self):
         now = date.today()
         today = now.strftime("%d-%m-%Y")
@@ -153,12 +154,12 @@ class single_pottery_pdf_sheet:
         typology = Paragraph("<b>Typ</b><br/>"  + self.typology, styNormal)
         depth = Paragraph("<b>Depth</b><br/>"  + self.depth, styNormal)
         retrieved = Paragraph("<b>Retrieved</b><br/>"  + self.retrieved, styNormal)
-        percent = Paragraph("<b>Percent</b><br/>"  + self.percent , styNormal)
-        provenience=Paragraph("<b>Provenience</b><br/>"  + self.provenience, styNormal)
-        munsell = Paragraph("<b>Munsell</b><br/>"  + self.munsell, styNormal)
+        percent = Paragraph("<b>Percent of inclusion</b><br/>"  + self.percent , styNormal)
+        provenience=Paragraph("<b>Provenance</b><br/>"  + self.provenience, styNormal)
+        munsell = Paragraph("<b>Munsell Clay</b><br/>"  + self.munsell, styNormal)
         munsell_surf = Paragraph("<b>Munsell Surfaces</b><br/>"  + self.munsell_surf, styNormal)
         surf_trat = Paragraph("<b>Surface Treatment</b><br/>"  + self.surf_trat, styNormal)
-        treatment = Paragraph("<b>Treatment</b><br/>"  + self.treatment, styNormal)
+        treatment = Paragraph("<b>Conservation</b><br/>"  + self.treatment, styNormal)
         period = Paragraph("<b>Period</b><br/>"  + self.period, styNormal)
         state = Paragraph("<b>State</b><br/>"  + self.state, styNormal)
         samples = Paragraph("<b>Samples</b><br/>"  + self.samples, styNormal)
@@ -175,6 +176,7 @@ class single_pottery_pdf_sheet:
         anno = Paragraph("<b>Year</b><br/>"  + str(self.anno), styNormal)
         photographed = Paragraph("<b>Photographed</b><br/>"  + self.photographed, styNormal)
         drawing = Paragraph("<b>Drawing</b><br/>"  + self.drawing, styNormal)
+        wheel_made = Paragraph("<b>Wheel Made</b><br/>"  + self.wheel_made, styNormal)
         #schema
         cell_schema =  [
                         #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
@@ -186,7 +188,7 @@ class single_pottery_pdf_sheet:
                         [retrieved, '01', '02', '03', '04','05', percent, '07', '08', '09','10','11',provenience,'13', '14','15','16','17'], #2 row ok
                         [munsell, '01', '02', '03', '04','05', munsell_surf, '07', '08', '09','10','11',surf_trat,'13', '14','15','16','17'], #2 row ok
                         [treatment, '01', '02', '03', '04','05',period, '07', '08', '09','10','11',state,'13', '14','15','16','17'], #2 row ok
-                        [samples, '01', '02', '03', '04','05', photographed, '07', '08', '09','10','11',drawing,'13', '14','15','16','17'], #2 row ok
+                        [samples, '01', '02', '03', '04','05', photographed, '07', '08', '09','10','11',drawing,'13', '14','15',wheel_made,'17'], #2 row ok
                         [diametro_max, '01', '02', '03', '04','05', diametro_rim, '07', '08', '09','10','11',diametro_bottom,'13', '14','15','16','17'], #2 row ok
                         [total_height, '01', '02', '03', '04','05', preserved_height, '07', '08', '09','10','11',base_height,'13', '14','15','16','17'], #2 row ok
                         [thickmin, '01', '02', '03', '04','05',thickmax , '07', '08', '09','10','11',data_,'13', '14','15','16','17'], #2 row ok
@@ -230,7 +232,8 @@ class single_pottery_pdf_sheet:
                     
                     ('SPAN', (0,8),(5,8)),  #diver2
                     ('SPAN', (6,8),(11,8)),  #date_
-                    ('SPAN', (12,8),(17,8)),  #area_id
+                    ('SPAN', (12,8),(15,8)),  #area_id
+                    ('SPAN', (16,8),(17,8)),  #area_id
                     
                     ('SPAN', (0,9),(5,9)),  #diver2
                     ('SPAN', (6,9),(11,9)),  #date_
@@ -269,7 +272,7 @@ class POTTERY_index_pdf:
         #self.unzip_rapporti_stratigrafici()
         divelog_id = Paragraph("<b>Dive ID</b><br/>" + str(self.divelog_id),styNormal)
         artefact_id = Paragraph("<b>Artefact ID</b><br/>" + str(self.artefact_id),styNormal)
-        anno = Paragraph("<b>Years</b><br/>" + str(self.anno),styNormal)
+        anno = Paragraph("<b>Year</b><br/>" + str(self.anno),styNormal)
         data1 = [divelog_id,
                 artefact_id,
                 anno]
@@ -320,7 +323,7 @@ class generate_POTTERY_pdf:
         data = self.datestrfdate()
         lst = []
         lst.append(logo)
-        lst.append(Paragraph("<b>Pottery</b><br/><b>Data: %s</b>" % (data), styH1))
+        lst.append(Paragraph("<b>Pottery</b><br/><b>Date: %s</b>" % (data), styH1))
         table_data1 = []
         for i in range(len(records)):
             exp_index = POTTERY_index_pdf(records[i])

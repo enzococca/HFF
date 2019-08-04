@@ -19,9 +19,9 @@ class ANC(object):
 				type_hole,
 				inscription,
 				petrography,
-				wight,
+				weight,
 				origin,
-				comparision,
+				comparison,
 				typology,
 				recovered,
 				photographed,
@@ -38,31 +38,31 @@ class ANC(object):
 				ml,
 				tw,
 				bw,
-				hw,
+				mw,
 				rtt,
 				ltt,
 				rtb,
 				ltb,
 				tt,
 				bt,
-				hrt,
-				hrr,
-				hrl,
-				hdt,
-				hd5,
-				hdl,
-				flt,
-				flr,
-				fll,
-				frt,
-				frr,
-				frl,
-				fbt,
-				fbr,
-				fbl,
-				ftt,
-				ftr,
-				ftl,
+				td,
+				rd,
+				ld,
+				tde,
+				rde,
+				lde,
+				tfl,
+				rfl,
+				lfl,
+				tfr,
+				rfr,
+				lfr,
+				tfb,
+				rfb,
+				lfb,
+				tft,
+				rft,
+				lft,
 				area,
 				bd,
 				bde,
@@ -82,9 +82,9 @@ class ANC(object):
 		self.type_hole=type_hole
 		self.inscription=inscription
 		self.petrography=petrography
-		self.wight=wight
+		self.wight=weight
 		self.origin=origin
-		self.comparision=comparision
+		self.comparision=comparison
 		self.typology=typology
 		self.recovered=recovered
 		self.photographed=photographed
@@ -101,31 +101,31 @@ class ANC(object):
 		self.ml=ml
 		self.tw=tw
 		self.bw=bw
-		self.hw=hw
+		self.hw=mw
 		self.rtt=rtt
 		self.ltt=ltt
 		self.rtb=rtb
 		self.ltb=ltb
 		self.tt=tt
 		self.bt=bt
-		self.hrt=hrt
-		self.hrr=hrr
-		self.hrl=hrl
-		self.hdt=hdt
-		self.hd5=hd5
-		self.hdl=hdl
-		self.flt=flt
-		self.flr=flr
-		self.fll=fll
-		self.frt=frt
-		self.frr=frr
-		self.frl=frl
-		self.fbt=fbt
-		self.fbr=fbr
-		self.fbl=fbl
-		self.ftt=ftt
-		self.ftr=ftr
-		self.ftl=ftl
+		self.hrt=td
+		self.hrr=rd
+		self.hrl=ld
+		self.hdt=tde
+		self.hd5=rde
+		self.hdl=lde
+		self.flt=tfl
+		self.flr=rfl
+		self.fll=lfl
+		self.frt=tfr
+		self.frr=rfr
+		self.frl=lfr
+		self.fbt=tfb
+		self.fbr=rfb
+		self.fbl=lfb
+		self.ftt=tft
+		self.ftr=rft
+		self.ftl=lft
 		self.area=area
 		self.bd=bd
 		self.bde=bde

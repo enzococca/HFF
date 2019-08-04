@@ -2093,7 +2093,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
     <rect>
      <x>20</x>
      <y>86</y>
-     <width>433</width>
+     <width>580</width>
      <height>31</height>
     </rect>
    </property>
@@ -2140,6 +2140,17 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
      </widget>
     </item>
+    <item row="0" column="3">
+     <widget class="QPushButton" name="pottery_list">
+      <property name="text">
+       <string>PDF Pottery list</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../resources/resources.qrc">
+        <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="2">
      <widget class="QPushButton" name="pottery_form">
       <property name="text">
@@ -2151,14 +2162,14 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="3">
-     <widget class="QPushButton" name="pottery_list">
+    <item row="0" column="4">
+     <widget class="QPushButton" name="pushButton_open_dir">
       <property name="text">
-       <string>PDF Pottery list</string>
+       <string>Open folder</string>
       </property>
       <property name="icon">
        <iconset resource="../../resources/resources.qrc">
-        <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
+        <normaloff>:/icons/directoryExp.png</normaloff>:/icons/directoryExp.png</iconset>
       </property>
      </widget>
     </item>

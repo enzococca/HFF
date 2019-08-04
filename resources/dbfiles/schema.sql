@@ -129,7 +129,7 @@ ALTER TABLE public.anchor_p_gid_seq OWNER TO postgres;
 --
 CREATE TABLE public.anchor_point (
     gid integer DEFAULT nextval('public.anchor_p_gid_seq'::regclass) NOT NULL,
-    sito character varying(255),
+    site character varying(255),
     code character varying(255),
     years integer,
     link character varying(255),
@@ -153,9 +153,9 @@ CREATE TABLE public.anchor_table (
     type_hole character varying(255),
     inscription character varying(255),
     petrography character varying(255),
-    wight character varying(255),
+    weight character varying(255),
     origin character varying(255),
-    comparision character varying(255),
+    comparison character varying(255),
     typology character varying(255),
     recovered character varying(255),
     photographed character varying(10),
@@ -171,31 +171,31 @@ CREATE TABLE public.anchor_table (
     ml numeric(4,1),
     tw numeric(4,1),
     bw numeric(4,1),
-    hw numeric(4,1),
+    mw numeric(4,1),
     rtt numeric(4,1),
     ltt numeric(4,1),
     rtb numeric(4,1),
     ltb numeric(4,1),
     tt numeric(4,1),
     bt numeric(4,1),
-    hrt numeric(4,1),
-    hrr numeric(4,1),
-    hrl numeric(4,1),
-    hdt numeric(4,1),
-    hd5 numeric(4,1),
-    hdl numeric(4,1),
-    flt numeric(4,1),
-    flr numeric(4,1),
-    fll numeric(4,1),
-    frt numeric(4,1),
-    frr numeric(4,1),
-    frl numeric(4,1),
-    fbt numeric(4,1),
-    fbr numeric(4,1),
-    fbl numeric(4,1),
-    ftt numeric(4,1),
-    ftr numeric(4,1),
-    ftl numeric(4,1),
+    td numeric(4,1),
+    rd numeric(4,1),
+    ld numeric(4,1),
+    tde numeric(4,1),
+    rde numeric(4,1),
+    lde numeric(4,1),
+    tfl numeric(4,1),
+    rfl numeric(4,1),
+    lfl numeric(4,1),
+    tfr numeric(4,1),
+    rfr numeric(4,1),
+    lfr numeric(4,1),
+    tfb numeric(4,1),
+    rfb numeric(4,1),
+    lfb numeric(4,1),
+    tft numeric(4,1),
+    rft numeric(4,1),
+    lft numeric(4,1),
     area character varying(255),
     qty integer DEFAULT 1 NOT NULL,
     bd numeric(4,1),
@@ -281,7 +281,7 @@ ALTER TABLE public.artefact_p_gid_seq OWNER TO postgres;
 CREATE TABLE public.artefact_point (
     gid integer DEFAULT nextval('public.artefact_p_gid_seq'::regclass) NOT NULL,
     the_geom public.geometry(Point,-1),
-    sito character varying(255),
+    site character varying(255),
     code character varying(255),
     years integer,
     link character varying(255),
@@ -330,16 +330,16 @@ CREATE TABLE public.dive_log (
     area_id character varying(255),
     diver_1 character varying(255),
     diver_2 character varying(255),
-    diver_3 character varying(255),
+    additional_diver character varying(255),
     standby_diver character varying(255),
     task text,
     result text,
-    tender character varying(255),
-    bar_start character varying(255),
-    bar_end character varying(255),
-    temperature character varying(255),
-    visibility character varying(255),
-    current_ character varying(255),
+    dive_supervisor character varying(255),
+    bar_start_diver1 character varying(255),
+    bar_end_diver1 character varying(255),
+    uw_temperature character varying(255),
+    uw_visibility character varying(255),
+    uw_current_ character varying(255),
     wind character varying(255),
     breathing_mix character varying(255),
     max_depth character varying(255),
@@ -348,20 +348,20 @@ CREATE TABLE public.dive_log (
     bottom_time character varying(255),
     photo_nbr integer,
     video_nbr integer,
-    camera_of character varying(255),
+    camera character varying(255),
     time_in character varying(255),
     time_out character varying(255),
     date_ character varying(255),
     id_dive integer DEFAULT nextval('public.dive_log_id_dive_seq'::regclass) NOT NULL,
     years integer,
-    dp character varying(255),
+    dp_diver1 character varying(255),
     photo_id text,
     video_id text,
-    sito character varying(255),
+    site character varying(255),
     layer character varying(255),
-    bar_start_2 character varying(255),
-    bar_end_2 character varying(255),
-    dp_2 character varying(255)
+    bar_start_diver2 character varying(255),
+    bar_end_diver2 character varying(255),
+    dp_diver2 character varying(255)
 );
 ALTER TABLE public.dive_log OWNER TO postgres;
 --
@@ -713,7 +713,7 @@ ALTER TABLE public.pottery_p_gid_seq OWNER TO postgres;
 CREATE TABLE public.pottery_point (
     gid integer NOT NULL,
     the_geom public.geometry(Point,-1),
-    sito character varying(255),
+    site character varying(255),
     code character varying(255),
     years integer,
     link character varying(255),
@@ -742,21 +742,21 @@ ALTER TABLE public.pottery_table_id_rep_seq OWNER TO postgres;
 CREATE TABLE public.pottery_table (
     id_rep integer DEFAULT nextval('public.pottery_table_id_rep_seq'::regclass) NOT NULL,
     divelog_id integer,
-    sito text,
-    data_ character varying(20),
+    site text,
+    date_ character varying(20),
     artefact_id character varying(20),
     photographed character varying(10),
     drawing character varying(10),
     retrieved character varying(10),
-    fabric character varying(100),
-    percent character varying(100),
+    inclusions character varying(100),
+    percent_inclusion character varying(100),
     specific_part character varying(255),
-    specific_shape character varying(255),
+    form character varying(255),
     typology character varying(255),
-    provenience character varying(255),
-    munsell character varying(255),
-    surf_trat character varying(255),
-    treatment character varying(100),
+    provenance character varying(255),
+    munsell_clay character varying(255),
+    surf_treatment character varying(255),
+    conservation character varying(100),
     depth character varying(10),
     storage_ character varying(255),
     period character varying(50),
@@ -771,13 +771,14 @@ CREATE TABLE public.pottery_table (
     bh character varying(255),
     thickmin character varying(255),
     thickmax character varying(255),
-    anno integer,
+    years integer,
     box integer,
     biblio text,
     description text,
     area character varying(255),
     munsell_surf character varying(255),
-    category character varying(255)
+    category character varying(255),
+	wheel_made character varying(10)
 );
 ALTER TABLE public.pottery_table OWNER TO postgres;
 --
@@ -950,7 +951,7 @@ ALTER TABLE public.transect OWNER TO postgres;
 CREATE TABLE public.pyarchinit_siti (
     gid integer NOT NULL,
     id integer,
-    siti character varying(255),
+    site character varying(255),
     link character varying(255),
     the_geom public.geometry(Point,-1)
 );
@@ -1114,7 +1115,7 @@ ALTER TABLE ONLY public.anchor_table
 -- Name: dive_log ID_divelo_log_unico; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 ALTER TABLE ONLY public.dive_log
-    ADD CONSTRAINT "ID_divelo_log_unico" UNIQUE (divelog_id, years, sito);
+    ADD CONSTRAINT "ID_divelo_log_unico" UNIQUE (divelog_id, years, site);
 --
 -- TOC entry 4794 (class 2606 OID 95342)
 -- Name: media_to_entity_table ID_mediaToEntity_unico; Type: CONSTRAINT; Schema: public; Owner: postgres
@@ -1144,7 +1145,7 @@ ALTER TABLE ONLY public.pdf_administrator_table
 -- Name: pottery_table ID_rep_unico; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 ALTER TABLE ONLY public.pottery_table
-    ADD CONSTRAINT "ID_rep_unico" UNIQUE (sito, artefact_id);
+    ADD CONSTRAINT "ID_rep_unico" UNIQUE (site, artefact_id);
 --
 -- TOC entry 4844 (class 2606 OID 97922)
 -- Name: site_table ID_sito_unico; Type: CONSTRAINT; Schema: public; Owner: postgres
