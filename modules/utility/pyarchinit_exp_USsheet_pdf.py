@@ -203,12 +203,12 @@ class single_US_pdf_sheet:
                         [standby, '01', '02', '03', '04','05', bottom_time, '07', '08', '09','10','11',max_depth,'13', '14','15','16','17'], #4 row ok
                         [tender, '01', '02', '03', '04','05', bar_start, '07', '08', '09','10','11',bar_end,'13', '14','15','16','17'], #5 row ok
                         [dp, '01', '02', '03', '04','05', breathing_mix, '07', '08', '09','10','11',wind,'13', '14','15','16','17'], #6 row ok
-                        [photo_nbr,'01', '02', '03', '04','05', '06', '07', video_nbr, '09','10','11','12','13', '14','15','16','17'], #7
+                        [photo_nbr,'01', '02', '03', '04','05', video_nbr, '07','08' , '09','10','11',camera_of,'13', '14','15','16','17'], #7
                         [task, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #8 row ok
                         [result, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #9 row ok
                         [comments_, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #10 row ok
                         [conditions, '01', '02', '03', '04','05', '08', '07', '08', '09','10','11','12','13', '14','15','16','17'], #11 row ok
-                        [camera_of, '01', '02', '03', current,'05', '06', '07', '08', visibility,'10','11','12','13', '14',temperature,'16','17'], #12
+                        [current, '01', '02', '03', '04','05',visibility, '07', '08', '09','10','11',temperature,'13', '14','15','16','17'], #12
                         
                         
                         # [photo_id,'01', '02', '03', '04','05', video_id, '07', '08', '09','10','11',current,'13', '14','15','16','17'], #13
@@ -244,8 +244,9 @@ class single_US_pdf_sheet:
                     ('SPAN', (6,6),(11,6)),  #bottom_time
                     ('SPAN', (12,6),(17,6)),  #maxdepth 
                     
-                    ('SPAN', (0,7),(7,7)),  #standby
-                    ('SPAN', (8,7),(17,7)),  #standby
+                    ('SPAN', (0,7),(5,7)),  #standby
+                    ('SPAN', (6,7),(11,7)),  #standby
+                    ('SPAN', (12,7),(17,7)),  #standby
                     
                     ('SPAN', (0,8),(17,8)),  #standby
                     
@@ -258,10 +259,10 @@ class single_US_pdf_sheet:
                     ('SPAN', (0,11),(17,11)),  #standby
                    
                     
-                    ('SPAN', (0,12),(3,12)),  #standby
-                    ('SPAN', (4,12),(8,12)),  #bottom_time
-                    ('SPAN', (9,12),(14,12)),  #maxdepth 
-                    ('SPAN', (15,12),(17,12)),  #maxdepth 
+                   
+                    ('SPAN', (0,12),(5,12)),  #bottom_time
+                    ('SPAN', (6,12),(11,12)),  #maxdepth 
+                    ('SPAN', (12,12),(17,12)),  #maxdepth 
                     
                     # ('SPAN', (0,13),(5,13)),  #standby
                     # ('SPAN', (6,13),(11,13)),  #bottom_time
@@ -471,7 +472,7 @@ class generate_photo_pdf:
         list=[]
         list.append(logo)
         
-        list.append(Paragraph("<b>HFF Archaeologcal Survey UW - Photo Index</b><br/><br/><b>Location: %s,  Date: %s</b><br/>" % (sito, data), styH1))
+        list.append(Paragraph("<b>HFF Archaeological Survey UW - Photo Index</b><br/><br/><b>Location: %s,  Date: %s</b><br/>" % (sito, data), styH1))
      
        
         table_data = [] 
