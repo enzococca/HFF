@@ -151,7 +151,7 @@ class single_pottery_pdf_sheet:
         specific_shape = Paragraph("<b>Form</b><br/>"  + self.specific_shape, styNormal)
         specific_part = Paragraph("<b>Specific Part</b><br/>"  + self.specific_part, styNormal)
         category = Paragraph("<b>Category</b><br/>"  + self.category, styNormal)
-        typology = Paragraph("<b>Typ</b><br/>"  + self.typology, styNormal)
+        typology = Paragraph("<b>Typology</b><br/>"  + self.typology, styNormal)
         depth = Paragraph("<b>Depth</b><br/>"  + self.depth, styNormal)
         retrieved = Paragraph("<b>Retrieved</b><br/>"  + self.retrieved, styNormal)
         percent = Paragraph("<b>Percent of inclusion</b><br/>"  + self.percent , styNormal)
