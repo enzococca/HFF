@@ -160,7 +160,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                 QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
         
         if self.checkBox_divelog.isChecked()== True:
-            div_res = self.db_search_DB('UW', 'sito', location)
+            div_res = self.db_search_DB('UW', 'site', location)
             div_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
             self.OS_UTILITY.create_dir(div_path)
             if bool(div_res):
@@ -236,7 +236,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                 QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
         
         if self.checkBox_pottery.isChecked()== True:
-            pot_res = self.db_search_DB('POTTERY', 'sito', location)
+            pot_res = self.db_search_DB('POTTERY', 'site', location)
             pot_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
             self.OS_UTILITY.create_dir(pot_path)
             if bool(pot_res):
