@@ -249,7 +249,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QComboBox" name="comboBox_specific_shape">
+        <widget class="QComboBox" name="comboBox_form">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -361,7 +361,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="9" column="0">
-        <widget class="QLineEdit" name="lineEdit_provenience">
+        <widget class="QLineEdit" name="lineEdit_provenance">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -416,7 +416,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="5" column="3" colspan="2">
-        <widget class="QComboBox" name="comboBox_percent">
+        <widget class="QComboBox" name="comboBox_percent_inclusion">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(255, 255, 255);</string>
          </property>
@@ -467,7 +467,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="5" column="0" colspan="3">
-        <widget class="QComboBox" name="comboBox_munsell">
+        <widget class="QComboBox" name="comboBox_munsell_clay">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(255, 255, 255);</string>
          </property>
@@ -666,7 +666,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="3" column="3" colspan="2">
-        <widget class="QComboBox" name="comboBox_fabric">
+        <widget class="QComboBox" name="comboBox_inclusions">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(255, 255, 255);</string>
          </property>
@@ -888,7 +888,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QComboBox" name="comboBox_treatment">
+        <widget class="QComboBox" name="comboBox_conservation">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -904,7 +904,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QComboBox" name="comboBox_intdeco">
+        <widget class="QComboBox" name="comboBox_wheelmade">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -949,7 +949,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="7" column="0">
-        <widget class="QComboBox" name="comboBox_surf_trat">
+        <widget class="QComboBox" name="comboBox_surf_treatment">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -2186,7 +2186,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <layout class="QGridLayout" name="gridLayout_9">
     <item row="0" column="11">
-     <widget class="QComboBox" name="comboBox_years">
+     <widget class="QComboBox" name="comboBox_year">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -2208,46 +2208,6 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
       <property name="editable">
        <bool>true</bool>
       </property>
-      <item>
-       <property name="text">
-        <string>2013</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>2014</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>2015</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>2016</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>2017</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>2018</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>2019</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>2020</string>
-       </property>
-      </item>
      </widget>
     </item>
     <item row="0" column="0">
@@ -2274,7 +2234,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QComboBox" name="comboBox_site">
+     <widget class="QComboBox" name="comboBox_site_name">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
         <horstretch>0</horstretch>

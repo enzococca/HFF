@@ -119,7 +119,7 @@
       </font>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_bar_start">
+    <widget class="QLineEdit" name="lineEdit_bar_start1">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -151,7 +151,7 @@
       </font>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_bar_end">
+    <widget class="QLineEdit" name="lineEdit_bar_end1">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -183,7 +183,7 @@
       </font>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_visibility">
+    <widget class="QLineEdit" name="lineEdit_uwvisibility">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -199,7 +199,7 @@
       </font>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_temperature">
+    <widget class="QLineEdit" name="lineEdit_uwtemperature">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -687,7 +687,7 @@
       <string>Camera</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_camera_of">
+    <widget class="QLineEdit" name="lineEdit_camera">
      <property name="geometry">
       <rect>
        <x>360</x>
@@ -1012,7 +1012,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_additional_diver">
+    <widget class="QComboBox" name="comboBox_add_diver">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1050,7 +1050,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_tender">
+    <widget class="QComboBox" name="comboBox_supervisor">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1069,7 +1069,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_currents">
+    <widget class="QComboBox" name="comboBox_uwcurrents">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1133,7 +1133,7 @@
       <string>Δ P Diver 1</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_dp">
+    <widget class="QLineEdit" name="lineEdit_dp1">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -2702,7 +2702,7 @@
     <string>Site</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_sito">
+  <widget class="QComboBox" name="comboBox_site">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -2721,7 +2721,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_layer">
+  <widget class="QLineEdit" name="lineEdit_layers">
    <property name="geometry">
     <rect>
      <x>1440</x>
