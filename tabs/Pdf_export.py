@@ -368,9 +368,9 @@ class pyarchinit_pdf_export(QDialog, MAIN_DIALOG_CLASS):
     
 
         
-            if self.checkBox_anchor.isChecked():
-                engine = create_engine('postgresql+psycopg2://%s:%s@%s:%s/%s')
-                df.to_sql(name=Your_table_name_in_single_quotes, con=engine, if_exists='append',index=False)
+            # if self.checkBox_anchor.isChecked():
+                # engine = create_engine('postgresql+psycopg2://%s:%s@%s:%s/%s')
+                # df.to_sql(name=Your_table_name_in_single_quotes, con=engine, if_exists='append',index=False)
             
     
 
