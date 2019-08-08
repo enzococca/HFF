@@ -184,10 +184,12 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                     self.OS_UTILITY.create_dir(sing_div_path)
 
                     search_dict = {'id_entity': sing_div.id_dive, 'entity_type': "'" + "DOC" + "'"}
-
+                    
                     u = Utility()
                     search_dict = u.remove_empty_items_fr_dict(search_dict)
+                   
                     search_images_res = self.DB_MANAGER.query_bool(search_dict, 'MEDIAVIEW')
+                   
 
                     for sing_media in search_images_res:
                         self.OS_UTILITY.copy_file_img(str(sing_media.path_resize), sing_div_path)
@@ -195,8 +197,49 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                     ##                      QMessageBox.warning(self, "Alert", str(sing_div_path),  QMessageBox.Ok)
 
                     search_images_res = ""
+                    
                 QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
         
+        if self.checkBox_divelog.isChecked()== True:
+            div_pe_res = self.db_search_DB('UW', 'site', location)
+            div_pe_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
+            self.OS_UTILITY.create_dir(div_pe_path)
+            if bool(div_pe_res):
+                div_pe_path = '{}{}{}'.format(div_pe_path, os.sep, "Divelog-Environment")
+                self.OS_UTILITY.create_dir(div_pe_path)
+                for sing_div in div_pe_res:
+                    sing_div_pe_num = str(sing_div.divelog_id)
+                    prefix = ''
+                    sing_div_pe_num_len = len(sing_div_pe_num)
+                    if sing_div_pe_num_len == 1:
+                        prefix = prefix * 4
+                    elif sing_div_pe_num_len == 2:
+                        prefix = prefix * 3
+                    elif sing_div_pe_num_len == 3:
+                        prefix = prefix * 2
+                    else:
+                        pass
+
+                    sing_div_pe_dir = prefix + str(sing_div_pe_num)
+                    sing_div_pe_path = ('%s%s%s') % (div_pe_path, os.sep, sing_div_pe_dir)
+                    self.OS_UTILITY.create_dir(sing_div_pe_path)
+
+                    search_dict = {'id_entity': sing_div.id_dive, 'entity_type': "'" + "PE" + "'"}
+                    
+                    u = Utility()
+                    search_dict = u.remove_empty_items_fr_dict(search_dict)
+                   
+                    search_images_res = self.DB_MANAGER.query_bool(search_dict, 'MEDIAVIEW')
+                   
+
+                    for sing_media in search_images_res:
+                        self.OS_UTILITY.copy_file_img(str(sing_media.path_resize), sing_div_pe_path)
+                    ##                      QMessageBox.warning(self, "Alert", str(sing_media.filepath),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, "Alert", str(sing_div_pe_path),  QMessageBox.Ok)
+
+                    search_images_res = ""
+                    
+                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
         if self.checkBox_artefact.isChecked()== True:
             art_res = self.db_search_DB('ART', 'site', location)
             art_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
