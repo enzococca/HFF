@@ -82,9 +82,9 @@ class ANC(object):
 		self.type_hole=type_hole
 		self.inscription=inscription
 		self.petrography=petrography
-		self.wight=weight
+		self.weight=weight
 		self.origin=origin
-		self.comparision=comparison
+		self.comparison=comparison
 		self.typology=typology
 		self.recovered=recovered
 		self.photographed=photographed
@@ -101,31 +101,31 @@ class ANC(object):
 		self.ml=ml
 		self.tw=tw
 		self.bw=bw
-		self.hw=mw
+		self.mw=mw
 		self.rtt=rtt
 		self.ltt=ltt
 		self.rtb=rtb
 		self.ltb=ltb
 		self.tt=tt
 		self.bt=bt
-		self.hrt=td
-		self.hrr=rd
-		self.hrl=ld
-		self.hdt=tde
-		self.hd5=rde
-		self.hdl=lde
-		self.flt=tfl
-		self.flr=rfl
-		self.fll=lfl
-		self.frt=tfr
-		self.frr=rfr
-		self.frl=lfr
-		self.fbt=tfb
-		self.fbr=rfb
-		self.fbl=lfb
-		self.ftt=tft
-		self.ftr=rft
-		self.ftl=lft
+		self.td=td
+		self.rd=rd
+		self.ld=ld
+		self.tde=tde
+		self.rde=rde
+		self.lde=lde
+		self.tfl=tfl
+		self.rfl=rfl
+		self.lfl=lfl
+		self.tfr=tfr
+		self.rfr=rfr
+		self.lfr=lfr
+		self.tfb=tfb
+		self.rfb=rfb
+		self.lfb=lfb
+		self.tft=tft
+		self.rft=rft
+		self.lft=lft
 		self.area=area
 		self.bd=bd
 		self.bde=bde
@@ -146,9 +146,9 @@ class ANC(object):
 		self.type_hole,
 		self.inscription,
 		self.petrography,
-		self.wight,
+		self.weight,
 		self.origin,
-		self.comparision,
+		self.comparison,
 		self.typology,
 		self.recovered,
 		self.photographed,
@@ -165,31 +165,7 @@ class ANC(object):
 		self.ml,
 		self.tw,
 		self.bw,
-		self.hw,
-		self.rtt,
-		self.ltt,
-		self.rtb,
-		self.ltb,
-		self.tt,
-		self.bt,
-		self.hrt,
-		self.hrr,
-		self.hrl,
-		self.hdt,
-		self.hd5,
-		self.hdl,
-		self.flt,
-		self.flr,
-		self.fll,
-		self.frt,
-		self.frr,
-		self.frl,
-		self.fbt,
-		self.fbr,
-		self.fbl,
-		self.ftt,
-		self.ftr,
-		self.ftl,
+		self.mw,		self.rtt,		self.ltt,		self.rtb,		self.ltb,		self.tt,		self.bt,		self.td,		self.rd,		self.ld,		self.tde,		self.rde,		self.lde,		self.tfl,		self.rfl,		self.lfl,		self.tfr,		self.rfr,		self.lfr,		self.tfb,		self.rfb,		self.lfb,		self.tft,		self.rft,		self.lft,
 		self.area,
 		self.bd,
 		self.bde,

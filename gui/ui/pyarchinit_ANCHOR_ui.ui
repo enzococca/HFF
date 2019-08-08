@@ -664,7 +664,7 @@
       <string>Origin</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_comparision">
+    <widget class="QComboBox" name="comboBox_comparison">
      <property name="geometry">
       <rect>
        <x>190</x>
@@ -738,7 +738,7 @@
       </property>
      </item>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_wight">
+    <widget class="QLineEdit" name="lineEdit_weight">
      <property name="geometry">
       <rect>
        <x>190</x>
@@ -858,11 +858,11 @@
     <zorder>label_126</zorder>
     <zorder>label_18</zorder>
     <zorder>label_125</zorder>
-    <zorder>comboBox_comparision</zorder>
+    <zorder>comboBox_comparison</zorder>
     <zorder>label_22</zorder>
     <zorder>label_127</zorder>
     <zorder>comboBox_petrography</zorder>
-    <zorder>lineEdit_wight</zorder>
+    <zorder>lineEdit_weight</zorder>
     <zorder>comboBox_origin</zorder>
     <zorder>comboBox_typology</zorder>
     <zorder>label_46</zorder>
@@ -963,7 +963,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_hw">
+    <widget class="QLineEdit" name="lineEdit_mw">
      <property name="geometry">
       <rect>
        <x>500</x>
@@ -1410,7 +1410,7 @@
       <string>Left</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_hrt">
+    <widget class="QLineEdit" name="lineEdit_td">
      <property name="geometry">
       <rect>
        <x>280</x>
@@ -1420,7 +1420,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_hrr">
+    <widget class="QLineEdit" name="lineEdit_rd">
      <property name="geometry">
       <rect>
        <x>280</x>
@@ -1430,7 +1430,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_hrl">
+    <widget class="QLineEdit" name="lineEdit_ld">
      <property name="geometry">
       <rect>
        <x>280</x>
@@ -1440,7 +1440,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_hdt">
+    <widget class="QLineEdit" name="lineEdit_tde">
      <property name="geometry">
       <rect>
        <x>370</x>
@@ -1450,7 +1450,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_hd5">
+    <widget class="QLineEdit" name="lineEdit_rde">
      <property name="geometry">
       <rect>
        <x>370</x>
@@ -1460,7 +1460,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_hdl">
+    <widget class="QLineEdit" name="lineEdit_lde">
      <property name="geometry">
       <rect>
        <x>370</x>
@@ -1470,7 +1470,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_frl">
+    <widget class="QLineEdit" name="lineEdit_lfr">
      <property name="geometry">
       <rect>
        <x>560</x>
@@ -1480,7 +1480,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_flr">
+    <widget class="QLineEdit" name="lineEdit_rfl">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1490,7 +1490,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_flt">
+    <widget class="QLineEdit" name="lineEdit_tfl">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1500,7 +1500,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_fll">
+    <widget class="QLineEdit" name="lineEdit_lfl">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -1510,7 +1510,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_frr">
+    <widget class="QLineEdit" name="lineEdit_rfr">
      <property name="geometry">
       <rect>
        <x>560</x>
@@ -1520,7 +1520,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_frt">
+    <widget class="QLineEdit" name="lineEdit_tfr">
      <property name="geometry">
       <rect>
        <x>560</x>
@@ -1530,7 +1530,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_ftl">
+    <widget class="QLineEdit" name="lineEdit_lft">
      <property name="geometry">
       <rect>
        <x>780</x>
@@ -1540,7 +1540,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_fbl">
+    <widget class="QLineEdit" name="lineEdit_lfb">
      <property name="geometry">
       <rect>
        <x>670</x>
@@ -1550,7 +1550,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_ftr">
+    <widget class="QLineEdit" name="lineEdit_rft">
      <property name="geometry">
       <rect>
        <x>780</x>
@@ -1560,7 +1560,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_ftt">
+    <widget class="QLineEdit" name="lineEdit_tft">
      <property name="geometry">
       <rect>
        <x>780</x>
@@ -1570,7 +1570,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_fbt">
+    <widget class="QLineEdit" name="lineEdit_tbf">
      <property name="geometry">
       <rect>
        <x>670</x>
@@ -1580,7 +1580,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_fbr">
+    <widget class="QLineEdit" name="lineEdit_rfb">
      <property name="geometry">
       <rect>
        <x>670</x>
