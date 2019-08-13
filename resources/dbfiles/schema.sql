@@ -197,7 +197,6 @@ CREATE TABLE public.anchor_table (
     rft numeric(4,1),
     lft numeric(4,1),
     area character varying(255),
-    qty integer DEFAULT 1 NOT NULL,
     bd numeric(4,1),
     bde numeric(4,1),
     bfl numeric(4,1),
