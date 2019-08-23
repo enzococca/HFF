@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>337</width>
+    <width>533</width>
     <height>729</height>
    </rect>
   </property>
@@ -107,7 +107,7 @@ background-color: rgb(168, 168, 168);</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>304</width>
+         <width>500</width>
          <height>628</height>
         </rect>
        </property>
@@ -175,7 +175,7 @@ selection-color: rgb(140, 140, 105);</string>
           </property>
           <widget class="QWidget" name="tab_4">
            <attribute name="title">
-            <string>Tutorial</string>
+            <string>HFF.org</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="0" column="0">
@@ -203,9 +203,39 @@ selection-color: rgb(140, 140, 105);</string>
             </item>
            </layout>
           </widget>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Tutorials</string>
+           </attribute>
+           <widget class="QLabel" name="label_8">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>421</width>
+              <height>131</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:11pt; font-weight:600; color:#aa0000;&quot;&gt;HFF survey Tutorials&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=ey350KYVLu8&amp;amp;t=0s &quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Installation&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::AutoText</enum>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </widget>
           <widget class="QWidget" name="account">
            <attribute name="title">
-            <string>Supporto online</string>
+            <string>web link</string>
            </attribute>
            <widget class="QLabel" name="label_7">
             <property name="geometry">
