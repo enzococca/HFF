@@ -33,7 +33,7 @@ from qgis.PyQt.uic import loadUiType
 from qgis.core import Qgis, QgsMessageLog, QgsSettings
 
 from ..modules.db.pyarchinit_conn_strings import Connection
-from ..modules.db.pyarchinit_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Pyarchinit_db_management
 from ..modules.gis.pyarchinit_pyqgis import Pyarchinit_pyqgis
 from .US_USM import pyarchinit_US
 

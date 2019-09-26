@@ -32,7 +32,7 @@ import numpy as np
 
 from ..modules.utility.pyarchinit_media_utility import *
 from ..modules.db.pyarchinit_conn_strings import Connection
-from ..modules.db.pyarchinit_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Pyarchinit_db_management
 from ..modules.db.pyarchinit_utility import Utility
 
 filepath = os.path.dirname(__file__)

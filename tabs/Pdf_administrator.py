@@ -30,7 +30,7 @@ from builtins import str
 from gui.sortpanelmain import SortPanelMain
 from .US_USM import pyarchinit_US
 from ..modules.db.pyarchinit_conn_strings import Connection
-from ..modules.db.pyarchinit_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Pyarchinit_db_management
 from ..modules.db.pyarchinit_utility import Utility
 
 MAIN_DIALOG_CLASS, _ = loadUiType(

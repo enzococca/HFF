@@ -30,7 +30,7 @@ from qgis.PyQt.uic import loadUiType
 import platform
 from gui.pyarchinitConfigDialog import pyArchInitDialog_Config
 from ..modules.db.pyarchinit_conn_strings import Connection
-from ..modules.db.pyarchinit_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Pyarchinit_db_management
 from ..modules.db.pyarchinit_utility import Utility
 from ..modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
 

@@ -35,7 +35,7 @@ from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsSettings
 from gui.imageViewer import ImageViewer
 from ..modules.db.pyarchinit_conn_strings import *
-from ..modules.db.pyarchinit_db_manager import *
+from ..modules.db.hff_db_manager import *
 from ..modules.db.pyarchinit_utility import *
 from ..modules.utility.delegateComboBox import *
 from ..modules.utility.pyarchinit_media_utility import *

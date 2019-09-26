@@ -27,7 +27,7 @@ import time
 import os
 
 from ..db.pyarchinit_conn_strings import Connection
-from ..db.pyarchinit_db_manager import Pyarchinit_db_management
+from ..db.hff_db_manager import Pyarchinit_db_management
 from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle

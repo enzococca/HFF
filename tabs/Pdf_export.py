@@ -36,7 +36,7 @@ import time
 import pandas as pd
 import numpy as np
 from ..modules.db.pyarchinit_conn_strings import Connection
-from ..modules.db.pyarchinit_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Pyarchinit_db_management
 from ..modules.db.pyarchinit_utility import *
 from ..modules.utility.pyarchinit_exp_USsheet_pdf import generate_US_pdf
 from ..modules.utility.pyarchinit_exp_Findssheet_pdf import generate_reperti_pdf

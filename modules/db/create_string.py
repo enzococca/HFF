@@ -21,7 +21,7 @@
 """
 
 from modules.db.pyarchinit_conn_strings import Connection
-from modules.db.pyarchinit_db_manager import Pyarchinit_db_management
+from modules.db.hff_db_manager import Pyarchinit_db_management
 
 
 def convert_cell_schema(s, c):
