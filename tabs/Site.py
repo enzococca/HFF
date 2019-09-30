@@ -34,7 +34,7 @@ from builtins import range
 from builtins import str
 from qgis.PyQt.QtGui import QDesktopServices,QColor, QIcon
 from qgis.PyQt.QtCore import QUrl, QVariant,Qt, QSize
-from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QListWidget, QListView, QFrame, QAbstractItemView, QTableWidgetItem, QListWidgetItem
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QListWidget, QListView, QFrame, QAbstractItemView,QFileDialog, QTableWidgetItem, QListWidgetItem
 from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsSettings
 from ..modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
@@ -236,7 +236,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
 
 
     DB_SERVER = "not defined"  ####nuovo sistema sort
-
+    
     def __init__(self, iface):
         super().__init__()
         self.iface = iface
@@ -672,6 +672,11 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
     def loadMediaPreview(self, mode = 0):
 
         self.iconListWidget.clear()
+        
+        conn = Connection()
+        
+        thumb_path = conn.thumb_path()
+        thumb_path_str = thumb_path['thumb_path']
         if mode == 0:
             """ if has geometry column load to map canvas """
             rec_list =  self.ID_TABLE + " = " + str(eval("self.DATA_LIST[int(self.REC_CORR)]." + self.ID_TABLE))
@@ -686,7 +691,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole,str(i.media_name))
-                icon = QIcon(thumb_path)
+                icon = QIcon(thumb_path_str+thumb_path_2)
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif mode == 1:
@@ -697,6 +702,11 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
     def loadMediaPreview2(self, mode = 0):
 
         self.iconListWidget_2.clear()
+        conn = Connection()
+        
+        thumb_path = conn.thumb_path()
+        thumb_path_str = thumb_path['thumb_path']
+        
         if mode == 0:
             """ if has geometry column load to map canvas """
             rec_list =  self.ID_TABLE + " = " + str(eval("self.DATA_LIST[int(self.REC_CORR)]." + self.ID_TABLE))
@@ -711,7 +721,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole,str(i.media_name))
-                icon = QIcon(thumb_path)
+                icon = QIcon(thumb_path_str+thumb_path)
                 item.setIcon(icon)
                 self.iconListWidget_2.addItem(item)
         elif mode == 1:
@@ -720,6 +730,10 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
     def openWide_image(self):
         items = self.iconListWidget.selectedItems()
         items2 = self.iconListWidget_2.selectedItems()
+        conn = Connection()
+        
+        thumb_resize = conn.thumb_resize()
+        thumb_resize_str = thumb_resize['thumb_resize']
         for item in items:
             dlg = ImageViewer(self)
             id_orig_item = item.text()  # return the name of original file
@@ -731,7 +745,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 file_path = str(res[0].path_resize)
             except Exception as e:
                 QMessageBox.warning(self, "Error", "Warning 1 file: " + str(e), QMessageBox.Ok)
-            dlg.show_image(str(file_path))
+            dlg.show_image(thumb_resize_str+file_path)
             #item.data(QtCore.Qt.UserRole).toString()))
             dlg.exec_()
         for item2 in items2:
@@ -745,7 +759,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 file_path2 = str(res2[0].path_resize)
             except Exception as e:
                 QMessageBox.warning(self, "Error", "Warning 1 file: " + str(e), QMessageBox.Ok)
-            dlg.show_image(str(file_path2))
+            dlg.show_image(thumb_resize_str+file_path_2)
             #item.data(QtCore.Qt.UserRole).toString()))
             dlg.exec_()
     def charge_list(self):

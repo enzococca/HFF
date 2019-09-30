@@ -28,7 +28,9 @@ from sqlalchemy.sql import select, func
 from sqlalchemy import create_engine
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QMessageBox, QFileDialog,QLineEdit
 from qgis.PyQt.uic import loadUiType
+from qgis.PyQt.QtCore import QUrl
 from qgis.core import QgsApplication, QgsSettings, QgsProject
+from qgis.PyQt.QtGui import QDesktopServices
 from modules.db.pyarchinit_conn_strings import Connection
 from modules.db.hff_db_manager import Pyarchinit_db_management
 from modules.db.pyarchinit_db_update import DB_update
@@ -60,9 +62,14 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.pushButton_save.clicked.connect(self.on_pushButton_save_pressed)
         self.pushButtonGraphviz.clicked.connect(self.setPathGraphviz)
         self.pbnSaveEnvironPath.clicked.connect(self.setEnvironPath)
+        self.toolButton_thumbpath.clicked.connect(self.setPathThumb)
+        self.toolButton_resizepath.clicked.connect(self.setPathResize)
         self.pushButtonR.clicked.connect(self.setPathR)
         self.pbnSaveEnvironPathR.clicked.connect(self.setEnvironPathR)
         self.graphviz_bin = s.value('pyArchInit/graphvizBinPath', None, type=str)
+        self.pbnOpenthumbDirectory.clicked.connect(self.openthumbDir)
+        self.pbnOpenresizeDirectory.clicked.connect(self.openresizeDir)
+        
         if self.graphviz_bin:
             self.lineEditGraphviz.setText(self.graphviz_bin)
         if Pyarchinit_OS_Utility.checkGraphvizInstallation():
@@ -78,6 +85,46 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             self.lineEditR.setEnabled(False)
         self.selectorCrsWidget.setCrs(QgsProject.instance().crs())
         self.selectorCrsWidget_sl.setCrs(QgsProject.instance().crs())
+    
+    def openthumbDir(self):
+        s = QgsSettings()
+        dir = self.lineEdit_Thumb_path.text()
+        if os.path.exists(dir):
+            QDesktopServices.openUrl(QUrl.fromLocalFile(dir))
+        else:
+            QMessageBox.warning(self, "INFO", "Directory not found",
+                                QMessageBox.Ok)
+    def openresizeDir(self):
+        s = QgsSettings()
+        dir = self.lineEdit_Thumb_resize.text()
+        if os.path.exists(dir):
+            QDesktopServices.openUrl(QUrl.fromLocalFile(dir))
+        else:
+            QMessageBox.warning(self, "INFO", "Directory not found",
+                                QMessageBox.Ok)
+    def setPathThumb(self):
+        s = QgsSettings()
+        self.thumbpath = QFileDialog.getExistingDirectory(
+            self,
+            "Set path directory",
+            self.HOME,
+            QFileDialog.ShowDirsOnly
+        )
+        if self.thumbpath:
+            self.lineEdit_Thumb_path.setText(self.thumbpath+"/")
+            s.setValue('pyArchInit/thumbpath', self.thumbpath)
+    
+    def setPathResize(self):
+        s = QgsSettings()
+        self.resizepath = QFileDialog.getExistingDirectory(
+            self,
+            "Set path directory",
+            self.HOME,
+            QFileDialog.ShowDirsOnly
+        )
+        if self.resizepath:
+            self.lineEdit_Thumb_resize.setText(self.resizepath+"/")
+            s.setValue('pyArchInit/risizepath', self.resizepath)
     def setPathGraphviz(self):
         s = QgsSettings()
         self.graphviz_bin = QFileDialog.getExistingDirectory(
