@@ -688,7 +688,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 u = Utility()
                 search_dict = u.remove_empty_items_fr_dict(search_dict)
                 mediathumb_data = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
-                thumb_path = str(mediathumb_data[0].filepath)
+                thumb_path_2 = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole,str(i.media_name))
                 icon = QIcon(thumb_path_str+thumb_path_2)
