@@ -316,6 +316,16 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
          </item>
          <item>
           <property name="text">
+           <string>Body</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Upper body</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>Rim</string>
           </property>
          </item>

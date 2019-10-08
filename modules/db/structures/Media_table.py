@@ -29,7 +29,7 @@ class Media_table(object):
                         Column('tags', Text),
 
                         # explicit/composite unique constraint.  'name' is optional.
-                        UniqueConstraint('filepath', name='ID_media_unico')
+                        UniqueConstraint('filepath', name='ID_media_unico')						
                         )
 
     metadata.create_all(engine)

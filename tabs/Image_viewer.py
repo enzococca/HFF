@@ -39,7 +39,7 @@ from ..modules.db.hff_db_manager import *
 from ..modules.db.pyarchinit_utility import *
 from ..modules.utility.delegateComboBox import *
 from ..modules.utility.pyarchinit_media_utility import *
-
+from sqlalchemy import and_, or_, Table, select, func, asc
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'pyarchinit_image_viewer_dialog.ui'))
 
@@ -296,10 +296,10 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 self.insert_record_mediathumb(media_max_num_id, mediatype, filename, filename_thumb, filetype,
                                               filepath_thumb, filepath_resize)
 
-                # visualizza le immagini nella ui
+                
                 item = QListWidgetItem(str(media_max_num_id))
                 item.setData(Qt.UserRole, str(media_max_num_id))
-                icon = QIcon(thumb_path_str+filepath)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
+                icon = QIcon(str(thumb_path_str)+filepath)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
 
@@ -317,7 +317,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
                 thumb_path = data_for_thumb[0].filepath
                 item.setData(Qt.UserRole, thumb_path)
-                icon = QIcon(thumb_path_str+filepath)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
+                icon = QIcon(str(thumb_path_str)+filepath)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
 
@@ -800,7 +800,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = data[i].filepath
                 # QMessageBox.warning(self, "Errore",str(thumb_path),  QMessageBox.Ok)
                 item.setData(Qt.UserRole, str(data[i].media_filename))
-                icon = QIcon(thumb_path_str+thumb_path)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
+                icon = QIcon(str(thumb_path_str)+thumb_path)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
 

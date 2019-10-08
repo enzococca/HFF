@@ -59,11 +59,11 @@ class Media_utility(object):
 
 if __name__ == '__main__':
     m = Media_utility()
-    conn = Connection()
-    thumb_path = conn.thumb_path()
-    thumb_path_str = thumb_path['thumb_path']
-    print(thumb_path_str)
-    m.resample_images('/Users/pyarchinit/desktop/Archivio/', 'Immagine2.png', thumb_path_str, '_pay.png')
+    # conn = Connection()
+    # thumb_path = conn.thumb_path()
+    # thumb_path_str = thumb_path['thumb_path']
+    # print(thumb_path_str)
+    # m.resample_images('/Users/pyarchinit/desktop/Archivio/', 'Immagine2.png', thumb_path_str, '_pay.png')
 
 class Media_utility_resize(object):
     """
@@ -95,11 +95,11 @@ class Media_utility_resize(object):
 
 if __name__ == '__main__':
     m = Media_utility_resize()
-    conn = Connection()
-    thumb_resize = conn.thumb_resize()
-    thumb_resize_str = thumb_resize['thumb_resize']
-    print(thumb_resize_str)
-    m.resample_images('/Users/pyarchinit/desktop/Archivio/', 'Immagine2.png', thumb_resize_str, '_pay.png')
+    # conn = Connection()
+    # thumb_resize = conn.thumb_resize()
+    # thumb_resize_str = thumb_resize['thumb_resize']
+    # print(thumb_resize_str)
+    # m.resample_images('/Users/pyarchinit/desktop/Archivio/', 'Immagine2.png', thumb_resize_str, '_pay.png')
 """
 listfiles = os.listdir(self.pathfiles)
 for infile in listfiles:

@@ -687,9 +687,11 @@ class Pyarchinit_db_management(object):
         Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
         session = Session()
         exec_str = "session.query(func.max({}.{}))".format(self.table_class, self.field_id)
+        
         max_id_func = eval(exec_str)
         res_all = max_id_func.all()
         res_max_num_id = res_all[0][0]
+        
         session.close()
         if not res_max_num_id:
             return 0
