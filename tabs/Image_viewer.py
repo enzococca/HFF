@@ -284,7 +284,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 
                 filepath_thumb =  filename_thumb
                 filepath_resize = filename_resize
-                
+                self.SORT_ITEMS_CONVERTED = []
                 # crea la thumbnail
                 try:
                     MU.resample_images(media_max_num_id, filepath, filenameorig, thumb_path_str, media_thumb_suffix)

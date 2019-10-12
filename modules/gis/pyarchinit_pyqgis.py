@@ -99,7 +99,7 @@ class Pyarchinit_pyqgis(QDialog):
             uri.setDatabase(db_file_path)
 
             uri.setDataSource('','pyarchinit_anchor_view', 'the_geom', gidstr, "ROWIND")
-            layerIndividui=QgsVectorLayer(uri.uri(), 'pyarchinit_anchor_view', 'spatialite')
+            layerIndividui=QgsVectorLayer(uri.uri(), 'Anchors view', 'spatialite')
 
             if layerIndividui.isValid() == True:
                 QMessageBox.warning(self, "TESTER", "OK Layer Anchor available",QMessageBox.Ok)
@@ -161,14 +161,14 @@ class Pyarchinit_pyqgis(QDialog):
             uri.setDatabase(db_file_path)
 
             uri.setDataSource('','pyarchinit_art_view', 'the_geom', gidstr, "ROWIND")
-            layerIndividui=QgsVectorLayer(uri.uri(), 'pyarchinit_art_view', 'spatialite')
+            layerIndividui=QgsVectorLayer(uri.uri(), 'Artefact view', 'spatialite')
 
             if layerIndividui.isValid() == True:
                 QMessageBox.warning(self, "TESTER", "OK Layer artefact available",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'artefact.qml')
-                layer.loadNamedStyle(style_path)    
+                layerIndividui.loadNamedStyle(style_path)    
                 self.iface.mapCanvas().setExtent(layerIndividui.extent())
                 QgsProject.instance().addMapLayers([layerIndividui], True)
             else:
@@ -223,8 +223,8 @@ class Pyarchinit_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','pyarchinit_pottery_view', 'the_geom', gidstr, "ROWIND")
-            layerIndividui=QgsVectorLayer(uri.uri(), 'pyarchinit_pot_view', 'spatialite')
+            uri.setDataSource('','pyarchinit_pot_view', 'the_geom', gidstr, "ROWIND")
+            layerIndividui=QgsVectorLayer(uri.uri(), 'Pottery view', 'spatialite')
 
             if layerIndividui.isValid() == True:
                 QMessageBox.warning(self, "TESTER", "OK Layer pottery available",QMessageBox.Ok)
