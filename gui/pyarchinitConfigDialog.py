@@ -38,8 +38,10 @@ from modules.db.db_createdump import CreateDatabase, RestoreSchema, DropDatabase
 from modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
 from modules.utility.pyarchinit_print_utility import Print_utility
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), 'ui', 'pyarchinitConfigDialog.ui'))
+
 class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
     HOME = os.environ['HFF_HOME']
+    DBFOLDER = '{}{}{}'.format(HOME, os.sep, "HFF_DB_folder")
     PARAMS_DICT = {'SERVER': '',
                    'HOST': '',
                    'DATABASE': '',
@@ -64,6 +66,7 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.pbnSaveEnvironPath.clicked.connect(self.setEnvironPath)
         self.toolButton_thumbpath.clicked.connect(self.setPathThumb)
         self.toolButton_resizepath.clicked.connect(self.setPathResize)
+        self.toolButton_db.clicked.connect(self.setPathDB)
         self.pushButtonR.clicked.connect(self.setPathR)
         self.pbnSaveEnvironPathR.clicked.connect(self.setEnvironPathR)
         self.graphviz_bin = s.value('pyArchInit/graphvizBinPath', None, type=str)
@@ -86,6 +89,8 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.selectorCrsWidget.setCrs(QgsProject.instance().crs())
         self.selectorCrsWidget_sl.setCrs(QgsProject.instance().crs())
     
+    
+    
     def openthumbDir(self):
         s = QgsSettings()
         dir = self.lineEdit_Thumb_path.text()
@@ -102,6 +107,20 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         else:
             QMessageBox.warning(self, "INFO", "Directory not found",
                                 QMessageBox.Ok)
+    
+    def setPathDB(self):
+        s = QgsSettings()
+        dbpath = QFileDialog.getOpenFileName(
+            self,
+            "Set file name",
+            self.DBFOLDER,
+            " db sqlite (*.sqlite)"
+        )[0]
+        filename=dbpath.split("/")[-1]
+        if filename:
+             
+            self.lineEdit_DBname.setText(filename)
+            s.setValue('',filename)
     def setPathThumb(self):
         s = QgsSettings()
         self.thumbpath = QFileDialog.getExistingDirectory(
