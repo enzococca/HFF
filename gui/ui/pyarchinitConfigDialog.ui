@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>779</width>
-    <height>796</height>
+    <width>777</width>
+    <height>794</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -192,25 +192,14 @@
           <property name="bottomMargin">
            <number>12</number>
           </property>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="lineEdit_Port">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>port</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>DBname</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
+          <item row="4" column="1">
            <widget class="QLineEdit" name="lineEdit_DBname">
+            <property name="maximumSize">
+             <size>
+              <width>700</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -219,14 +208,14 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
+          <item row="6" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
              <string>User</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
+          <item row="6" column="1">
            <widget class="QLineEdit" name="lineEdit_User">
             <property name="inputMethodHints">
              <set>Qt::ImhNone</set>
@@ -239,14 +228,14 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="0">
+          <item row="7" column="0">
            <widget class="QLabel" name="label_5">
             <property name="text">
              <string>Password</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="1">
+          <item row="7" column="1">
            <widget class="QLineEdit" name="lineEdit_Password">
             <property name="inputMask">
              <string notr="true"/>
@@ -304,20 +293,20 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Database</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit_Host">
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEdit_Port">
             <property name="text">
              <string/>
             </property>
             <property name="placeholderText">
-             <string>host</string>
+             <string>port</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>DBname</string>
             </property>
            </widget>
           </item>
@@ -328,7 +317,14 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="0" colspan="2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Database</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0" colspan="2">
            <widget class="QPushButton" name="pushButton_save">
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
@@ -344,6 +340,23 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_Host">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>host</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QToolButton" name="toolButton_db">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -353,13 +366,6 @@
           <string>Path Settings</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_10">
-          <item row="1" column="2">
-           <widget class="QToolButton" name="toolButton_resizepath">
-            <property name="text">
-             <string>...</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="2">
            <widget class="QToolButton" name="toolButton_thumbpath">
             <property name="text">
@@ -367,57 +373,30 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <spacer name="verticalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="5" column="0">
-           <widget class="QPushButton" name="pushButton_upd_postgres">
+          <item row="2" column="1" colspan="2">
+           <widget class="QLineEdit" name="lineEdit_Logo_path">
             <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>16777215</height>
-             </size>
-            </property>
             <property name="text">
-             <string>Update Postgres</string>
+             <string/>
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
-           <widget class="QPushButton" name="pushButton_upd_sqlite">
+          <item row="1" column="3">
+           <widget class="QPushButton" name="pbnOpenresizeDirectory">
+            <property name="text">
+             <string>Open folder</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_16">
             <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>16777215</height>
-             </size>
-            </property>
             <property name="text">
-             <string>Update Sqlite</string>
+             <string>Logo path</string>
             </property>
            </widget>
           </item>
@@ -453,10 +432,49 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="2">
+           <widget class="QToolButton" name="toolButton_resizepath">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label_10">
             <property name="text">
              <string>Thumbnail path</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="0">
+           <widget class="QPushButton" name="pushButton_upd_postgres">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Update Postgres</string>
             </property>
            </widget>
           </item>
@@ -473,16 +491,6 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_16">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Logo path</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_40">
             <property name="text">
@@ -490,25 +498,30 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1" colspan="2">
-           <widget class="QLineEdit" name="lineEdit_Logo_path">
+          <item row="6" column="0">
+           <widget class="QPushButton" name="pushButton_upd_sqlite">
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
-             <string/>
+             <string>Update Sqlite</string>
             </property>
            </widget>
           </item>
           <item row="0" column="3">
            <widget class="QPushButton" name="pbnOpenthumbDirectory">
-            <property name="text">
-             <string>Open folder</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="pbnOpenresizeDirectory">
             <property name="text">
              <string>Open folder</string>
             </property>
