@@ -14,18 +14,17 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Ordina</string>
+   <string>Order panel</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff/>
-   </iconset>
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <layout class="QGridLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Criteri di ordinamento</string>
+      <string>Order</string>
      </property>
     </widget>
    </item>
@@ -123,7 +122,7 @@
    <item row="1" column="4">
     <widget class="QRadioButton" name="radioButtonFormeMin">
      <property name="text">
-      <string>Forme minime</string>
+      <string>Qty</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -136,7 +135,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Forme Massime</string>
+      <string>Maximum shapes </string>
      </property>
     </widget>
    </item>
@@ -162,7 +161,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset>
        <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
      </property>
      <property name="checkable">
@@ -182,7 +181,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="resources.qrc">
+      <iconset>
        <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
      </property>
      <property name="checkable">
@@ -212,7 +211,7 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>Quantifica</string>
+      <string>Quantify</string>
      </property>
      <property name="checkable">
       <bool>false</bool>
@@ -225,10 +224,10 @@
    <item row="3" column="4">
     <widget class="QRadioButton" name="radioButtonFrammenti">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="text">
-      <string>Frammenti</string>
+      <string>Fragment</string>
      </property>
     </widget>
    </item>
@@ -238,7 +237,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Peso</string>
+      <string>Weight</string>
      </property>
     </widget>
    </item>
