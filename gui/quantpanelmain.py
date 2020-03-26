@@ -44,13 +44,13 @@ class QuantPanelMain(QDialog, MAIN_DIALOG_CLASS):
             self.ITEMS.append(str(self.FieldListsort.item(index).text()))
 
         if self.radioButtonFormeMin.isChecked():
-            self.TYPE_QUANT = "Forme minime"
+            self.TYPE_QUANT = "QTY"
         elif self.radioButtonFrammenti.isChecked():
-            self.TYPE_QUANT = "Frammenti"
+            self.TYPE_QUANT = "Fragment"
 
         if not bool(self.ITEMS):
-            ttl = "Non e' stato impostata alcun criterio. Vuoi uscire?"
-            msg = QMessageBox.warning(self, 'ATTENZIONE', ttl, QMessageBox.Ok | QMessageBox.Cancel)
+            ttl = "No settigs. Exit?"
+            msg = QMessageBox.warning(self, 'Warning', ttl, QMessageBox.Ok | QMessageBox.Cancel)
             if msg == QMessageBox.Ok:
                 self.close()
             else:
