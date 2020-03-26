@@ -229,7 +229,8 @@ class Pyarchinit_db_management(object):
                     arg[56],
                     arg[57],
                     arg[58],
-                    arg[59]
+                    arg[59],
+                    arg[60]
                     )
 
         return anc
@@ -275,7 +276,8 @@ class Pyarchinit_db_management(object):
                         arg[35],
                         arg[36],
                         arg[37],
-                        arg[38])
+                        arg[38],
+                        arg[39])
 
         return pottery
     
