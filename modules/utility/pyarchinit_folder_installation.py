@@ -66,37 +66,37 @@ class pyarchinit_Folder_installation(object):
         self.OS_UTILITY.copy_file(logo_copy_from_path_de, logo_copy_to_path_de)   
         self.OS_UTILITY.copy_file(logo_copy_from_path_banner, logo_copy_to_path_banner)   
         
-        home_PDF_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_PDF_folder')
+        home_PDF_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_PDF_folder')
         self.OS_UTILITY.create_dir(home_PDF_path)
 
-        home_MATRIX_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_Matrix_folder')
+        home_MATRIX_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_Matrix_folder')
         self.OS_UTILITY.create_dir(home_MATRIX_path)
 
-        home_THUMBNAILS_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_Thumbnails_folder')
+        home_THUMBNAILS_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_Thumbnails_folder')
         self.OS_UTILITY.create_dir(home_THUMBNAILS_path)
 
-        home_MAPS_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_MAPS_folder')
+        home_MAPS_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_MAPS_folder')
         self.OS_UTILITY.create_dir(home_MAPS_path)
 
-        home_REPORT_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_Report_folder')
+        home_REPORT_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_Report_folder')
         self.OS_UTILITY.create_dir(home_REPORT_path)
 
-        home_QUANT_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_Quantificazioni_folder')
+        home_QUANT_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_statistic_folder')
         self.OS_UTILITY.create_dir(home_QUANT_path)
 
-        home_TEST_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_Test_folder')
+        home_TEST_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_Test_folder')
         self.OS_UTILITY.create_dir(home_TEST_path)
 
-        home_BACKUP_linux_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_db_backup')
+        home_BACKUP_linux_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_db_backup')
         self.OS_UTILITY.create_dir(home_BACKUP_linux_path)
 
-        home_image_export_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_image_export')
+        home_image_export_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_image_export')
         self.OS_UTILITY.create_dir(home_image_export_path)
         
-        home_excel_export_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_EXCEL_folder')
+        home_excel_export_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_EXCEL_folder')
         self.OS_UTILITY.create_dir(home_excel_export_path)
         
-        home_R_export_path = '{}{}{}'.format(self.HOME, os.sep, 'pyarchinit_R_export')
+        home_R_export_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_R_export')
         self.OS_UTILITY.create_dir(home_image_export_path)
     def installConfigFile(self, path):
         config_copy_from_path_rel = os.path.join(os.sep, 'dbfiles', 'config.cfg')
