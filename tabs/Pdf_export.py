@@ -141,7 +141,7 @@ class pyarchinit_pdf_export(QDialog, MAIN_DIALOG_CLASS):
         self.HOME = os.environ['HFF_HOME']
 
     def on_pushButton_open_dir_pressed(self):
-        path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_EXCEL_folder")
+        path = '{}{}{}'.format(self.HOME, os.sep, "HFF_EXCEL_folder")
 
         if platform.system() == "Windows":
             os.startfile(path)
@@ -173,7 +173,7 @@ class pyarchinit_pdf_export(QDialog, MAIN_DIALOG_CLASS):
     
     def on_pushButton_exp_pdf_pressed(self):
         home = os.environ['HFF_HOME']
-        sito_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_EXCEL_folder")
+        sito_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_EXCEL_folder")
         sito_location = str(self.comboBox_sito.currentText())
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(home, cfg_rel_path)

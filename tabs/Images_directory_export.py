@@ -129,7 +129,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         
         if self.checkBox_SITE.isChecked()== True:
             us_res = self.db_search_DB('SITE', 'proj_name', sito)
-            sito_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
+            sito_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
             self.OS_UTILITY.create_dir(sito_path)
             if bool(us_res):
                 US_path = '{}{}{}'.format(sito_path, os.sep, "Site")
@@ -168,7 +168,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         
         if self.checkBox_divelog.isChecked()== True:
             div_res = self.db_search_DB('UW', 'site', location)
-            div_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
+            div_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
             self.OS_UTILITY.create_dir(div_path)
             if bool(div_res):
                 div_path = '{}{}{}'.format(div_path, os.sep, "Divelog")
@@ -209,7 +209,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         
         if self.checkBox_divelog.isChecked()== True:
             div_pe_res = self.db_search_DB('UW', 'site', location)
-            div_pe_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
+            div_pe_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
             self.OS_UTILITY.create_dir(div_pe_path)
             if bool(div_pe_res):
                 div_pe_path = '{}{}{}'.format(div_pe_path, os.sep, "Divelog-Environment")
@@ -249,7 +249,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                 QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
         if self.checkBox_artefact.isChecked()== True:
             art_res = self.db_search_DB('ART', 'site', location)
-            art_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
+            art_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
             self.OS_UTILITY.create_dir(art_path)
             if bool(art_res):
                 art_path = '{}{}{}'.format(art_path, os.sep, "Artefact")
@@ -287,7 +287,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         
         if self.checkBox_pottery.isChecked()== True:
             pot_res = self.db_search_DB('POTTERY', 'site', location)
-            pot_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
+            pot_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
             self.OS_UTILITY.create_dir(pot_path)
             if bool(pot_res):
                 pot_path = '{}{}{}'.format(pot_path, os.sep, "Pottery")
@@ -326,7 +326,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         
         if self.checkBox_anchor.isChecked()== True:
             anc_res = self.db_search_DB('ANC', 'site', location)
-            anc_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
+            anc_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
             self.OS_UTILITY.create_dir(anc_path)
             if bool(anc_res):
                 anc_path = '{}{}{}'.format(anc_path, os.sep, "Anchor")
@@ -378,7 +378,7 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         return res
 
     def on_pushButton_open_dir_pressed(self):
-        path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_image_export")
+        path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
 
         if platform.system() == "Windows":
             os.startfile(path)
