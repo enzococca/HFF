@@ -389,7 +389,7 @@ class Photo_index_pdf(object):
 
 class generate_US_pdf:
     HOME = os.environ['HFF_HOME']
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
     def datestrfdate(self):
         now = date.today()
         today = now.strftime("%d-%m-%Y")
@@ -408,7 +408,7 @@ class generate_US_pdf:
         
 class generate_photo_pdf:
     HOME = os.environ['HFF_HOME']
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
     # @staticmethod
     # def _header_footer(canvas, doc):
 

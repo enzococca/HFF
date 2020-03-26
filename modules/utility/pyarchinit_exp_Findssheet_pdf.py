@@ -1460,7 +1460,7 @@ class FINDS_index_pdf_sheet(object):
 class generate_reperti_pdf(object):
     HOME = os.environ['HFF_HOME']
 
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
 
     def datestrfdate(self):
         now = date.today()

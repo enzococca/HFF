@@ -109,7 +109,7 @@ class exp_rel_pdf(object):
 
     HOME = os.environ['HFF_HOME']
 
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
     Title = "Controllo in corso d'opera di via Parini 60"
     pageinfo = "platypus example"
 

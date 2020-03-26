@@ -60,7 +60,7 @@ class HarrisMatrix(object):
                 c.attr(color='blue')
                 c.attr(label=i[2])
 
-        matrix_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_Matrix_folder")
+        matrix_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_Matrix_folder")
         filename = 'Harris_matrix'
 
         G.format = 'dot'

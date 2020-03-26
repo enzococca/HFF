@@ -468,7 +468,7 @@ class ANC_index_pdf:
         return styles
 class generate_ANC_pdf:
     HOME = os.environ['HFF_HOME']
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
     def datestrfdate(self):
         now = date.today()
         today = now.strftime("%d-%m-%Y")
@@ -487,7 +487,7 @@ class generate_ANC_pdf:
         
     def build_index_ANC(self, records, divelog_id):
         HOME = os.environ['HFF_HOME']
-        PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+        PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
         home_DB_path = '{}{}{}'.format(HOME, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
         logo = Image(logo_path)

@@ -1730,7 +1730,7 @@ class generate_tafonomia_pdf(object):
     L=QgsSettings().value("locale/userLocale")[0:2]
     HOME = os.environ['HFF_HOME']
 
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
 
     def datestrfdate(self):
         now = date.today()

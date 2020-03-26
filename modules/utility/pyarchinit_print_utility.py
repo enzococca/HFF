@@ -47,7 +47,7 @@ class Print_utility(QObject):
     progressBarUpdated = pyqtSignal(int, int)
 
     HOME = os.environ['HFF_HOME']
-    REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "pyarchinit_Report_folder")
+    REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "HFF_Report_folder")
     FILEPATH = os.path.dirname(__file__)
     LAYER_STYLE_PATH = '{}{}{}{}'.format(FILEPATH, os.sep, 'styles', os.sep)
     LAYER_STYLE_PATH_SPATIALITE = '{}{}{}{}'.format(FILEPATH, os.sep, 'styles_spatialite', os.sep)
@@ -250,7 +250,7 @@ class Print_utility(QObject):
         settings = QgsLayoutExporter.ImageExportSettings()
         settings.dpi = 100
 
-        MAPS_path = '{}{}{}'.format(self.HOME, os.sep, "pyarchinit_MAPS_folder")
+        MAPS_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_MAPS_folder")
         tav_name = "Tavola_{}_us_{}.png".format(self.tav_num + 1, self.us)
         filename_png = '{}{}{}'.format(MAPS_path, os.sep, tav_name)
 

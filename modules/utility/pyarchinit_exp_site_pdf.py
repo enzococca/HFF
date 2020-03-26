@@ -813,7 +813,7 @@ class photolog_index_pdf_2(object):
 
 class generate_photo_pdf:
     HOME = os.environ['HFF_HOME']
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
     
     def datestrfdate(self):
         now = date.today()
@@ -883,7 +883,7 @@ class generate_photo_pdf:
 class generate_site_pdf:
     HOME = os.environ['HFF_HOME']
 
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
 
     def datestrfdate(self):
         now = date.today()
@@ -1001,7 +1001,7 @@ class photolog_index_pdf(object):
 
 class generate_photo_pdf_2:
     HOME = os.environ['HFF_HOME']
-    PDF_path = '{}{}{}'.format(HOME, os.sep, "pyarchinit_PDF_folder")
+    PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
     
     def datestrfdate(self):
         now = date.today()
