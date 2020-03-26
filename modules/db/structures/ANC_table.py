@@ -82,7 +82,7 @@ class ANC_table(object):
 	Column('bfl', Numeric(5,2)),
 	Column('bfr', Numeric(5,2)),
 	Column('bfb', Numeric(5,2)),
-	Column('bft', Numeric(5,2)),
+	Column('bft', Numeric(5,2)),        Column('qty', Integer),
 	# explicit/composite unique constraint.  'name' is optional.
     UniqueConstraint('anchors_id', name='ANCHORS_id_unico')	
 	)
