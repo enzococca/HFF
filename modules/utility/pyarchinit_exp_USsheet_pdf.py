@@ -5,7 +5,7 @@ from builtins import object
 from builtins import range
 from builtins import str
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import (A4)
+from reportlab.lib.pagesizes import *
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch, cm, mm
 from reportlab.pdfgen import canvas
@@ -450,7 +450,7 @@ class generate_photo_pdf:
     
     def build_P_sheets(self,records,sito):
         home = os.environ['HFF_HOME']
-        self.width, self.height = (A4)
+        self.width, self.height = (A3)
 
         home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'banner.png')
@@ -496,7 +496,7 @@ class generate_photo_pdf:
         filename = '{}{}{}'.format(self.PDF_path, os.sep, 'Photo_index_UW.pdf')
         f = open(filename, "wb")
 
-        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 29 * cm), showBoundary=0, topMargin=15, bottomMargin=40,
+        doc = SimpleDocTemplate(f, pagesize=A3, showBoundary=0, topMargin=15, bottomMargin=40,
                                 leftMargin=30, rightMargin=30)
         doc.build(list, canvasmaker=NumberedCanvas_USindex)
 
