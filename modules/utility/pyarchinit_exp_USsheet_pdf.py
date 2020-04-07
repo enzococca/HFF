@@ -320,7 +320,7 @@ class Photo_index_pdf(object):
         
         
         
-        divelog = Paragraph("<b>DIVEID: </b>"+str(self.divelog_id), styNormal)
+        divelog = Paragraph("<b>DIVEID: </b><br/>"+str(self.divelog_id), styNormal)
         area_id = Paragraph( "<b>Area</b><br/>"+str(self.area_id), styNormal)
         
         sito = Paragraph( str(self.sito), styNormal)
@@ -485,7 +485,7 @@ class generate_photo_pdf:
             table_data.append(exp_index.getTable())
 
         styles = exp_index.makeStyles()
-        colWidths = [70, 110, 110, 190, 110, 190]
+        colWidths = [50, 100, 120, 190, 120, 190]
 
         table_data_formatted = Table( table_data, colWidths, style=styles)
         table_data_formatted.hAlign = "LEFT"
@@ -496,7 +496,7 @@ class generate_photo_pdf:
         filename = '{}{}{}'.format(self.PDF_path, os.sep, 'Photo_index_UW.pdf')
         f = open(filename, "wb")
 
-        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 21 * cm), showBoundary=0, topMargin=15, bottomMargin=40,
+        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 29 * cm), showBoundary=0, topMargin=15, bottomMargin=40,
                                 leftMargin=30, rightMargin=30)
         doc.build(list, canvasmaker=NumberedCanvas_USindex)
 
