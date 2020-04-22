@@ -11,7 +11,7 @@
 [general]
 name=HFF
 qgisMinimumVersion=3.0
-description=pyarchinit an tool for archaeological works
+description=HFF-survey a tool for underwater and terrestrial archaeological survey
 version=2.0.0
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
