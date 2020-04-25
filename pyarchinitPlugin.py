@@ -38,7 +38,7 @@ from .tabs.pyarchinit_UW_mainapp import pyarchinit_UW
 from .tabs.pyarchinit_Pottery_mainapp import pyarchinit_Pottery
 from .tabs.Image_viewer import Main
 from .tabs.Images_directory_export import pyarchinit_Images_directory_export
-from .tabs.Pdf_export import pyarchinit_pdf_export
+from .tabs.Excel_export import pyarchinit_excel_export
 from .tabs.Site import pyarchinit_Site
 
 from .gui.pyarchinitConfigDialog import pyArchInitDialog_Config
@@ -198,20 +198,20 @@ class PyArchInitPlugin(object):
         self.actionImages_Directory_export.setWhatsThis("Download image")
         self.actionImages_Directory_export.triggered.connect(self.runImages_directory_export)
 
-        icon_pdf_exp = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'excel-export.png'))
-        self.actionpdfExp = QAction(QIcon(icon_pdf_exp), "Download EXCEL", self.iface.mainWindow())
-        self.actionpdfExp.setWhatsThis("Download EXCEL")
-        self.actionpdfExp.triggered.connect(self.runPdfexp)
+        icon_excel_exp = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'excel-export.png'))
+        self.actionexcelExp = QAction(QIcon(icon_excel_exp), "Download EXCEL", self.iface.mainWindow())
+        self.actionexcelExp.setWhatsThis("Download EXCEL")
+        self.actionexcelExp.triggered.connect(self.runPdfexp)
 
       
         self.docToolButton.addActions(
-            [self.actionpdfExp, self.actionimageViewer, self.actionpdfExp, self.actionImages_Directory_export])
+            [self.actionexcelExp, self.actionimageViewer, self.actionexcelExp, self.actionImages_Directory_export])
 
         self.docToolButton.setDefaultAction(self.actionimageViewer)
 
         #if self.PARAMS_DICT['EXPERIMENTAL'] == 'Si':
         self.actionImages_Directory_export.setCheckable(True)
-        self.actionpdfExp.setCheckable(True)
+        self.actionexcelExp.setCheckable(True)
         self.actionimageViewer.setCheckable(True)
 
         self.toolBar.addWidget(self.docToolButton)
@@ -262,7 +262,7 @@ class PyArchInitPlugin(object):
         self.iface.addPluginToMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionSite)
        
         self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionimageViewer)
-        self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionpdfExp)
+        self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionexcelExp)
         self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionImages_Directory_export)
 
         
@@ -278,7 +278,7 @@ class PyArchInitPlugin(object):
         self.menu.addActions([self.actionUW, self.actionART, self.actionANC, self.actionPottery])
         
         
-        self.menu.addActions([self.actionimageViewer, self.actionpdfExp, self.actionImages_Directory_export])
+        self.menu.addActions([self.actionimageViewer, self.actionexcelExp, self.actionImages_Directory_export])
         self.menu.addSeparator()
       
         self.menu.addActions([self.actionConf,  self.actionDbmanagment, self.actionInfo])
@@ -347,7 +347,7 @@ class PyArchInitPlugin(object):
         self.pluginGui = pluginDbmanagment  # save
 
     def runPdfexp(self):
-        pluginPdfexp = pyarchinit_pdf_export(self.iface)
+        pluginPdfexp = pyarchinit_excel_export(self.iface)
         pluginPdfexp.show()
         self.pluginGui = pluginPdfexp  # save
 
@@ -365,7 +365,7 @@ class PyArchInitPlugin(object):
         
         self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionimageViewer)
         self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionImages_Directory_export)
-        self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionpdfExp)
+        self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionexcelExp)
         
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionConf)
        
@@ -383,7 +383,7 @@ class PyArchInitPlugin(object):
        
         self.iface.removeToolBarIcon(self.actionimageViewer)
         self.iface.removeToolBarIcon(self.actionImages_Directory_export)
-        self.iface.removeToolBarIcon(self.actionpdfExp)
+        self.iface.removeToolBarIcon(self.actionexcelExp)
         
         self.iface.removeToolBarIcon(self.actionConf)
        
