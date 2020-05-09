@@ -169,7 +169,17 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
         res = self.DB_MANAGER.query_bool(search_dict, self.table_class)
 
         return res
-    
+    def list2pipe(self,x):
+        
+        if isinstance(x,str) and x.startswith('[[') and '], [' in x:
+            return '|'.join(str(e) for e in eval(x)[0]) +'|'+'|'.join(str(e) for e in eval(x)[1])
+        
+        elif isinstance(x,str) and x.startswith('[['):    
+            return '|'.join(str(e) for e in eval(x)[0])
+        
+        else: 
+            return x
+            
     
     def on_pushButton_exp_pdf_pressed(self):
         home = os.environ['HFF_HOME']
@@ -283,23 +293,200 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
             
             file_path_sqlite = sqlite_DB_path+os.sep+db_names
             conn = sq.connect(file_path_sqlite)
-            cur = conn.cursor()
+            cur1 = conn.cursor()
+            cur0 = conn.cursor()
+            cur2 = conn.cursor()
+            cur3 = conn.cursor()
+            cur4 = conn.cursor()
+            cur5 = conn.cursor()
+            cur6 = conn.cursor()
+            cur7 = conn.cursor()
+            cur8 = conn.cursor()
+            cur9 = conn.cursor()
+            cur10 = conn.cursor()
+            cur11 = conn.cursor()
+            cur12 = conn.cursor()
             
             if self.checkBox_site.isChecked():
                 name_= '%s' % (sito_location+'_site-table_' +  time.strftime('%Y%m%d_') + '.xlsx')
                 dump_dir=os.path.join(sito_path, name_)
-                cur.execute("SELECT * FROM site_table where location_='%s';" % sito_location)
-                rows = cur.fetchall()
-                col_names = []
-                for i in cur.description:
-                  col_names.append(i[0])
-                  
-                a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
-                a.to_excel(writer, sheet_name='Sheet1')
+                workbook  = writer.book
+                
+                
+                cur1.execute("SELECT morphology_c, collection_c,features,disturbance FROM site_table where location_='%s';" % sito_location)
+                cur0.execute("SELECT name_site, definition  FROM site_table where location_='%s';" % sito_location)
+                cur2.execute("SELECT mouhafasat, definition ,features FROM site_table where location_='%s';" % sito_location)
+                cur3.execute("SELECT mouhafasat, definition  FROM site_table where location_='%s';" % sito_location)
+                cur4.execute("SELECT supervisor, name_site,features,disturbance FROM site_table where location_='%s';" % sito_location)
+                cur5.execute("SELECT mouhafasat, definition  FROM site_table where location_='%s';" % sito_location)
+                cur6.execute("SELECT supervisor, name_site,features,disturbance FROM site_table where location_='%s';" % sito_location)
+                cur7.execute("SELECT supervisor, name_site,features,disturbance ,definition,est FROM site_table where location_='%s';" % sito_location)
+                cur8.execute("SELECT supervisor, name_site,features,disturbance FROM site_table where location_='%s';" % sito_location)
+                cur9.execute("SELECT mouhafasat, definition  FROM site_table where location_='%s';" % sito_location)
+                cur10.execute("SELECT name_site,features,disturbance,mouhafasat, definition,est,material_c,morphology_c,area,date_start,grab,survey_type,date_fill,soil_type,visibility,topographic_setting,orientation,photolog  FROM site_table where location_='%s';" % sito_location)
+                cur11.execute("SELECT mouhafasat, definition ,features,disturbance FROM site_table where location_='%s';" % sito_location)
+                cur12.execute("SELECT name_site,features,disturbance,mouhafasat, definition,est,material_c,morphology_c,area,date_start FROM site_table where location_='%s';" % sito_location)
+                
+                rows1 = cur1.fetchall()
+                rows0 = cur0.fetchall()
+                rows2 = cur2.fetchall()
+                rows3 = cur3.fetchall()
+                rows4 = cur4.fetchall()
+                rows5 = cur5.fetchall()
+                rows6 = cur6.fetchall()
+                rows7 = cur7.fetchall()
+                rows8 = cur8.fetchall()
+                rows9 = cur9.fetchall()
+                rows10 = cur10.fetchall()
+                rows11 = cur11.fetchall()
+                rows12 = cur12.fetchall()
+                
+                col_names1 = ['INVESTIGATOR_NAME.E41','INVESTIGATOR_ROLE_TYPE.E55','ASSESSMENT_ACTIVITY_TYPE.E55','ASSESSMENT_ACTIVITY_DATE.E49']
+                col_names0 = ['NAME.E41','NAME_TYPE.E55']
+                col_names2 = ['DESIGNATION_TYPE.E55', 'DESIGNATION_FROM_DATE.E61','DESIGNATION_TO_DATE.E61']
+                col_names3 = ['LOCATION_CERTAINTY.I6','GEOMETRIC_PLACE_EXPRESSION.SP5']
+                col_names4 = ['MEASUREMENT_NUMBER.E60','MEASUREMENT_UNIT.E58','DIMENSION_TYPE.E55','MEASUREMENT_SOURCE_TYPE.E55']
+                col_names5 = ['GENERAL_DESCRIPTION_TYPE.E55','GENERAL_DESCRIPTION.E62']
+                col_names6 = ['CULTURAL_PERIOD_TYPE.I4','CULTURAL_PERIOD_DETAIL_TYPE.E55','CULTURAL_PERIOD_CERTAINTY.I6','DATE_INFERENCE_MAKING_ACTOR_NAME.E41']
+                col_names7 = ['FEATURE_FORM_TYPE.I4','FEATURE_FORM_TYPE_CERTAINTY.I6','FEATURE_SHAPE_TYPE.E55','FEATURE_ARRANGEMENT_TYPE.E55','FEATURE_NUMBER_TYPE.E55','FEATURE_ASSIGNMENT_INVESTIGATOR_NAME.E41']
+                col_names8 = ['INTERPRETATION_TYPE.I4','INTERPRETATION_CERTAINTY.I6','INTERPRETATION_NUMBER_TYPE.E55','FUNCTION_INTERPRETATION_INFERENCE_MAKING_ACTOR_NAME.E41']
+                col_names9 = ['SITE_FUNCTION_TYPE.I4','SITE_FUNCTION_CERTAINTY.I6']
+                col_names10 = ['DISTURBANCE_CAUSE_CATEGORY_TYPE.E55','DISTURBANCE_CAUSE_TYPE.I4','DISTURBANCE_CAUSE_CERTAINTY.I6','EFFECT_TYPE_1.I4','EFFECT_CERTAINTY_1.I6','EFFECT_TYPE_2.I4','EFFECT_CERTAINTY_2.I6','EFFECT_TYPE_3.I4','EFFECT_CERTAINTY_3.I6','EFFECT_TYPE_4.I4','EFFECT_CERTAINTY_4.I6','EFFECT_TYPE_5.I4','EFFECT_CERTAINTY_5.I6','DISTURBANCE_DATE_FROM.E61','DISTURBANCE_DATE_TO.E61','DISTURBANCE_DATE_OCCURRED_BEFORE.E61','DISTURBANCE_DATE_OCCURRED_ON.E61','DISTURBANCE_CAUSE_ASSIGNMENT_ASSESSOR_NAME.E41']
+                col_names11 = ['THREAT_CATEGORY.I4','THREAT_TYPE.I4','THREAT_PROBABILITY.I6','THREAT_INFERENCE_MAKING_ASSESSOR_NAME.E41']
+                col_names12 = ['HERITAGE_PLACE_TYPE.E55','FEATURE_MORPHOLOGY_TYPE.E55','SITE_OVERALL_SHAPE_TYPE.E55','GEOMETRY_EXTENT_CERTAINTY.I6','OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6','GRID_ID.E42','COUNTRY_TYPE.E55','TOPOGRAPHY_TYPE.E55','OVERALL_CONDITION_STATE_TYPE.E55','DAMAGE_EXTENT_TYPE.E55']
+                
+                
+                t1=pd.DataFrame(rows1,columns=col_names1).applymap(self.list2pipe)
+                t0=pd.DataFrame(rows0,columns=col_names0).applymap(self.list2pipe)
+                t2=pd.DataFrame(rows2,columns=col_names2).applymap(self.list2pipe)
+                t3=pd.DataFrame(rows3,columns=col_names3).applymap(self.list2pipe)
+                t4=pd.DataFrame(rows4,columns=col_names4).applymap(self.list2pipe)
+                t5=pd.DataFrame(rows5,columns=col_names5).applymap(self.list2pipe)
+                t6=pd.DataFrame(rows6,columns=col_names6).applymap(self.list2pipe)
+                t7=pd.DataFrame(rows7,columns=col_names7).applymap(self.list2pipe)
+                t8=pd.DataFrame(rows8,columns=col_names8).applymap(self.list2pipe)
+                t9=pd.DataFrame(rows9,columns=col_names9).applymap(self.list2pipe)
+                t10=pd.DataFrame(rows10,columns=col_names10).applymap(self.list2pipe)
+                t11=pd.DataFrame(rows11,columns=col_names11).applymap(self.list2pipe)
+                t12=pd.DataFrame(rows12,columns=col_names12).applymap(self.list2pipe)
+                
+                t1.to_excel(writer, sheet_name='zzAssesment',index=False)
+                t0.to_excel(writer, sheet_name='NameGroup',index=False)
+                t2.to_excel(writer, sheet_name='DesignationGroup',index=False)
+                t3.to_excel(writer, sheet_name='GeometryGroup',index=False)
+                t4.to_excel(writer, sheet_name='MeasurementsGroup',index=False)
+                t5.to_excel(writer, sheet_name='DescriptionGroup',index=False)
+                t6.to_excel(writer, sheet_name='PeriodGroup',index=False)
+                t7.to_excel(writer, sheet_name='FeatureGroup',index=False)
+                t8.to_excel(writer, sheet_name='InterpGroup',index=False)
+                t9.to_excel(writer, sheet_name='FunctionGroup',index=False)
+                t10.to_excel(writer, sheet_name='zDisturbanceGroup',index=False)
+                t11.to_excel(writer, sheet_name='ThreatGroup',index=False)
+                t12.to_excel(writer, sheet_name='NOT',index=False)
+                
+                worksheet1 = writer.sheets['zzAssesment']
+                worksheet0 = writer.sheets['NameGroup']
+                worksheet2 = writer.sheets['DesignationGroup']
+                worksheet3 = writer.sheets['GeometryGroup']
+                worksheet4 = writer.sheets['MeasurementsGroup']
+                worksheet5 = writer.sheets['DescriptionGroup']
+                worksheet6 = writer.sheets['PeriodGroup']
+                worksheet7 = writer.sheets['FeatureGroup']
+                worksheet8 = writer.sheets['InterpGroup']
+                worksheet9 = writer.sheets['FunctionGroup']
+                worksheet10 = writer.sheets['zDisturbanceGroup']
+                worksheet11 = writer.sheets['ThreatGroup']
+                worksheet12 = writer.sheets['NOT']
+                
+                worksheet1.set_column('A:A', 30, None)
+                worksheet1.set_column('B:B', 30, None)
+                worksheet1.set_column('C:C', 30, None)
+                worksheet1.set_column('D:D', 30, None)
+                
+                worksheet0.set_column('A:A', 30, None)
+                worksheet0.set_column('B:B', 30, None)
+                
+                worksheet2.set_column('A:A', 30, None)
+                worksheet2.set_column('B:B', 30, None)
+                worksheet2.set_column('C:C', 30, None)
+               
+                worksheet3.set_column('A:A', 30, None)
+                worksheet3.set_column('B:B', 30, None)
+                
+                worksheet4.set_column('A:A', 30, None)
+                worksheet4.set_column('B:B', 30, None)
+                worksheet4.set_column('C:C', 30, None)
+                worksheet4.set_column('D:D', 30, None)
+                
+                worksheet5.set_column('A:A', 30, None)
+                worksheet5.set_column('B:B', 30, None)
+                
+                worksheet6.set_column('A:A', 30, None)
+                worksheet6.set_column('B:B', 30, None)
+                worksheet6.set_column('C:C', 30, None)
+                worksheet6.set_column('D:D', 30, None)
+                
+                worksheet7.set_column('A:A', 30, None)
+                worksheet7.set_column('B:B', 30, None)
+                worksheet7.set_column('C:C', 30, None)
+                worksheet7.set_column('D:D', 30, None)
+                worksheet7.set_column('E:E', 30, None)
+                worksheet7.set_column('F:F', 30, None)
+                
+                worksheet8.set_column('A:A', 30, None)
+                worksheet8.set_column('B:B', 30, None)
+                worksheet8.set_column('C:C', 30, None)
+                worksheet8.set_column('D:D', 30, None)
+                worksheet8.set_column('E:E', 30, None)
+                
+                worksheet9.set_column('A:A', 30, None)
+                worksheet9.set_column('B:B', 30, None)
+               
+                worksheet10.set_column('A:A', 30, None)
+                worksheet10.set_column('B:B', 30, None)
+                worksheet10.set_column('C:C', 30, None)
+                worksheet10.set_column('D:D', 30, None)
+                worksheet10.set_column('E:E', 30, None)
+                worksheet10.set_column('F:F', 30, None)
+                worksheet10.set_column('G:G', 30, None)
+                worksheet10.set_column('H:H', 30, None)
+                worksheet10.set_column('I:I', 30, None)
+                worksheet10.set_column('J:J', 30, None)
+                worksheet10.set_column('K:K', 30, None)
+                worksheet10.set_column('L:L', 30, None)
+                worksheet10.set_column('M:M', 30, None)
+                worksheet10.set_column('N:N', 30, None)
+                worksheet10.set_column('O:O', 30, None)
+                worksheet10.set_column('P:P', 30, None)
+                worksheet10.set_column('Q:Q', 30, None)
+                worksheet10.set_column('R:R', 30, None)
+                
+                worksheet11.set_column('A:A', 30, None)
+                worksheet11.set_column('B:B', 30, None)
+                worksheet11.set_column('C:C', 30, None)
+                worksheet11.set_column('D:D', 30, None)
+                
+                worksheet12.set_column('A:A', 30, None)
+                worksheet12.set_column('B:B', 30, None)
+                worksheet12.set_column('C:C', 30, None)
+                worksheet12.set_column('D:D', 30, None)
+                worksheet12.set_column('E:E', 30, None)
+                worksheet12.set_column('F:F', 30, None)
+                worksheet12.set_column('G:G', 30, None)
+                worksheet12.set_column('H:H', 30, None)
+                worksheet12.set_column('I:I', 30, None)
+                worksheet12.set_column('J:J', 30, None)
+                
                 writer.save()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
-                        
+                QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
+                # list=[]    
+                # tupla = [['abc','cbn'],['a'],['bcm','a','c']]
+                # for x in tupla:
+                  # list.append(x)
+                  # for i in list:
+                    # a = "|".join(str(e)for e in i)
+                  # print (a)          
             if self.checkBox_uw.isChecked():
                 divelog_= '%s' % (sito_location+'_divelog_' +  time.strftime('%Y%m%d_') + '.xlsx')
                 dump_dir=os.path.join(sito_path, divelog_)
