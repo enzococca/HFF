@@ -179,7 +179,15 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
         
         else: 
             return x
-            
+    def load_spatialite(self,conn, connection_record):
+        conn.enable_load_extension(True)
+        if Pyarchinit_OS_Utility.isWindows()== True:
+            conn.load_extension('mod_spatialite.dll')
+        elif Pyarchinit_OS_Utility.isMac()== True:
+            conn.load_extension('mod_spatialite.dylib')
+        else:
+            conn.load_extension('mod_spatialite.so')  
+    
     
     def on_pushButton_exp_pdf_pressed(self):
         home = os.environ['HFF_HOME']
@@ -288,11 +296,23 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
            
         
         elif server=='sqlite':        
+            
             self.HOME = os.environ['HFF_HOME']
             sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,"HFF_DB_folder")
             
             file_path_sqlite = sqlite_DB_path+os.sep+db_names
             conn = sq.connect(file_path_sqlite)
+            conn.enable_load_extension(True)
+            
+            
+            #now we can load the extension
+            # depending on your OS and sqlite/spatialite version you might need to add 
+            # '.so' (Linux) or '.dll' (Windows) to the extension name
+
+            #mod_spatialite (recommended)
+            conn.execute('SELECT load_extension("mod_spatialite")')   
+            conn.execute('SELECT InitSpatialMetaData(1);')  
+            
             cur1 = conn.cursor()
             cur0 = conn.cursor()
             cur2 = conn.cursor()
@@ -317,7 +337,7 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
                 cur1.execute("SELECT morphology_c, collection_c,features,disturbance FROM site_table where location_='%s';" % sito_location)
                 cur0.execute("SELECT name_site, definition  FROM site_table where location_='%s';" % sito_location)
                 cur2.execute("SELECT mouhafasat, definition ,features FROM site_table where location_='%s';" % sito_location)
-                cur3.execute("SELECT mouhafasat, definition  FROM site_table where location_='%s';" % sito_location)
+                cur3.execute("SELECT site, ST_AsText( ST_Transform( the_geom, 4326 ) )  FROM pyarchinit_pot_view where site='%s';" % sito_location)
                 cur4.execute("SELECT supervisor, name_site,features,disturbance FROM site_table where location_='%s';" % sito_location)
                 cur5.execute("SELECT mouhafasat, definition  FROM site_table where location_='%s';" % sito_location)
                 cur6.execute("SELECT supervisor, name_site,features,disturbance FROM site_table where location_='%s';" % sito_location)
@@ -479,14 +499,7 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
                 worksheet12.set_column('J:J', 30, None)
                 
                 writer.save()
-                QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
-                # list=[]    
-                # tupla = [['abc','cbn'],['a'],['bcm','a','c']]
-                # for x in tupla:
-                  # list.append(x)
-                  # for i in list:
-                    # a = "|".join(str(e)for e in i)
-                  # print (a)          
+                   
             if self.checkBox_uw.isChecked():
                 divelog_= '%s' % (sito_location+'_divelog_' +  time.strftime('%Y%m%d_') + '.xlsx')
                 dump_dir=os.path.join(sito_path, divelog_)
