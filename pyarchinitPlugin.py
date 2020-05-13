@@ -32,6 +32,7 @@ from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
 from qgis.core import QgsApplication, QgsSettings
 
 from pyarchinitDockWidget import PyarchinitPluginDialog
+from .tabs.Eamena import Eamena
 from .tabs.pyarchinit_ANC_mainapp import pyarchinit_ANC
 from .tabs.pyarchinit_ART_mainapp import pyarchinit_ART
 from .tabs.pyarchinit_UW_mainapp import pyarchinit_UW
@@ -136,9 +137,14 @@ class PyArchInitPlugin(object):
         self.actionSite = QAction(QIcon(icon_site), "Site", self.iface.mainWindow())
         self.actionSite.setWhatsThis("Site")
         self.actionSite.triggered.connect(self.runSite)
+        
+        icon_eamena = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'eamena.jpg'))
+        self.actionEamena = QAction(QIcon(icon_eamena), "Eamena", self.iface.mainWindow())
+        self.actionEamena.setWhatsThis("Eamena")
+        self.actionEamena.triggered.connect(self.runEamena)
 
         self.siteToolButton.addActions(
-            [self.actionSite])
+            [self.actionSite, self.actionEamena])
         self.siteToolButton.setDefaultAction(self.actionSite)
 
         self.toolBar.addWidget(self.siteToolButton)
@@ -290,6 +296,11 @@ class PyArchInitPlugin(object):
         pluginGui = pyarchinit_Site(self.iface)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
+        
+    def runEamena(self):
+        pluginGui = Eamena(self.iface)
+        pluginGui.show()
+        self.pluginGui = pluginGui  # save    
 
     def runUW(self):
         pluginGui = pyarchinit_UW(self.iface)
@@ -362,6 +373,7 @@ class PyArchInitPlugin(object):
         self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionPottery)
         
         self.iface.removePluginMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionSite)
+        self.iface.removePluginMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionEamena)
         
         self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionimageViewer)
         self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionImages_Directory_export)
