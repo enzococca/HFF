@@ -32,7 +32,7 @@ from modules.db.entities.UW import UW
 from modules.db.entities.ART import ART
 from modules.db.entities.ANC import ANC
 from modules.db.entities.POTTERY import POTTERY
-
+from modules.db.entities.EAMENA import EAMENA
 ############################from structures #########################################
 
 from modules.db.structures.Media_table import Media_table
@@ -46,6 +46,7 @@ from modules.db.structures.UW_table import UW_table
 from modules.db.structures.ART_table import ART_table
 from modules.db.structures.ANC_table import ANC_table
 from modules.db.structures.POTTERY_table import POTTERY_table
+from modules.db.structures.Eamena_table import Eamena_table
 
 try:
     
@@ -70,6 +71,8 @@ try:
     # mapper
     mapper(SITE, Site_table.site_table)
 	
+    # mapper
+    mapper(EAMENA, Eamena_table.eamena_table)
 	
     # mapper
     mapper(UW, UW_table.dive_log)

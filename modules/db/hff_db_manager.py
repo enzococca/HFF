@@ -33,7 +33,7 @@ from sqlalchemy.sql.schema import MetaData
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 from qgis.utils import iface
 
-from modules.db.hff_db_mapper import UW, ART, ANC, POTTERY, SITE,  \
+from modules.db.hff_db_mapper import UW, ART, ANC, POTTERY, SITE, EAMENA, \
     MEDIA, \
     MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, \
     PDF_ADMINISTRATOR
@@ -87,7 +87,71 @@ class Pyarchinit_db_management(object):
         return test
 
         # insert statement
+    def insert_eamena_values(self, *arg):
+        """Istanzia la classe US da pyarchinit_db_mapper"""
 
+        eamena = EAMENA(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15],
+                    arg[16],
+                    arg[17],
+                    arg[18],
+                    arg[19],
+                    arg[20],
+                    arg[21],
+                    arg[22],
+                    arg[23],
+                    arg[24],
+                    arg[25],
+                    arg[26],
+                    arg[27],
+                    arg[28],
+                    arg[29],
+                    arg[30],
+                    arg[31],
+                    arg[32],
+                    arg[33],
+                    arg[34],
+                    arg[35],
+                    arg[36],
+                    arg[37],
+                    arg[38],
+                    arg[39],
+                    arg[40],
+                    arg[41],
+                    arg[42],
+                    arg[43],
+                    arg[44],
+                    arg[45],
+                    arg[46],
+                    arg[47],
+                    arg[48],
+                    arg[49],
+                    arg[50],
+                    arg[51],
+                    arg[52],
+                    arg[53],
+                    arg[54],
+                    arg[55],
+                    arg[56],
+                    arg[57],
+                    arg[58]
+                    )
+
+        return eamena
     
     def insert_uw_values(self, *arg):
         """Istanzia la classe US da pyarchinit_db_mapper"""
