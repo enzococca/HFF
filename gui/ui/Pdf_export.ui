@@ -98,7 +98,7 @@
       <attribute name="title">
        <string>Excel Exportation</string>
       </attribute>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -165,7 +165,7 @@
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>Sito</string>
+             <string>EAMENA</string>
             </property>
            </widget>
           </item>
@@ -188,13 +188,16 @@
             </property>
             <property name="icon">
              <iconset resource="../../resources/resources.qrc">
-              <normaloff>:/icons/iconSite.png</normaloff>:/icons/iconSite.png</iconset>
+              <normaloff>:/icons/eamena.jpg</normaloff>:/icons/eamena.jpg</iconset>
             </property>
             <property name="iconSize">
              <size>
               <width>30</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
