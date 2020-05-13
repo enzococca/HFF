@@ -170,13 +170,13 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
 
         return res
     def list2pipe(self,x):
-        
-        if isinstance(x,str) and x.startswith('[[') and '], [' in x:
-            return '|'.join(str(e) for e in eval(x)[0]) +'|'+'|'.join(str(e) for e in eval(x)[1])
-        
+        lista =[]
+        if isinstance(x,str) and x.startswith('[') and '], [' in x:
+            
+            return '|'.join(str(e) for e in eval(x)).replace("['",'').replace("']",'').replace("[",'').replace("]",'')
+            
         elif isinstance(x,str) and x.startswith('[['):    
             return '|'.join(str(e) for e in eval(x)[0])
-        
         else: 
             return x
     def load_spatialite(self,conn, connection_record):
@@ -334,19 +334,20 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
                 workbook  = writer.book
                 
                 
-                cur1.execute("SELECT morphology_c, collection_c,features,disturbance FROM site_table where location_='%s';" % sito_location)
-                cur0.execute("SELECT name_site, definition  FROM site_table where location_='%s';" % sito_location)
-                cur2.execute("SELECT mouhafasat, definition ,features FROM site_table where location_='%s';" % sito_location)
-                cur3.execute("SELECT site, ST_AsText( ST_Transform( the_geom, 4326 ) )  FROM pyarchinit_pot_view where site='%s';" % sito_location)
-                cur4.execute("SELECT supervisor, name_site,features,disturbance FROM site_table where location_='%s';" % sito_location)
-                cur5.execute("SELECT mouhafasat, definition  FROM site_table where location_='%s';" % sito_location)
-                cur6.execute("SELECT supervisor, name_site,features,disturbance FROM site_table where location_='%s';" % sito_location)
-                cur7.execute("SELECT supervisor, name_site,features,disturbance ,definition,est FROM site_table where location_='%s';" % sito_location)
-                cur8.execute("SELECT supervisor, name_site,features,disturbance FROM site_table where location_='%s';" % sito_location)
-                cur9.execute("SELECT mouhafasat, definition  FROM site_table where location_='%s';" % sito_location)
-                cur10.execute("SELECT name_site,features,disturbance,mouhafasat, definition,est,material_c,morphology_c,area,date_start,grab,survey_type,date_fill,soil_type,visibility,topographic_setting,orientation,photolog  FROM site_table where location_='%s';" % sito_location)
-                cur11.execute("SELECT mouhafasat, definition ,features,disturbance FROM site_table where location_='%s';" % sito_location)
-                cur12.execute("SELECT name_site,features,disturbance,mouhafasat, definition,est,material_c,morphology_c,area,date_start FROM site_table where location_='%s';" % sito_location)
+                cur1.execute("SELECT investigator, role,activity,d_activity From eamena_table where location='%s';" % sito_location)
+                cur0.execute("SELECT name, name_type  From eamena_table where location='%s';" % sito_location)
+                cur2.execute("SELECT d_type, dfd ,dft From eamena_table where location='%s';" % sito_location)
+                cur3.execute("Select lc,   (SELECT   st_astext(st_transform(the_geom,4326)) FROM transect where name_tr = name_site union all SELECT  st_astext(st_transform(the_geom,4326)) FROM features_line where name_f_l = name_site union all SELECT     st_astext(st_transform(the_geom,4326)) FROM features_point where name_f_p = name_site ) as collection from eamena_table  where location= '%s'" %sito_location)
+                
+                cur4.execute("SELECT mn, mt,mu,ms From eamena_table where location='%s';" % sito_location)
+                cur5.execute("SELECT desc_type, description  From eamena_table where location='%s';" % sito_location)
+                cur6.execute("SELECT cd, pd,pc,di From eamena_table where location='%s';" % sito_location)
+                cur7.execute("SELECT fft,ffc,fs,fat,fn,fai  From eamena_table where location='%s';" % sito_location)
+                cur8.execute("SELECT it,ic,intern,fi  From eamena_table where location='%s';" % sito_location)
+                cur9.execute("SELECT sf,sfc   From eamena_table where location='%s';" % sito_location)
+                cur10.execute("SELECT dcc,dct,dcert,et1,ec1,et2,ec2,et3,ec3,et4,ec4,et5,ec5,ddf,ddt,dob,doo,dan From eamena_table where location='%s';" % sito_location)
+                cur11.execute("SELECT tc,tt,tp,ti From eamena_table where location='%s';" % sito_location)
+                cur12.execute("SELECT name_site,features,disturbance,mouhafasat, definition,est,material_c,morphology_c,area,date_start From site_table where location_='%s';" % sito_location)
                 
                 rows1 = cur1.fetchall()
                 rows0 = cur0.fetchall()
