@@ -955,6 +955,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                     self.update_if(QMessageBox.warning(self, 'Error',
                                                        "The record has been changed. Do you want to save the changes?",
                                                        QMessageBox.Ok | QMessageBox.Cancel))
+                    self.empty_fields()
                     self.SORT_STATUS = "n"
                     self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
                     self.enable_button(1)
