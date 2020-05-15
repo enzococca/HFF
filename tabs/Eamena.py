@@ -338,7 +338,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 self.iface.messageBar().pushMessage(self.tr(msg), Qgis.Warning, 0)
 
     def customize_GUI(self):
-        
+        self.tableWidget_role.setSortingEnabled(False)
         
         
         try:
@@ -545,10 +545,12 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                                                        "The record has been changed. Do you want to save the changes?",
                                                        QMessageBox.Ok | QMessageBox.Cancel))
                     self.empty_fields()
+                    self.fill_fields(self.REC_CORR)
                     self.SORT_STATUS = "n"
                     self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
                     self.enable_button(1)
-                    self.fill_fields(self.REC_CORR)
+                    
+                    
                 else:
 
                     QMessageBox.warning(self, "Warning", "No changes have been made", QMessageBox.Ok)
@@ -816,7 +818,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
 
         self.data_list = eval(d)
 
-        self.data_list.sort()
+        #self.data_list.sort()
 
 
 
