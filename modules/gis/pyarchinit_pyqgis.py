@@ -49,7 +49,10 @@ class Pyarchinit_pyqgis(QDialog):
                             "9" : "features_line",
                             "10": "features",
                             "11": "transect",
-                            "12": "track"}
+                            "12": "track",
+                            "13": "site_point",
+                            "14": "site_line",
+                            "15": "site_poligon"}
  
     LAYERS_CONVERT_DIZ = {"anchor_point": "Anchors Point",
                         "pyarchinit_anchor_view": "Anchors view",
@@ -62,7 +65,10 @@ class Pyarchinit_pyqgis(QDialog):
                         "features_line": "Features Line",
                         "features": "Features Polygon",
                         "transect": "Transect",
-                        "track": "Track"}
+                        "track": "Track",
+                        "site_point" : "EAMENA Point",
+                        "site_line" : "EAMENA Line",
+                        "site_poligon" : "EAMENA Poligon"}
                       
     def __init__(self, iface):
         super().__init__()
@@ -320,6 +326,195 @@ class Pyarchinit_pyqgis(QDialog):
                 
             else:
                 QMessageBox.warning(self, "TESTER", "OK Layer grab spot not available",QMessageBox.Ok)
+    
+    
+    def charge_eamena_pol_layers(self, data):
+        
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
+
+        settings = Settings(con_sett)
+        settings.set_configuration()
+        
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+
+            gidstr = "id_eamena = '" + str(data[0].id_eamena) +"'"
+            if len(data) > 1:
+                for i in range(len(data)):
+                    gidstr += " OR id_eamena = '" + str(data[i].id_eamena) +"'"
+
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
+
+            uri.setDataSource('','eamena_poligon_view', 'the_geom', gidstr, "ROWIND")
+            layer_eamena_poligon=QgsVectorLayer(uri.uri(), 'EAMENA Poligon View', 'spatialite')
+
+            if layer_eamena_poligon.isValid() == True:
+                QMessageBox.warning(self, "TESTER", "OK Layer Eamena Poligon ",QMessageBox.Ok)
+
+                self.iface.mapCanvas().setExtent(layer_eamena_poligon.extent())
+                QgsProject.instance().addMapLayers([layer_eamena_poligon], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Eamena Poligon error",QMessageBox.Ok)
+        
+        elif settings.SERVER == 'postgres':
+            
+            uri = QgsDataSourceUri()        
+            uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
+
+            gidstr =  "id_eamena =  " + str(data[0].id_eamena)
+            if len(data) > 1:
+                for i in range(len(data)):
+                    gidstr += "OR id_eamena = " + str(data[i].id_eamena)
+            srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
+
+            uri.setDataSource("public","eamena_poligon_view","the_geom",gidstr,"gid")
+            layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Poligon View", "postgres")
+            #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
+        
+            if  layerGRAB.isValid() == True:
+                layerGRAB.setCrs(srs)
+                    
+                QgsProject.instance().addMapLayers([layerGRAB], True)
+                
+            else:
+                QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon view not available",QMessageBox.Ok)
+    
+    
+    def charge_eamena_line_layers(self, data):
+        
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
+
+        settings = Settings(con_sett)
+        settings.set_configuration()
+        
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+
+            gidstr = "id_eamena = '" + str(data[0].id_eamena) +"'"
+            if len(data) > 1:
+                for i in range(len(data)):
+                    gidstr += " OR id_eamena = '" + str(data[i].id_eamena) +"'"
+
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
+
+            uri.setDataSource('','eamena_line_view', 'the_geom', gidstr, "ROWIND")
+            layer_eamena_line=QgsVectorLayer(uri.uri(), 'EAMENA Line View', 'spatialite')
+
+            if layer_eamena_line.isValid() == True:
+                QMessageBox.warning(self, "TESTER", "OK Layer Eamena Line ",QMessageBox.Ok)
+
+                self.iface.mapCanvas().setExtent(layer_eamena_line.extent())
+                QgsProject.instance().addMapLayers([layer_eamena_line], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Eamena Line error",QMessageBox.Ok)
+        
+        elif settings.SERVER == 'postgres':
+            
+            uri = QgsDataSourceUri()        
+            uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
+
+            gidstr =  "id_eamena =  " + str(data[0].id_eamena)
+            if len(data) > 1:
+                for i in range(len(data)):
+                    gidstr += "OR id_eamena = " + str(data[i].id_eamena)
+            srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
+
+            uri.setDataSource("public","eamena_line_view","the_geom",gidstr,"gid")
+            layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Line View", "postgres")
+            #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
+        
+            if  layerGRAB.isValid() == True:
+                layerGRAB.setCrs(srs)
+                    
+                QgsProject.instance().addMapLayers([layerGRAB], True)
+                
+            else:
+                QMessageBox.warning(self, "TESTER", "OK Layer eamena line view not available",QMessageBox.Ok)
+    
+    
+    def charge_eamena_point_layers(self, data):
+        
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
+
+        settings = Settings(con_sett)
+        settings.set_configuration()
+        
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+
+            gidstr = "id_eamena = '" + str(data[0].id_eamena) +"'"
+            if len(data) > 1:
+                for i in range(len(data)):
+                    gidstr += " OR id_eamena = '" + str(data[i].id_eamena) +"'"
+
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
+
+            uri.setDataSource('','eamena_point_view', 'the_geom', gidstr, "ROWIND")
+            layer_eamena_point=QgsVectorLayer(uri.uri(), 'EAMENA Point View', 'spatialite')
+
+            if layer_eamena_point.isValid() == True:
+                QMessageBox.warning(self, "TESTER", "OK Layer Eamena Point ",QMessageBox.Ok)
+
+                self.iface.mapCanvas().setExtent(layer_eamena_point.extent())
+                QgsProject.instance().addMapLayers([layer_eamena_point], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Eamena Point error",QMessageBox.Ok)
+        
+        elif settings.SERVER == 'postgres':
+            
+            uri = QgsDataSourceUri()        
+            uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
+
+            gidstr =  "id_eamena =  " + str(data[0].id_eamena)
+            if len(data) > 1:
+                for i in range(len(data)):
+                    gidstr += "OR id_eamena = " + str(data[i].id_eamena)
+            srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
+
+            uri.setDataSource("public","eamena_point_view","the_geom",gidstr,"gid")
+            layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Point View", "postgres")
+            #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
+        
+            if  layerGRAB.isValid() == True:
+                layerGRAB.setCrs(srs)
+                    
+                QgsProject.instance().addMapLayers([layerGRAB], True)
+                
+            else:
+                QMessageBox.warning(self, "TESTER", "OK Layer eamena point view not available",QMessageBox.Ok)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     def charge_features_layers(self, data):
         
@@ -969,7 +1164,198 @@ class Pyarchinit_pyqgis(QDialog):
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
             
     
-    
+    def charge_eamena_geometry(self, options, col, val):
+        self.options = options
+        self.col = col
+        self.val = val
+
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
+
+        settings = Settings(con_sett)
+        settings.set_configuration()
+
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
+
+        
+            for option in self.options:
+                layer_name = self.LAYERS_DIZ[option]
+                layer_name_conv = "'"+str(layer_name)+"'"
+                value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+                eval(cmq_set_uri_data_source)
+                layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+                layer_label_conv = "'"+layer_label+"'"
+                cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+                layer= eval(cmq_set_vector_layer)
+
+                if  layer.isValid() == True:
+                    #self.USLayerId = layerUS.getLayerID()
+                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                    ##ayerUS.loadNamedStyle(style_path)
+                    QgsProject.instance().addMapLayers([layer], True)
+                else:
+                    QMessageBox.warning(self, "TESTER", "Layer not valid",QMessageBox.Ok)
+                
+            
+            
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'site_point'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"location = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'site_line'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"location = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'site_poligon'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"location = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            
+        
+        
+        
+        elif settings.SERVER == 'postgres':
+
+            uri = QgsDataSourceUri()
+
+            uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
+
+                
+            for option in self.options:
+                layer_name = self.LAYERS_DIZ[option]
+                layer_name_conv = "'"+str(layer_name)+"'"
+                value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+                eval(cmq_set_uri_data_source)
+                layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+                layer_label_conv = "'"+layer_label+"'"
+                cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+                layer= eval(cmq_set_vector_layer)
+
+                if  layer.isValid() == True:
+                    #self.USLayerId = layerUS.getLayerID()
+                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                    ##ayerUS.loadNamedStyle(style_path)
+                    QgsProject.instance().addMapLayers([layer], True)
+                else:
+                    QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                
+            
+            
+            
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'site_point'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"location = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'site_line'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"location = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            #pyunitastratigrafiche e pyarchinit_quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'site_poligon'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"location = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+            
+            
     
     def charge_uw_geometry(self, options, col, val):
         self.options = options
