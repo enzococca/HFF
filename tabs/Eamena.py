@@ -1106,29 +1106,23 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                         if self.toolButton_draw_siti.isChecked():
                             
                             sing_layer = [self.DATA_LIST[self.REC_CORR]]
-                            self.pyQGIS.charge_grab_layers(sing_layer)
+                            
+                            self.pyQGIS.charge_eamena_pol_layers(sing_layer)
                                  
-                            self.pyQGIS.charge_features_layers(sing_layer)
+                            self.pyQGIS.charge_eamena_line_layers(sing_layer)
                                
-                            self.pyQGIS.charge_features_l_layers(sing_layer)
-                            self.pyQGIS.charge_features_p_layers(sing_layer)
-                             
-                            self.pyQGIS.charge_transect_layers(sing_layer)
-                               
+                            self.pyQGIS.charge_eamena_point_layers(sing_layer)
+                            
                     else:
                         strings = ("They have been found", self.REC_TOT, "records")
                         if self.toolButton_draw_siti.isChecked():
                         
                       
-                            self.pyQGIS.charge_grab_layers(self.DATA_LIST)
-                              
-                            self.pyQGIS.charge_features_layers(self.DATA_LIST)
-                                
-                            self.pyQGIS.charge_features_l_layers(self.DATA_LIST)
-                              
-                            self.pyQGIS.charge_features_p_layers(self.DATA_LIST)
+                            self.pyQGIS.charge_eamena_pol_layers(self.DATA_LIST)
+                                 
+                            self.pyQGIS.charge_eamena_line_layers(self.DATA_LIST)
                                
-                            self.pyQGIS.charge_transect_layers(self.DATA_LIST)
+                            self.pyQGIS.charge_eamena_point_layers(self.DATA_LIST)
                               
                     self.setComboBoxEnable(["self.comboBox_name_site"], "False")
 
@@ -1139,12 +1133,12 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
 
     
 
-    def on_pushButton_draw_pressed(self):
-        self.pyQGIS.charge_layers_for_draw(["1", "3", "5", "7", "8", "9", "10","11"])
+    # def on_pushButton_draw_pressed(self):
+        # self.pyQGIS.charge_layers_for_draw(["1", "3", "5", "7", "8", "9", "10","11"])
 
-    def on_pushButton_sites_geometry_pressed(self):
+    def on_pushButton_eamena_geometry_pressed(self):
         sito = str(self.comboBox_location.currentText())
-        self.pyQGIS.charge_sites_geometry([],
+        self.pyQGIS.charge_eamena_geometry([],
                                           "location", sito)
 
     

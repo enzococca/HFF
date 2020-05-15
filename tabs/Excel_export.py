@@ -337,7 +337,7 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
                 cur1.execute("SELECT investigator, role,activity,d_activity From eamena_table where location='%s';" % sito_location)
                 cur0.execute("SELECT name, name_type  From eamena_table where location='%s';" % sito_location)
                 cur2.execute("SELECT d_type, dfd ,dft From eamena_table where location='%s';" % sito_location)
-                cur3.execute("Select lc,   (SELECT   st_astext(st_transform(the_geom,4326)) FROM transect where name_tr = name_site union all SELECT  st_astext(st_transform(the_geom,4326)) FROM features_line where name_f_l = name_site union all SELECT     st_astext(st_transform(the_geom,4326)) FROM features_point where name_f_p = name_site ) as collection from eamena_table  where location= '%s'" %sito_location)
+                cur3.execute("Select lc,   (SELECT   st_astext(st_transform(the_geom,4326)) FROM site_point where name_f_p = name_site union all SELECT  st_astext(st_transform(the_geom,4326)) FROM site_line where name_f_l = name_site union all SELECT st_astext(st_transform(the_geom,4326)) FROM site_poligon where name_feat = name_site ) as collection from eamena_table  where location= '%s'" %sito_location)
                 
                 cur4.execute("SELECT mn, mt,mu,ms From eamena_table where location='%s';" % sito_location)
                 cur5.execute("SELECT desc_type, description  From eamena_table where location='%s';" % sito_location)
