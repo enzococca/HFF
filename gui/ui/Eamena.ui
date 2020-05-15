@@ -176,9 +176,6 @@
          <property name="selectionMode">
           <enum>QAbstractItemView::SingleSelection</enum>
          </property>
-         <property name="sortingEnabled">
-          <bool>false</bool>
-         </property>
          <property name="rowCount">
           <number>0</number>
          </property>
@@ -265,14 +262,14 @@
            <height>0</height>
           </size>
          </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContents</enum>
+         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
          <property name="selectionMode">
           <enum>QAbstractItemView::SingleSelection</enum>
-         </property>
-         <property name="sortingEnabled">
-          <bool>false</bool>
          </property>
          <property name="rowCount">
           <number>0</number>
@@ -495,9 +492,6 @@
               <property name="selectionMode">
                <enum>QAbstractItemView::SingleSelection</enum>
               </property>
-              <property name="sortingEnabled">
-               <bool>false</bool>
-              </property>
               <property name="rowCount">
                <number>0</number>
               </property>
@@ -509,6 +503,9 @@
               </attribute>
               <attribute name="horizontalHeaderStretchLastSection">
                <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderVisible">
+               <bool>true</bool>
               </attribute>
               <attribute name="verticalHeaderCascadingSectionResizes">
                <bool>false</bool>
@@ -2037,8 +2034,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>1261</width>
-          <height>552</height>
+          <width>98</width>
+          <height>28</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2655,8 +2652,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>1261</width>
-          <height>552</height>
+          <width>98</width>
+          <height>28</height>
          </rect>
         </property>
         <attribute name="label">
@@ -3579,6 +3576,9 @@
     </item>
     <item row="2" column="1">
      <widget class="QPushButton" name="pushButton_draw">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -3595,7 +3595,7 @@
      </widget>
     </item>
     <item row="2" column="2">
-     <widget class="QPushButton" name="pushButton_sites_geometry">
+     <widget class="QPushButton" name="pushButton_eamena_geometry">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
