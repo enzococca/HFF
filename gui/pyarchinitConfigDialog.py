@@ -66,6 +66,8 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.pbnSaveEnvironPath.clicked.connect(self.setEnvironPath)
         self.toolButton_thumbpath.clicked.connect(self.setPathThumb)
         self.toolButton_resizepath.clicked.connect(self.setPathResize)
+        self.toolButton_set_dbsqlite1.clicked.connect(self.setPathDBsqlite1)
+        self.toolButton_set_dbsqlite2.clicked.connect(self.setPathDBsqlite2)
         self.toolButton_db.clicked.connect(self.setPathDB)
         self.pushButtonR.clicked.connect(self.setPathR)
         self.pbnSaveEnvironPathR.clicked.connect(self.setEnvironPathR)
@@ -89,7 +91,33 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.selectorCrsWidget.setCrs(QgsProject.instance().crs())
         self.selectorCrsWidget_sl.setCrs(QgsProject.instance().crs())
     
-    
+    def setPathDBsqlite1(self):
+        s = QgsSettings()
+        dbpath = QFileDialog.getOpenFileName(
+            self,
+            "Set file name",
+            self.DBFOLDER,
+            " db sqlite (*.sqlite)"
+        )[0]
+        filename=dbpath.split("/")[-1]
+        if filename:
+             
+            self.lineEdit_database_rd.setText(filename)
+            s.setValue('',filename)  
+                                
+    def setPathDBsqlite2(self):
+        s = QgsSettings()
+        dbpath = QFileDialog.getOpenFileName(
+            self,
+            "Set file name",
+            self.DBFOLDER,
+            " db sqlite (*.sqlite)"
+        )[0]
+        filename=dbpath.split("/")[-1]
+        if filename:
+             
+            self.lineEdit_database_wt.setText(filename)
+            s.setValue('',filename)      
     
     def openthumbDir(self):
         s = QgsSettings()
