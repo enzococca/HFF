@@ -829,71 +829,41 @@
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>11</x>
-         <y>97</y>
-         <width>741</width>
-         <height>631</height>
+         <x>10</x>
+         <y>110</y>
+         <width>721</width>
+         <height>601</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_16">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_59">
+        <item row="17" column="7">
+         <widget class="QPushButton" name="pushButton_import">
           <property name="font">
            <font>
-            <pointsize>14</pointsize>
+            <pointsize>9</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="text">
-           <string>Data import</string>
+           <string>Import Table</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_60">
-          <property name="font">
-           <font>
-            <pointsize>15</pointsize>
-            <weight>75</weight>
-            <italic>true</italic>
-            <bold>true</bold>
-           </font>
+        <item row="19" column="1">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="text">
-           <string>FROM</string>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>24</height>
+           </size>
           </property>
-         </widget>
+         </spacer>
         </item>
-        <item row="2" column="0">
-         <widget class="QComboBox" name="comboBox_server_rd">
-          <item>
-           <property name="text">
-            <string>sqlite</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>postgres</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="label_62">
-          <property name="text">
-           <string>Field </string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="3">
-         <widget class="QLabel" name="label_22">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="0">
+        <item row="11" column="0" colspan="2">
          <widget class="QLabel" name="label_61">
           <property name="font">
            <font>
@@ -908,7 +878,36 @@
           </property>
          </widget>
         </item>
-        <item row="11" column="0">
+        <item row="0" column="0" colspan="2">
+         <widget class="QLabel" name="label_59">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Data import</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QLabel" name="label_60">
+          <property name="font">
+           <font>
+            <pointsize>15</pointsize>
+            <weight>75</weight>
+            <italic>true</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>FROM</string>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="0" colspan="2">
          <widget class="QComboBox" name="comboBox_server_wt">
           <property name="minimumSize">
            <size>
@@ -928,78 +927,87 @@
           </item>
          </widget>
         </item>
-        <item row="14" column="1">
-         <widget class="QLineEdit" name="lineEdit_port_wt"/>
+        <item row="13" column="7">
+         <widget class="QLineEdit" name="lineEdit_username_wt"/>
         </item>
-        <item row="16" column="3">
-         <widget class="QPushButton" name="pushButton_import">
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Import</string>
-          </property>
-         </widget>
+        <item row="14" column="7">
+         <widget class="QLineEdit" name="lineEdit_pass_wt"/>
         </item>
-        <item row="16" column="0" colspan="3">
-         <widget class="QProgressBar" name="progress_bar">
-          <property name="value">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-        <item row="12" column="1">
-         <widget class="QLineEdit" name="lineEdit_host_wt"/>
-        </item>
-        <item row="12" column="0">
-         <widget class="QLabel" name="label_27">
-          <property name="text">
-           <string>Host</string>
-          </property>
-         </widget>
-        </item>
-        <item row="13" column="0">
+        <item row="13" column="6">
          <widget class="QLabel" name="label_28">
           <property name="text">
            <string>Username</string>
           </property>
          </widget>
         </item>
-        <item row="13" column="1">
-         <widget class="QLineEdit" name="lineEdit_username_wt"/>
+        <item row="4" column="7">
+         <widget class="QLineEdit" name="lineEdit_value_rd"/>
         </item>
-        <item row="13" column="2">
-         <widget class="QLabel" name="label_29">
-          <property name="text">
-           <string>Password</string>
-          </property>
-         </widget>
-        </item>
-        <item row="13" column="3">
-         <widget class="QLineEdit" name="lineEdit_pass_wt"/>
-        </item>
-        <item row="12" column="3">
-         <widget class="QLineEdit" name="lineEdit_database_wt">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="12" column="2">
+        <item row="14" column="0">
          <widget class="QLabel" name="label_24">
           <property name="text">
            <string>Database</string>
           </property>
          </widget>
         </item>
-        <item row="14" column="0">
-         <widget class="QLabel" name="label_57">
+        <item row="14" column="4">
+         <widget class="QToolButton" name="toolButton_set_dbsqlite2">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="7">
+         <widget class="QLineEdit" name="lineEdit_field_rd"/>
+        </item>
+        <item row="14" column="1">
+         <widget class="QLineEdit" name="lineEdit_database_wt">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="4">
+         <widget class="QToolButton" name="toolButton_set_dbsqlite1">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="5">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="lineEdit_port_rd">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_25">
           <property name="text">
            <string>Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="0">
+         <widget class="QLabel" name="label_27">
+          <property name="text">
+           <string>Host</string>
           </property>
          </widget>
         </item>
@@ -1017,92 +1025,87 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string>Username</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
+        <item row="9" column="1">
          <widget class="QLineEdit" name="lineEdit_username_rd">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
-         <widget class="QLineEdit" name="lineEdit_database_rd">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
+        <item row="15" column="1">
+         <widget class="QLineEdit" name="lineEdit_port_wt"/>
         </item>
-        <item row="5" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="label_20">
           <property name="text">
            <string>Database</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="label_23">
-          <property name="text">
-           <string>Value</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="label_25">
-          <property name="text">
-           <string>Port</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLineEdit" name="lineEdit_port_rd">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
+        <item row="8" column="0">
          <widget class="QLabel" name="label_19">
           <property name="text">
            <string>Password</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="14" column="6">
+         <widget class="QLabel" name="label_29">
+          <property name="text">
+           <string>Password</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
          <widget class="QLineEdit" name="lineEdit_pass_rd">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="9" column="1" colspan="2">
-         <widget class="QLineEdit" name="lineEdit_value_rd"/>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="lineEdit_database_rd">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
+         </widget>
         </item>
-        <item row="2" column="3">
+        <item row="2" column="0" colspan="2">
+         <widget class="QComboBox" name="comboBox_server_rd">
+          <item>
+           <property name="text">
+            <string>sqlite</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>postgres</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>Username</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6">
+         <widget class="QLabel" name="label_21">
+          <property name="text">
+           <string>HFF mapper</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="7">
          <widget class="QComboBox" name="comboBox_mapper_read">
           <item>
            <property name="text">
             <string>SITE</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>ART</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>ANC</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>POTTERY</string>
            </property>
           </item>
           <item>
@@ -1112,12 +1115,22 @@
           </item>
           <item>
            <property name="text">
-            <string>MEDIA</string>
+            <string>ANCHOR</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>MEDIA_THUMB</string>
+            <string>ARTEFACT</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>POTTERY</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>MEIDA_THUMB</string>
            </property>
           </item>
           <item>
@@ -1125,17 +1138,62 @@
             <string>MEDIATOENTITY</string>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>MEDIA</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EAMENA</string>
+           </property>
+          </item>
          </widget>
         </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="label_21">
+        <item row="13" column="1">
+         <widget class="QLineEdit" name="lineEdit_host_wt"/>
+        </item>
+        <item row="3" column="6">
+         <widget class="QLabel" name="label_62">
           <property name="text">
-           <string>HFF table</string>
+           <string>Field</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="1" colspan="3">
-         <widget class="QLineEdit" name="lineEdit_field_rd"/>
+        <item row="15" column="0">
+         <widget class="QLabel" name="label_57">
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="6">
+         <widget class="QLabel" name="label_23">
+          <property name="text">
+           <string>Value</string>
+          </property>
+         </widget>
+        </item>
+        <item row="18" column="7">
+         <widget class="QPushButton" name="pushButton_geometry">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Import Geometry</string>
+          </property>
+         </widget>
+        </item>
+        <item row="17" column="0" colspan="7">
+         <widget class="QProgressBar" name="progress_bar">
+          <property name="value">
+           <number>0</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
