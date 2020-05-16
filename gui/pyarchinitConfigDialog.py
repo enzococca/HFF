@@ -306,7 +306,183 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             engine = create_engine(db_url, echo=True)
             listen(engine, 'connect', self.load_spatialite)
             c = engine.connect()
-            
+            eamena_table= """
+            CREATE TABLE IF NOT EXISTS "eamena_table" (
+                "id_eamena"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+                "location"	varchar(255),
+                "name_site"	varchar(255),
+                "grid"	varchar(255),
+                "hp"	varchar(255),
+                "d_activity"	varchar(255),
+                "role"	text,
+                "activity"	text,
+                "name"	text,
+                "name_type"	text,
+                "d_type"	varchar(255),
+                "dfd"	varchar(255),
+                "dft"	varchar(255),
+                "lc"	varchar(255),
+                "mn"	varchar(255),
+                "mt"	varchar(255),
+                "mu"	varchar(255),
+                "ms"	varchar(255),
+                "desc_type"	varchar(255),
+                "description"	text,
+                "cd"	text,
+                "pd"	text,
+                "pc"	text,
+                "di"	text,
+                "fft"	text,
+                "ffc"	text,
+                "fs"	text,
+                "fat"	text,
+                "fn"	text,
+                "fai"	text,
+                "it"	text,
+                "ic"	text,
+                "intern"	text,
+                "fi"	text,
+                "sf"	text,
+                "sfc"	text,
+                "tc"	text,
+                "tt"	text,
+                "tp"	text,
+                "ti"	text,
+                "dcc"	text,
+                "dct"	text,
+                "dcert"	text,
+                "et1"	text,
+                "ec1"	text,
+                "et2"	text,
+                "ec2"	text,
+                "et3"	text,
+                "ec3"	text,
+                "et4"	text,
+                "ec4"	text,
+                "et5"	text,
+                "ec5"	text,
+                "ddf"	text,
+                "ddt"	text,
+                "dob"	text,
+                "doo"	text,
+                "dan"	text,
+                "investigator"	varchar(255)
+            );"""
+            c.execute(eamena_table)
+            site_line= """CREATE TABLE IF NOT EXISTS "site_line" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "gid" BIGINT, "location" TEXT, "name_f_l" TEXT, "photo1" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT);"""
+            c.execute(site_line)
+            site_poligon="""CREATE TABLE IF NOT EXISTS "site_point" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "gid" BIGINT, "location" TEXT, "name_f_p" TEXT, "photo" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT);"""
+            c.execute(site_poligon)
+            site_point="""CREATE TABLE IF NOT EXISTS "site_poligon" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "name_feat" TEXT, "photo" TEXT, "photo2" TEXT, "photo3" TEXT, "photo4" TEXT, "photo5" TEXT, "photo6" TEXT, "location" TEXT);"""
+            c.execute(site_point)
+            geom_1="""SELECT AddGeometryColumn('site_line', 'the_geom', 0 , 'LINESTRING', 'XY') ;"""
+            c.execute(geom_1)
+            geom_2="""SELECT AddGeometryColumn('site_poligon', 'the_geom', 0 , 'MULTIPOLYGON', 'XY') ;"""
+            c.execute(geom_2)
+            geom_3="""SELECT AddGeometryColumn('site_point', 'the_geom', 0 , 'POINT', 'XY') ;"""
+            c.execute(geom_3)
+            elv="""CREATE VIEW IF NOT EXISTS "eamena_line_view" AS
+            SELECT "a"."ROWID" AS "ROWID", "a"."id_eamena" AS "id_eamena",
+                "a"."location" AS "location", "a"."name_site" AS "name_site",
+                "a"."grid" AS "grid", "a"."hp" AS "hp", "a"."d_activity" AS "d_activity",
+                "a"."role" AS "role", "a"."activity" AS "activity",
+                "a"."name" AS "name", "a"."name_type" AS "name_type",
+                "a"."d_type" AS "d_type", "a"."dfd" AS "dfd", "a"."dft" AS "dft",
+                "a"."lc" AS "lc", "a"."mn" AS "mn", "a"."mt" AS "mt",
+                "a"."mu" AS "mu", "a"."ms" AS "ms", "a"."desc_type" AS "desc_type",
+                "a"."description" AS "description", "a"."cd" AS "cd",
+                "a"."pd" AS "pd", "a"."pc" AS "pc", "a"."di" AS "di",
+                "a"."fft" AS "fft", "a"."ffc" AS "ffc", "a"."fs" AS "fs",
+                "a"."fat" AS "fat", "a"."fn" AS "fn", "a"."fai" AS "fai",
+                "a"."it" AS "it", "a"."ic" AS "ic", "a"."intern" AS "intern",
+                "a"."fi" AS "fi", "a"."sf" AS "sf", "a"."sfc" AS "sfc",
+                "a"."tc" AS "tc", "a"."tt" AS "tt", "a"."tp" AS "tp",
+                "a"."ti" AS "ti", "a"."dcc" AS "dcc", "a"."dct" AS "dct",
+                "a"."dcert" AS "dcert", "a"."et1" AS "et1", "a"."ec1" AS "ec1",
+                "a"."et2" AS "et2", "a"."ec2" AS "ec2", "a"."et3" AS "et3",
+                "a"."ec3" AS "ec3", "a"."et4" AS "et4", "a"."ec4" AS "ec4",
+                "a"."et5" AS "et5", "a"."ec5" AS "ec5", "a"."ddf" AS "ddf",
+                "a"."ddt" AS "ddt", "a"."dob" AS "dob", "a"."doo" AS "doo",
+                "a"."dan" AS "dan", "a"."investigator" AS "investigator",
+                "b"."ROWID" AS "ROWID_1", "b"."id" AS "id", "b"."the_geom" AS "the_geom",
+                "b"."gid" AS "gid", "b"."location" AS "location_1",
+                "b"."name_f_l" AS "name_f_l", "b"."photo1" AS "photo1",
+                "b"."photo2" AS "photo2", "b"."photo3" AS "photo3",
+                "b"."photo4" AS "photo4", "b"."photo5" AS "photo5",
+                "b"."photo6" AS "photo6"
+            FROM "eamena_table" AS "a"
+            JOIN "site_line" AS "b" ON ("a"."name_site" = "b"."name_f_l"
+                AND "a"."location" = "b"."location");"""
+            c.execute(elv)
+                
+            elp="""CREATE VIEW IF NOT EXISTS "eamena_point_view" AS
+            SELECT "a"."ROWID" AS "ROWID", "a"."id_eamena" AS "id_eamena",
+                "a"."location" AS "location", "a"."name_site" AS "name_site",
+                "a"."grid" AS "grid", "a"."hp" AS "hp", "a"."d_activity" AS "d_activity",
+                "a"."role" AS "role", "a"."activity" AS "activity",
+                "a"."name" AS "name", "a"."name_type" AS "name_type",
+                "a"."d_type" AS "d_type", "a"."dfd" AS "dfd", "a"."dft" AS "dft",
+                "a"."lc" AS "lc", "a"."mn" AS "mn", "a"."mt" AS "mt",
+                "a"."mu" AS "mu", "a"."ms" AS "ms", "a"."desc_type" AS "desc_type",
+                "a"."description" AS "description", "a"."cd" AS "cd",
+                "a"."pd" AS "pd", "a"."pc" AS "pc", "a"."di" AS "di",
+                "a"."fft" AS "fft", "a"."ffc" AS "ffc", "a"."fs" AS "fs",
+                "a"."fat" AS "fat", "a"."fn" AS "fn", "a"."fai" AS "fai",
+                "a"."it" AS "it", "a"."ic" AS "ic", "a"."intern" AS "intern",
+                "a"."fi" AS "fi", "a"."sf" AS "sf", "a"."sfc" AS "sfc",
+                "a"."tc" AS "tc", "a"."tt" AS "tt", "a"."tp" AS "tp",
+                "a"."ti" AS "ti", "a"."dcc" AS "dcc", "a"."dct" AS "dct",
+                "a"."dcert" AS "dcert", "a"."et1" AS "et1", "a"."ec1" AS "ec1",
+                "a"."et2" AS "et2", "a"."ec2" AS "ec2", "a"."et3" AS "et3",
+                "a"."ec3" AS "ec3", "a"."et4" AS "et4", "a"."ec4" AS "ec4",
+                "a"."et5" AS "et5", "a"."ec5" AS "ec5", "a"."ddf" AS "ddf",
+                "a"."ddt" AS "ddt", "a"."dob" AS "dob", "a"."doo" AS "doo",
+                "a"."dan" AS "dan", "a"."investigator" AS "investigator",
+                "b"."ROWID" AS "ROWID_1", "b"."id" AS "id", "b"."the_geom" AS "the_geom",
+                "b"."gid" AS "gid", "b"."location" AS "location_1",
+                "b"."name_f_p" AS "name_f_p", "b"."photo" AS "photo",
+                "b"."photo2" AS "photo2", "b"."photo3" AS "photo3",
+                "b"."photo4" AS "photo4", "b"."photo5" AS "photo5",
+                "b"."photo6" AS "photo6"
+            FROM "eamena_table" AS "a"
+            JOIN "site_point" AS "b" ON ("a"."name_site" = "b"."name_f_p"
+                AND "a"."location" = "b"."location");"""
+            c.execute(elp)
+                
+            elpo="""CREATE VIEW IF NOT EXISTS "eamena_poligon_view" AS
+            SELECT "a"."ROWID" AS "ROWID", "a"."id_eamena" AS "id_eamena",
+                "a"."location" AS "location", "a"."name_site" AS "name_site",
+                "a"."grid" AS "grid", "a"."hp" AS "hp", "a"."d_activity" AS "d_activity",
+                "a"."role" AS "role", "a"."activity" AS "activity",
+                "a"."name" AS "name", "a"."name_type" AS "name_type",
+                "a"."d_type" AS "d_type", "a"."dfd" AS "dfd", "a"."dft" AS "dft",
+                "a"."lc" AS "lc", "a"."mn" AS "mn", "a"."mt" AS "mt",
+                "a"."mu" AS "mu", "a"."ms" AS "ms", "a"."desc_type" AS "desc_type",
+                "a"."description" AS "description", "a"."cd" AS "cd",
+                "a"."pd" AS "pd", "a"."pc" AS "pc", "a"."di" AS "di",
+                "a"."fft" AS "fft", "a"."ffc" AS "ffc", "a"."fs" AS "fs",
+                "a"."fat" AS "fat", "a"."fn" AS "fn", "a"."fai" AS "fai",
+                "a"."it" AS "it", "a"."ic" AS "ic", "a"."intern" AS "intern",
+                "a"."fi" AS "fi", "a"."sf" AS "sf", "a"."sfc" AS "sfc",
+                "a"."tc" AS "tc", "a"."tt" AS "tt", "a"."tp" AS "tp",
+                "a"."ti" AS "ti", "a"."dcc" AS "dcc", "a"."dct" AS "dct",
+                "a"."dcert" AS "dcert", "a"."et1" AS "et1", "a"."ec1" AS "ec1",
+                "a"."et2" AS "et2", "a"."ec2" AS "ec2", "a"."et3" AS "et3",
+                "a"."ec3" AS "ec3", "a"."et4" AS "et4", "a"."ec4" AS "ec4",
+                "a"."et5" AS "et5", "a"."ec5" AS "ec5", "a"."ddf" AS "ddf",
+                "a"."ddt" AS "ddt", "a"."dob" AS "dob", "a"."doo" AS "doo",
+                "a"."dan" AS "dan", "a"."investigator" AS "investigator",
+                "b"."ROWID" AS "ROWID_1", "b"."id" AS "id", "b"."the_geom" AS "the_geom",
+                "b"."name_feat" AS "name_feat", "b"."photo" AS "photo",
+                "b"."photo2" AS "photo2", "b"."photo3" AS "photo3",
+                "b"."photo4" AS "photo4", "b"."photo5" AS "photo5",
+                "b"."photo6" AS "photo6", "b"."location" AS "location_1"
+            FROM "eamena_table" AS "a"
+            JOIN "site_poligon" AS "b" ON ("a"."name_site" = "b"."name_feat"
+                AND "a"."location" = "b"."location");	
+	
+            """ 
+            c.execute(elpo)
             sql_view_mediaentity="""CREATE VIEW IF NOT EXISTS "mediaentity_view" AS
                  SELECT media_thumb_table.id_media_thumb,
                     media_thumb_table.id_media,
@@ -404,7 +580,8 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             'POTTERY': 'id_rep',
             'MEDIA': 'id_media',
             'MEDIA_THUMB': 'id_media_thumb',
-            'MEDIATOENTITY':'id_mediaToEntity'
+            'MEDIATOENTITY':'id_mediaToEntity',
+            'EAMENA':'id_eamena'
         }       
         # creazione del cursore di lettura
         # if os.name == 'posix':
@@ -500,7 +677,90 @@ class pyArchInitDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         # else:
             # QMessageBox.warning(self, "Alert", "Connection error: <br>" + test, QMessageBox.Ok)
         mapper_class_write = str(self.comboBox_mapper_read.currentText())
-        ####inserisce i dati dentro al database
+        ####eamena table
+        if mapper_class_write == 'EAMENA' :
+            for sing_rec in range(len(data_list_toimp)):
+                try:
+                    data = self.DB_MANAGER_write.insert_eamena_values(
+                        self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                         id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+        
+                        
+                        data_list_toimp[sing_rec].location,
+                        data_list_toimp[sing_rec].name_site,
+                        data_list_toimp[sing_rec].grid,
+                        data_list_toimp[sing_rec].hp,
+                        data_list_toimp[sing_rec].d_activity,
+                        data_list_toimp[sing_rec].role,
+                        data_list_toimp[sing_rec].activity,
+                        data_list_toimp[sing_rec].name,
+                        data_list_toimp[sing_rec].name_type,
+                        data_list_toimp[sing_rec].d_type,
+                        data_list_toimp[sing_rec].dfd,
+                        data_list_toimp[sing_rec].dft,
+                        data_list_toimp[sing_rec].lc,
+                        data_list_toimp[sing_rec].mn,
+                        data_list_toimp[sing_rec].mt,
+                        data_list_toimp[sing_rec].mu,
+                        data_list_toimp[sing_rec].ms,
+                        data_list_toimp[sing_rec].desc_type,
+                        data_list_toimp[sing_rec].description,
+                        data_list_toimp[sing_rec].cd,
+                        data_list_toimp[sing_rec].pd,
+                        data_list_toimp[sing_rec].pc,
+                        data_list_toimp[sing_rec].di,
+                        data_list_toimp[sing_rec].fft,
+                        data_list_toimp[sing_rec].ffc,
+                        data_list_toimp[sing_rec].fs,
+                        data_list_toimp[sing_rec].fat,
+                        data_list_toimp[sing_rec].fn,
+                        data_list_toimp[sing_rec].fai,
+                        data_list_toimp[sing_rec].it,
+                        data_list_toimp[sing_rec].ic,
+                        data_list_toimp[sing_rec].intern,
+                        data_list_toimp[sing_rec].fi,
+                        data_list_toimp[sing_rec].sf,
+                        data_list_toimp[sing_rec].sfc,
+                        data_list_toimp[sing_rec].tc,
+                        data_list_toimp[sing_rec].tt,
+                        data_list_toimp[sing_rec].tp,
+                        data_list_toimp[sing_rec].ti,
+                        data_list_toimp[sing_rec].dcc,
+                        data_list_toimp[sing_rec].dct,
+                        data_list_toimp[sing_rec].dcert,
+                        data_list_toimp[sing_rec].et1,
+                        data_list_toimp[sing_rec].ec1,
+                        data_list_toimp[sing_rec].et2,
+                        data_list_toimp[sing_rec].ec2,
+                        data_list_toimp[sing_rec].et3,
+                        data_list_toimp[sing_rec].ec3,
+                        data_list_toimp[sing_rec].et4,
+                        data_list_toimp[sing_rec].ec4,
+                        data_list_toimp[sing_rec].et5,
+                        data_list_toimp[sing_rec].ec5,
+                        data_list_toimp[sing_rec].ddf,
+                        data_list_toimp[sing_rec].ddt,
+                        data_list_toimp[sing_rec].dob,
+                        data_list_toimp[sing_rec].doo,
+                        data_list_toimp[sing_rec].dan,
+                        data_list_toimp[sing_rec].investigator)
+                    
+                    self.DB_MANAGER_write.insert_data_session(data)
+                    for i in range(0,100):    
+                        #time.sleep()
+                        self.progress_bar.setValue(((i)/100)*100)
+                     
+                        QApplication.processEvents()
+                        
+                    
+                
+                except Exception as  e:
+                    e_str = str(e)
+                    QMessageBox.warning(self, "Errore", "Error ! \n"+ str(e),  QMessageBox.Ok)
+               
+                    return 0
+            QMessageBox.information(self, "Message", "Data Loaded")
+        
         ####SITE TABLE
         if mapper_class_write == 'SITE' :
             for sing_rec in range(len(data_list_toimp)):
