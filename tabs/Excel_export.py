@@ -38,13 +38,7 @@ import numpy as np
 from ..modules.db.pyarchinit_conn_strings import Connection
 from ..modules.db.hff_db_manager import Pyarchinit_db_management
 from ..modules.db.pyarchinit_utility import *
-from ..modules.utility.pyarchinit_exp_USsheet_pdf import generate_US_pdf
-from ..modules.utility.pyarchinit_exp_Findssheet_pdf import generate_reperti_pdf
-from ..modules.utility.pyarchinit_exp_Periodizzazionesheet_pdf import generate_Periodizzazione_pdf
-from ..modules.utility.pyarchinit_exp_Individui_pdf import generate_pdf
-from ..modules.utility.pyarchinit_exp_Strutturasheet_pdf import generate_struttura_pdf
-from ..modules.utility.pyarchinit_exp_Tafonomiasheet_pdf import generate_tafonomia_pdf
-from ..modules.utility.pyarchinit_exp_Campsheet_pdf import generate_campioni_pdf
+
 from ..modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Pdf_export.ui'))
 
