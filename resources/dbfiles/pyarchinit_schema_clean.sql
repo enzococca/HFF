@@ -3070,8 +3070,215 @@ CREATE INDEX sidx_pyunitastratigrafiche_geom ON public.pyunitastratigrafiche USI
 --
 
 CREATE INDEX sidx_riipartizione_territoriale_geom ON public.riipartizione_territoriale USING gist (the_geom);
+------------------------------------------------------------------------------------------------------
+CREATE TABLE public.eamena_table
+(
+    id_eamena integer NOT NULL,
+    location character varying(200) COLLATE pg_catalog."default",
+    name_site character varying(200) COLLATE pg_catalog."default",
+    grid text COLLATE pg_catalog."default",
+    hp text COLLATE pg_catalog."default",
+    d_activity text COLLATE pg_catalog."default",
+    role text COLLATE pg_catalog."default",
+    activity text COLLATE pg_catalog."default",
+    name text COLLATE pg_catalog."default",
+    name_type text COLLATE pg_catalog."default",
+    d_type text COLLATE pg_catalog."default",
+    dfd text COLLATE pg_catalog."default",
+    dft text COLLATE pg_catalog."default",
+    lc text COLLATE pg_catalog."default",
+    mn text COLLATE pg_catalog."default",
+    mt text COLLATE pg_catalog."default",
+    mu text COLLATE pg_catalog."default",
+    ms text COLLATE pg_catalog."default",
+    desc_type text COLLATE pg_catalog."default",
+    description text COLLATE pg_catalog."default",
+    cd text COLLATE pg_catalog."default",
+    pd text COLLATE pg_catalog."default",
+    pc text COLLATE pg_catalog."default",
+    di text COLLATE pg_catalog."default",
+    fft text COLLATE pg_catalog."default",
+    ffc text COLLATE pg_catalog."default",
+    fs text COLLATE pg_catalog."default",
+    fat text COLLATE pg_catalog."default",
+    fn text COLLATE pg_catalog."default",
+    fai text COLLATE pg_catalog."default",
+    it text COLLATE pg_catalog."default",
+    ic text COLLATE pg_catalog."default",
+    intern text COLLATE pg_catalog."default",
+    fi text COLLATE pg_catalog."default",
+    sf text COLLATE pg_catalog."default",
+    sfc text COLLATE pg_catalog."default",
+    tc text COLLATE pg_catalog."default",
+    tt text COLLATE pg_catalog."default",
+    tp text COLLATE pg_catalog."default",
+    ti text COLLATE pg_catalog."default",
+    dcc text COLLATE pg_catalog."default",
+    dct text COLLATE pg_catalog."default",
+    dcert text COLLATE pg_catalog."default",
+    et1 text COLLATE pg_catalog."default",
+    ec1 text COLLATE pg_catalog."default",
+    et2 text COLLATE pg_catalog."default",
+    ec2 text COLLATE pg_catalog."default",
+    et3 text COLLATE pg_catalog."default",
+    ec3 text COLLATE pg_catalog."default",
+    et4 text COLLATE pg_catalog."default",
+    ec4 text COLLATE pg_catalog."default",
+    et5 text COLLATE pg_catalog."default",
+    ec5 text COLLATE pg_catalog."default",
+    ddf text COLLATE pg_catalog."default",
+    ddt text COLLATE pg_catalog."default",
+    dob text COLLATE pg_catalog."default",
+    doo text COLLATE pg_catalog."default",
+    dan text COLLATE pg_catalog."default",
+    investigator text COLLATE pg_catalog."default",
+    CONSTRAINT eamena_table_pkey PRIMARY KEY (id_eamena),
+    CONSTRAINT "ID_eamena_unico" UNIQUE (name_site)
+
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
 
 
+CREATE SEQUENCE public.eamena_table_id_eamena_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.eamena_table_id_eamena_seq_seq OWNER TO postgres;
+	
+----------------------------------------------------------------------------------------
+
+
+CREATE SEQUENCE public.site_line_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.site_line_id_seq
+    OWNER TO postgres;
+
+CREATE SEQUENCE public.site_point_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.site_point_id_seq
+    OWNER TO postgres;	
+
+CREATE SEQUENCE public.site_poligon_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.site_poligon_id_seq
+    OWNER TO postgres;	
+	
+	
+	
+CREATE TABLE public.site_line
+(
+    id integer NOT NULL DEFAULT nextval('site_line_id_seq'::regclass),
+    the_geom geometry(LineString,32636),
+    gid bigint,
+    location character varying COLLATE pg_catalog."default",
+    name_f_l character varying COLLATE pg_catalog."default",
+    photo1 character varying COLLATE pg_catalog."default",
+    photo2 character varying COLLATE pg_catalog."default",
+    photo3 character varying COLLATE pg_catalog."default",
+    photo4 character varying COLLATE pg_catalog."default",
+    photo5 character varying COLLATE pg_catalog."default",
+    photo6 character varying COLLATE pg_catalog."default",
+    CONSTRAINT site_line_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.site_line
+    OWNER to postgres;
+
+-- Index: sidx_site_line_the_geom
+
+-- DROP INDEX public.sidx_site_line_the_geom;
+
+CREATE INDEX sidx_site_line_the_geom
+    ON public.site_line USING gist
+    (the_geom)
+    TABLESPACE pg_default;
+CREATE TABLE public.site_point
+(
+    id integer NOT NULL DEFAULT nextval('site_point_id_seq'::regclass),
+    the_geom geometry(Point,-1),
+    gid bigint,
+    location character varying COLLATE pg_catalog."default",
+    name_f_p character varying COLLATE pg_catalog."default",
+    photo character varying COLLATE pg_catalog."default",
+    photo2 character varying COLLATE pg_catalog."default",
+    photo3 character varying COLLATE pg_catalog."default",
+    photo4 character varying COLLATE pg_catalog."default",
+    photo5 character varying COLLATE pg_catalog."default",
+    photo6 character varying COLLATE pg_catalog."default",
+    CONSTRAINT site_point_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.site_point
+    OWNER to postgres;
+
+-- Index: sidx_site_point_the_geom
+
+-- DROP INDEX public.sidx_site_point_the_geom;
+
+CREATE INDEX sidx_site_point_the_geom
+    ON public.site_point USING gist
+    (the_geom)
+    TABLESPACE pg_default;
+CREATE TABLE public.site_poligon
+(
+    id integer NOT NULL DEFAULT nextval('site_poligon_id_seq'::regclass),
+    the_geom geometry(MultiPolygon,-1),
+    name_feat character varying COLLATE pg_catalog."default",
+    photo character varying COLLATE pg_catalog."default",
+    photo2 character varying COLLATE pg_catalog."default",
+    photo3 character varying COLLATE pg_catalog."default",
+    photo4 character varying COLLATE pg_catalog."default",
+    photo5 character varying COLLATE pg_catalog."default",
+    photo6 character varying COLLATE pg_catalog."default",
+    location character varying COLLATE pg_catalog."default",
+    CONSTRAINT site_poligon_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.site_poligon
+    OWNER to postgres;
+
+-- Index: sidx_site_poligon_the_geom
+
+-- DROP INDEX public.sidx_site_poligon_the_geom;
+
+CREATE INDEX sidx_site_poligon_the_geom
+    ON public.site_poligon USING gist
+    (the_geom)
+    TABLESPACE pg_default;	
 --
 -- TOC entry 5011 (class 0 OID 0)
 -- Dependencies: 20
@@ -3089,4 +3296,4 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-
+;
