@@ -129,6 +129,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         "Morphology" : "morphology_c",
         "Collection/Survey types" : "collection_c",
         "Photo Material" : "photo_material",
+        "Damage": "damage",
+        "Country":"country"
         
         
     }
@@ -230,7 +232,9 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         "material_c",
         "morphology_c",
         "collection_c",
-        "photo_material"
+        "photo_material",
+        "damage",
+        "country"
     ]
 
 
@@ -440,11 +444,11 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
 
 
 
-            valuesDoc = ["Not Applicable","Negligible","Low","Medium","High","Definite",""]
+            valuesDoc = ["Circular"," Curvilinear"," Irregular"," Multiple"," Polygonal"," Rectangular/Square"," Rectilinear"," Semi-circular"," Straight"," Sub-circular"," Sub-rectangular"," Triangular"," Winding","Zigzag",""]
             self.delegateDoc = ComboBoxDelegate()
             self.delegateDoc.def_values(valuesDoc)
             self.delegateDoc.def_editable('True')
-            self.tableWidget_disturbance.setItemDelegateForColumn(1,self.delegateDoc)
+            self.tableWidget_disturbance.setItemDelegateForColumn(0,self.delegateDoc)
 
 
 
@@ -456,17 +460,17 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
 
 
 
-            valuesFT1 = ["Circular"," Curvilinear"," Irregular"," Multiple"," Polygonal"," Rectangular/Square"," Rectilinear"," Semi-circular"," Straight"," Sub-circular"," Sub-rectangular"," Triangular"," Winding","Zigzag",""]
-            self.delegateFT1 = ComboBoxDelegate()
-            self.delegateFT1.def_values(valuesFT1)
-            self.delegateFT1.def_editable('True')
-            self.tableWidget_featuretype.setItemDelegateForColumn(1,self.delegateFT1)
+            # valuesFT1 = ["Circular"," Curvilinear"," Irregular"," Multiple"," Polygonal"," Rectangular/Square"," Rectilinear"," Semi-circular"," Straight"," Sub-circular"," Sub-rectangular"," Triangular"," Winding","Zigzag",""]
+            # self.delegateFT1 = ComboBoxDelegate()
+            # self.delegateFT1.def_values(valuesFT1)
+            # self.delegateFT1.def_editable('True')
+            # self.tableWidget_featuretype.setItemDelegateForColumn(1,self.delegateFT1)
             
-            valuesFT2 = ["Adjoining"," Concentric"," Clustered"," Dispersed"," Discrete"," Isolated"," Linear"," Multiple"," Nucleated"," Parallel"," Perpendicular"," Overlapping"," Rectilinear","Unknown",""]
-            self.delegateFT2 = ComboBoxDelegate()
-            self.delegateFT2.def_values(valuesFT2)
-            self.delegateFT2.def_editable('True')
-            self.tableWidget_featuretype.setItemDelegateForColumn(2,self.delegateFT2)
+            # valuesFT2 = ["Adjoining"," Concentric"," Clustered"," Dispersed"," Discrete"," Isolated"," Linear"," Multiple"," Nucleated"," Parallel"," Perpendicular"," Overlapping"," Rectilinear","Unknown",""]
+            # self.delegateFT2 = ComboBoxDelegate()
+            # self.delegateFT2.def_values(valuesFT2)
+            # self.delegateFT2.def_editable('True')
+            # self.tableWidget_featuretype.setItemDelegateForColumn(2,self.delegateFT2)
             
             valuesFT3 = ["Photo", "Section", "Plan", "Elevation", "Video", "Overhead Photos", "3D",""]
             self.delegateFT3 = ComboBoxDelegate()
@@ -474,25 +478,25 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             self.delegateFT3.def_editable('True')
             self.tableWidget_documentazione.setItemDelegateForColumn(0,self.delegateFT3)
             
-            valuesFT5 = ["Not Applicable","Negligible","Low","Medium","High","Definite",""]
-            self.delegateFT5 = ComboBoxDelegate()
-            self.delegateFT5.def_values(valuesFT5)
-            self.delegateFT5.def_editable('True')
-            self.tableWidget_featuretype.setItemDelegateForColumn(3,self.delegateFT5)
+            # valuesFT5 = ["Not Applicable","Negligible","Low","Medium","High","Definite",""]
+            # self.delegateFT5 = ComboBoxDelegate()
+            # self.delegateFT5.def_values(valuesFT5)
+            # self.delegateFT5.def_editable('True')
+            # self.tableWidget_featuretype.setItemDelegateForColumn(3,self.delegateFT5)
             
             
             
-            valuesFT4 = ["Altar","Amphitheatre","Aqueduct","Barrack","Barrage/Dam","Basilica (Roman)","Basin/Tank","Bath-house","Boundary/Barrier","Bridge","Building","Building/Enclosure","Bunker","Burnt Area","Camp (temporary)","Canal","Caravanserai/Khan","Channel","Church/Chapel","Circus/Hippodrome","Cistern","Clearance Pile","Column/Obelisk","Dolmen","Education/Athletics Building","Emplacement/Foxhole","Enclosure","Farm","Farm Building","Field System","Flooring/Mosaic/ Paving","Fort/Fortress/Castle","Fountain","Gateway/Arch/Intersection","Gathering Area","Grove/Garden/Orchard","Hearth/ Oven","House/Dwelling","Hunting Hide/Trap","Inscription/Rock Art/Relief","Kiln/Forge/Furnace","Kite","Large Circle","Latri- ne/Toilet","Managed Site","Market","Megalithic Feature","Midden/Waste Deposit","Mill (water)","Mill (wind)","Mill/Quern/ Grindstone Element","Mine/Quarry/Extraction","Monastic Complex","Mosque/Imam/Marabout","Mosque/Madrasa Com- plex","Palace/High Status Complex","Pendant","Port/Harbour","Press/Press Element","Production","Processing (Agricultural)","Production/Processing (Animal/‘Kill site‘)","Production/Processing (Glass)","Production/Processing (Knapping Floor/ Stone Processing)","Production/Processing (Metal)","Production/Processing (Pottery)","Production/Processing (Salt)","Production/Processing (Unclassified)","Qanat/Foggara","Railway","Railway Station Stop","Ramparts/Fortification/Defen- sive Earthwork","Reservoir/Birka","Road/Track","Sarcophagus/Coffin","Sculpture","Statue","Settlement/Habitation Site","Ship/ Wreck","Significant Building","Standing Stone","Storage Facility","Sub-surface Material","Synagogue","Tell","Temple/Sanctu- ary","Theatre/Odeon","Threshing Floor","Tomb/Grave/Burial","Wadi Wall","Watchtower/Observation Post","Water wheel","Waymarker","Well",""]
-            self.delegateFT4 = ComboBoxDelegate()
-            self.delegateFT4.def_values(valuesFT4)
-            self.delegateFT4.def_editable('True')
-            self.tableWidget_features_interpretation.setItemDelegateForColumn(0,self.delegateFT4)
+            # valuesFT4 = ["Altar","Amphitheatre","Aqueduct","Barrack","Barrage/Dam","Basilica (Roman)","Basin/Tank","Bath-house","Boundary/Barrier","Bridge","Building","Building/Enclosure","Bunker","Burnt Area","Camp (temporary)","Canal","Caravanserai/Khan","Channel","Church/Chapel","Circus/Hippodrome","Cistern","Clearance Pile","Column/Obelisk","Dolmen","Education/Athletics Building","Emplacement/Foxhole","Enclosure","Farm","Farm Building","Field System","Flooring/Mosaic/ Paving","Fort/Fortress/Castle","Fountain","Gateway/Arch/Intersection","Gathering Area","Grove/Garden/Orchard","Hearth/ Oven","House/Dwelling","Hunting Hide/Trap","Inscription/Rock Art/Relief","Kiln/Forge/Furnace","Kite","Large Circle","Latri- ne/Toilet","Managed Site","Market","Megalithic Feature","Midden/Waste Deposit","Mill (water)","Mill (wind)","Mill/Quern/ Grindstone Element","Mine/Quarry/Extraction","Monastic Complex","Mosque/Imam/Marabout","Mosque/Madrasa Com- plex","Palace/High Status Complex","Pendant","Port/Harbour","Press/Press Element","Production","Processing (Agricultural)","Production/Processing (Animal/‘Kill site‘)","Production/Processing (Glass)","Production/Processing (Knapping Floor/ Stone Processing)","Production/Processing (Metal)","Production/Processing (Pottery)","Production/Processing (Salt)","Production/Processing (Unclassified)","Qanat/Foggara","Railway","Railway Station Stop","Ramparts/Fortification/Defen- sive Earthwork","Reservoir/Birka","Road/Track","Sarcophagus/Coffin","Sculpture","Statue","Settlement/Habitation Site","Ship/ Wreck","Significant Building","Standing Stone","Storage Facility","Sub-surface Material","Synagogue","Tell","Temple/Sanctu- ary","Theatre/Odeon","Threshing Floor","Tomb/Grave/Burial","Wadi Wall","Watchtower/Observation Post","Water wheel","Waymarker","Well",""]
+            # self.delegateFT4 = ComboBoxDelegate()
+            # self.delegateFT4.def_values(valuesFT4)
+            # self.delegateFT4.def_editable('True')
+            # self.tableWidget_features_interpretation.setItemDelegateForColumn(0,self.delegateFT4)
             
-            valuesFT5 = ["Not Applicable","Negligible","Low","Medium","High","Definite",""]
-            self.delegateFT5 = ComboBoxDelegate()
-            self.delegateFT5.def_values(valuesFT5)
-            self.delegateFT5.def_editable('True')
-            self.tableWidget_features_interpretation.setItemDelegateForColumn(1,self.delegateFT5)
+            # valuesFT5 = ["Not Applicable","Negligible","Low","Medium","High","Definite",""]
+            # self.delegateFT5 = ComboBoxDelegate()
+            # self.delegateFT5.def_values(valuesFT5)
+            # self.delegateFT5.def_editable('True')
+            # self.tableWidget_features_interpretation.setItemDelegateForColumn(1,self.delegateFT5)
             
             
             
@@ -1086,7 +1090,9 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 str(material_c),
                 str(morphology_c),
                 str(collection_c),
-                str(photo_material)
+                str(photo_material),
+                str(self.comboBox_damage.currentText()),  # 4 - comune
+                str(self.comboBox_country.currentText()),  # 4 - comune
             )
 
             try:
@@ -1465,6 +1471,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                 self.TABLE_FIELDS[35]:"'" + str(self.textEdit_description.toPlainText()) + "'",
                 self.TABLE_FIELDS[36]:"'" + str(self.textEdit_interpretation.toPlainText()) + "'",
                 self.TABLE_FIELDS[37]:"'" +  str(self.comboBox_ets.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[42]:"'" +  str(self.comboBox_damage.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[43]:"'" +  str(self.comboBox_country.currentText()) + "'",  # 4 - comune
 
             }
 
@@ -1742,6 +1750,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
         for i in range(photo_material_row_count):
             self.tableWidget_photolog_2.removeRow(0)
         self.insert_new_row("self.tableWidget_photolog_2")  # 16 - inclusi
+        self.comboBox_damage.setEditText("")
+        self.comboBox_country.setEditText("")
         
     def fill_fields(self, n=0):
         self.rec_num = n
@@ -1812,7 +1822,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             self.tableInsertData("self.tableWidget_morphology", self.DATA_LIST[self.rec_num].morphology_c)
             self.tableInsertData("self.tableWidget_collection", self.DATA_LIST[self.rec_num].collection_c)
             self.tableInsertData("self.tableWidget_photolog_2", self.DATA_LIST[self.rec_num].photo_material)
-            
+            str(self.comboBox_damage.setEditText(self.DATA_LIST[self.rec_num].damage))
+            str(self.comboBox_country.setEditText(self.DATA_LIST[self.rec_num].country))
             if self.toolButtonPreviewMedia.isChecked() == True:
                 self.loadMediaPreview()
                 self.loadMediaPreview2()
@@ -1913,6 +1924,8 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             str(morphology_c),
             str(collection_c),
             str(photo_material),
+            str(self.comboBox_damage.currentText()),  # 4 - comune
+            str(self.comboBox_country.currentText())  # 4 - comune
         ]
 
     def set_LIST_REC_CORR(self):

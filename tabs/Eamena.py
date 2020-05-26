@@ -342,32 +342,32 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         
         
         try:
-            valuesMater = ["MarEA Project Staff","EAMENA Project Staff",""]
+            valuesMater = ["Government Authority/Staff","Academic Researche","Volunteer/Independent Researcher","Non-Governmental Organisation (NGO)","Private sector","Student/Trainee","MarEA Project Staff","EAMENA Project Staff",""]
             self.delegateMater = ComboBoxDelegate()
             self.delegateMater.def_values(valuesMater)
             self.delegateMater.def_editable('True')
             self.tableWidget_role.setItemDelegateForColumn(0,self.delegateMater)
             
-            valuesMater2 = ["Archaeological Assessment (Image Interpretation)","Condition Assessment (Image Interpretation)","Risk Assessment (Image Interpretation)",""]
+            valuesMater2 = ["Archaeological Geo","Archaeological Assessment (Image Interpretation)","Condition Assessment (Image Interpretation)","Risk Assessment (Image Interpretation)","Emergency Impact Assessment (Image Interpretation)","Literature Interpretation/Digitisation","Data Cleaning/enhancing","Aerial" ,"Archaeological Assessment/Ground Survey","Condition Assessment","Emergency Impact Assessment","Risk Assessment","Salvage Recording",""]
             self.delegateMater2 = ComboBoxDelegate()
             self.delegateMater2.def_values(valuesMater2)
             self.delegateMater2.def_editable('True')
             self.tableWidget_activity.setItemDelegateForColumn(0,self.delegateMater2)
             
             
-            valuesMO = ["Fort of Our Lady of the Conception","Portugues Castle","Uknow",""]
+            valuesMO = [""]
             self.delegateMO = ComboBoxDelegate()
             self.delegateMO.def_values(valuesMO)
             self.delegateMO.def_editable('True')
             self.tableWidget_name.setItemDelegateForColumn(0,self.delegateMO)
             
-            valuesCO = ["Alternative Reference","Toponym",""]
+            valuesCO = ["Alternative Reference","Toponym","Designation",""]
             self.delegateCO = ComboBoxDelegate()
             self.delegateCO.def_values(valuesCO)
             self.delegateCO.def_editable('True')
             self.tableWidget_nametype.setItemDelegateForColumn(0,self.delegateCO)
 
-            valuesRS = ["Bank/Earthwork"," Bank/Wall"," Cave"," Cleared Area"," Colour/Texture Difference"," Depression/Hollow"," Ditch/Trench"," Large Mound"," Modified Rock Surface"," Paved/Laid Surface"," Pit/Shaft/Tunnel"," Plant/Tree"," Platform/Terra- ce"," Rubble Spread/Architectural Fragments"," Scatter"," Small Mound/Cairn"," Structure"," Tower"," Upright Stone","Wall",""]
+            valuesRS = ["Bank/Earthwork","Bank/Wall","Cave","Cleared Area","Colour/Texture Difference","Craft/Vessel/Vehicle","Depression/Hollow","Ditch/Trench","Large Mound","Modified Rock Surface","Multi-Component","Object","Paved/Laid Surface","Pit/Shaft/Tunnel","Plant/Tree","Platform/Terrace","Pyramid/Ziggurat","Rubble Spread/Architectural Fragments","Scatter","Small Mound/Cairn","Structure","Tower","Unknown","Upright Stone","Wall","Waterfront",""]
             self.delegateRS = ComboBoxDelegate()
             self.delegateRS.def_values(valuesRS)
             self.delegateRS.def_editable('True')
@@ -383,7 +383,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
 
 
 
-            valuesFT = ["Circular"," Curvilinear"," Irregular"," Multiple"," Polygonal"," Rectangular/Square"," Rectilinear"," Semi-circular"," Straight"," Sub-circular"," Sub-rectangular"," Triangular"," Winding","Zigzag",""]
+            valuesFT = ["Circular"," Curvilinear"," Irregular"," Multiple"," Polygonal"," Rectangular/Square"," Rectilinear"," Semi-circular"," Straight"," Sub-circular"," Sub-rectangular"," Triangular"," Winding","Zigzag","Unknown",""]
             self.delegateFT = ComboBoxDelegate()
             self.delegateFT.def_values(valuesFT)
             self.delegateFT.def_editable('True')
@@ -391,13 +391,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
 
 
 
-            valuesFT1 = [""]
+            valuesFT1 = ["Adjoining","Concentric","Clustered","Converging","Dispersed","Discrete","Isolated","Linear","Multiple","Nucleated","Parallel","Perpendicular","Overlapping","Rectilinear","Unknown",""]
             self.delegateFT1 = ComboBoxDelegate()
             self.delegateFT1.def_values(valuesFT1)
             self.delegateFT1.def_editable('True')
             self.tableWidget_farrangement.setItemDelegateForColumn(0,self.delegateFT1)
             
-            valuesFT2 = [""]
+            valuesFT2 = ["1","2 to 5","6 to 10","11 to 20","21 to 50","51 to 100","100 to 500","500+","Unknown",""]
             self.delegateFT2 = ComboBoxDelegate()
             self.delegateFT2.def_values(valuesFT2)
             self.delegateFT2.def_editable('True')
@@ -409,11 +409,11 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateFT3.def_editable('True')
             self.tableWidget_fassignementinv.setItemDelegateForColumn(0,self.delegateFT3)
             
-            valuesFT5 = [""]
+            valuesFT5 = ["Aircraft","Altar","Amphitheatre","Anchor","Anchorage","AnimalPen","Aqueduct","Ballast","Barrack","Barrage/Dam","Basilica(Roman","Basin/Tank","Bath-house","Battlefield","Boundary/Barrier","Bridge","Building","Building/Enclosure","Bunker","BurntArea","Camp(temporary","Canal","Caravanserai/Khan","Cemetery","Channel","Church/Chapel","Circus/Hippodrome","Cistern","ClearancePile","ColonnadedStreet","Column/Obelisk","CrossbarArrangement(Gate)","Dolmen","Education/AthleticsBuilding","Emplacement/Foxhole","Enclosure","Farm","FarmBuilding","FieldSystem","FishPond","FishTrap/Weir","Flooring/Mosaic/Paving","Fort/Fortress/Castle","Fountain","FuneraryComplex","Gateway/Arch/Intersection","GatheringArea","Government/AdministrativeBuilding","Grove/Garden/Orchard","Hearth/Oven","Hostelry","House/Dwelling","HuntingHide/Trap","Inscription/RockArt/Relief","Kiln/Forge/Furnace","Kite","LandingPlace","LargeCircle","Latrine/Toilet","Lighthouse","ManagedSite","Market/CommercialUnit","MegalithicFeature","Midden/WasteDeposit","Mill(water)","Mill(wind)","Mill/Quern/GrindstoneElement","Minaret","Mine/Quarry/Extraction","MonasticComplex","Mosque/Imam/Marabout","Mosque/MadrasaComplex","Palace/HighStatusComplex","Pendant","Pier/Jetty/Breakwater/Mole","Pontoon/Mooring","Port/Harbour","Portico/Stoa","Press/PressElement","Production/Processing(Agricultural)","Production/Processing(Animal/'Killsite')","Production/Processing(Glass)","Production/Processing(KnappingFloor/Stonerocessing)","Production/Processing(Metal)","Production/Processing(Pottery)","Production/Processing(Salt)","Production/Processing(Unclassified)","Qanat/Foggara","Quay/Wharf","Railway","RailwayStationStop","Ramparts/Fortification/DefensiveEarthwork","Reservoir/Birka","RingedTomb","Road/Track","Sarcophagus/Coffin","School/University","Sculpture/Statue","Settlement/HabitationSite","Ship/Wreck","Canoe","CargoVessel","Dhow","Galley","Logboat","SailingVessel","Steamship","Submarine","Warship","Shipyard/BoatConstruction","SignificantBuilding","Slipway","StandingStone","StorageFacility","Sub-surfaceMaterial","Synagogue","Tell","Temple/Sanctuary/Shrine","TentBase/Footing","Theatre/Odeon","ThreshingFloor","Tomb/Grave/Burial","WadiWall","Watchtower/ObservationPost","WaterControlMechanism/Feature","Waterwheel","Waymarker","Well","Wheel/Jellyfish","Unknown",""]
             self.delegateFT5 = ComboBoxDelegate()
             self.delegateFT5.def_values(valuesFT5)
             self.delegateFT5.def_editable('True')
-            self.tableWidget_interpretationtype.setItemDelegateForColumn(3,self.delegateFT5)
+            self.tableWidget_interpretationtype.setItemDelegateForColumn(0,self.delegateFT5)
             
             
             
@@ -429,7 +429,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.delegateFT6.def_editable('True')
             self.tableWidget_interpretationumbertype.setItemDelegateForColumn(0,self.delegateFT6)
             
-            valuesFT7 = [""]
+            valuesFT7 = ["Agricultural/Pastoral","Defensive/Fortification","Domestic","Educational","Entertainment/Leisure","Funerary/Memorial","Hunting/Fishing","Hydrological","Industrial/Productive","Infrastructure/Transport","Maritime","Military","Public /Institutional","Religious","Status/Display/Monumental","Trade/Commercial","Unknown",""]
             self.delegateFT7 = ComboBoxDelegate()
             self.delegateFT7.def_values(valuesFT7)
             self.delegateFT7.def_editable('True')
@@ -464,7 +464,11 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.comboBox_location.clear()
         location_vl.sort()
         self.comboBox_location.addItems(location_vl)
-
+        
+        # #lista years reference
+        grid = ['E35N33-11','E35N33-12','E35N33-13','E35N33-14','E35N33-21','E35N33-23','E35N33-24','E35N33-31','E35N33-32','E35N33-33','E35N33-34','E35N33-41','E35N33-42','E35N33-43','E35N33-44','E35N34-11','E35N34-12','E35N34-13','E35N34-14','E35N34-21','E35N34-22','E35N34-23','E35N34-24','E35N34-31','E35N34-32','E35N34-41','E35N34-42','E36N33-31','E36N33-33','E36N33-34','E36N34-11','E36N34-12','E36N34-13','E36N34-14','E36N34-21','E36N34-23','E36N34-31','E36N34-32']
+        self.comboBox_grid.clear()
+        self.comboBox_grid.addItems(grid)
     
     def on_pushButton_sort_pressed(self):
         if self.check_record_state() == 1:
@@ -641,10 +645,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(self.lineEdit_fromdate.text()),  # 4 - comune
                 str(self.lineEdit_todate.text()),  # 4 - comune
                 str(self.comboBox_locationcertainties.currentText()),  # 4 - comune
-                str(self.lineEdit_mn.text()),  # 4 - comune
-                str(self.lineEdit_mt.text()),
-                str(self.lineEdit_mu.text()),  # 4 - comune
-                str(self.lineEdit_mst.text()),
+                str(self.combobox_mn.currentText()),  # 4 - comune
+                str(self.combobox_mt.currentText()),
+                str(self.combobox_mu.currentText()),  # 4 - comune
+                str(self.combobox_mst.currentText()),
                 str(self.comboBox_definiton.currentText()),  # 4 - comune
                 str(self.textEdit_description.toPlainText()),
                 str(self.comboBox_cp.currentText()), 
@@ -1049,10 +1053,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 self.TABLE_FIELDS[10]:"'" + str(self.lineEdit_fromdate.text()) + "'",  # 4 - comune
                 self.TABLE_FIELDS[11]:"'" + str(self.lineEdit_todate.text()) + "'",  # 4 - comune
                 self.TABLE_FIELDS[12]:"'" + str(self.comboBox_locationcertainties.currentText()) + "'",  # 4 - comune
-                self.TABLE_FIELDS[13]:"'" + str(self.lineEdit_mn.text()) + "'",  # 4 - comune
-                self.TABLE_FIELDS[14]:"'" + str(self.lineEdit_mt.text()) + "'",  # 4 - comune
-                self.TABLE_FIELDS[15]:"'" + str(self.lineEdit_mu.text()) + "'",  # 4 - comune
-                self.TABLE_FIELDS[16]:"'" + str(self.lineEdit_mst.text()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[13]:"'" + str(self.combobox_mn.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[14]:"'" + str(self.combobox_mt.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[15]:"'" + str(self.combobox_mu.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[16]:"'" + str(self.combobox_mst.currentText()) + "'",  # 4 - comune
                 self.TABLE_FIELDS[17]:"'" + str(self.comboBox_definiton.currentText()) + "'",  # 4 - comune
                 self.TABLE_FIELDS[18]:"'" + str(self.textEdit_description.toPlainText()) + "'", # 4 - comune
                 self.TABLE_FIELDS[19]:"'" + str(self.comboBox_cp.currentText()) + "'",  # 4 - comune
@@ -1277,10 +1281,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.lineEdit_fromdate.clear()    # 4 - comune
         self.lineEdit_todate.clear()    # 4 - comune
         self.comboBox_locationcertainties.setEditText("")  # 4 - comune
-        self.lineEdit_mn.clear()  # 4 - comune
-        self.lineEdit_mt.clear()  
-        self.lineEdit_mu.clear()    # 4 - comune
-        self.lineEdit_mst.clear()  
+        self.combobox_mn.setEditText("")   # 4 - comune
+        self.combobox_mt.setEditText("")   
+        self.combobox_mu.setEditText("")     # 4 - comune
+        self.combobox_mst.setEditText("")   
         self.comboBox_definiton.setEditText("")  # 4 - comune
         self.textEdit_description.clear()
         self.comboBox_cp.setEditText("") 
@@ -1374,10 +1378,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             str(self.lineEdit_fromdate.setText(self.DATA_LIST[self.rec_num].dfd)) # 4 - comune
             str(self.lineEdit_todate.setText(self.DATA_LIST[self.rec_num].dft))# 4 - comune
             str(self.comboBox_locationcertainties.setEditText(self.DATA_LIST[self.rec_num].lc))  # 4 - comune
-            str(self.lineEdit_mn.setText(self.DATA_LIST[self.rec_num].mn))  # 4 - comune
-            str(self.lineEdit_mt.setText(self.DATA_LIST[self.rec_num].mt))
-            str(self.lineEdit_mu.setText(self.DATA_LIST[self.rec_num].mu))  # 4 - comune
-            str(self.lineEdit_mst.setText(self.DATA_LIST[self.rec_num].ms))
+            str(self.combobox_mn.setEditText(self.DATA_LIST[self.rec_num].mn))  # 4 - comune
+            str(self.combobox_mt.setEditText(self.DATA_LIST[self.rec_num].mt))
+            str(self.combobox_mu.setEditText(self.DATA_LIST[self.rec_num].mu))  # 4 - comune
+            str(self.combobox_mst.setEditText(self.DATA_LIST[self.rec_num].ms))
             str(self.comboBox_definiton.setEditText(self.DATA_LIST[self.rec_num].desc_type))  # 4 - comune
             str(self.textEdit_description.setText(self.DATA_LIST[self.rec_num].description))
             str(self.comboBox_cp.setEditText(self.DATA_LIST[self.rec_num].cd))
@@ -1484,10 +1488,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             str(self.lineEdit_fromdate.text()),  # 4 - comune
             str(self.lineEdit_todate.text()),  # 4 - comune
             str(self.comboBox_locationcertainties.currentText()),  # 4 - comune
-            str(self.lineEdit_mn.text()),  # 4 - comune
-            str(self.lineEdit_mt.text()),
-            str(self.lineEdit_mu.text()),  # 4 - comune
-            str(self.lineEdit_mst.text()),
+            str(self.combobox_mn.currentText()),  # 4 - comune
+            str(self.combobox_mt.currentText()),
+            str(self.combobox_mu.currentText()),  # 4 - comune
+            str(self.combobox_mst.currentTextt()),
             str(self.comboBox_definiton.currentText()),  # 4 - comune
             str(self.textEdit_description.toPlainText()),
             str(self.comboBox_cp.currentText()), 
