@@ -51,7 +51,10 @@ class DB_update(object):
 
         if not table_column_names_list.__contains__('photo_material'):
             self.engine.execute("ALTER TABLE site_table ADD COLUMN photo_material text DEFAULT '[[]]' ")
-        
+        if not table_column_names_list.__contains__('damage'):
+            self.engine.execute("ALTER TABLE site_table ADD COLUMN damage varchar DEFAULT '' ")
+        if not table_column_names_list.__contains__('country'):
+            self.engine.execute("ALTER TABLE site_table ADD COLUMN country varchar DEFAULT '' ")
         
         # ####pottery table_table
         table = Table("pottery_table", self.metadata, autoload=True)

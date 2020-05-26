@@ -398,7 +398,9 @@ class Pyarchinit_db_management(object):
                     arg[45],
                     arg[46],
                     arg[47],
-                    arg[48])
+                    arg[48],
+                    arg[49],
+                    arg[50])
 
         return sito
 
@@ -869,43 +871,87 @@ class Pyarchinit_db_management(object):
         session.close()
         return res
 
-    # def update_cont_per(self, s):
-        # self.sito = s
-
-        # Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
-        # session = Session()
-
-        # string = ('%s%s%s%s%s') % ('session.query(US).filter_by(', 'sito', "='", str(self.sito), "')")
-        # # print string
-        # session.close()
-        # lista_us = eval(string)
-
-        # for i in lista_us:
-            # if not i.periodo_finale and i.periodo_iniziale:
-                    # periodiz = self.query_bool(
-                        # {'sito': "'" + str(self.sito) + "'", 'periodo': i.periodo_iniziale, 'fase': i.fase_iniziale},
-                        # 'PERIODIZZAZIONE')
-                    # self.update('US', 'id_us', [int(i.id_us)], ['cont_per'], [periodiz[0].cont_per])
-            # elif i.periodo_finale and i.periodo_iniziale:
-                # cod_cont_iniz_temp = self.query_bool(
-                    # {'sito': "'" + str(self.sito) + "'", 'periodo': int(i.periodo_iniziale),
-                     # 'fase': int(i.fase_iniziale)}, 'PERIODIZZAZIONE')
-                # cod_cont_fin_temp = self.query_bool(
-                    # {'sito': "'" + str(self.sito) + "'", 'periodo': int(i.periodo_finale), 'fase': int(i.fase_finale)},
-                    # 'PERIODIZZAZIONE')
-
-                # cod_cont_iniz = cod_cont_iniz_temp[0].cont_per
-                # cod_cont_fin = cod_cont_fin_temp[0].cont_per
-
-                # cod_cont_var_n = cod_cont_iniz
-                # cod_cont_var_txt = str(cod_cont_iniz)
-
-                # while cod_cont_var_n != cod_cont_fin:
-                    # cod_cont_var_n += 1
-
-                    # cod_cont_var_txt = cod_cont_var_txt + "/" + str(cod_cont_var_n)
-
-                # self.update('US', 'id_us', [int(i.id_us)], ['cont_per'], [cod_cont_var_txt])
+    def remove_alltags_from_db_sql(self,s):
+        sql_query_string = ("DELETE FROM media_to_entity_table WHERE media_name  = '%s'") % (s)
+    
+        res = self.engine.execute(sql_query_string)
+        # rows= res.fetchall()
+        return res    
+    
+    def remove_tags_from_db_sql(self,s):
+        sql_query_string = ("DELETE FROM media_to_entity_table WHERE id_entity  = '%s'") % (s)
+    
+        res = self.engine.execute(sql_query_string)
+        # rows= res.fetchall()
+        return res    
+    def delete_thumb_from_db_sql(self,s):
+        sql_query_string = ("DELETE FROM media_thumb_table WHERE media_filename  = '%s'") % (s)
+    
+        res = self.engine.execute(sql_query_string)
+        # rows= res.fetchall()
+        return res    
+    def select_medianame_from_db_sql(self,sito,area):
+        sql_query_string = ("SELECT c.filepath, b.us,a.media_name FROM media_to_entity_table as a,  us_table as b, media_thumb_table as c WHERE b.id_us=a.id_entity and c.id_media=a.id_media  and b.sito= '%s' and b.area='%s'")%(sito,area) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    def select_medianame_1_from_db_sql(self,sito,year,id):
+        sql_query_string = ("SELECT c.filepath, b.divelog_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  dive_log as b, media_thumb_table as c WHERE b.id_dive=a.id_entity and c.id_media=a.id_media and a.entity_type='DOC'  and b.site= '%s' and b.years='%s' and divelog_id = '%s'")%(sito,year,id) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    
+    def select_medianame_2_from_db_sql(self,sito,year,id):
+        sql_query_string = ("SELECT c.filepath, b.divelog_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  dive_log as b, media_thumb_table as c WHERE b.id_dive=a.id_entity and c.id_media=a.id_media and a.entity_type='PE'  and b.site= '%s' and b.years='%s' and divelog_id = '%s'")%(sito,year,id) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    
+    def select_medianame_anc_from_db_sql(self,id):
+        sql_query_string = ("SELECT c.filepath, b.anchors_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  anchor_table as b, media_thumb_table as c WHERE b.id_anc=a.id_entity and c.id_media=a.id_media and a.entity_type='ANCHORS'  and anchors_id = '%s'")%(id) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    def select_medianame_art_from_db_sql(self,id):
+        sql_query_string = ("SELECT c.filepath, b.artefact_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  artefact_table as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and a.entity_type='ARTEFACT'  and artefact_id = '%s'")%(id) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    def select_medianame_pot_from_db_sql(self,id):
+        sql_query_string = ("SELECT c.filepath, b.anchors_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  pottery_table as b, media_thumb_table as c WHERE b.id_rep=a.id_entity and c.id_media=a.id_media and a.entity_type='POTTERY'  and artefact_id = '%s'")%(id) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    def select_medianame_ss_from_db_sql(self,sito):
+        sql_query_string = ("SELECT c.filepath, b.name_site,a.media_name,a.entity_type FROM media_to_entity_table as a,  site_table as b, media_thumb_table as c WHERE b.id_sito=a.id_entity and c.id_media=a.id_media and a.entity_type='SITE'  and name_site = '%s'")%(sito) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    def select_medianame_spm_from_db_sql(self,sito):
+        sql_query_string = ("SELECT c.filepath, b.name_site,a.media_name,a.entity_type FROM media_to_entity_table as a,  site_table as b, media_thumb_table as c WHERE b.id_sito=a.id_entity and c.id_media=a.id_media and a.entity_type='SPM'  and name_site = '%s'")%(sito) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    def select_medianame_3_from_db_sql(self,sito,area,us):
+        sql_query_string = ("SELECT c.filepath, b.us,a.media_name FROM media_to_entity_table as a,  inventario_materiali_table as b, media_thumb_table as c WHERE b.id_invmat=a.id_entity and c.id_media=a.id_media  and b.sito= '%s' and b.area='%s' and us = '%s'")%(sito,area,us) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    
+    def select_thumbnail_from_db_sql(self,sito):
+        sql_query_string = ("SELECT c.filepath, b.us,a.media_name,b.area,b.d_stratigrafica,b.unita_tipo FROM media_to_entity_table as a,  us_table as b, media_thumb_table as c WHERE b.id_us=a.id_entity and c.id_media=a.id_media and sito='%s' order by b.us")%(sito)
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
 
     def select_quote_from_db_sql(self, sito, area, us):
         sql_query_string = ("SELECT * FROM pyarchinit_quote WHERE sito_q = '%s' AND area_q = '%s' AND us_q = '%s'") % (
