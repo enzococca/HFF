@@ -341,7 +341,7 @@ class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
                 cur9.execute("SELECT sf,sfc   From eamena_table where location='%s';" % sito_location)
                 cur10.execute("SELECT dcc,dct,dcert,et1,ec1,et2,ec2,et3,ec3,et4,ec4,et5,ec5,ddf,ddt,dob,doo,dan From eamena_table where location='%s';" % sito_location)
                 cur11.execute("SELECT tc,tt,tp,ti From eamena_table where location='%s';" % sito_location)
-                cur12.execute("SELECT name_site,features,disturbance,mouhafasat, definition,est,material_c,morphology_c,area,date_start From site_table where location_='%s';" % sito_location)
+                cur12.execute("SELECT b.hp,a.features,a.disturbance,a.est, a.certainties,b.grid,a.country, a.topographic_setting,a.condition_state,a.damage  From site_table as a, eamena_table as b where a.name_site=b.name_site and a.location_='%s';" % sito_location)
                 
                 rows1 = cur1.fetchall()
                 rows0 = cur0.fetchall()
