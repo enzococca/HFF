@@ -136,7 +136,7 @@
           <x>0</x>
           <y>0</y>
           <width>1261</width>
-          <height>529</height>
+          <height>541</height>
          </rect>
         </property>
         <attribute name="label">
@@ -540,7 +540,7 @@
           <x>0</x>
           <y>0</y>
           <width>1261</width>
-          <height>529</height>
+          <height>541</height>
          </rect>
         </property>
         <attribute name="label">
@@ -561,6 +561,66 @@
          <item>
           <property name="text">
            <string>x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Managed Site</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Enhanced Protection List of the Hague Convention</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>UNESCO World Heritage List</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>UNESCO World Heritage Tentative List</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>UNESCO World Heritage in Danger List</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>JADIS</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MEGA-Jordan</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Saudi Commission for Tourism and National Heritage (SCTH)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Carte Nationale des Sites Archéologiques et des Monuments Historiques (Tunisia)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Iran's National Heritage List</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Other</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PADIS</string>
           </property>
          </item>
         </widget>
@@ -633,58 +693,6 @@
          </property>
          <property name="text">
           <string>To date</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEdit_mn">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>330</y>
-           <width>171</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEdit_mst">
-         <property name="geometry">
-          <rect>
-           <x>790</x>
-           <y>330</y>
-           <width>191</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEdit_mu">
-         <property name="geometry">
-          <rect>
-           <x>562</x>
-           <y>330</y>
-           <width>141</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEdit_mt">
-         <property name="geometry">
-          <rect>
-           <x>322</x>
-           <y>330</y>
-           <width>141</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_7">
@@ -839,6 +847,253 @@
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
+        <widget class="QComboBox" name="comboBox_mn">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>340</y>
+           <width>171</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>x</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QComboBox" name="comboBox_mt">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>340</y>
+           <width>171</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Area</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Breadth/Width</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Depth</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Diameter</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Height</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Length</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Uknow</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QComboBox" name="comboBox_mu">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>340</y>
+           <width>171</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>millimetres (mm)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>centimetres (cm)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>metres (m)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>kilometres (km)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>hectares (ha)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>square metres (m2)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>square kilometres (km2)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>inches (in)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>feet (ft)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>yards (yd)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>miles (mi)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>acres (ac)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>square feet (ft2)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>square miles (mi2)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>dunam</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QComboBox" name="comboBox_mst">
+         <property name="geometry">
+          <rect>
+           <x>780</x>
+           <y>340</y>
+           <width>171</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>x</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Differential GPS (DGPS)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Estimated/Paced</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Handheld GPS</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Laser Rangefinder</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tape Measure/Surveyor's Wheel</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Theodolite/Dumpy Level</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Toal Station</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Aerial Photograph (Processed)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Aerial Photograph (Unprocessed)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Satellite Imagery (Processed)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Satellite Imagery (Unprocessed)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Satellite Imagery (Virtual Globe/Map)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Unknow</string>
+          </property>
+         </item>
+        </widget>
        </widget>
        <widget class="QWidget" name="toolBoxPage2">
         <property name="geometry">
@@ -846,7 +1101,7 @@
           <x>0</x>
           <y>0</y>
           <width>1261</width>
-          <height>529</height>
+          <height>541</height>
          </rect>
         </property>
         <attribute name="label">
@@ -943,6 +1198,16 @@
          <item>
           <property name="text">
            <string>General description</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Comments</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Summary of Significance </string>
           </property>
          </item>
         </widget>
@@ -1170,7 +1435,7 @@
           <x>0</x>
           <y>0</y>
           <width>1261</width>
-          <height>529</height>
+          <height>541</height>
          </rect>
         </property>
         <attribute name="label">
@@ -1583,7 +1848,7 @@
         </font>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="page">
         <property name="geometry">
@@ -1591,7 +1856,7 @@
           <x>0</x>
           <y>0</y>
           <width>1261</width>
-          <height>552</height>
+          <height>564</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2034,8 +2299,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>98</width>
-          <height>28</height>
+          <width>1261</width>
+          <height>564</height>
          </rect>
         </property>
         <attribute name="label">
@@ -2652,8 +2917,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>98</width>
-          <height>28</height>
+          <width>1261</width>
+          <height>564</height>
          </rect>
         </property>
         <attribute name="label">
@@ -3634,6 +3899,201 @@
       <property name="editable">
        <bool>true</bool>
       </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-11</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-12</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-13</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-14</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-21</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-23</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-24</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-31</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-32</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-33</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-34</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-41</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-42</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-43</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N33-44</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-11</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-12</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-13</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-14</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-21</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-22</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-23</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-24</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-31</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-32</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-41</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E35N34-42</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N33-31</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N33-33</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N33-34</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N34-11</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N34-12</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N34-13</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N34-14</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N34-21</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N34-23</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N34-31</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>E36N34-32</string>
+       </property>
+      </item>
      </widget>
     </item>
     <item row="0" column="6">
@@ -3786,6 +4246,36 @@
       <property name="editable">
        <bool>true</bool>
       </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Landscape/Seascape</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Archaeological Site</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Urban Heritage</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Structural Heritage</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Archaeological Feature/Component</string>
+       </property>
+      </item>
      </widget>
     </item>
     <item row="0" column="4">

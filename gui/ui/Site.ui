@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1330</width>
-    <height>941</height>
+    <width>891</width>
+    <height>883</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -179,7 +179,11 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Load layers to drawing the site searched</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/IconPAI.png</normaloff>:/icons/IconPAI.png</iconset>
        </property>
       </widget>
      </item>
@@ -534,6 +538,10 @@
        <property name="text">
         <string>Media</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/photo.png</normaloff>:/icons/photo.png</iconset>
+       </property>
        <property name="checkable">
         <bool>true</bool>
        </property>
@@ -581,8 +589,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>1304</width>
-          <height>703</height>
+          <width>869</width>
+          <height>679</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_20">
@@ -610,184 +618,6 @@
             <attribute name="title">
              <string>Data Survey</string>
             </attribute>
-            <widget class="QListWidget" name="iconListWidget">
-             <property name="geometry">
-              <rect>
-               <x>850</x>
-               <y>8</y>
-               <width>415</width>
-               <height>641</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="editTriggers">
-              <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
-             </property>
-             <property name="dragEnabled">
-              <bool>true</bool>
-             </property>
-             <property name="dragDropOverwriteMode">
-              <bool>true</bool>
-             </property>
-             <property name="uniformItemSizes">
-              <bool>true</bool>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-             <property name="selectionRectVisible">
-              <bool>true</bool>
-             </property>
-             <property name="sortingEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-            <widget class="QWidget" name="layoutWidget">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>408</y>
-               <width>821</width>
-               <height>241</height>
-              </rect>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_3">
-              <item row="0" column="1">
-               <widget class="QPushButton" name="pushButton_remove_row_photolog">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>-</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QPushButton" name="pushButton_insert_row_photolog">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>+</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" colspan="2">
-               <widget class="QTableWidget" name="tableWidget_photolog">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <property name="lineWidth">
-                 <number>1</number>
-                </property>
-                <property name="verticalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAsNeeded</enum>
-                </property>
-                <property name="horizontalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAsNeeded</enum>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
-                </property>
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::SingleSelection</enum>
-                </property>
-                <property name="selectionBehavior">
-                 <enum>QAbstractItemView::SelectRows</enum>
-                </property>
-                <property name="rowCount">
-                 <number>1</number>
-                </property>
-                <property name="columnCount">
-                 <number>3</number>
-                </property>
-                <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>265</number>
-                </attribute>
-                <attribute name="horizontalHeaderMinimumSectionSize">
-                 <number>80</number>
-                </attribute>
-                <attribute name="verticalHeaderCascadingSectionResizes">
-                 <bool>true</bool>
-                </attribute>
-                <attribute name="verticalHeaderDefaultSectionSize">
-                 <number>30</number>
-                </attribute>
-                <row/>
-                <column>
-                 <property name="text">
-                  <string>Camera ID</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Orientation</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Description</string>
-                 </property>
-                </column>
-                <item row="0" column="0">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </widget>
             <widget class="QgsCollapsibleGroupBox" name="groupBox">
              <property name="geometry">
               <rect>
@@ -806,10 +636,10 @@
              <property name="title">
               <string>Survey</string>
              </property>
-             <property name="saveCollapsedState">
+             <property name="saveCollapsedState" stdset="0">
               <bool>false</bool>
              </property>
-             <property name="saveCheckedState">
+             <property name="saveCheckedState" stdset="0">
               <bool>true</bool>
              </property>
              <widget class="QWidget" name="layoutWidget">
@@ -1455,6 +1285,30 @@
                  </property>
                 </spacer>
                </item>
+               <item row="3" column="9">
+                <widget class="QComboBox" name="comboBox_country">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Lebanon</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="8">
+                <widget class="QLabel" name="label_36">
+                 <property name="text">
+                  <string>Country</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
              <widget class="QWidget" name="layoutWidget">
@@ -1545,814 +1399,877 @@
               </layout>
              </widget>
             </widget>
+            <widget class="QPushButton" name="pushButton_insert_row_photolog">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>410</y>
+               <width>20</width>
+               <height>18</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>26</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Times New Roman</family>
+               <pointsize>8</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>+</string>
+             </property>
+            </widget>
+            <widget class="QTableWidget" name="tableWidget_photolog">
+             <property name="geometry">
+              <rect>
+               <x>5</x>
+               <y>429</y>
+               <width>831</width>
+               <height>201</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
+             <property name="lineWidth">
+              <number>1</number>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAsNeeded</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAsNeeded</enum>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="rowCount">
+              <number>1</number>
+             </property>
+             <property name="columnCount">
+              <number>3</number>
+             </property>
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>265</number>
+             </attribute>
+             <attribute name="horizontalHeaderMinimumSectionSize">
+              <number>80</number>
+             </attribute>
+             <attribute name="verticalHeaderCascadingSectionResizes">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderDefaultSectionSize">
+              <number>30</number>
+             </attribute>
+             <row/>
+             <column>
+              <property name="text">
+               <string>Camera ID</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Orientation</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Description</string>
+              </property>
+             </column>
+             <item row="0" column="0">
+              <property name="text">
+               <string/>
+              </property>
+             </item>
+            </widget>
+            <widget class="QPushButton" name="pushButton_remove_row_photolog">
+             <property name="geometry">
+              <rect>
+               <x>30</x>
+               <y>410</y>
+               <width>20</width>
+               <height>18</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>26</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Times New Roman</family>
+               <pointsize>8</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>-</string>
+             </property>
+            </widget>
            </widget>
            <widget class="QWidget" name="tab_2">
             <attribute name="title">
              <string>GeoArchaeology data</string>
             </attribute>
-            <layout class="QGridLayout" name="gridLayout_10">
-             <item row="0" column="0">
-              <layout class="QGridLayout" name="gridLayout_8">
-               <item row="4" column="0">
-                <widget class="QPushButton" name="pushButton_insert_row_features">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+            <widget class="QWidget" name="">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>831</width>
+               <height>601</height>
+              </rect>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="5" column="9" colspan="3">
+               <widget class="QTableWidget" name="tableWidget_collection">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Sunken</enum>
+                </property>
+                <property name="verticalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAsNeeded</enum>
+                </property>
+                <property name="horizontalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAsNeeded</enum>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::SingleSelection</enum>
+                </property>
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
+                <property name="rowCount">
+                 <number>1</number>
+                </property>
+                <property name="columnCount">
+                 <number>1</number>
+                </property>
+                <attribute name="horizontalHeaderDefaultSectionSize">
+                 <number>221</number>
+                </attribute>
+                <attribute name="horizontalHeaderMinimumSectionSize">
+                 <number>80</number>
+                </attribute>
+                <attribute name="verticalHeaderDefaultSectionSize">
+                 <number>30</number>
+                </attribute>
+                <row/>
+                <column>
                  <property name="text">
-                  <string>+</string>
+                  <string>Collection/Survey Type </string>
                  </property>
-                </widget>
-               </item>
-               <item row="7" column="1">
-                <widget class="QPushButton" name="pushButton_remove_row_disturbance">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </column>
+                <item row="0" column="0">
                  <property name="text">
-                  <string>-</string>
+                  <string/>
                  </property>
-                </widget>
-               </item>
-               <item row="1" column="2">
-                <widget class="QLabel" name="label_14">
+                </item>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_22">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Soil type</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="3">
+               <widget class="QComboBox" name="comboBox_soil">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
                  <property name="text">
-                  <string>Visibility</string>
+                  <string/>
                  </property>
-                </widget>
-               </item>
-               <item row="1" column="3">
-                <widget class="QComboBox" name="comboBox_visibility">
-                 <property name="editable">
-                  <bool>true</bool>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Excellent</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Good</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Fair</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Poor</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Very bad</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_46">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>Condition state</string>
+                  <string>Modern vegetation</string>
                  </property>
-                </widget>
-               </item>
-               <item row="7" column="0">
-                <widget class="QPushButton" name="pushButton_insert_row_disturbance">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>+</string>
+                  <string>Crops</string>
                  </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QComboBox" name="comboBox_condition">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="editable">
-                  <bool>true</bool>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>Good</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Fair</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Poor</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Very bed</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Destroyed</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_22">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>Soil type</string>
+                  <string>Land use</string>
                  </property>
-                </widget>
-               </item>
-               <item row="8" column="7" colspan="3">
-                <widget class="QTableWidget" name="tableWidget_collection">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>1</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <property name="verticalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAsNeeded</enum>
-                 </property>
-                 <property name="horizontalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAsNeeded</enum>
-                 </property>
-                 <property name="editTriggers">
-                  <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
-                 </property>
-                 <property name="selectionMode">
-                  <enum>QAbstractItemView::SingleSelection</enum>
-                 </property>
-                 <property name="selectionBehavior">
-                  <enum>QAbstractItemView::SelectRows</enum>
-                 </property>
-                 <property name="rowCount">
-                  <number>1</number>
-                 </property>
-                 <property name="columnCount">
-                  <number>1</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>311</number>
-                 </attribute>
-                 <attribute name="horizontalHeaderMinimumSectionSize">
-                  <number>80</number>
-                 </attribute>
-                 <attribute name="verticalHeaderDefaultSectionSize">
-                  <number>30</number>
-                 </attribute>
-                 <row/>
-                 <column>
-                  <property name="text">
-                   <string>Collection/Survey Type </string>
-                  </property>
-                 </column>
-                 <item row="0" column="0">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="5" column="0" rowspan="2" colspan="6">
-                <widget class="QTableWidget" name="tableWidget_featuretype">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>1</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <property name="verticalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAsNeeded</enum>
-                 </property>
-                 <property name="horizontalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAsNeeded</enum>
-                 </property>
-                 <property name="editTriggers">
-                  <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
-                 </property>
-                 <property name="selectionMode">
-                  <enum>QAbstractItemView::SingleSelection</enum>
-                 </property>
-                 <property name="selectionBehavior">
-                  <enum>QAbstractItemView::SelectRows</enum>
-                 </property>
-                 <property name="rowCount">
-                  <number>1</number>
-                 </property>
-                 <property name="columnCount">
-                  <number>4</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>191</number>
-                 </attribute>
-                 <attribute name="horizontalHeaderMinimumSectionSize">
-                  <number>80</number>
-                 </attribute>
-                 <attribute name="verticalHeaderDefaultSectionSize">
-                  <number>30</number>
-                 </attribute>
-                 <row/>
-                 <column>
-                  <property name="text">
-                   <string>Features types</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Shape types</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Arrangement types</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Certainties</string>
-                  </property>
-                 </column>
-                 <item row="0" column="0">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QPushButton" name="pushButton_remove_row_features">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>-</string>
+                  <string/>
                  </property>
-                </widget>
-               </item>
-               <item row="0" column="9">
-                <widget class="QPushButton" name="pushButton_remove_row_morphology">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="0" column="4" colspan="3">
+               <widget class="QLabel" name="label_39">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Topographic Type</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="7" colspan="3">
+               <widget class="QComboBox" name="comboBox_toposetting">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
                  <property name="text">
-                  <string>-</string>
+                  <string>Alluvial fan</string>
                  </property>
-                </widget>
-               </item>
-               <item row="0" column="8">
-                <widget class="QPushButton" name="pushButton_insert_row_morphology">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>1</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>+</string>
+                  <string>Lake bed</string>
                  </property>
-                </widget>
-               </item>
-               <item row="7" column="9">
-                <widget class="QPushButton" name="pushButton_remove_row_collection">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>-</string>
+                  <string>Lake shore</string>
                  </property>
-                </widget>
-               </item>
-               <item row="8" column="0" colspan="7">
-                <widget class="QTableWidget" name="tableWidget_disturbance">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <property name="verticalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAsNeeded</enum>
-                 </property>
-                 <property name="horizontalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAsNeeded</enum>
-                 </property>
-                 <property name="editTriggers">
-                  <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
-                 </property>
-                 <property name="selectionMode">
-                  <enum>QAbstractItemView::SingleSelection</enum>
-                 </property>
-                 <property name="selectionBehavior">
-                  <enum>QAbstractItemView::SelectRows</enum>
-                 </property>
-                 <property name="rowCount">
-                  <number>1</number>
-                 </property>
-                 <property name="columnCount">
-                  <number>2</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>424</number>
-                 </attribute>
-                 <attribute name="horizontalHeaderMinimumSectionSize">
-                  <number>80</number>
-                 </attribute>
-                 <attribute name="verticalHeaderDefaultSectionSize">
-                  <number>30</number>
-                 </attribute>
-                 <row/>
-                 <column>
-                  <property name="text">
-                   <string>Features interpretation</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Certainties</string>
-                  </property>
-                 </column>
-                 <item row="0" column="0">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="7" column="8">
-                <widget class="QPushButton" name="pushButton_insert_row_collection">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>+</string>
+                  <string>Sea bed</string>
                  </property>
-                </widget>
-               </item>
-               <item row="0" column="4" colspan="2">
-                <widget class="QComboBox" name="comboBox_toposetting">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="editable">
-                  <bool>true</bool>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>Alluvial fan</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Lake bed</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Lake shore</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Sea bed</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Sea shore</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Plateau</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Edge</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Slopes</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Summit</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Valley bed</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Valley terrace</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Watercourse bed</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Watercourse banks</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Uknow</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="0" column="3">
-                <widget class="QLabel" name="label_39">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>Topographic settings</string>
+                  <string>Sea shore</string>
                  </property>
-                </widget>
-               </item>
-               <item row="1" column="8" rowspan="6" colspan="2">
-                <widget class="QTableWidget" name="tableWidget_morphology">
-                 <property name="rowCount">
-                  <number>1</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>198</number>
-                 </attribute>
-                 <attribute name="verticalHeaderDefaultSectionSize">
-                  <number>30</number>
-                 </attribute>
-                 <row/>
-                 <column>
-                  <property name="text">
-                   <string>Overall Site Morphology </string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-               <item row="0" column="1" colspan="2">
-                <widget class="QComboBox" name="comboBox_soil">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="editable">
-                  <bool>true</bool>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Modern vegetation</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Crops</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Land use</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="4">
-                <widget class="QLabel" name="label_16">
+                </item>
+                <item>
                  <property name="text">
-                  <string>Extent of Transect surveyed </string>
+                  <string>Plateau</string>
                  </property>
-                </widget>
-               </item>
-               <item row="1" column="5">
-                <widget class="QComboBox" name="comboBox">
-                 <property name="editable">
-                  <bool>true</bool>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>1-10%</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>11-30%</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>31-60%</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>61-90%</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>91-100%</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>No Visible/Known</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="6" rowspan="6" colspan="2">
-                <widget class="QTableWidget" name="tableWidget_material">
-                 <property name="rowCount">
-                  <number>1</number>
-                 </property>
-                 <property name="columnCount">
-                  <number>1</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>198</number>
-                 </attribute>
-                 <attribute name="verticalHeaderDefaultSectionSize">
-                  <number>30</number>
-                 </attribute>
-                 <row/>
-                 <column>
-                  <property name="text">
-                   <string>Material</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-               <item row="0" column="6">
-                <widget class="QPushButton" name="pushButton_insert_row_material">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>1</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>+</string>
+                  <string>Edge</string>
                  </property>
-                </widget>
-               </item>
-               <item row="0" column="7">
-                <widget class="QPushButton" name="pushButton_remove_row_material">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Times New Roman</family>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
+                </item>
+                <item>
                  <property name="text">
-                  <string>-</string>
+                  <string>Slopes</string>
                  </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Summit</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Valley bed</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Valley terrace</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Watercourse bed</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Watercourse banks</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Uknow</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="3" column="0" colspan="4">
+               <widget class="QTableWidget" name="tableWidget_featuretype">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Sunken</enum>
+                </property>
+                <property name="verticalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAsNeeded</enum>
+                </property>
+                <property name="horizontalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAsNeeded</enum>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::SingleSelection</enum>
+                </property>
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
+                <property name="rowCount">
+                 <number>1</number>
+                </property>
+                <property name="columnCount">
+                 <number>1</number>
+                </property>
+                <attribute name="horizontalHeaderDefaultSectionSize">
+                 <number>250</number>
+                </attribute>
+                <attribute name="horizontalHeaderMinimumSectionSize">
+                 <number>80</number>
+                </attribute>
+                <attribute name="verticalHeaderDefaultSectionSize">
+                 <number>30</number>
+                </attribute>
+                <row/>
+                <column>
+                 <property name="text">
+                  <string>Features morphology type</string>
+                 </property>
+                </column>
+                <item row="0" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_46">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Condition state</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="9" colspan="2">
+               <widget class="QComboBox" name="comboBox_damage">
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>1-10%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>11-30%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>31-60%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>61-90%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>91-100%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>No Visible/Known</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QPushButton" name="pushButton_insert_row_features">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Times New Roman</family>
+                  <pointsize>8</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="4" colspan="4">
+               <widget class="QTableWidget" name="tableWidget_disturbance">
+                <property name="rowCount">
+                 <number>1</number>
+                </property>
+                <attribute name="horizontalHeaderDefaultSectionSize">
+                 <number>280</number>
+                </attribute>
+                <row/>
+                <column>
+                 <property name="text">
+                  <string>Site overall shape type</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item row="1" column="4" colspan="2">
+               <widget class="QComboBox" name="comboBox_visibility">
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Good</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Poor</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Fair</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Very Bad</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="1" column="6" colspan="3">
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>Damage extent type</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="2">
+               <widget class="QComboBox" name="comboBox_condition">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Good</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Fair</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Poor</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Very bed</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Destroyed</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Visibility</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1" colspan="2">
+               <widget class="QPushButton" name="pushButton_remove_row_features">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Times New Roman</family>
+                  <pointsize>8</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="10">
+               <widget class="QPushButton" name="pushButton_insert_row_collection">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Times New Roman</family>
+                  <pointsize>8</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="2">
+               <widget class="QPushButton" name="pushButton_insert_row_material">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Times New Roman</family>
+                  <pointsize>8</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="7">
+               <widget class="QPushButton" name="pushButton_remove_row_morphology">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Times New Roman</family>
+                  <pointsize>8</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="11">
+               <widget class="QPushButton" name="pushButton_remove_row_collection">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Times New Roman</family>
+                  <pointsize>8</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="5" colspan="2">
+               <widget class="QPushButton" name="pushButton_insert_row_morphology">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Times New Roman</family>
+                  <pointsize>8</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0" colspan="5">
+               <widget class="QTableWidget" name="tableWidget_material">
+                <property name="rowCount">
+                 <number>1</number>
+                </property>
+                <property name="columnCount">
+                 <number>1</number>
+                </property>
+                <attribute name="horizontalHeaderDefaultSectionSize">
+                 <number>290</number>
+                </attribute>
+                <attribute name="verticalHeaderDefaultSectionSize">
+                 <number>30</number>
+                </attribute>
+                <row/>
+                <column>
+                 <property name="text">
+                  <string>Material</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QPushButton" name="pushButton_remove_row_material">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Times New Roman</family>
+                  <pointsize>8</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="5" colspan="3">
+               <widget class="QTableWidget" name="tableWidget_morphology">
+                <property name="rowCount">
+                 <number>1</number>
+                </property>
+                <attribute name="horizontalHeaderDefaultSectionSize">
+                 <number>243</number>
+                </attribute>
+                <attribute name="verticalHeaderDefaultSectionSize">
+                 <number>30</number>
+                </attribute>
+                <row/>
+                <column>
+                 <property name="text">
+                  <string>Overall Site Morphology </string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item row="2" column="4">
+               <widget class="QPushButton" name="pushButton_insert_row_disturbance">
+                <property name="text">
+                 <string>+</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="5">
+               <widget class="QPushButton" name="pushButton_remove_row_disturbance">
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </widget>
            <widget class="QWidget" name="tab_6">
             <attribute name="title">
@@ -2759,7 +2676,7 @@
                 <number>2</number>
                </property>
                <attribute name="horizontalHeaderDefaultSectionSize">
-                <number>615</number>
+                <number>400</number>
                </attribute>
                <attribute name="horizontalHeaderMinimumSectionSize">
                 <number>80</number>
@@ -2819,7 +2736,7 @@
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
+                 <enum>QFrame::Sunken</enum>
                 </property>
                 <property name="lineWidth">
                  <number>1</number>
@@ -2846,7 +2763,7 @@
                  <number>4</number>
                 </property>
                 <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>244</number>
+                 <number>205</number>
                 </attribute>
                 <attribute name="horizontalHeaderMinimumSectionSize">
                  <number>80</number>
@@ -3016,130 +2933,136 @@
             <attribute name="title">
              <string>Bibliography</string>
             </attribute>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QPushButton" name="pushButton_remove_row_rif_biblio">
              <property name="geometry">
               <rect>
-               <x>9</x>
-               <y>20</y>
-               <width>1021</width>
-               <height>591</height>
+               <x>90</x>
+               <y>21</y>
+               <width>75</width>
+               <height>23</height>
               </rect>
              </property>
-             <layout class="QGridLayout" name="gridLayout_19">
-              <item row="0" column="1">
-               <widget class="QPushButton" name="pushButton_remove_row_rif_biblio">
-                <property name="font">
-                 <font>
-                  <family>MS Shell Dlg 2</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Delete row</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QPushButton" name="pushButton_insert_row_rif_biblio">
-                <property name="font">
-                 <font>
-                  <family>MS Shell Dlg 2</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Insert row</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" colspan="2">
-               <widget class="QTableWidget" name="tableWidget_rif_biblio">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>MS Shell Dlg 2</family>
-                  <pointsize>10</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <property name="verticalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAsNeeded</enum>
-                </property>
-                <property name="horizontalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAsNeeded</enum>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
-                </property>
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::SingleSelection</enum>
-                </property>
-                <property name="selectionBehavior">
-                 <enum>QAbstractItemView::SelectRows</enum>
-                </property>
-                <property name="rowCount">
-                 <number>1</number>
-                </property>
-                <property name="columnCount">
-                 <number>5</number>
-                </property>
-                <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>199</number>
-                </attribute>
-                <attribute name="horizontalHeaderMinimumSectionSize">
-                 <number>30</number>
-                </attribute>
-                <attribute name="verticalHeaderDefaultSectionSize">
-                 <number>30</number>
-                </attribute>
-                <row/>
-                <column>
-                 <property name="text">
-                  <string>Author</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Year</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Title</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Pag.</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Fig.</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-             </layout>
+             <property name="font">
+              <font>
+               <family>MS Shell Dlg 2</family>
+               <pointsize>8</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Delete row</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton_insert_row_rif_biblio">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>21</y>
+               <width>75</width>
+               <height>23</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <family>MS Shell Dlg 2</family>
+               <pointsize>8</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Insert row</string>
+             </property>
+            </widget>
+            <widget class="QTableWidget" name="tableWidget_rif_biblio">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>50</y>
+               <width>831</width>
+               <height>571</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <family>MS Shell Dlg 2</family>
+               <pointsize>10</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAsNeeded</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAsNeeded</enum>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="rowCount">
+              <number>1</number>
+             </property>
+             <property name="columnCount">
+              <number>5</number>
+             </property>
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>160</number>
+             </attribute>
+             <attribute name="horizontalHeaderMinimumSectionSize">
+              <number>30</number>
+             </attribute>
+             <attribute name="verticalHeaderDefaultSectionSize">
+              <number>30</number>
+             </attribute>
+             <row/>
+             <column>
+              <property name="text">
+               <string>Author</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Year</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Title</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Pag.</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Fig.</string>
+              </property>
+             </column>
             </widget>
            </widget>
            <widget class="QWidget" name="tabWidgetPage2">
@@ -3319,9 +3242,9 @@
             <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
-               <x>20</x>
+               <x>10</x>
                <y>16</y>
-               <width>1231</width>
+               <width>821</width>
                <height>359</height>
               </rect>
              </property>
@@ -3337,13 +3260,13 @@
                 <property name="title">
                  <string>Project</string>
                 </property>
-                <property name="collapsed">
+                <property name="collapsed" stdset="0">
                  <bool>false</bool>
                 </property>
-                <property name="saveCollapsedState">
+                <property name="saveCollapsedState" stdset="0">
                  <bool>false</bool>
                 </property>
-                <property name="saveCheckedState">
+                <property name="saveCheckedState" stdset="0">
                  <bool>false</bool>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_7">
@@ -3836,6 +3759,54 @@
               </item>
              </layout>
             </widget>
+            <widget class="QDockWidget" name="dockWidget_view">
+             <property name="geometry">
+              <rect>
+               <x>330</x>
+               <y>380</y>
+               <width>274</width>
+               <height>511</height>
+              </rect>
+             </property>
+             <property name="floating">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="dockWidgetContents">
+              <layout class="QGridLayout" name="gridLayout_10">
+               <item row="0" column="0">
+                <widget class="QListWidget" name="iconListWidget">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+                 </property>
+                 <property name="dragEnabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="dragDropOverwriteMode">
+                  <bool>true</bool>
+                 </property>
+                 <property name="uniformItemSizes">
+                  <bool>true</bool>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="selectionRectVisible">
+                  <bool>true</bool>
+                 </property>
+                 <property name="sortingEnabled">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
            </widget>
            <widget class="QWidget" name="tab">
             <attribute name="title">
@@ -4065,7 +4036,11 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Load layers to drawing all sites</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/layers-icon.png</normaloff>:/icons/layers-icon.png</iconset>
        </property>
       </widget>
      </item>
@@ -4165,6 +4140,10 @@
       <widget class="QToolButton" name="toolButton_draw_siti">
        <property name="text">
         <string>Gis view from research</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icons/GIS.png</normaloff>:/icons/GIS.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
