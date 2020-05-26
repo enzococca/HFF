@@ -843,7 +843,9 @@ CREATE TABLE public.site_table (
 	est character varying(255),
 	material_c text,
 	morphology_c text,
-	collection_c text
+	collection_c text,
+	damage character varying(255),
+	country character varying(255)
 );
 ALTER TABLE public.site_table OWNER TO postgres;
 --
@@ -1603,6 +1605,467 @@ CREATE INDEX sidx_site_poligon_the_geom
 -- Dependencies: 20
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
+SET standard_conforming_strings = OFF;
+---CREATE SCHEMA "public";
+DROP TABLE IF EXISTS "public"."grid_eamena_lebanon" CASCADE;
+DELETE FROM geometry_columns WHERE f_table_name = 'grid_eamena_lebanon' AND f_table_schema = 'public';
+BEGIN;
+CREATE TABLE "public"."grid_eamena_lebanon" ( "ogc_fid" SERIAL, CONSTRAINT "grid_eamena_lebanon_pk" PRIMARY KEY ("ogc_fid") );
+SELECT AddGeometryColumn('public','grid_eamena_lebanon','the_geom',32636,'MULTIPOLYGON',2);
+CREATE INDEX "grid_eamena_lebanon_the_geom_geom_idx" ON "public"."grid_eamena_lebanon" USING GIST ("the_geom");
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "name" VARCHAR(254);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "descriptio" VARCHAR(254);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "timestamp" VARCHAR(24);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "begin" VARCHAR(24);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "end" VARCHAR(24);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "altitudemo" VARCHAR(254);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "tessellate" NUMERIC(10,0);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "extrude" NUMERIC(10,0);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "visibility" NUMERIC(10,0);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "draworder" NUMERIC(10,0);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "icon" VARCHAR(254);
+ALTER TABLE "public"."grid_eamena_lebanon" ADD COLUMN "snippet" VARCHAR(254);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F0000010000000103000000010000000500000064EB1072FEF524419DA28CC0E3DE4B412CC85762DCF124415B062FF808154C41F745E704D9A72541D0A86CEDF5154C41D736D38B7FAC25417FE8D5CCCFDF4B4164EB1072FEF524419DA28CC0E3DE4B41', 'E35N33-11', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000002CC85762DCF124415B062FF808154C4184E35238B3ED244187E44BAD2E4B4C41B6E571802AA3254181ABE0861C4C4C41F745E704D9A72541D0A86CEDF5154C412CC85762DCF124415B062FF808154C41', 'E35N33-13', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F0000010000000103000000010000000500000084E35238B3ED244187E44BAD2E4B4C41E41509F982E92441792C5EE054814C4171CB1C04749E25419666A89943824C41B6E571802AA3254181ABE0861C4C4C4184E35238B3ED244187E44BAD2E4B4C41', 'E35N33-31', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000E41509F982E92441792C5EE054814C41B2268AA94BE524416C5FDE917BB74C4122B89B95B5992541FCF837266BB84C4171CB1C04749E25419666A89943824C41E41509F982E92441792C5EE054814C41', 'E35N33-33', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000B2268AA94BE524416C5FDE917BB74C41CDC7EE4E0DE124410B8E42C2A2ED4C414873AC3AEF9425411828012D93EE4C4122B89B95B5992541FCF837266BB84C41B2268AA94BE524416C5FDE917BB74C41', 'E35N34-11', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000CDC7EE4E0DE124410B8E42C2A2ED4C41039158EEC7DC24410956FE71CA234D41BCC516F920902541985D73AEBB244D414873AC3AEF9425411828012D93EE4C41CDC7EE4E0DE124410B8E42C2A2ED4C41', 'E35N34-13', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000039158EEC7DC24410956FE71CA234D4181FBF18C7BD82441C2DF82A1F2594D416E74ACD64A8B25410CA5FBAAE45A4D41BCC516F920902541985D73AEBB244D41039158EEC7DC24410956FE71CA234D41', 'E35N34-31', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000D736D38B7FAC25417FE8D5CCCFDF4B41F745E704D9A72541D0A86CEDF5154C41DA462FDCD85D2641FB7FC6CFFE164C41160D1BED036326413118DFAAD7E04B41D736D38B7FAC25417FE8D5CCCFDF4B41', 'E35N33-12', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000F745E704D9A72541D0A86CEDF5154C41B6E571802AA3254181ABE0861C4C4C416E9B80EAA45826415C766268264D4C41DA462FDCD85D2641FB7FC6CFFE164C41F745E704D9A72541D0A86CEDF5154C41', 'E35N33-14', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000B6E571802AA3254181ABE0861C4C4C4171CB1C04749E25419666A89943824C4192525C1E68532641A27224754E834C416E9B80EAA45826415C766268264D4C41B6E571802AA3254181ABE0861C4C4C41', 'E35N33-32', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F0000010000000103000000010000000500000071CB1C04749E25419666A89943824C4122B89B95B5992541FCF837266BB84C41F4DB1A7E224E2641D0AE7BF676B94C4192525C1E68532641A27224754E834C4171CB1C04749E25419666A89943824C41', 'E35N33-34', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F0000010000000103000000010000000500000022B89B95B5992541FCF837266BB84C414873AC3AEF9425411828012D93EE4C415EC91F10D44826413925D5EC9FEF4C41F4DB1A7E224E2641D0AE7BF676B94C4122B89B95B5992541FCF837266BB84C41', 'E35N34-12', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000004873AC3AEF9425411828012D93EE4C41BCC516F920902541985D73AEBB244D41D8C8D9DA7C432641628E9B58C9254D415EC91F10D44826413925D5EC9FEF4C414873AC3AEF9425411828012D93EE4C41', 'E35N34-14', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000BCC516F920902541985D73AEBB244D416E74ACD64A8B25410CA5FBAAE45A4D41C69EC2E41C3E2641B85E373AF35B4D41D8C8D9DA7C432641628E9B58C9254D41BCC516F920902541985D73AEBB244D41', 'E35N34-32', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000160D1BED036326413118DFAAD7E04B41DA462FDCD85D2641FB7FC6CFFE164C41DEDD3343DC132741557667A323184C41E21905F38B192741070BD75EFBE14B41160D1BED036326413118DFAAD7E04B41', 'E35N33-21', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000DA462FDCD85D2641FB7FC6CFFE164C416E9B80EAA45826415C766268264D4C413AFF6ACF220E27418E14F8554C4E4C41DEDD3343DC132741557667A323184C41DA462FDCD85D2641FB7FC6CFFE164C41', 'E35N33-23', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000006E9B80EAA45826415C766268264D4C4192525C1E68532641A27224754E834C41F1219C9E5F08274179D9F47675844C413AFF6ACF220E27418E14F8554C4E4C416E9B80EAA45826415C766268264D4C41', 'E35N33-41', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F0000010000000103000000010000000500000092525C1E68532641A27224754E834C41F4DB1A7E224E2641D0AE7BF676B94C41B02DC5B7920227410A98C7069FBA4C41F1219C9E5F08274179D9F47675844C4192525C1E68532641A27224754E834C41', 'E35N33-43', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000F4DB1A7E224E2641D0AE7BF676B94C415EC91F10D44826413925D5EC9FEF4C415947F021BCFC26412200D805C9F04C41B02DC5B7920227410A98C7069FBA4C41F4DB1A7E224E2641D0AE7BF676B94C41', 'E35N34-21', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000005EC91F10D44826413925D5EC9FEF4C41D8C8D9DA7C432641628E9B58C9254D4174CA33E4DBF62641839C8B74F3264D415947F021BCFC26412200D805C9F04C415EC91F10D44826413925D5EC9FEF4C41', 'E35N34-23', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000D8C8D9DA7C432641628E9B58C9254D41C69EC2E41C3E2641B85E373AF35B4D418542B205F2F02641B1D045531E5D4D4174CA33E4DBF62641839C8B74F3264D41D8C8D9DA7C432641628E9B58C9254D41', 'E35N34-41', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000DEDD3343DC132741557667A323184C413AFF6ACF220E27418E14F8554C4E4C416E3F0E88A4C327413F9E38548E4F4C41FAE1EA94E3C92741D92FEB6C64194C41DEDD3343DC132741557667A323184C41', 'E35N33-24', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000003AFF6ACF220E27418E14F8554C4E4C41F1219C9E5F08274179D9F47675844C416656A1DB5ABD27412CF7ABA3B8854C416E3F0E88A4C327413F9E38548E4F4C413AFF6ACF220E27418E14F8554C4E4C41', 'E35N33-42', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000F1219C9E5F08274179D9F47675844C41B02DC5B7920227410A98C7069FBA4C412264489706B72741F224A95BE3BB4C416656A1DB5ABD27412CF7ABA3B8854C41F1219C9E5F08274179D9F47675844C41', 'E35N33-44', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000B02DC5B7920227410A98C7069FBA4C415947F021BCFC26412200D805C9F04C41A5FDB4C2A7B027412A0E927C0EF24C412264489706B72741F224A95BE3BB4C41B02DC5B7920227410A98C7069FBA4C41', 'E35N34-22', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000005947F021BCFC26412200D805C9F04C4174CA33E4DBF62641839C8B74F3264D415808A6653EAA2741D293C6063A284D41A5FDB4C2A7B027412A0E927C0EF24C415947F021BCFC26412200D805C9F04C41', 'E35N34-24', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F0000010000000103000000010000000500000074CA33E4DBF62641839C8B74F3264D418542B205F2F02641B1D045531E5D4D41AAB2E787CAA32741348FA4FA655E4D415808A6653EAA2741D293C6063A284D4174CA33E4DBF62641839C8B74F3264D41', 'E35N34-42', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000006E3F0E88A4C327413F9E38548E4F4C416656A1DB5ABD27412CF7ABA3B8854C41DA21202C5A722841C0194C0018874C41253B376D2A792841AB932B68EC504C416E3F0E88A4C327413F9E38548E4F4C41', 'E36N33-31', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000006656A1DB5ABD27412CF7ABA3B8854C412264489706B72741F224A95BE3BB4C4168B240717E6B28410F3D1DFA43BD4C41DA21202C5A722841C0194C0018874C416656A1DB5ABD27412CF7ABA3B8854C41', 'E36N33-33', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000002264489706B72741F224A95BE3BB4C41A5FDB4C2A7B027412A0E927C0EF24C412CE3F24497642841B79CFA5570F34C4168B240717E6B28410F3D1DFA43BD4C412264489706B72741F224A95BE3BB4C41', 'E36N34-11', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000A5FDB4C2A7B027412A0E927C0EF24C415808A6653EAA2741D293C6063A284D4102149FAFA45D284178F43D149D294D412CE3F24497642841B79CFA5570F34C41A5FDB4C2A7B027412A0E927C0EF24C41', 'E36N34-13', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000005808A6653EAA2741D293C6063A284D41AAB2E787CAA32741348FA4FA655E4D412806BCB9A6562841CF1A3F35CA5F4D4102149FAFA45D284178F43D149D294D415808A6653EAA2741D293C6063A284D41', 'E36N34-31', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000DA21202C5A722841C0194C0018874C4168B240717E6B28410F3D1DFA43BD4C412E26379AFA1F2941156090E7C0BE4C417837BAE65D272941D7A2479293884C41DA21202C5A722841C0194C0018874C41', 'E36N33-34', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F0000010000000103000000010000000500000068B240717E6B28410F3D1DFA43BD4C412CE3F24497642841B79CFA5570F34C41FA251BFB8A1829415D117897EEF44C412E26379AFA1F2941156090E7C0BE4C4168B240717E6B28410F3D1DFA43BD4C41', 'E36N34-12', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000002CE3F24497642841B79CFA5570F34C4102149FAFA45D284178F43D149D294D41F31579120F11294174D251A21C2B4D41FA251BFB8A1829415D117897EEF44C412CE3F24497642841B79CFA5570F34C41', 'E36N34-14', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F0000010000000103000000010000000500000002149FAFA45D284178F43D149D294D412806BCB9A6562841CF1A3F35CA5F4D41244E73E9860929410CFF6E084B614D41F31579120F11294174D251A21C2B4D4102149FAFA45D284178F43D149D294D41', 'E36N34-32', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000007837BAE65D272941D7A2479293884C412E26379AFA1F2941156090E7C0BE4C41B603A0667BD42941B3C9DE295AC04C419E35FD6166DC2941502C815F2B8A4C417837BAE65D272941D7A2479293884C41', 'E36N33-43', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F000001000000010300000001000000050000002E26379AFA1F2941156090E7C0BE4C41FA251BFB8A1829415D117897EEF44C419F79893783CC2941EE0CE04689F64C41B603A0667BD42941B3C9DE295AC04C412E26379AFA1F2941156090E7C0BE4C41', 'E36N34-21', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000FA251BFB8A1829415D117897EEF44C41F31579120F11294174D251A21C2B4D41B20E78DE7DC42941BFF7D0B6B82C4D419F79893783CC2941EE0CE04689F64C41FA251BFB8A1829415D117897EEF44C41', 'E36N34-23', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+INSERT INTO "public"."grid_eamena_lebanon" ("the_geom" , "name", "descriptio", "timestamp", "begin", "end", "altitudemo", "tessellate", "extrude", "visibility", "draworder", "icon", "snippet") VALUES ('01060000207C7F00000100000001030000000100000005000000F31579120F11294174D251A21C2B4D41244E73E9860929410CFF6E084B614D41EBC93A656BBC2941D3F3FB79E8624D41B20E78DE7DC42941BFF7D0B6B82C4D41F31579120F11294174D251A21C2B4D41', 'E36N34-41', '<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="mar', NULL, NULL, NULL, NULL, -1, 0, 0, NULL, NULL, NULL);
+COMMIT;
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
