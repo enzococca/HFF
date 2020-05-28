@@ -235,6 +235,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
 
         sito = self.comboBox_name_site.currentText()
         self.comboBox_name_site.setEditText(sito)
+        self.empty_fields()
         self.fill_fields()
         self.model = QStandardItemModel()
         
@@ -529,14 +530,20 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.BROWSE_STATUS = "n"
             self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
             self.empty_fields()
-            self.label_sort.setText(self.SORTED_ITEMS["n"])
-
+            
             self.setComboBoxEnable(["self.comboBox_name_site"], "True")
             self.setComboBoxEditable(["self.comboBox_name_site"], 1)
             # self.setComboBoxEnable(["self.comboBox_type"], "True")
             # self.setComboBoxEditable(["self.comboBox_type"], 1)
 
+            self.SORT_STATUS = "n"
+            self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
+
+            self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
             self.set_rec_counter('', '')
+            self.label_sort.setText(self.SORTED_ITEMS["n"])
+            self.empty_fields()
+
             self.enable_button(0)
 
     def on_pushButton_save_pressed(self):
@@ -549,11 +556,11 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                                                        "The record has been changed. Do you want to save the changes?",
                                                        QMessageBox.Ok | QMessageBox.Cancel))
                     self.empty_fields()
-                    self.fill_fields(self.REC_CORR)
+                    
                     self.SORT_STATUS = "n"
                     self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
                     self.enable_button(1)
-                    
+                    self.fill_fields(self.REC_CORR)
                     
                 else:
 
@@ -645,10 +652,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 str(self.lineEdit_fromdate.text()),  # 4 - comune
                 str(self.lineEdit_todate.text()),  # 4 - comune
                 str(self.comboBox_locationcertainties.currentText()),  # 4 - comune
-                str(self.combobox_mn.currentText()),  # 4 - comune
-                str(self.combobox_mt.currentText()),
-                str(self.combobox_mu.currentText()),  # 4 - comune
-                str(self.combobox_mst.currentText()),
+                str(self.comboBox_mn.currentText()),  # 4 - comune
+                str(self.comboBox_mt.currentText()),
+                str(self.comboBox_mu.currentText()),  # 4 - comune
+                str(self.comboBox_mst.currentText()),
                 str(self.comboBox_definiton.currentText()),  # 4 - comune
                 str(self.textEdit_description.toPlainText()),
                 str(self.comboBox_cp.currentText()), 
@@ -899,22 +906,22 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
 
     def on_pushButton_view_all_pressed(self):
 
-        if self.check_record_state() == 1:
-            pass
+        self.empty_fields()
+        self.charge_records()
+        self.fill_fields()
+        self.BROWSE_STATUS = "b"
+        self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+        if type(self.REC_CORR) == "<class 'str'>":
+            corr = 0
         else:
-            self.empty_fields()
-            self.charge_records()
-            self.fill_fields()
-            self.BROWSE_STATUS = "b"
-            self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
-            if type(self.REC_CORR) == "<type 'str'>":
-                corr = 0
-            else:
-                corr = self.REC_CORR
-            self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR + 1)
-            self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), 0
-            self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
-            self.label_sort.setText(self.SORTED_ITEMS["n"])
+            corr = self.REC_CORR
+        self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR + 1)
+        self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), 0
+        self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+        self.SORT_STATUS = "n"
+        self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
+
+        # records surf functions
 
             
     def on_pushButton_first_rec_pressed(self):
@@ -1053,10 +1060,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 self.TABLE_FIELDS[10]:"'" + str(self.lineEdit_fromdate.text()) + "'",  # 4 - comune
                 self.TABLE_FIELDS[11]:"'" + str(self.lineEdit_todate.text()) + "'",  # 4 - comune
                 self.TABLE_FIELDS[12]:"'" + str(self.comboBox_locationcertainties.currentText()) + "'",  # 4 - comune
-                self.TABLE_FIELDS[13]:"'" + str(self.combobox_mn.currentText()) + "'",  # 4 - comune
-                self.TABLE_FIELDS[14]:"'" + str(self.combobox_mt.currentText()) + "'",  # 4 - comune
-                self.TABLE_FIELDS[15]:"'" + str(self.combobox_mu.currentText()) + "'",  # 4 - comune
-                self.TABLE_FIELDS[16]:"'" + str(self.combobox_mst.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[13]:"'" + str(self.comboBox_mn.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[14]:"'" + str(self.comboBox_mt.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[15]:"'" + str(self.comboBox_mu.currentText()) + "'",  # 4 - comune
+                self.TABLE_FIELDS[16]:"'" + str(self.comboBox_mst.currentText()) + "'",  # 4 - comune
                 self.TABLE_FIELDS[17]:"'" + str(self.comboBox_definiton.currentText()) + "'",  # 4 - comune
                 self.TABLE_FIELDS[18]:"'" + str(self.textEdit_description.toPlainText()) + "'", # 4 - comune
                 self.TABLE_FIELDS[19]:"'" + str(self.comboBox_cp.currentText()) + "'",  # 4 - comune
@@ -1281,10 +1288,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.lineEdit_fromdate.clear()    # 4 - comune
         self.lineEdit_todate.clear()    # 4 - comune
         self.comboBox_locationcertainties.setEditText("")  # 4 - comune
-        self.combobox_mn.setEditText("")   # 4 - comune
-        self.combobox_mt.setEditText("")   
-        self.combobox_mu.setEditText("")     # 4 - comune
-        self.combobox_mst.setEditText("")   
+        self.comboBox_mn.setEditText("")   # 4 - comune
+        self.comboBox_mt.setEditText("")   
+        self.comboBox_mu.setEditText("")     # 4 - comune
+        self.comboBox_mst.setEditText("")   
         self.comboBox_definiton.setEditText("")  # 4 - comune
         self.textEdit_description.clear()
         self.comboBox_cp.setEditText("") 
@@ -1378,10 +1385,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             str(self.lineEdit_fromdate.setText(self.DATA_LIST[self.rec_num].dfd)) # 4 - comune
             str(self.lineEdit_todate.setText(self.DATA_LIST[self.rec_num].dft))# 4 - comune
             str(self.comboBox_locationcertainties.setEditText(self.DATA_LIST[self.rec_num].lc))  # 4 - comune
-            str(self.combobox_mn.setEditText(self.DATA_LIST[self.rec_num].mn))  # 4 - comune
-            str(self.combobox_mt.setEditText(self.DATA_LIST[self.rec_num].mt))
-            str(self.combobox_mu.setEditText(self.DATA_LIST[self.rec_num].mu))  # 4 - comune
-            str(self.combobox_mst.setEditText(self.DATA_LIST[self.rec_num].ms))
+            str(self.comboBox_mn.setEditText(self.DATA_LIST[self.rec_num].mn))  # 4 - comune
+            str(self.comboBox_mt.setEditText(self.DATA_LIST[self.rec_num].mt))
+            str(self.comboBox_mu.setEditText(self.DATA_LIST[self.rec_num].mu))  # 4 - comune
+            str(self.comboBox_mst.setEditText(self.DATA_LIST[self.rec_num].ms))
             str(self.comboBox_definiton.setEditText(self.DATA_LIST[self.rec_num].desc_type))  # 4 - comune
             str(self.textEdit_description.setText(self.DATA_LIST[self.rec_num].description))
             str(self.comboBox_cp.setEditText(self.DATA_LIST[self.rec_num].cd))
@@ -1488,10 +1495,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             str(self.lineEdit_fromdate.text()),  # 4 - comune
             str(self.lineEdit_todate.text()),  # 4 - comune
             str(self.comboBox_locationcertainties.currentText()),  # 4 - comune
-            str(self.combobox_mn.currentText()),  # 4 - comune
-            str(self.combobox_mt.currentText()),
-            str(self.combobox_mu.currentText()),  # 4 - comune
-            str(self.combobox_mst.currentTextt()),
+            str(self.comboBox_mn.currentText()),  # 4 - comune
+            str(self.comboBox_mt.currentText()),
+            str(self.comboBox_mu.currentText()),  # 4 - comune
+            str(self.comboBox_mst.currentText()),
             str(self.comboBox_definiton.currentText()),  # 4 - comune
             str(self.textEdit_description.toPlainText()),
             str(self.comboBox_cp.currentText()), 

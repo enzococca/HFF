@@ -257,6 +257,7 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
 
         sito = self.comboBox_nome_site.currentText()
         self.comboBox_nome_site.setEditText(sito)
+        self.empty_fields()
         self.fill_fields()
         self.pbnOpenSiteDirectory.clicked.connect(self.openSiteDir)
         self.pbn_browse_folder.clicked.connect(self.setPathToSites)
@@ -940,14 +941,17 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
             self.BROWSE_STATUS = "n"
             self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
             self.empty_fields()
-            self.label_sort.setText(self.SORTED_ITEMS["n"])
 
             self.setComboBoxEnable(["self.comboBox_nome_site"], "True")
             self.setComboBoxEditable(["self.comboBox_nome_site"], 1)
-            # self.setComboBoxEnable(["self.comboBox_type"], "True")
-            # self.setComboBoxEditable(["self.comboBox_type"], 1)
+            self.SORT_STATUS = "n"
+            self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
 
+            self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
             self.set_rec_counter('', '')
+            self.label_sort.setText(self.SORTED_ITEMS["n"])
+            self.empty_fields()
+
             self.enable_button(0)
 
     def on_pushButton_save_pressed(self):
@@ -960,10 +964,12 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                                                        "The record has been changed. Do you want to save the changes?",
                                                        QMessageBox.Ok | QMessageBox.Cancel))
                     self.empty_fields()
+                    
                     self.SORT_STATUS = "n"
                     self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
                     self.enable_button(1)
                     self.fill_fields(self.REC_CORR)
+                    
                 else:
 
                     QMessageBox.warning(self, "Warning", "No changes have been made", QMessageBox.Ok)
@@ -979,7 +985,6 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
                     self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
                     self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), len(self.DATA_LIST) - 1
                     self.set_rec_counter(self.REC_TOT, self.REC_CORR + 1)
-
                     self.setComboBoxEnable(["self.comboBox_nome_site"], "False")
                     # self.setComboBoxEnable(["self.comboBox_type"], "False")
                     self.fill_fields(self.REC_CORR)
@@ -1261,26 +1266,24 @@ class pyarchinit_Site(QDialog, MAIN_DIALOG_CLASS):
 
     def on_pushButton_view_all_pressed(self):
 
-        if self.check_record_state() == 1:
-            pass
+        self.empty_fields()
+        self.charge_records()
+        self.fill_fields()
+        self.BROWSE_STATUS = "b"
+        self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+        if type(self.REC_CORR) == "<class 'str'>":
+            corr = 0
         else:
-            self.empty_fields()
-            self.charge_records()
-            self.fill_fields()
-            self.BROWSE_STATUS = "b"
-            self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
-            if type(self.REC_CORR) == "<type 'str'>":
-                corr = 0
-            else:
-                corr = self.REC_CORR
-            self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR + 1)
-            self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), 0
-            self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
-            self.label_sort.setText(self.SORTED_ITEMS["n"])
+            corr = self.REC_CORR
+        self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR + 1)
+        self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), 0
+        self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+        self.SORT_STATUS = "n"
+        self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
 
-            if self.toolButtonPreviewMedia.isChecked() == True:
-                self.loadMediaPreview(1)
-                self.loadMediaPreview2(1)
+        if self.toolButtonPreviewMedia.isChecked() == True:
+            self.loadMediaPreview(1)
+            self.loadMediaPreview2(1)
     def on_pushButton_first_rec_pressed(self):
         if self.check_record_state() == 1:
             pass
