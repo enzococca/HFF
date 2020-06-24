@@ -266,7 +266,7 @@ class PyArchInitPlugin(object):
         
         
         self.iface.addPluginToMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionSite)
-       
+        self.iface.addPluginToMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionEamena)
         self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionimageViewer)
         self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionexcelExp)
         self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionImages_Directory_export)
@@ -279,7 +279,7 @@ class PyArchInitPlugin(object):
 
         # MENU
         self.menu = QMenu("HFF")
-        self.menu.addActions([self.actionSite])
+        self.menu.addActions([self.actionSite, self.actionEamena])
         self.menu.addSeparator()
         self.menu.addActions([self.actionUW, self.actionART, self.actionANC, self.actionPottery])
         
