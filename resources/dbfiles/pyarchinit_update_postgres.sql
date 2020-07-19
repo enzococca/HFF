@@ -408,7 +408,7 @@ CREATE INDEX IF NOT EXISTS sidx_site_line_the_geom
 CREATE TABLE IF NOT EXISTS public.site_point
 (
     id integer NOT NULL DEFAULT nextval('site_point_id_seq'::regclass),
-    the_geom geometry(Point,-1),
+    the_geom geometry(Point,32636),
     gid bigint,
     location character varying COLLATE pg_catalog."default",
     name_f_p character varying COLLATE pg_catalog."default",
@@ -439,7 +439,7 @@ CREATE INDEX IF NOT EXISTS sidx_site_point_the_geom
 CREATE TABLE IF NOT EXISTS public.site_poligon
 (
     id integer NOT NULL DEFAULT nextval('site_poligon_id_seq'::regclass),
-    the_geom geometry(MultiPolygon,-1),
+    the_geom geometry(MultiPolygon,32636),
     name_feat character varying COLLATE pg_catalog."default",
     photo character varying COLLATE pg_catalog."default",
     photo2 character varying COLLATE pg_catalog."default",
