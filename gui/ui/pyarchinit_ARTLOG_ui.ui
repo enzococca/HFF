@@ -821,6 +821,19 @@
        <string>Storage</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_32">
+       <item row="3" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item row="0" column="0">
         <layout class="QGridLayout" name="gridLayout_24">
          <item row="2" column="0">
@@ -990,18 +1003,150 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
+       <item row="2" column="0">
+        <widget class="QgsDockWidget" name="mDockWidget_export">
+         <property name="minimumSize">
           <size>
-           <width>20</width>
-           <height>40</height>
+           <width>310</width>
+           <height>114</height>
           </size>
          </property>
-        </spacer>
+         <property name="floating">
+          <bool>true</bool>
+         </property>
+         <property name="windowTitle">
+          <string>Pottery export pdf</string>
+         </property>
+         <widget class="QWidget" name="dockWidgetContents_4">
+          <layout class="QGridLayout" name="gridLayout_33">
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="checkBox_e_pottery">
+             <property name="text">
+              <string>Pottery list</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QCheckBox" name="checkBox_e_foto_t">
+             <property name="text">
+              <string>Photo list with Thumbnail</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="checkBox_s_pottery">
+             <property name="text">
+              <string>Pottery form</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QCheckBox" name="checkBox_e_foto">
+             <property name="text">
+              <string>Photo list without Thumbnail</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QPushButton" name="pushButton_print">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Print</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../resources/resources.qrc">
+               <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>10</width>
+               <height>10</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QgsDockWidget" name="mDockWidget_2">
+         <property name="minimumSize">
+          <size>
+           <width>500</width>
+           <height>500</height>
+          </size>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhDialableCharactersOnly|Qt::ImhEmailCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly|Qt::ImhUppercaseOnly|Qt::ImhUrlCharactersOnly</set>
+         </property>
+         <property name="floating">
+          <bool>true</bool>
+         </property>
+         <property name="windowTitle">
+          <string>Pottery table list</string>
+         </property>
+         <widget class="QWidget" name="dockWidgetContents_5">
+          <layout class="QGridLayout" name="gridLayout_34">
+           <item row="0" column="0">
+            <widget class="QTableWidget" name="tableWidget_foto">
+             <property name="autoScrollMargin">
+              <number>16</number>
+             </property>
+             <row>
+              <property name="text">
+               <string>New Row</string>
+              </property>
+             </row>
+             <column>
+              <property name="text">
+               <string>New Column</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>New Column</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>New Column</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>New Column</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButton_go_to_scheda">
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Go to form</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -1623,7 +1768,7 @@
        </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QPushButton" name="pushButton_exppdf">
+       <widget class="QPushButton" name="pushButton_form">
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -1639,7 +1784,7 @@
        </widget>
       </item>
       <item row="2" column="3">
-       <widget class="QPushButton" name="pushButton_explist">
+       <widget class="QPushButton" name="pushButton_list">
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -1935,6 +2080,12 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>QgsDockWidget</class>
+   <extends>QDockWidget</extends>
+   <header>qgsdockwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>Mplwidget</class>
    <extends>QWidget</extends>
    <header>mplwidget</header>
@@ -1944,5 +2095,38 @@
  <resources>
   <include location="../../resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_list</sender>
+   <signal>pressed()</signal>
+   <receiver>mDockWidget_2</receiver>
+   <slot>toggleUserVisible()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>149</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>509</x>
+     <y>653</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_form</sender>
+   <signal>pressed()</signal>
+   <receiver>mDockWidget_export</receiver>
+   <slot>toggleUserVisible()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>53</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>509</x>
+     <y>778</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
