@@ -947,12 +947,24 @@ class Pyarchinit_db_management(object):
         rows= res.fetchall()
         return rows
     
-    def select_thumbnail_from_db_sql(self,sito):
-        sql_query_string = ("SELECT c.filepath, b.us,a.media_name,b.area,b.d_stratigrafica,b.unita_tipo FROM media_to_entity_table as a,  us_table as b, media_thumb_table as c WHERE b.id_us=a.id_entity and c.id_media=a.id_media and sito='%s' order by b.us")%(sito)
+    def select_thumbnail_from_db_sql(self,sito,etype):
+        sql_query_string = ("SELECT c.filepath, b.artefact_id,a.media_name,b.area,b.description FROM media_to_entity_table as a,  pottery_table as b, media_thumb_table as c WHERE b.id_rep=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.artefact_id")%(sito,etype)
         res = self.engine.execute(sql_query_string)
         rows= res.fetchall()
         return rows
-
+    
+    def select_thumbnail_art_from_db_sql(self,sito,etype):
+        sql_query_string = ("SELECT c.filepath, b.artefact_id,a.media_name,b.area,b.description FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.artefact_id")%(sito,etype)
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    
+    def select_thumbnail_anc_from_db_sql(self,sito,etype):
+        sql_query_string = ("SELECT c.filepath, b.anchors_id,a.media_name,b.area,b.anchor_type FROM media_to_entity_table as a,  anchor_table as b, media_thumb_table as c WHERE b.id_anc=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.anchors_id")%(sito,etype)
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
+    
     def select_quote_from_db_sql(self, sito, area, us):
         sql_query_string = ("SELECT * FROM pyarchinit_quote WHERE sito_q = '%s' AND area_q = '%s' AND us_q = '%s'") % (
         sito, area, us)
