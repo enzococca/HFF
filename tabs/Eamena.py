@@ -37,11 +37,11 @@ from qgis.PyQt.QtCore import QUrl, QVariant,Qt, QSize,QPersistentModelIndex
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QListWidget, QListView, QFrame, QAbstractItemView,QFileDialog, QTableWidgetItem, QListWidgetItem
 from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsSettings
-from ..modules.utility.hff_system__OS_utility import Pyarchinit_OS_Utility
+from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
 from ..modules.db.hff_system__conn_strings import Connection
-from ..modules.db.hff_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
-from ..modules.gis.hff_system__pyqgis import Pyarchinit_pyqgis
+from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 from ..modules.utility.print_relazione_pdf import exp_rel_pdf
 from ..modules.utility.hff_system__error_check import Error_check
 from ..modules.utility.delegateComboBox import ComboBoxDelegate
@@ -222,7 +222,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
     def __init__(self, iface):
         super().__init__()
         self.iface = iface
-        self.pyQGIS = Pyarchinit_pyqgis(iface)
+        self.pyQGIS = Hff_pyqgis(iface)
         self.setupUi(self)
 
         self.currentLayerId = None
@@ -306,7 +306,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.DB_SERVER = "sqlite"
 
         try:
-            self.DB_MANAGER = Pyarchinit_db_management(conn_str)
+            self.DB_MANAGER = Hff_db_management(conn_str)
             self.DB_MANAGER.connection()
             self.charge_records()  # charge records from DB
             # check if DB is empty

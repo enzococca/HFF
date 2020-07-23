@@ -36,16 +36,16 @@ import time
 import pandas as pd
 import numpy as np
 from ..modules.db.hff_system__conn_strings import Connection
-from ..modules.db.hff_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import *
 
-from ..modules.utility.hff_system__OS_utility import Pyarchinit_OS_Utility
+from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Pdf_export.ui'))
 
 
 class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
     UTILITY = Utility()
-    OS_UTILITY = Pyarchinit_OS_Utility()
+    OS_UTILITY = Hff_OS_Utility()
     DB_MANAGER = ""
     HOME = ""
     DATA_LIST = []
@@ -88,7 +88,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
         conn = Connection()
         conn_str = conn.conn_str()
         try:
-            self.DB_MANAGER = Pyarchinit_db_management(conn_str)
+            self.DB_MANAGER = Hff_db_management(conn_str)
             self.DB_MANAGER.connection()
         except Exception as e:
             e = str(e)
@@ -175,9 +175,9 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
             return x
     def load_spatialite(self,conn, connection_record):
         conn.enable_load_extension(True)
-        if Pyarchinit_OS_Utility.isWindows()== True:
+        if Hff_OS_Utility.isWindows()== True:
             conn.load_extension('mod_spatialite.dll')
-        elif Pyarchinit_OS_Utility.isMac()== True:
+        elif Hff_OS_Utility.isMac()== True:
             conn.load_extension('mod_spatialite.dylib')
         else:
             conn.load_extension('mod_spatialite.so')  

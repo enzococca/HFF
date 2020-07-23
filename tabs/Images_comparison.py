@@ -32,7 +32,7 @@ import numpy as np
 
 from ..modules.utility.hff_system__media_utility import *
 from ..modules.db.hff_system__conn_strings import Connection
-from ..modules.db.hff_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
 
 filepath = os.path.dirname(__file__)
@@ -75,7 +75,7 @@ class Comparision(QDialog, MAIN_DIALOG_CLASS):
         conn = Connection()
         conn_str = conn.conn_str()
         try:
-            self.DB_MANAGER = Pyarchinit_db_management(conn_str)
+            self.DB_MANAGER = Hff_db_management(conn_str)
             self.DB_MANAGER.connection()
         except Exception as e:
             e = str(e)

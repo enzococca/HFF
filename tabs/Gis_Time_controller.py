@@ -33,8 +33,8 @@ from qgis.PyQt.uic import loadUiType
 from qgis.core import Qgis, QgsMessageLog, QgsSettings
 
 from ..modules.db.hff_system__conn_strings import Connection
-from ..modules.db.hff_db_manager import Pyarchinit_db_management
-from ..modules.gis.hff_system__pyqgis import Pyarchinit_pyqgis
+from ..modules.db.hff_db_manager import Hff_db_management
+from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 from .US_USM import hff_system__US
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
@@ -43,7 +43,7 @@ MAIN_DIALOG_CLASS, _ = loadUiType(
 
 class hff_system__Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
     L=QgsSettings().value("locale/userLocale")[0:2]
-    MSG_BOX_TITLE = "PyArchInit - Gis Time Management"
+    MSG_BOX_TITLE = "HFF- Gis Time Management"
     DB_MANAGER = ""
     ORDER_LAYER_VALUE = ""
     MAPPER_TABLE_CLASS = "US"
@@ -51,7 +51,7 @@ class hff_system__Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
     def __init__(self, iface):
         super().__init__()
         self.iface = iface
-        self.pyQGIS = Pyarchinit_pyqgis(iface)
+        self.pyQGIS = Hff_pyqgis(iface)
         self.setupUi(self)
 
         self.currentLayerId = None
@@ -73,7 +73,7 @@ class hff_system__Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
         conn = Connection()
         conn_str = conn.conn_str()
         try:
-            self.DB_MANAGER = Pyarchinit_db_management(conn_str)
+            self.DB_MANAGER = Hff_db_management(conn_str)
             self.DB_MANAGER.connection()
         except Exception as e:
             e = str(e)

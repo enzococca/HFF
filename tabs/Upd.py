@@ -27,15 +27,15 @@ from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt.uic import loadUiType
 
 from ..modules.db.hff_system__conn_strings import Connection
-from ..modules.db.hff_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
-from ..modules.gis.hff_system__pyqgis import Pyarchinit_pyqgis
+from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Upd.ui'))
 
 
 class hff_system__Upd_Values(QDialog, MAIN_DIALOG_CLASS):
-    MSG_BOX_TITLE = "PyArchInit - Aggiornamento Valori"
+    MSG_BOX_TITLE = "HFF- Aggiornamento Valori"
     DATA_LIST = []
     DATA_LIST_REC_CORR = []
     DATA_LIST_REC_TEMP = []
@@ -57,7 +57,7 @@ class hff_system__Upd_Values(QDialog, MAIN_DIALOG_CLASS):
 
     def __init__(self, iface):
         self.iface = iface
-        self.pyQGIS = Pyarchinit_pyqgis(self.iface)
+        self.pyQGIS = Hff_pyqgis(self.iface)
 
         QDialog.__init__(self)
         self.setupUi(self)
@@ -70,7 +70,7 @@ class hff_system__Upd_Values(QDialog, MAIN_DIALOG_CLASS):
         conn = Connection()
         conn_str = conn.conn_str()
         try:
-            self.DB_MANAGER = Pyarchinit_db_management(conn_str)
+            self.DB_MANAGER = Hff_db_management(conn_str)
             self.DB_MANAGER.connection()
         except:
             pass

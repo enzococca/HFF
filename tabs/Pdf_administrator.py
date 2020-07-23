@@ -30,7 +30,7 @@ from builtins import str
 from gui.sortpanelmain import SortPanelMain
 from .US_USM import hff_system__US
 from ..modules.db.hff_system__conn_strings import Connection
-from ..modules.db.hff_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
@@ -38,7 +38,7 @@ MAIN_DIALOG_CLASS, _ = loadUiType(
 
 
 class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
-    MSG_BOX_TITLE = "PyArchInit - hff_system__version 0.4 - Gestione PDF"
+    MSG_BOX_TITLE = "HFF- hff_system__version 0.4 - Gestione PDF"
     DATA_LIST = []
     DATA_LIST_REC_CORR = []
     DATA_LIST_REC_TEMP = []
@@ -88,7 +88,7 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
         self.setupUi(self)
         ##  def __init__(self, iface):
         ##      self.iface = iface
-        ##      #self.pyQGIS = Pyarchinit_pyqgis(self.iface)
+        ##      #self.pyQGIS = Hff_pyqgis(self.iface)
         ##      QDialog.__init__(self)
         ##      self.setupUi(self)
         self.currentLayerId = None
@@ -144,7 +144,7 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
         conn = Connection()
         conn_str = conn.conn_str()
         try:
-            self.DB_MANAGER = Pyarchinit_db_management(conn_str)
+            self.DB_MANAGER = Hff_db_management(conn_str)
             self.DB_MANAGER.connection()
             self.charge_records()  # charge records from DB
             # check if DB is empty

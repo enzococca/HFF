@@ -457,7 +457,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
     def connection(self):
         conn_str = conn.conn_str()
         try:
-            self.DB_MANAGER = Pyarchinit_db_management(conn_str)
+            self.DB_MANAGER = Hff_db_management(conn_str)
             self.DB_MANAGER.connection()
             self.charge_records()
             #check if DB is empty
