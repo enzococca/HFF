@@ -28,7 +28,7 @@ from qgis.core import QgsProject, QgsDataSourceUri, QgsVectorLayer, QgsCoordinat
 from qgis.gui import QgsMapCanvas
 
 from ..utility.settings import Settings
-class Pyarchinit_pyqgis(QDialog):
+class Hff_pyqgis(QDialog):
     
     HOME = os.environ['HFF_HOME']
     FILEPATH = os.path.dirname(__file__)
