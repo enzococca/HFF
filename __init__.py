@@ -47,13 +47,6 @@ if not os.path.isfile(confing_path):
 
 missing_libraries = []
 
-try:
-    import pkg_resources
-    pkg_resources.require("pip")
-    import pip
-    
-except Exception as e:
-    missing_libraries.append(str(e))
 
 
 try:
@@ -116,23 +109,29 @@ if install_libraries:
     if res == QMessageBox.Ok:
         import subprocess
 
+        python_path = sys.exec_prefix
+        python_version = sys.version[:3]
+        if Pyarchinit_OS_Utility.isWindows():
+            cmd = '{}/python'.format(python_path)
+        else:
+            cmd = '{}/bin/python{}'.format(python_path, python_version)
         try:
-            cmd = 'python3'
-            subprocess.call([cmd,'{}'.format(os.path.join(os.path.dirname(__file__), 'scripts', 'modules_installer.py')),
-                             ','.join(install_libraries)], shell=True if Pyarchinit_OS_Utility.isWindows() else False)
+            subprocess.call(
+                [cmd, '{}'.format(os.path.join(os.path.dirname(__file__), 'scripts', 'modules_installer.py')),
+                 ','.join(install_libraries)], shell=True if Pyarchinit_OS_Utility.isWindows() else False)
         except Exception as e:
             if Pyarchinit_OS_Utility.isMac():
-                python_version = sys.version[:3]
                 library_path = '/Library/Frameworks/Python.framework/Versions/{}/bin'.format(python_version)
-                cmd = '{}/python3'.format(library_path)
+                cmd = '{}/python{}'.format(library_path, python_version)
                 subprocess.call(
                     [cmd, '{}'.format(os.path.join(os.path.dirname(__file__), 'scripts', 'modules_installer.py')),
                      ','.join(install_libraries)])
             else:
                 error = traceback.format_exc()
-                QgsMessageLog.logMessage(error, tag="HFF-survey", level=Qgis.Critical)
+                QgsMessageLog.logMessage(error, tag="PyArchInit", level=Qgis.Critical)
     else:
         pass
+
 
 
                    
