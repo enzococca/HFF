@@ -12,7 +12,7 @@
 name=HFF
 qgisMinimumVersion=3.0
 description=HFF-survey a tool for underwater and terrestrial archaeological survey
-version=4.0.0
+version=5.0.0
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
 
