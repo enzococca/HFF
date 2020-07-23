@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -35,15 +35,15 @@ import sqlite3 as sq
 import time
 import pandas as pd
 import numpy as np
-from ..modules.db.pyarchinit_conn_strings import Connection
+from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Pyarchinit_db_management
-from ..modules.db.pyarchinit_utility import *
+from ..modules.db.hff_system__utility import *
 
-from ..modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
+from ..modules.utility.hff_system__OS_utility import Pyarchinit_OS_Utility
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Pdf_export.ui'))
 
 
-class pyarchinit_excel_export(QDialog, MAIN_DIALOG_CLASS):
+class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
     UTILITY = Utility()
     OS_UTILITY = Pyarchinit_OS_Utility()
     DB_MANAGER = ""
@@ -573,6 +573,6 @@ if __name__ == '__main__':
     import sys
 
     app = QApplication(sys.argv)
-    ui = pyarchinit_pdf_export()
+    ui = hff_system__pdf_export()
     ui.show()
     sys.exit(app.exec_())

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -34,14 +34,14 @@ from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QAbstractItemView, QListWi
 from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsSettings
 from gui.imageViewer import ImageViewer
-from ..modules.db.pyarchinit_conn_strings import *
+from ..modules.db.hff_system__conn_strings import *
 from ..modules.db.hff_db_manager import *
-from ..modules.db.pyarchinit_utility import *
+from ..modules.db.hff_system__utility import *
 from ..modules.utility.delegateComboBox import *
-from ..modules.utility.pyarchinit_media_utility import *
+from ..modules.utility.hff_system__media_utility import *
 from sqlalchemy import and_, or_, Table, select, func, asc
 MAIN_DIALOG_CLASS, _ = loadUiType(
-    os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'pyarchinit_image_viewer_dialog.ui'))
+    os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'hff_system__image_viewer_dialog.ui'))
 
 conn = Connection()
 class Main(QDialog, MAIN_DIALOG_CLASS):

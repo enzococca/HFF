@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -32,16 +32,16 @@ from qgis.PyQt.QtWidgets import QApplication, QDialog, QMessageBox
 from qgis.PyQt.uic import loadUiType
 from qgis.core import Qgis, QgsMessageLog, QgsSettings
 
-from ..modules.db.pyarchinit_conn_strings import Connection
+from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Pyarchinit_db_management
-from ..modules.gis.pyarchinit_pyqgis import Pyarchinit_pyqgis
-from .US_USM import pyarchinit_US
+from ..modules.gis.hff_system__pyqgis import Pyarchinit_pyqgis
+from .US_USM import hff_system__US
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Gis_Time_controller.ui'))
 
 
-class pyarchinit_Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
+class hff_system__Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
     L=QgsSettings().value("locale/userLocale")[0:2]
     MSG_BOX_TITLE = "PyArchInit - Gis Time Management"
     DB_MANAGER = ""
@@ -109,9 +109,9 @@ class pyarchinit_Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
 
         except Exception as e:
             QgsMessageLog.logMessage(
-                "You must to load pyarchinit_us_view and/or select it from pyarchinit GeoDatabase" + str(e))
+                "You must to load hff_system__us_view and/or select it from hff_system_ GeoDatabase" + str(e))
             self.iface.messageBar().pushMessage("Help",
-                                                "You must to load pyarchinit_us_view and/or select it from pyarchinit GeoDatabase",
+                                                "You must to load hff_system__us_view and/or select it from hff_system_ GeoDatabase",
                                                 level=Qgis.Warning)
 
     def reset_query(self):
@@ -171,6 +171,6 @@ class pyarchinit_Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ui = pyarchinit_US()
+    ui = hff_system__US()
     ui.show()
     sys.exit(app.exec_())

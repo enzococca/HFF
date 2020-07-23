@@ -2,7 +2,7 @@
 # -*- coding: utf 8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              stored in Postgres
                              -------------------
     begin                : 2020-01-01
@@ -37,20 +37,20 @@ from qgis.PyQt.QtCore import QUrl, QVariant,Qt, QSize,QPersistentModelIndex
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QListWidget, QListView, QFrame, QAbstractItemView,QFileDialog, QTableWidgetItem, QListWidgetItem
 from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsSettings
-from ..modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
-from ..modules.db.pyarchinit_conn_strings import Connection
+from ..modules.utility.hff_system__OS_utility import Pyarchinit_OS_Utility
+from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Pyarchinit_db_management
-from ..modules.db.pyarchinit_utility import Utility
-from ..modules.gis.pyarchinit_pyqgis import Pyarchinit_pyqgis
+from ..modules.db.hff_system__utility import Utility
+from ..modules.gis.hff_system__pyqgis import Pyarchinit_pyqgis
 from ..modules.utility.print_relazione_pdf import exp_rel_pdf
-from ..modules.utility.pyarchinit_error_check import Error_check
+from ..modules.utility.hff_system__error_check import Error_check
 from ..modules.utility.delegateComboBox import ComboBoxDelegate
 from ..test_area import Test_area
 from ..gui.imageViewer import ImageViewer
 from ..gui.sortpanelmain import SortPanelMain
-from .Excel_export import pyarchinit_excel_export
+from .Excel_export import hff_system__excel_export
 from qgis.gui import QgsMapCanvas, QgsMapToolPan
-from ..modules.utility.pyarchinit_exp_site_pdf import *
+from ..modules.utility.hff_system__exp_site_pdf import *
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Eamena.ui'))
 
 

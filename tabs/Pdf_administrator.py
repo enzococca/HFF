@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-    pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset stored in Postgres
+    HFF_system Plugin  - A QGIS plugin to manage archaeological dataset stored in Postgres
 
     begin                : 2007-12-01
     copyright            : (C) 2008 by Luca Mandolesi
@@ -28,17 +28,17 @@ from builtins import range
 from builtins import str
 
 from gui.sortpanelmain import SortPanelMain
-from .US_USM import pyarchinit_US
-from ..modules.db.pyarchinit_conn_strings import Connection
+from .US_USM import hff_system__US
+from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Pyarchinit_db_management
-from ..modules.db.pyarchinit_utility import Utility
+from ..modules.db.hff_system__utility import Utility
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Pdf_administrator.ui'))
 
 
-class pyarchinit_PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
-    MSG_BOX_TITLE = "PyArchInit - pyarchinit_version 0.4 - Gestione PDF"
+class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
+    MSG_BOX_TITLE = "PyArchInit - hff_system__version 0.4 - Gestione PDF"
     DATA_LIST = []
     DATA_LIST_REC_CORR = []
     DATA_LIST_REC_TEMP = []
@@ -140,7 +140,7 @@ class pyarchinit_PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
         self.pushButton_sort.setEnabled(n)
 
     def connect(self):
-        from pyarchinit_conn_strings import *
+        from hff_system__conn_strings import *
         conn = Connection()
         conn_str = conn.conn_str()
         try:
@@ -158,7 +158,7 @@ class pyarchinit_PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
                 self.fill_fields()
             else:
                 QMessageBox.warning(self, "BENVENUTO",
-                                    "Benvenuto in pyArchInit" + self.NOME_SCHEDA + ". Il database e' vuoto. Premi 'Ok' e buon lavoro!",
+                                    "Benvenuto in HFF_system" + self.NOME_SCHEDA + ". Il database e' vuoto. Premi 'Ok' e buon lavoro!",
                                     QMessageBox.Ok)
                 # QMessageBox.warning(self, "BENVENUTO", "lanciato da connect prima di charge list",  QMessageBox.Ok)
                 self.BROWSE_STATUS = 'x'
@@ -694,6 +694,6 @@ class pyarchinit_PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ui = pyarchinit_US()
+    ui = hff_system__US()
     ui.show()
     sys.exit(app.exec_())

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -30,10 +30,10 @@ from qgis.PyQt.uic import loadUiType
 from PIL import Image
 import numpy as np
 
-from ..modules.utility.pyarchinit_media_utility import *
-from ..modules.db.pyarchinit_conn_strings import Connection
+from ..modules.utility.hff_system__media_utility import *
+from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Pyarchinit_db_management
-from ..modules.db.pyarchinit_utility import Utility
+from ..modules.db.hff_system__utility import Utility
 
 filepath = os.path.dirname(__file__)
 
@@ -67,7 +67,7 @@ class Comparision(QDialog, MAIN_DIALOG_CLASS):
     def __init__(self):
         QDialog.__init__(self)
         self.setupUi(self)
-        self.setWindowTitle("pyArchInit - Images Comparision Tools")
+        self.setWindowTitle("HFF_system - Images Comparision Tools")
         QMessageBox.warning(self, "Alert", "Sistema sperimentale solo per lo sviluppo", QMessageBox.Ok)
 
     def connection(self):

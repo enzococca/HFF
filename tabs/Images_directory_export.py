@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -28,17 +28,17 @@ from builtins import str
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt.uic import loadUiType
 import platform
-from gui.pyarchinitConfigDialog import pyArchInitDialog_Config
-from ..modules.db.pyarchinit_conn_strings import Connection
+from ..gui.hff_system_ConfigDialog import HFF_systemDialog_Config
+from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Pyarchinit_db_management
-from ..modules.db.pyarchinit_utility import Utility
-from ..modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
+from ..modules.db.hff_system__utility import Utility
+from ..modules.utility.hff_system__OS_utility import Pyarchinit_OS_Utility
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Images_directory_export.ui'))
 
 
-class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
+class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
     UTILITY = Utility()
     OS_UTILITY = Pyarchinit_OS_Utility()
     DB_MANAGER = ""
@@ -388,6 +388,6 @@ class pyarchinit_Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
             subprocess.Popen(["xdg-open", path])
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ui = pyArchInitDialog_Config()
+    ui = HFF_systemDialog_Config()
     ui.show()
     sys.exit(app.exec_())

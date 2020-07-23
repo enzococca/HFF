@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
         					 stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -26,15 +26,15 @@ import os
 from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 from qgis.PyQt.uic import loadUiType
 
-from ..modules.db.pyarchinit_conn_strings import Connection
+from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Pyarchinit_db_management
-from ..modules.db.pyarchinit_utility import Utility
-from ..modules.gis.pyarchinit_pyqgis import Pyarchinit_pyqgis
+from ..modules.db.hff_system__utility import Utility
+from ..modules.gis.hff_system__pyqgis import Pyarchinit_pyqgis
 
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Upd.ui'))
 
 
-class pyarchinit_Upd_Values(QDialog, MAIN_DIALOG_CLASS):
+class hff_system__Upd_Values(QDialog, MAIN_DIALOG_CLASS):
     MSG_BOX_TITLE = "PyArchInit - Aggiornamento Valori"
     DATA_LIST = []
     DATA_LIST_REC_CORR = []
