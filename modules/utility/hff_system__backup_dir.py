@@ -24,15 +24,15 @@ from builtins import str
 import shutil
 from datetime import *
 
-PYARCHINIT_PATH = '/hff_system_'
+HFF_PATH = '/hff_system_'
 
 
 def main():
     now_day, now_time = date.today(), datetime.now()
     today, hour = now_day.strftime("_%d_%m_%Y_"), now_time.strftime('%H_%M_%S')
     today_time = today + hour
-    dest = ('%s/backup/hff_system__US_back_up_%s') % (PYARCHINIT_PATH, str(today_time))
-    src = ('%s/hff_system__US') % (PYARCHINIT_PATH)
+    dest = ('%s/backup/hff_system__US_back_up_%s') % (HFF_PATH, str(today_time))
+    src = ('%s/hff_system__US') % (HFF_PATH)
     shutil.copytree(src, dest)
 
 

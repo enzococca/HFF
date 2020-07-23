@@ -24,7 +24,7 @@ from os.path import expanduser
 from builtins import object
 from builtins import str
 
-from .hff_system__OS_utility import Pyarchinit_OS_Utility
+from .hff_system__OS_utility import Hff_OS_Utility
 
 
 class hff_system__Folder_installation(object):
@@ -33,7 +33,7 @@ class hff_system__Folder_installation(object):
     os.environ['HFF_HOME'] = HOME
     RESOURCES_PATH = os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'resources')
 
-    OS_UTILITY = Pyarchinit_OS_Utility()
+    OS_UTILITY = Hff_OS_Utility()
 
     def install_dir(self):
         home_DB_path = '{}{}{}'.format(self.HOME, os.sep, 'HFF_DB_folder')

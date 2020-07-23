@@ -27,7 +27,7 @@ import time
 import os
 
 from ..db.hff_system__conn_strings import Connection
-from ..db.hff_db_manager import Pyarchinit_db_management
+from ..db.hff_db_manager import Hff_db_management
 from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -125,7 +125,7 @@ class exp_rel_pdf(object):
         conn = Connection()
         conn_str = conn.conn_str()
         try:
-            self.DB_MANAGER = Pyarchinit_db_management(conn_str)
+            self.DB_MANAGER = Hff_db_management(conn_str)
             self.DB_MANAGER.connection()
         except Exception as e:
             QMessageBox.warning(self, "Alert", "La connessione e' fallita", QMessageBox.Ok)
@@ -297,7 +297,7 @@ class exp_rel_pdf(object):
 
             # Viene stampata la prima sigla di struttura
             rec_sigla_struttura = self.search_records('sigla', self.DATA_LIST[0].sigla_struttura,
-                                                      'PYARCHINIT_THESAURUS_SIGLE')
+                                                      'HFF_THESAURUS_SIGLE')
             sigla_temp = self.DATA_LIST[0].sigla_struttura
             ptext = '<font size=14 ><b>Sigla: %s - Tipologia: %s</b><br/></font>' % (
             sigla_temp, rec_sigla_struttura[0].sigla_estesa)
@@ -310,7 +310,7 @@ class exp_rel_pdf(object):
             for rec in range(len(self.DATA_LIST)):
                 if sigla_temp == self.DATA_LIST[rec].sigla_struttura:
                     rec_sigla_struttura = self.search_records('sigla', self.DATA_LIST[rec].sigla_struttura,
-                                                              'PYARCHINIT_THESAURUS_SIGLE')
+                                                              'HFF_THESAURUS_SIGLE')
                     ptext = '<font size=12 ><b> Sigla: %s%s - Tipologia: %s </b></font>' % (
                     self.DATA_LIST[rec].sigla_struttura, str(self.DATA_LIST[rec].numero_struttura),
                     rec_sigla_struttura[0].sigla_estesa)
@@ -324,7 +324,7 @@ class exp_rel_pdf(object):
                     #ptext = '<bullet>'
                     #Story.append(Paragraph(ptext, styles["Normal"], bulletText='-'))
                     rec_sigla_struttura = self.search_records('sigla', self.DATA_LIST[rec].sigla_struttura,
-                                                              'PYARCHINIT_THESAURUS_SIGLE')
+                                                              'HFF_THESAURUS_SIGLE')
                     sigla_temp = self.DATA_LIST[rec].sigla_struttura
                     ptext = '<font size=14 ><b>Sigla: %s - Tipologia: %s</b><br/></font>' % (
                     sigla_temp, rec_sigla_struttura[0].sigla_estesa)
@@ -350,7 +350,7 @@ class exp_rel_pdf(object):
             Story.append(Spacer(1, 12))
             for rec in range(len(self.DATA_LIST)):
                 rec_sigla_struttura = self.search_records('sigla', self.DATA_LIST[rec].sigla_struttura,
-                                                          'PYARCHINIT_THESAURUS_SIGLE')
+                                                          'HFF_THESAURUS_SIGLE')
                 ptext = '<font size=14 ><b>Sigla: %s%s - Tipologia: %s </b><br/><br/></font>' % (
                 self.DATA_LIST[rec].sigla_struttura, str(self.DATA_LIST[rec].numero_struttura),
                 rec_sigla_struttura[0].sigla_estesa)

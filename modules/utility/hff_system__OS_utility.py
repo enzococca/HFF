@@ -27,7 +27,7 @@ import shutil
 import subprocess
 
 
-class Pyarchinit_OS_Utility(object):
+class Hff_OS_Utility(object):
     def create_dir(self, d):
         dirname = d
 

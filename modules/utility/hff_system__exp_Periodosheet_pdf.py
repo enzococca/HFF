@@ -235,7 +235,7 @@ class single_US_pdf_sheet(object):
         # 0 row
         intestazione = Paragraph("<b>SCHEDA DI UNITA' STRATIGRAFICA<br/>" + str(self.datestrfdate()) + "</b>",
                                  styNormal)
-        # intestazione2 = Paragraph("<b>Pyarchinit</b><br/>https://sites.google.com/site/hff_system_/", styNormal)
+        # intestazione2 = Paragraph("<b>Hff</b><br/>https://sites.google.com/site/hff_system_/", styNormal)
 
         home = os.environ['HFF_HOME']
 
