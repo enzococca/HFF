@@ -5,7 +5,7 @@ Created on 19 feb 2018
 '''
 from sqlalchemy import Table, Column, Integer, Text, MetaData, create_engine, UniqueConstraint
 
-from modules.db.pyarchinit_conn_strings import Connection
+from ..hff_system__conn_strings import Connection
 
 
 class Media_to_Entity_table_view:

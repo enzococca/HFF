@@ -7,7 +7,7 @@ Created on 19 feb 2018
 from builtins import object
 from sqlalchemy import Table, Column, Integer, Text, MetaData, create_engine, UniqueConstraint
 
-from modules.db.pyarchinit_conn_strings import Connection
+from ..hff_system__conn_strings import Connection
 
 
 class PDF_administrator_table(object):

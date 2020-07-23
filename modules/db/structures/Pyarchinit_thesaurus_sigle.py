@@ -7,7 +7,7 @@ Created on 19 feb 2018
 from builtins import object
 from sqlalchemy import Table, Column, Integer, String, Text, MetaData, create_engine, UniqueConstraint
 
-from modules.db.pyarchinit_conn_strings import Connection
+from ..hff_system__conn_strings import Connection
 
 
 class Pyarchinit_thesaurus_sigle(object):
@@ -20,7 +20,7 @@ class Pyarchinit_thesaurus_sigle(object):
     metadata = MetaData(engine)
 
     # define tables
-    pyarchinit_thesaurus_sigle = Table('pyarchinit_thesaurus_sigle', metadata,
+    hff_system__thesaurus_sigle = Table('hff_system__thesaurus_sigle', metadata,
                                        Column('id_thesaurus_sigle', Integer, primary_key=True),
                                        Column('nome_tabella', Text),
                                        Column('sigla', String(3)),
