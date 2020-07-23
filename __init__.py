@@ -25,7 +25,7 @@ import subprocess
 import sys
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 
-from .modules.utility.hff_system__OS_utility import Pyarchinit_OS_Utility
+from .modules.utility.hff_system__OS_utility import Hff_OS_Utility
 from .modules.utility.hff_system__folder_installation import hff_system__Folder_installation
 
 sys.path.append(os.path.dirname(__file__))
@@ -111,16 +111,16 @@ if install_libraries:
 
         python_path = sys.exec_prefix
         python_version = sys.version[:3]
-        if Pyarchinit_OS_Utility.isWindows():
+        if Hff_OS_Utility.isWindows():
             cmd = '{}/python'.format(python_path)
         else:
             cmd = '{}/bin/python{}'.format(python_path, python_version)
         try:
             subprocess.call(
                 [cmd, '{}'.format(os.path.join(os.path.dirname(__file__), 'scripts', 'modules_installer.py')),
-                 ','.join(install_libraries)], shell=True if Pyarchinit_OS_Utility.isWindows() else False)
+                 ','.join(install_libraries)], shell=True if Hff_OS_Utility.isWindows() else False)
         except Exception as e:
-            if Pyarchinit_OS_Utility.isMac():
+            if Hff_OS_Utility.isMac():
                 library_path = '/Library/Frameworks/Python.framework/Versions/{}/bin'.format(python_version)
                 cmd = '{}/python{}'.format(library_path, python_version)
                 subprocess.call(

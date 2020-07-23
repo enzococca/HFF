@@ -45,9 +45,9 @@ MAIN_DIALOG_CLASS, _ = loadUiType(os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'gui', 'ui', 'hff_system__plugin.ui')))
 
 
-class PyarchinitPluginDialog(QgsDockWidget, MAIN_DIALOG_CLASS):
+class HffPluginDialog(QgsDockWidget, MAIN_DIALOG_CLASS):
     def __init__(self, iface):
-        super(PyarchinitPluginDialog, self).__init__()
+        super(HffPluginDialog, self).__init__()
         self.setupUi(self)
 
         self.iface = iface

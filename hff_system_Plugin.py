@@ -31,7 +31,7 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
 from qgis.core import QgsApplication, QgsSettings
 
-from hff_system_DockWidget import PyarchinitPluginDialog
+from hff_system_DockWidget import HffPluginDialog
 from .tabs.Eamena import Eamena
 from .tabs.hff_system__ANC_mainapp import hff_system__ANC
 from .tabs.hff_system__ART_mainapp import hff_system__ART
@@ -116,7 +116,7 @@ class HffPlugin_s(object):
         self.action.triggered.connect(self.showHideDockWidget)
 
         # dock widget
-        self.dockWidget = PyarchinitPluginDialog(self.iface)
+        self.dockWidget = HffPluginDialog(self.iface)
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.dockWidget)
 
         # TOOLBAR
