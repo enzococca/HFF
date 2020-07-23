@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological datatet
+        HFF_system Plugin  - A QGIS plugin to manage archaeological datatet
         					 stored in Postgres
                              -------------------
     begin                : 2007-12-01
