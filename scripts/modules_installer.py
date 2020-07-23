@@ -21,7 +21,7 @@
 import subprocess
 import sys
 import platform
-#from .. modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
+#from .. modules.utility.hff_OS_utility import Hff_OS_Utility
 
 packages = sys.argv[1].split(',') if len(sys.argv) >= 2 else []
 
