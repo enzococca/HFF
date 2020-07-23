@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              -------------------
         begin                : 2007-12-01
         copyright            : (C) 2008 by Luca Mandolesi
@@ -33,12 +33,12 @@ from sqlalchemy.sql.schema import MetaData
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 from qgis.utils import iface
 
-from modules.db.hff_db_mapper import UW, ART, ANC, POTTERY, SITE, EAMENA, \
+from .hff_db_mapper import UW, ART, ANC, POTTERY, SITE, EAMENA, \
     MEDIA, \
     MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, \
     PDF_ADMINISTRATOR
-from modules.db.pyarchinit_db_update import DB_update
-from modules.db.pyarchinit_utility import Utility
+from .hff_system__db_update import DB_update
+from .hff_system__utility import Utility
 
 
 class Pyarchinit_db_management(object):
@@ -88,7 +88,7 @@ class Pyarchinit_db_management(object):
 
         # insert statement
     def insert_eamena_values(self, *arg):
-        """Istanzia la classe US da pyarchinit_db_mapper"""
+        """Istanzia la classe US da hff_system__db_mapper"""
 
         eamena = EAMENA(arg[0],
                     arg[1],
@@ -154,7 +154,7 @@ class Pyarchinit_db_management(object):
         return eamena
     
     def insert_uw_values(self, *arg):
-        """Istanzia la classe US da pyarchinit_db_mapper"""
+        """Istanzia la classe US da hff_system__db_mapper"""
 
         uw = UW(arg[0],
                     arg[1],
@@ -197,7 +197,7 @@ class Pyarchinit_db_management(object):
         return uw
     
     def insert_art_values(self, *arg):
-        """Istanzia la classe US da pyarchinit_db_mapper"""
+        """Istanzia la classe US da hff_system__db_mapper"""
 
         art = ART(arg[0],
                     arg[1],
@@ -232,7 +232,7 @@ class Pyarchinit_db_management(object):
         return art
     
     def insert_anc_values(self, *arg):
-        """Istanzia la classe ANC da pyarchinit_db_mapper"""
+        """Istanzia la classe ANC da hff_system__db_mapper"""
 
         anc = ANC(arg[0],
                     arg[1],
@@ -301,7 +301,7 @@ class Pyarchinit_db_management(object):
 
 
     def insert_pottery_values(self, *arg):
-        """Istanzia la classe POTTERY da pyarchinit_db_mapper"""
+        """Istanzia la classe POTTERY da hff_system__db_mapper"""
         pottery = POTTERY(arg[0],
                         arg[1],
                         arg[2],
@@ -349,7 +349,7 @@ class Pyarchinit_db_management(object):
     
 
     def insert_site_values(self, *arg):
-        """Istanzia la classe SITE da pyarchinit_db_mapper"""
+        """Istanzia la classe SITE da hff_system__db_mapper"""
         sito = SITE(arg[0],
                     arg[1],
                     arg[2],
@@ -411,7 +411,7 @@ class Pyarchinit_db_management(object):
     
 
     def insert_media_values(self, *arg):
-        """Istanzia la classe MEDIA da pyarchinit_db_mapper"""
+        """Istanzia la classe MEDIA da hff_system__db_mapper"""
         media = MEDIA(arg[0],
                       arg[1],
                       arg[2],
@@ -423,7 +423,7 @@ class Pyarchinit_db_management(object):
         return media
 
     def insert_mediathumb_values(self, *arg):
-        """Istanzia la classe MEDIA da pyarchinit_db_mapper"""
+        """Istanzia la classe MEDIA da hff_system__db_mapper"""
         media_thumb = MEDIA_THUMB(arg[0],
                                   arg[1],
                                   arg[2],
@@ -436,7 +436,7 @@ class Pyarchinit_db_management(object):
         return media_thumb
 
     def insert_media2entity_values(self, *arg):
-        """Istanzia la classe MEDIATOENTITY da pyarchinit_db_mapper"""
+        """Istanzia la classe MEDIATOENTITY da hff_system__db_mapper"""
         mediatoentity = MEDIATOENTITY(arg[0],
                                       arg[1],
                                       arg[2],
@@ -449,7 +449,7 @@ class Pyarchinit_db_management(object):
 
     
     def insert_media2entity_view_values(self, *arg):
-        """Istanzia la classe MEDIATOENTITY da pyarchinit_db_mapper"""
+        """Istanzia la classe MEDIATOENTITY da hff_system__db_mapper"""
         mediaentity_view= MEDIAVIEW(arg[0],
                 arg[1],
                 arg[2],
@@ -465,7 +465,7 @@ class Pyarchinit_db_management(object):
     
 
     def insert_pdf_administrator_values(self, *arg):
-        """Istanzia la classe PDF_ADMINISTRATOR da pyarchinit_db_mapper"""
+        """Istanzia la classe PDF_ADMINISTRATOR da hff_system__db_mapper"""
         pdf_administrator = PDF_ADMINISTRATOR(arg[0],
                                               arg[1],
                                               arg[2],
@@ -479,7 +479,7 @@ class Pyarchinit_db_management(object):
 
     def execute_sql_create_db(self):
         path = os.path.dirname(__file__)
-        rel_path = os.path.join(os.sep, 'query_sql', 'pyarchinit_create_db.sql')
+        rel_path = os.path.join(os.sep, 'query_sql', 'hff_system__create_db.sql')
         qyery_sql_path = '{}{}'.format(path, rel_path)
         create = open(qyery_sql_path, "r")
         stringa = create.read()
@@ -489,7 +489,7 @@ class Pyarchinit_db_management(object):
 
     def execute_sql_create_spatialite_db(self):
         path = os.path.dirname(__file__)
-        rel_path = os.path.join(os.sep, 'query_sql', 'pyarchinit_create_spatialite_db.sql')
+        rel_path = os.path.join(os.sep, 'query_sql', 'hff_system__create_spatialite_db.sql')
         qyery_sql_path = '{}{}'.format(path, rel_path)
         create = open(qyery_sql_path, "r")
         stringa = create.read()
@@ -504,7 +504,7 @@ class Pyarchinit_db_management(object):
 
     def execute_sql_create_layers(self):
         path = os.path.dirname(__file__)
-        rel_path = os.path.join(os.sep, 'query_sql', 'pyarchinit_layers_postgis.sql')
+        rel_path = os.path.join(os.sep, 'query_sql', 'hff_system__layers_postgis.sql')
         qyery_sql_path = '{}{}'.format(path, rel_path)
         create = open(qyery_sql_path, "r")
         stringa = create.read()
@@ -966,7 +966,7 @@ class Pyarchinit_db_management(object):
         return rows
     
     def select_quote_from_db_sql(self, sito, area, us):
-        sql_query_string = ("SELECT * FROM pyarchinit_quote WHERE sito_q = '%s' AND area_q = '%s' AND us_q = '%s'") % (
+        sql_query_string = ("SELECT * FROM hff_system__quote WHERE sito_q = '%s' AND area_q = '%s' AND us_q = '%s'") % (
         sito, area, us)
         res = self.engine.execute(sql_query_string)
         return res
@@ -987,7 +987,7 @@ class Pyarchinit_db_management(object):
 
     def select_usneg_doc_from_db_sql(self, sito, tipo_doc, nome_doc):
         sql_query_string = (
-                           "SELECT * FROM pyarchinit_us_negative_doc WHERE sito_n = '%s' AND  tipo_doc_n = '%s' AND nome_doc_n = '%s'") % (
+                           "SELECT * FROM hff_system__us_negative_doc WHERE sito_n = '%s' AND  tipo_doc_n = '%s' AND nome_doc_n = '%s'") % (
                            sito, tipo_doc, nome_doc)
         res = self.engine.execute(sql_query_string)
         return res
@@ -1068,7 +1068,7 @@ class Pyarchinit_db_management(object):
 
 
 # def main():
-    # db = Pyarchinit_db_management('sqlite:////Users//Luca//HFF_DB_folder//pyarchinit_db.sqlite')
+    # db = Pyarchinit_db_management('sqlite:////Users//Luca//HFF_DB_folder//hff_system__db.sqlite')
     # db.connection()
 
     # #db.insert_arbitrary_number_of_records(10, 'Giorgio', 1, 1, 'US')  # us_range, sito, area, n_us)

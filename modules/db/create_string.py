@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-    pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+    HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
         					 stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -20,7 +20,7 @@
  ***************************************************************************/
 """
 
-from modules.db.pyarchinit_conn_strings import Connection
+from .hff_system__conn_strings import Connection
 from modules.db.hff_db_manager import Pyarchinit_db_management
 
 
@@ -79,7 +79,7 @@ def create_dict_field_value(f):
     return diz_field_value
 
 
-# http://www.anthropology-resources.net/Texts/files.html dynamic_replace("il mio /sw preferito: /nome!", ["/gig", "/ugo"],["plugin", "pyArchInit"])
+# http://www.anthropology-resources.net/Texts/files.html dynamic_replace("il mio /sw preferito: /nome!", ["/gig", "/ugo"],["plugin", "HFF_system"])
 
 cell_schema = [['Nr US: /us', 'numero di us: /us', '03', 'Area: /area', '05', '06', '07', '09'],
                ['la fava: /us', 'numero di us: /us', '03', 'Area: /area', '05', '06', '07', '09']]

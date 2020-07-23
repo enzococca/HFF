@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -30,7 +30,7 @@ db_engine = "postgres"
 
 if db_engine == "sqlite":
     current_path = os.path.dirname(os.path.abspath(__file__))
-    db_file = os.path.join(current_path, 'pyarchinit.db')
+    db_file = os.path.join(current_path, 'hff_system_.db')
     dsn = 'sqlite:///' + db_file
     db = create_engine(dsn)
 
