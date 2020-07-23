@@ -41,7 +41,7 @@ from .hff_system__db_update import DB_update
 from .hff_system__utility import Utility
 
 
-class Pyarchinit_db_management(object):
+class Hff_db_management(object):
     metadata = ''
     engine = ''
     boolean = ''
@@ -923,7 +923,7 @@ class Pyarchinit_db_management(object):
         rows= res.fetchall()
         return rows
     def select_medianame_pot_from_db_sql(self,id):
-        sql_query_string = ("SELECT c.filepath, b.anchors_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  pottery_table as b, media_thumb_table as c WHERE b.id_rep=a.id_entity and c.id_media=a.id_media and a.entity_type='POTTERY'  and artefact_id = '%s'")%(id) 
+        sql_query_string = ("SELECT c.filepath, b.artefact_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  pottery_table as b, media_thumb_table as c WHERE b.id_rep=a.id_entity and c.id_media=a.id_media and a.entity_type='POTTERY'  and artefact_id = '%s'")%(id) 
         
         res = self.engine.execute(sql_query_string)
         rows= res.fetchall()
@@ -1068,7 +1068,7 @@ class Pyarchinit_db_management(object):
 
 
 # def main():
-    # db = Pyarchinit_db_management('sqlite:////Users//Luca//HFF_DB_folder//hff_system__db.sqlite')
+    # db = Hff_db_management('sqlite:////Users//Luca//HFF_DB_folder//hff_system__db.sqlite')
     # db.connection()
 
     # #db.insert_arbitrary_number_of_records(10, 'Giorgio', 1, 1, 'US')  # us_range, sito, area, n_us)

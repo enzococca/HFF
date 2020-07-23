@@ -21,7 +21,7 @@
 """
 
 from .hff_system__conn_strings import Connection
-from modules.db.hff_db_manager import Pyarchinit_db_management
+from modules.db.hff_db_manager import Hff_db_management
 
 
 def convert_cell_schema(s, c):
@@ -87,6 +87,6 @@ cell_schema = [['Nr US: /us', 'numero di us: /us', '03', 'Area: /area', '05', '0
 conn = Connection()
 conn_str = conn.conn_str()
 
-db = Pyarchinit_db_management(conn_str)
+db = Hff_db_management(conn_str)
 print(db.query(eval('SITE')))
 # print convert_cell_schema(cell_schema, ['/us', '/area'])
