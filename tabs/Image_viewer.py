@@ -300,7 +300,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 pass
             self.comboBox_id.clear()
-            self.comboBox_id.update()
+            #self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(us_list))
         elif self.radioButton_p_uw.isChecked()==True:
             self.comboBox_id.clear()
@@ -309,19 +309,19 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = {
                 'site': "'" + sito + "'"
             }
-            us_vl = self.DB_MANAGER.query_bool(search_dict, 'UW')
-            us_list = []
-            if not us_vl:
+            pus_vl = self.DB_MANAGER.query_bool(search_dict, 'UW')
+            pus_list = []
+            if not pus_vl:
                 return 0
-            for i in range(len(us_vl)):
-                us_list.append(str(us_vl[i].divelog_id))
+            for i in range(len(pus_vl)):
+                pus_list.append(str(pus_vl[i].divelog_id))
             try:
-                us_vl.remove('')
+                pus_vl.remove('')
             except:
                 pass
             self.comboBox_id.clear()
-            self.comboBox_id.update()
-            self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(us_list))
+            #self.comboBox_id.update()
+            self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(pus_list))
             
         elif self.radioButton_anc.isChecked()==True:
             self.comboBox_id.clear()
@@ -341,7 +341,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 pass
             self.comboBox_id.clear()
-            self.comboBox_id.update()
+            #self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(anc_list))
         elif self.radioButton_art.isChecked()==True:
             self.comboBox_id.clear()
@@ -350,19 +350,19 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = {
                 'site': "'" + sito + "'"
             }
-            anc_vl = self.DB_MANAGER.query_bool(search_dict, 'ART')
-            anc_list = []
-            if not anc_vl:
+            art_vl = self.DB_MANAGER.query_bool(search_dict, 'ART')
+            art_list = []
+            if not art_vl:
                 return 0
-            for i in range(len(anc_vl)):
-                anc_list.append(str(anc_vl[i].artefact_id))
+            for i in range(len(art_vl)):
+                art_list.append(str(art_vl[i].artefact_id))
             try:
-                anc_vl.remove('')
+                art_vl.remove('')
             except:
                 pass
             self.comboBox_id.clear()
-            self.comboBox_id.update()
-            self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(anc_list))
+            #self.comboBox_id.update()
+            self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(art_list))
         elif self.radioButton_pot.isChecked()==True:
             self.comboBox_id.clear()
             self.comboBox_id.update()
@@ -370,18 +370,18 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = {
                 'site': "'" + sito + "'"
             }
-            anc_vl = self.DB_MANAGER.query_bool(search_dict, 'POTTERY')
+            pot_vl = self.DB_MANAGER.query_bool(search_dict, 'POTTERY')
             pot_list = []
-            if not anc_vl:
+            if not pot_vl:
                 return 0
-            for i in range(len(anc_vl)):
-                pot_list.append(str(anc_vl[i].artefact_id))
+            for i in range(len(pot_vl)):
+                pot_list.append(str(pot_vl[i].artefact_id))
             try:
-                anc_vl.remove('')
+                pot_vl.remove('')
             except:
                 pass
             self.comboBox_id.clear()
-            self.comboBox_id.update()
+            #self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(pot_list))
     
     def charge_year_list(self):
