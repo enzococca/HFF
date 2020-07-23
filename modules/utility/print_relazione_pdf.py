@@ -2,7 +2,7 @@
 # -*- coding: utf 8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -26,7 +26,7 @@ from builtins import object
 import time
 import os
 
-from ..db.pyarchinit_conn_strings import Connection
+from ..db.hff_system__conn_strings import Connection
 from ..db.hff_db_manager import Pyarchinit_db_management
 from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 from reportlab.lib.pagesizes import A4
@@ -36,7 +36,7 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer, TableStyle, Image
 from reportlab.platypus.paragraph import Paragraph
 
-from .pyarchinit_OS_utility import *
+from .hff_system__OS_utility import *
 from reportlab.rl_config import defaultPageSize
 
 
