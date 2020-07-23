@@ -10,7 +10,7 @@ from sqlalchemy import Table, Column, Integer, String, Text, MetaData, create_en
 from ..hff_system__conn_strings import Connection
 
 
-class Pyarchinit_thesaurus_sigle(object):
+class Hff_thesaurus_sigle(object):
     # connection string postgres"
     internal_connection = Connection()
 
