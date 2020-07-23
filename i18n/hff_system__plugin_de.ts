@@ -15,7 +15,7 @@
     </message>
     <message>
         <location filename="../gui/ui/dbmanagment.ui" line="39"/>
-        <source>             Backup e Restore DB Pyarchinit</source>
+        <source>             Backup e Restore DB Hff</source>
         <translation>Backup und Wiederherstellung der DB hff_system_</translation>
     </message>
     <message>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../gui/ui/dbmanagment.ui" line="123"/>
         <source>Backup db hff_system_ (per win e linux)</source>
-        <translation>Backup DB Pyarchinit (für Win und Linux)</translation>
+        <translation>Backup DB Hff (für Win und Linux)</translation>
     </message>
     <message>
         <location filename="../gui/ui/dbmanagment.ui" line="136"/>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../gui/ui/Archeozoology.ui" line="20"/>
         <source>HFF_system Gestione Scavi - Archeozoologia Quantificazioni</source>
-        <translation>Pyarchinit Ausgrabung Management-Archeozoologische Quantifizierung</translation>
+        <translation>Hff Ausgrabung Management-Archeozoologische Quantifizierung</translation>
     </message>
     <message>
         <location filename="../gui/ui/Archeozoology.ui" line="44"/>
@@ -1099,7 +1099,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ui/Detsesso.ui" line="20"/>
         <source>HFF_system Gestione Scavi - Scheda Determinazione Sesso</source>
-        <translation>Pyarchinit Ausgrabungsmanagement-Geschlechtsbestimmung</translation>
+        <translation>Hff Ausgrabungsmanagement-Geschlechtsbestimmung</translation>
     </message>
     <message>
         <location filename="../gui/ui/Detsesso.ui" line="40"/>
@@ -1547,7 +1547,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ui/Documentazione.ui" line="20"/>
         <source>HFF_system Gestione Scavi - Scheda Documentazione</source>
-        <translation>Pyarchinit Ausgrabungsmanagement-Dokumentation</translation>
+        <translation>Hff Ausgrabungsmanagement-Dokumentation</translation>
     </message>
     <message>
         <location filename="../gui/ui/Documentazione.ui" line="59"/>
@@ -2069,7 +2069,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ui/Schedaind.ui" line="20"/>
         <source>HFF_system Gestione Scavi - Scheda Individuo</source>
-        <translation>Pyarchinit Ausgrabungsmanagement-Individuumformular</translation>
+        <translation>Hff Ausgrabungsmanagement-Individuumformular</translation>
     </message>
     <message>
         <location filename="../gui/ui/Schedaind.ui" line="38"/>
@@ -3412,7 +3412,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ui/Documentazione_preview.ui" line="23"/>
         <source>HFF_system Gestione Scavi - Preview Documetazione</source>
-        <translation>Pyarchinit Excavation Management-Vorschau Dokumentation</translation>
+        <translation>Hff Excavation Management-Vorschau Dokumentation</translation>
     </message>
 </context>
 <context>
@@ -6359,7 +6359,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ui/UT_ui.ui" line="20"/>
         <source>HFF_system Archeologia del Territorio- Scheda UT</source>
-        <translation>Pyarchinit territorium Archeologie-UT tab</translation>
+        <translation>Hff territorium Archeologie-UT tab</translation>
     </message>
     <message>
         <location filename="../gui/ui/UT_ui.ui" line="60"/>
@@ -7137,8 +7137,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../gui/ui/hff_system_ConfigDialog.ui" line="685"/>
-        <source>PYARCHINIT_THESAURUS</source>
-        <translation>PYARCHINIT_THESAURUS</translation>
+        <source>HFF_THESAURUS</source>
+        <translation>HFF_THESAURUS</translation>
     </message>
     <message>
         <location filename="../gui/ui/hff_system_ConfigDialog.ui" line="690"/>
@@ -7218,7 +7218,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ui/hff_system_ConfigDialog.ui" line="949"/>
         <source>Mappatura HFF_system</source>
-        <translation>Mapping von Pyarchinit</translation>
+        <translation>Mapping von Hff</translation>
     </message>
     <message>
         <location filename="../gui/ui/hff_system_ConfigDialog.ui" line="984"/>
@@ -8831,7 +8831,7 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>PyarchinitPlugin</name>
+    <name>HffPlugin</name>
     <message>
         <location filename="../gui/ui/hff_system__plugin.ui" line="26"/>
         <source>HFF_system - Archaeological Data Management</source>

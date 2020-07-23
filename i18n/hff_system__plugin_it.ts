@@ -14,7 +14,7 @@
     </message>
     <message>
         <location filename="../gui/ui/dbmanagment.ui" line="39"/>
-        <source>             Backup e Restore DB Pyarchinit</source>
+        <source>             Backup e Restore DB Hff</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6893,7 +6893,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../gui/ui/hff_system_ConfigDialog.ui" line="685"/>
-        <source>PYARCHINIT_THESAURUS</source>
+        <source>HFF_THESAURUS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8564,7 +8564,7 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>PyarchinitPlugin</name>
+    <name>HffPlugin</name>
     <message>
         <location filename="../gui/ui/hff_system__plugin.ui" line="26"/>
         <source>HFF_system - Archaeological Data Management</source>
