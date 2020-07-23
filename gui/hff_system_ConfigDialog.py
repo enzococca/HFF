@@ -32,10 +32,10 @@ from qgis.PyQt.QtCore import QUrl
 from qgis.core import QgsApplication, QgsSettings, QgsProject
 from qgis.PyQt.QtGui import QDesktopServices
 from ..modules.db.hff_system__conn_strings import Connection
-from ..modules.db.hff_db_manager import Pyarchinit_db_management
+from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__db_update import DB_update
 from ..modules.db.db_createdump import CreateDatabase, RestoreSchema, DropDatabase, SchemaDump
-from ..modules.utility.hff_system__OS_utility import Pyarchinit_OS_Utility
+from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
 from ..modules.utility.hff_system__print_utility import Print_utility
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), 'ui', 'hff_system_ConfigDialog.ui'))
 
@@ -77,14 +77,14 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         
         if self.graphviz_bin:
             self.lineEditGraphviz.setText(self.graphviz_bin)
-        if Pyarchinit_OS_Utility.checkGraphvizInstallation():
+        if Hff_OS_Utility.checkGraphvizInstallation():
             self.pushButtonGraphviz.setEnabled(False)
             self.pbnSaveEnvironPath.setEnabled(False)
             self.lineEditGraphviz.setEnabled(False)
         self.r_bin = s.value('HFF_system/rBinPath', None, type=str)
         if self.r_bin:
             self.lineEditR.setText(self.r_bin)
-        if Pyarchinit_OS_Utility.checkRInstallation():
+        if Hff_OS_Utility.checkRInstallation():
             self.pushButtonR.setEnabled(False)
             self.pbnSaveEnvironPathR.setEnabled(False)
             self.lineEditR.setEnabled(False)
@@ -318,9 +318,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             QMessageBox.warning(self, "INFO", "Updated", QMessageBox.Ok)
     def load_spatialite(self,conn, connection_record):
         conn.enable_load_extension(True)
-        if Pyarchinit_OS_Utility.isWindows()== True:
+        if Hff_OS_Utility.isWindows()== True:
             conn.load_extension('mod_spatialite.dll')
-        elif Pyarchinit_OS_Utility.isMac()== True:
+        elif Hff_OS_Utility.isMac()== True:
             conn.load_extension('mod_spatialite.dylib')
         else:
             conn.load_extension('mod_spatialite.so')  
@@ -554,7 +554,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         db_path = os.path.join(home_DB_path, sl_name)
         ok = False
         if not os.path.exists(db_path):
-            Pyarchinit_OS_Utility().copy_file(db_file, db_path)
+            Hff_OS_Utility().copy_file(db_file, db_path)
             ok = True
         if ok:
             crsid = self.selectorCrsWidget_sl.crs().authid()
@@ -572,7 +572,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
     def try_connection(self):
         conn = Connection()
         conn_str = conn.conn_str()
-        self.DB_MANAGER = Pyarchinit_db_management(
+        self.DB_MANAGER = Hff_db_management(
             conn_str) 
         test = self.DB_MANAGER.connection()
         if test:
@@ -644,7 +644,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             conn_str_read = "%s:///%s" % (conn_str_dict_read["server"], dbname_abs)
             QMessageBox.warning(self, "Alert", str(conn_str_dict_read["db_name"]), QMessageBox.Ok)
         ####SI CONNETTE AL DATABASE
-        self.DB_MANAGER_read = Pyarchinit_db_management(conn_str_read)
+        self.DB_MANAGER_read = Hff_db_management(conn_str_read)
         test = self.DB_MANAGER_read.connection()
         if test:
             QMessageBox.warning(self, "Message", "Connection ok", QMessageBox.Ok)
@@ -693,7 +693,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             conn_str_write = "%s:///%s" % (conn_str_dict_write["server"], dbname_abs)
             QMessageBox.warning(self, "Alert", str(conn_str_dict_write["db_name"]), QMessageBox.Ok)
         ####SI CONNETTE AL DATABASE IN SCRITTURA
-        self.DB_MANAGER_write = Pyarchinit_db_management(conn_str_write)
+        self.DB_MANAGER_write = Hff_db_management(conn_str_write)
         test = self.DB_MANAGER_write.connection()
         test = str(test)
         # if test:
