@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
         					 stored in Postgres
                              -------------------
     begin                : 2007-12-01
@@ -26,7 +26,7 @@ import os
 class Test_area(object):
     HOME = os.environ['HFF_HOME']
 
-    REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "pyarchinit_Test_folder")
+    REPORT_PATH = '{}{}{}'.format(HOME, os.sep, "hff_system__Test_folder")
 
     def __init__(self, data):
         self.data = data

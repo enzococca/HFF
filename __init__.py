@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-        pyArchInit Plugin  - A QGIS plugin to manage archaeological dataset
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
                              -------------------
         begin                : 2007-12-01
         copyright            : (C) 2008 by Luca Mandolesi
@@ -25,8 +25,8 @@ import subprocess
 import sys
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 
-from .modules.utility.pyarchinit_OS_utility import Pyarchinit_OS_Utility
-from .modules.utility.pyarchinit_folder_installation import pyarchinit_Folder_installation
+from .modules.utility.hff_system__OS_utility import Pyarchinit_OS_Utility
+from .modules.utility.hff_system__folder_installation import hff_system__Folder_installation
 
 sys.path.append(os.path.dirname(__file__))
 sys.path.insert(0, os.path.abspath(
@@ -35,7 +35,7 @@ sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'gui', 'ui')))
 
 hff_home = os.path.expanduser("~") + os.sep + 'HFF'
-fi = pyarchinit_Folder_installation()
+fi = hff_system__Folder_installation()
 if not os.path.exists(hff_home):
     fi.install_dir()
 else:
@@ -137,5 +137,5 @@ if install_libraries:
 
                    
 def classFactory(iface):
-    from .pyarchinitPlugin import PyArchInitPlugin
-    return PyArchInitPlugin(iface)
+    from .hff_system_Plugin import HffPlugin_s
+    return HffPlugin_s(iface)
