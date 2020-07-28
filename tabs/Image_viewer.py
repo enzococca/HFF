@@ -22,7 +22,7 @@
 from __future__ import absolute_import
 
 import os
-
+import time
 import sys
 from builtins import range
 from builtins import str
@@ -30,7 +30,7 @@ import PIL as Image
 from PIL import *
 from qgis.PyQt.QtCore import Qt, QSize
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QDialog, QMessageBox, QAbstractItemView, QListWidgetItem, QFileDialog, QTableWidgetItem,QWidget
+from qgis.PyQt.QtWidgets import *#QDialog, QMessageBox, QAbstractItemView, QListWidgetItem, QFileDialog, QTableWidgetItem,QWidget
 from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsSettings
 from gui.imageViewer import ImageViewer
@@ -204,7 +204,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         
         self.tableWidgetTags_MAT_4.setHorizontalHeaderLabels(['Artefact ID'])
         self.tableWidgetTags_MAT_9.setHorizontalHeaderLabels(['Anchor ID'])
-        self.tableWidgetTags_MAT_10.setHorizontalHeaderLabels(['Pottery id'])
+        self.tableWidgetTags_MAT_10.setHorizontalHeaderLabels(['Pottery ID'])
         self.tableWidgetTags_MAT_11.setHorizontalHeaderLabels(['Site name'])
         self.tableWidgetTags_MAT_12.setHorizontalHeaderLabels(['Site Name'])
         row =0
@@ -300,7 +300,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 pass
             self.comboBox_id.clear()
-            #self.comboBox_id.update()
+            self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(us_list))
         elif self.radioButton_p_uw.isChecked()==True:
             self.comboBox_id.clear()
@@ -320,7 +320,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 pass
             self.comboBox_id.clear()
-            #self.comboBox_id.update()
+            self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(pus_list))
             
         elif self.radioButton_anc.isChecked()==True:
@@ -341,7 +341,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 pass
             self.comboBox_id.clear()
-            #self.comboBox_id.update()
+            self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(anc_list))
         elif self.radioButton_art.isChecked()==True:
             self.comboBox_id.clear()
@@ -361,7 +361,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 pass
             self.comboBox_id.clear()
-            #self.comboBox_id.update()
+            self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(art_list))
         elif self.radioButton_pot.isChecked()==True:
             self.comboBox_id.clear()
@@ -381,7 +381,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 pass
             self.comboBox_id.clear()
-            #self.comboBox_id.update()
+            self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(pot_list))
     
     def charge_year_list(self):
@@ -1235,7 +1235,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         """
         items_selected = self.iconListWidget.selectedItems()
         pottery_list = self.generate_Pottery()
-        if not pot_list:
+        if not pottery_list:
             return
         for item in items_selected:
             for pottery_data in pottery_list:
@@ -1961,7 +1961,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             self.open_tags()
 
     def open_tags(self):
-        if self.toolButton_tags_on_off.isChecked() == True:
+        if self.toolButton_tags_on_off.isChecked():
             items = self.iconListWidget.selectedItems()
             items_list = []
             mediaToEntity_list = []
@@ -1988,7 +1988,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                         search_dict = u.remove_empty_items_fr_dict(search_dict)
                         res_mediaToEntity = self.DB_MANAGER.query_bool(search_dict, "MEDIATOENTITY")
 
-                    if bool(res_mediaToEntity) == True:
+                    if bool(res_mediaToEntity):
                         for sing_res_media in res_mediaToEntity:
                             
                                 
@@ -2065,14 +2065,14 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 
                                 
                                 
-            if bool(mediaToEntity_list) == True:
+            if bool(mediaToEntity_list):
                 tags_row_count = self.tableWidget_tags.rowCount()
                 for i in range(tags_row_count):
                     self.tableWidget_tags.removeRow(0)
 
                 self.tableInsertData('self.tableWidget_tags', str(mediaToEntity_list))
             
-            if bool(items) == False:
+            if not bool(items):
                 tags_row_count = self.tableWidget_tags.rowCount()
                 for i in range(tags_row_count):
                     self.tableWidget_tags.removeRow(0)
