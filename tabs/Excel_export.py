@@ -306,7 +306,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
             #mod_spatialite (recommended)
             conn.execute('SELECT load_extension("mod_spatialite")')   
             conn.execute('SELECT InitSpatialMetaData(1);')  
-            
+            cur = conn.cursor()
             cur1 = conn.cursor()
             cur0 = conn.cursor()
             cur2 = conn.cursor()
