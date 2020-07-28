@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1045</width>
+    <width>1042</width>
     <height>841</height>
    </rect>
   </property>
@@ -286,7 +286,7 @@
          <string>Remove tags from selection</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+         <iconset>
           <normaloff>:/icons/remove_tag.png</normaloff>:/icons/remove_tag.png</iconset>
         </property>
        </widget>
@@ -405,7 +405,7 @@
        <bool>true</bool>
       </property>
       <property name="dragDropMode">
-       <enum>QAbstractItemView::DragDrop</enum>
+       <enum>QAbstractItemView::NoDragDrop</enum>
       </property>
       <property name="defaultDropAction">
        <enum>Qt::MoveAction</enum>
@@ -1088,7 +1088,7 @@
     <string>Remove Tag</string>
    </property>
    <property name="icon">
-    <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+    <iconset>
      <normaloff>:/icons/remove_tag.png</normaloff>:/icons/remove_tag.png</iconset>
    </property>
   </widget>
@@ -1271,7 +1271,7 @@
          <string>Add tags</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+         <iconset>
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
@@ -1373,7 +1373,7 @@
          <string>Add tags</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+         <iconset>
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
@@ -1470,7 +1470,7 @@
          <string>Add tags</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+         <iconset>
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
@@ -1582,7 +1582,7 @@
          <string>Add tags</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+         <iconset>
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
@@ -1691,7 +1691,7 @@
          <string>Add tags</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+         <iconset>
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
@@ -1772,7 +1772,7 @@
          <string>Add tags</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+         <iconset>
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
@@ -1856,7 +1856,7 @@
          <string>Add tags</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../hff_system_-master/resources/resources.qrc">
+         <iconset>
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        </widget>
@@ -2258,22 +2258,6 @@
   <connection>
    <sender>radioButton_art</sender>
    <signal>toggled(bool)</signal>
-   <receiver>comboBox_sito</receiver>
-   <slot>clearEditText()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>441</x>
-     <y>589</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>329</x>
-     <y>629</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_art</sender>
-   <signal>toggled(bool)</signal>
    <receiver>comboBox_year</receiver>
    <slot>clearEditText()</slot>
    <hints>
@@ -2450,22 +2434,6 @@
   <connection>
    <sender>radioButton_anc</sender>
    <signal>toggled(bool)</signal>
-   <receiver>comboBox_sito</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>407</x>
-     <y>578</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>402</x>
-     <y>622</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_anc</sender>
-   <signal>toggled(bool)</signal>
    <receiver>comboBox_year</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
@@ -2594,22 +2562,6 @@
   <connection>
    <sender>radioButton_art</sender>
    <signal>toggled(bool)</signal>
-   <receiver>comboBox_sito</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>471</x>
-     <y>576</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>618</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_art</sender>
-   <signal>toggled(bool)</signal>
    <receiver>comboBox_year</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
@@ -2620,22 +2572,6 @@
     <hint type="destinationlabel">
      <x>499</x>
      <y>659</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_pot</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>comboBox_sito</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>534</x>
-     <y>577</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>536</x>
-     <y>623</y>
     </hint>
    </hints>
   </connection>
@@ -2716,6 +2652,54 @@
     <hint type="destinationlabel">
      <x>651</x>
      <y>697</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_anc</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_sito</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>506</x>
+     <y>619</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_art</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_sito</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>468</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>506</x>
+     <y>619</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_pot</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_sito</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>528</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>506</x>
+     <y>619</y>
     </hint>
    </hints>
   </connection>
