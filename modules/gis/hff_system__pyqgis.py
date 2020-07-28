@@ -104,7 +104,7 @@ class Hff_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','hff_system__anchor_view', 'the_geom', gidstr, "ROWIND")
+            uri.setDataSource('','pyarchinit_anchor_view', 'the_geom', gidstr, "ROWIND")
             layerIndividui=QgsVectorLayer(uri.uri(), 'Anchors view', 'spatialite')
 
             if layerIndividui.isValid() == True:
@@ -129,7 +129,7 @@ class Hff_pyqgis(QDialog):
                     gidstr += "OR id_anc = " + str(data[i].id_anc)
             srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
 
-            uri.setDataSource("public","hff_system__anchor_view","the_geom",gidstr,"gid")
+            uri.setDataSource("public","pyarchinit_anchor_view","the_geom",gidstr,"gid")
             layerUS = QgsVectorLayer(uri.uri(), "Anchors view", "postgres")
             QMessageBox.warning(self, "TESTER", "OK Layer Anchor available",QMessageBox.Ok)
         
@@ -166,7 +166,7 @@ class Hff_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','hff_system__art_view', 'the_geom', gidstr, "ROWIND")
+            uri.setDataSource('','pyarchinit_art_view', 'the_geom', gidstr, "ROWIND")
             layerIndividui=QgsVectorLayer(uri.uri(), 'Artefact view', 'spatialite')
 
             if layerIndividui.isValid() == True:
@@ -191,7 +191,7 @@ class Hff_pyqgis(QDialog):
                     gidstr += "OR id_art = " + str(data[i].id_art)
             srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
 
-            uri.setDataSource("public","hff_system__art_view","the_geom",gidstr,"gid")
+            uri.setDataSource("public","pyarchinit_art_view","the_geom",gidstr,"gid")
             layerUS = QgsVectorLayer(uri.uri(), "Artefact view", "postgres")
             QMessageBox.warning(self, "TESTER", "OK Layer artefact available",QMessageBox.Ok)
         
@@ -229,7 +229,7 @@ class Hff_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','hff_system__pot_view', 'the_geom', gidstr, "ROWIND")
+            uri.setDataSource('','pyarchinit_pot_view', 'the_geom', gidstr, "ROWIND")
             layerIndividui=QgsVectorLayer(uri.uri(), 'Pottery view', 'spatialite')
 
             if layerIndividui.isValid() == True:
@@ -254,7 +254,7 @@ class Hff_pyqgis(QDialog):
                     gidstr += "OR id_rep = " + str(data[i].id_rep)
             srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
 
-            uri.setDataSource("public","hff_system__pot_view","the_geom",gidstr,"gid")
+            uri.setDataSource("public","pyarchinit_pot_view","the_geom",gidstr,"gid")
             layerUS = QgsVectorLayer(uri.uri(), "Pottery view", "postgres")
             QMessageBox.warning(self, "TESTER", "OK Layer pottery available",QMessageBox.Ok)
         
@@ -290,7 +290,7 @@ class Hff_pyqgis(QDialog):
             uri = QgsDataSourceUri()
             uri.setDatabase(db_file_path)
 
-            uri.setDataSource('','hff_system__grabspot_view', 'the_geom', gidstr, "ROWIND")
+            uri.setDataSource('','pyarchinit_grabspot_view', 'the_geom', gidstr, "ROWIND")
             layerIndividui=QgsVectorLayer(uri.uri(), 'hff_system__grabspot_view', 'spatialite')
 
             if layerIndividui.isValid() == True:
@@ -315,7 +315,7 @@ class Hff_pyqgis(QDialog):
                     gidstr += "OR id_sito = " + str(data[i].id_sito)
             srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
 
-            uri.setDataSource("public","hff_system__grabspot_view","the_geom",gidstr,"gid")
+            uri.setDataSource("public","pyarchinit_grabspot_view","the_geom",gidstr,"gid")
             layerGRAB = QgsVectorLayer(uri.uri(), "Grab Spot view", "postgres")
             QMessageBox.warning(self, "TESTER", "OK Layer grab spot available",QMessageBox.Ok)
         
