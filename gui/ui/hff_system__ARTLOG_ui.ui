@@ -1007,7 +1007,7 @@
         <widget class="QgsDockWidget" name="mDockWidget_export">
          <property name="minimumSize">
           <size>
-           <width>310</width>
+           <width>311</width>
            <height>114</height>
           </size>
          </property>
@@ -1015,14 +1015,14 @@
           <bool>true</bool>
          </property>
          <property name="windowTitle">
-          <string>Pottery export pdf</string>
+          <string>Artefact export pdf</string>
          </property>
          <widget class="QWidget" name="dockWidgetContents_4">
           <layout class="QGridLayout" name="gridLayout_33">
            <item row="0" column="0">
             <widget class="QCheckBox" name="checkBox_e_pottery">
              <property name="text">
-              <string>Pottery list</string>
+              <string>Artefact list</string>
              </property>
             </widget>
            </item>
@@ -1036,7 +1036,7 @@
            <item row="1" column="0">
             <widget class="QCheckBox" name="checkBox_s_pottery">
              <property name="text">
-              <string>Pottery form</string>
+              <string>Artefact form</string>
              </property>
             </widget>
            </item>
