@@ -953,8 +953,8 @@ class Hff_db_management(object):
         rows= res.fetchall()
         return rows
     
-    def select_thumbnail_art_from_db_sql(self,sito,etype):
-        sql_query_string = ("SELECT c.filepath, b.artefact_id,a.media_name,b.area,b.description FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.artefact_id")%(sito,etype)
+    def select_thumbnail_art_from_db_sql(self,sito,etype,material,obj):
+        sql_query_string = ("SELECT c.filepath, b.material,b.obj,b.artefact_id,a.media_name,b.area,b.description FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' and b.material = '%s' and b.obj= '%s' order by b.artefact_id")%(sito,etype,material,obj)
         res = self.engine.execute(sql_query_string)
         rows= res.fetchall()
         return rows
