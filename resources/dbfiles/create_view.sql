@@ -1,8 +1,8 @@
 --
 -- TOC entry 298 (class 1259 OID 92603)
--- Name: pyarchinit_anchor_view; Type: VIEW; Schema: public; Owner: postgres
+-- Name: hff_system__anchor_view; Type: VIEW; Schema: public; Owner: postgres
 --
-CREATE VIEW public.pyarchinit_anchor_view AS
+CREATE VIEW public.hff_system__anchor_view AS
  SELECT anchor_point.gid,
     --anchor_point.site,
     anchor_point.code,
@@ -36,12 +36,12 @@ CREATE VIEW public.pyarchinit_anchor_view AS
     anchor_table.area
    FROM (public.anchor_point
      JOIN public.anchor_table ON (((anchor_point.code)::text = (anchor_table.anchors_id)::text)));
-ALTER TABLE public.pyarchinit_anchor_view OWNER TO postgres;
+ALTER TABLE public.hff_system__anchor_view OWNER TO postgres;
 --
 -- TOC entry 299 (class 1259 OID 92608)
--- Name: pyarchinit_art_view; Type: VIEW; Schema: public; Owner: postgres
+-- Name: hff_system__art_view; Type: VIEW; Schema: public; Owner: postgres
 --
-CREATE VIEW public.pyarchinit_art_view AS
+CREATE VIEW public.hff_system__art_view AS
  SELECT artefact_log.divelog_id,
     artefact_log.artefact_id,
     artefact_log.material,
@@ -78,12 +78,12 @@ CREATE VIEW public.pyarchinit_art_view AS
     artefact_point.the_geom
    FROM (public.artefact_point
      JOIN public.artefact_log ON (((artefact_point.code)::text = (artefact_log.artefact_id)::text)));
-ALTER TABLE public.pyarchinit_art_view OWNER TO postgres;
+ALTER TABLE public.hff_system__art_view OWNER TO postgres;
 --
 -- TOC entry 329 (class 1259 OID 106144)
--- Name: pyarchinit_pot_view; Type: VIEW; Schema: public; Owner: postgres
+-- Name: hff_system__pot_view; Type: VIEW; Schema: public; Owner: postgres
 --
-CREATE VIEW public.pyarchinit_pot_view AS
+CREATE VIEW public.hff_system__pot_view AS
  SELECT pottery_table.id_rep,
     pottery_table.divelog_id,
     pottery_table.site,
@@ -129,12 +129,12 @@ CREATE VIEW public.pyarchinit_pot_view AS
    FROM (public.pottery_point
      JOIN public.pottery_table ON (((pottery_point.code)::text = (pottery_table.artefact_id)::text)))
   ORDER BY pottery_table.artefact_id DESC, pottery_point.gid;
-ALTER TABLE public.pyarchinit_pot_view OWNER TO postgres;
+ALTER TABLE public.hff_system__pot_view OWNER TO postgres;
 --
 -- TOC entry 327 (class 1259 OID 97896)
--- Name: pyarchinit_site_view; Type: VIEW; Schema: public; Owner: postgres
+-- Name: hff_system__site_view; Type: VIEW; Schema: public; Owner: postgres
 --
-CREATE VIEW public.pyarchinit_grabspot_view AS
+CREATE VIEW public.hff_system__grabspot_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -182,8 +182,8 @@ CREATE VIEW public.pyarchinit_grabspot_view AS
     grab_spot.the_geom
    FROM (public.site_table
      JOIN public.grab_spot ON (((grab_spot.name_grab)::text = (site_table.name_site)::text)));
-ALTER TABLE public.pyarchinit_grabspot_view OWNER TO postgres;
-CREATE VIEW public.pyarchinit_feature_p_view AS
+ALTER TABLE public.hff_system__grabspot_view OWNER TO postgres;
+CREATE VIEW public.hff_system__feature_p_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -231,8 +231,8 @@ CREATE VIEW public.pyarchinit_feature_p_view AS
     features.the_geom
 	 FROM (public.site_table
      JOIN public.features ON (((features.name_feat)::text = (site_table.name_site)::text)));
-ALTER TABLE public.pyarchinit_feature_p_view OWNER TO postgres;
-CREATE VIEW public.pyarchinit_feature_point_view AS
+ALTER TABLE public.hff_system__feature_p_view OWNER TO postgres;
+CREATE VIEW public.hff_system__feature_point_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -280,8 +280,8 @@ CREATE VIEW public.pyarchinit_feature_point_view AS
     features_point.the_geom
 FROM (public.site_table
 JOIN public.features_point ON (((features_point.name_f_p)::text = (site_table.name_site)::text)));
-ALTER TABLE public.pyarchinit_feature_point_view OWNER TO postgres;
-CREATE VIEW public.pyarchinit_feature_l_view AS
+ALTER TABLE public.hff_system__feature_point_view OWNER TO postgres;
+CREATE VIEW public.hff_system__feature_l_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -329,8 +329,8 @@ CREATE VIEW public.pyarchinit_feature_l_view AS
     features_line.the_geom
 FROM (public.site_table
 JOIN public.features_line ON (((features_line.name_f_l)::text = (site_table.name_site)::text)));
-ALTER TABLE public.pyarchinit_feature_l_view OWNER TO postgres;
-CREATE VIEW public.pyarchinit_transect_view AS
+ALTER TABLE public.hff_system__feature_l_view OWNER TO postgres;
+CREATE VIEW public.hff_system__transect_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -378,7 +378,7 @@ CREATE VIEW public.pyarchinit_transect_view AS
     transect.the_geom
 FROM (public.site_table
      JOIN public.transect ON (((transect.name_tr)::text = (site_table.name_site)::text)));
-ALTER TABLE public.pyarchinit_transect_view OWNER TO postgres;
+ALTER TABLE public.hff_system__transect_view OWNER TO postgres;
 -- TOC entry 328 (class 1259 OID 97938)
 -- Name: mediaentity_view; Type: VIEW; Schema: public; Owner: postgres
 --
@@ -594,4 +594,26 @@ CREATE or replace VIEW public.eamena_poligon_view AS
 		site_poligon.the_geom
 		FROM (public.eamena_table
      JOIN public.site_poligon ON (((site_poligon.name_feat)::text = (eamena_table.name_site)::text)));
-ALTER TABLE public.eamena_poligon_view OWNER TO postgres;
+ALTER TABLE public.eamena_poligon_view OWNER TO postgres
+
+CREATE or replace VIEW public.shipwreck_view AS
+SELECT id_shipwreck AS id_shipwreck,
+    a.code_id AS code_id, a.name_vessel AS name_vessel,
+    a.yard AS yard, a.area AS area, a.category AS category,
+    a.confidence AS confidence, a.propulsion AS propulsion,
+    a.material AS material, a.nationality AS nationality,
+    a.type AS type, a.owner AS owner, a.purpose AS purpose,
+    a.builder AS builder, a.cause AS cause,
+    a.quality AS quality, a.divers AS divers,
+    a.wreck AS wreck, a.composition AS composition,
+    a.inclination AS inclination, a.depth AS depth,
+    a.l AS l, a.w AS w, a.d AS d, a.t AS t,
+    a.cl AS cl, a.cw AS cw, a.cd AS cd,
+    a.nickname AS nickname, a.date_built AS date_built,
+    a.date_lost AS date_lost, a.description AS description,
+    a.history AS history, a.list AS list,
+    b.ROWID AS ROWID_1, b.gid AS gid, b.the_geom AS the_geom,
+    b.code AS code, b.nationality AS nationality_1,
+    b.name_vessel AS name_vessel_1
+FROM shipwreck_table AS a
+JOIN shipwreck_location AS b ON (a.code_id = b.code)

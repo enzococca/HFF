@@ -116,6 +116,11 @@ ALTER TABLE public.anchor_id_seq OWNER TO postgres;
 -- TOC entry 255 (class 1259 OID 91950)
 -- Name: anchor_p_gid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
+
+-- TOC entry 255 (class 1259 OID 91950)
+-- Name: anchor_p_gid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
 CREATE SEQUENCE public.anchor_p_gid_seq
     START WITH 3
     INCREMENT BY 1
@@ -209,6 +214,54 @@ ALTER TABLE public.anchor_table OWNER TO postgres;
 -- TOC entry 258 (class 1259 OID 91981)
 -- Name: art_log_id_art; Type: SEQUENCE; Schema: public; Owner: postgres
 --
+CREATE SEQUENCE public.shipwreck_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE public.shipwreck_id_seq OWNER TO postgres;
+--
+
+CREATE TABLE public.shipwreck_table (
+    id_shipwreck integer DEFAULT nextval('public.shipwreck_id_seq'::regclass) NOT NULL,
+    code_id character varying(255),
+    name_vessel character varying(255),
+    yard character varying(255),
+    area character varying(255),
+    category character varying(255),
+    confidence character varying(255),
+    propulsion character varying(255),
+    material character varying(255),
+    nationality character varying(255),
+    type character varying(255),
+    owner character varying(255),
+    purpose character varying(255),
+    builder character varying(255),
+    cause character varying(255),
+    quality character varying(255),
+    divers character varying(255),
+    wreck character varying(255),
+    depth numeric(5,2),
+    l numeric(5,2),
+    w numeric(5,2),
+    d numeric(5,2),
+    t numeric(5,2),
+    cl numeric(5,2),
+    cw numeric(5,2),
+    cd numeric(5,2),
+    nickname character varying(255),
+    date_built character varying(255),
+	date_lost character varying(255),
+	description text,
+	history text,
+	list text
+);
+ALTER TABLE public.shipwreck_table OWNER TO postgres;
+--
+-- TOC entry 258 (class 1259 OID 91981)
+-- Name: art_log_id_art; Type: SEQUENCE; Schema: public; Owner: postgres
+--
 CREATE SEQUENCE public.art_log_id_art
     START WITH 1
     INCREMENT BY 1
@@ -220,6 +273,8 @@ ALTER TABLE public.art_log_id_art OWNER TO postgres;
 -- TOC entry 259 (class 1259 OID 91983)
 -- Name: artefact_log; Type: TABLE; Schema: public; Owner: postgres
 --
+
+
 CREATE TABLE public.artefact_log (
     divelog_id integer,
     artefact_id character varying(255),
@@ -1115,6 +1170,13 @@ ALTER TABLE ONLY public.anchor_table
 -- TOC entry 4766 (class 2606 OID 95326)
 -- Name: dive_log ID_divelo_log_unico; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
+ALTER TABLE ONLY public.shipwreck_table
+    ADD CONSTRAINT "ID_code_id_unico" UNIQUE (code_id);
+--
+-- TOC entry 4766 (class 2606 OID 95326)
+-- Name: dive_log ID_divelo_log_unico; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.dive_log
     ADD CONSTRAINT "ID_divelo_log_unico" UNIQUE (divelog_id, years, site);
 --
@@ -1241,6 +1303,14 @@ ALTER TABLE ONLY public.anchor_table
 -- TOC entry 4752 (class 2606 OID 95514)
 -- Name: artefact_log pk_id_art; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
+
+ALTER TABLE ONLY public.shipwreck_table
+    ADD CONSTRAINT pk_id_shipwreck PRIMARY KEY (id_shipwreck);
+--
+-- TOC entry 4752 (class 2606 OID 95514)
+-- Name: artefact_log pk_id_art; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY public.artefact_log
     ADD CONSTRAINT pk_id_art PRIMARY KEY (id_art);
 --
@@ -1506,7 +1576,15 @@ CREATE SEQUENCE public.site_poligon_id_seq
 ALTER SEQUENCE public.site_poligon_id_seq
     OWNER TO postgres;	
 	
-	
+CREATE SEQUENCE public.shipwreck_id_p_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.shipwreck_id_p_seq
+    OWNER TO postgres;		
 	
 CREATE TABLE public.site_line
 (
@@ -1607,6 +1685,40 @@ CREATE INDEX sidx_site_poligon_the_geom
 --
 SET standard_conforming_strings = OFF;
 ---CREATE SCHEMA "public";
+CREATE TABLE public.shipwreck_location
+(
+    gid integer NOT NULL DEFAULT nextval('shipwreck_id_p_seq'::regclass),
+    the_geom geometry(Point,32636),
+    code character varying COLLATE pg_catalog."default",
+    nationality character varying COLLATE pg_catalog."default",
+    name_vessel character varying COLLATE pg_catalog."default",
+    
+    CONSTRAINT shipwreck_pkey PRIMARY KEY (gid)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.shipwreck
+    OWNER to postgres;
+
+-- Index: sidx_site_poligon_the_geom
+
+-- DROP INDEX public.sidx_site_poligon_the_geom;
+
+CREATE INDEX sidx_shipwreck_the_geom
+    ON public.shipwreck USING gist
+    (the_geom)
+    TABLESPACE pg_default;	
+--
+-- TOC entry 5011 (class 0 OID 0)
+-- Dependencies: 20
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+SET standard_conforming_strings = OFF;
+---CREATE SCHEMA "public";
+
 DROP TABLE IF EXISTS "public"."grid_eamena_lebanon" CASCADE;
 DELETE FROM geometry_columns WHERE f_table_name = 'grid_eamena_lebanon' AND f_table_schema = 'public';
 BEGIN;

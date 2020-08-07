@@ -6,13 +6,121 @@
  alter table site_table add column morphology_c text;
  alter table site_table add column collection_c text; */
 /*  alter table grab_spot RENAME COLUMN id to gid; */
-drop view hff_system__grabspot_view;
-drop view hff_system__feature_p_view;
-drop view hff_system__feature_point_view;
-drop view hff_system__feature_l_view;
-drop view hff_system__transect_view ;
+drop view pyarchinit_grabspot_view;
+drop view pyarchinit_feature_p_view;
+drop view pyarchinit_feature_point_view;
+drop view pyarchinit_feature_l_view;
+drop view pyarchinit_transect_view ;
+CREATE SEQUENCE IF NOT EXISTS public.shipwreck_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE public.shipwreck_id_seq OWNER TO postgres;
+--
 
-CREATE or replace VIEW public.hff_system__grabspot_view AS
+CREATE TABLE IF NOT EXISTS public.shipwreck_table (
+    id_shipwreck integer DEFAULT nextval('public.shipwreck_id_seq'::regclass) NOT NULL,
+    code_id character varying(255),
+    name_vessel character varying(255),
+    yard character varying(255),
+    area character varying(255),
+    category character varying(255),
+    confidence character varying(255),
+    propulsion character varying(255),
+    material character varying(255),
+    nationality character varying(255),
+    type character varying(255),
+    owner character varying(255),
+    purpose character varying(255),
+    builder character varying(255),
+    cause character varying(255),
+    quality character varying(255),
+    divers character varying(255),
+    wreck character varying(255),
+    depth numeric(5,2),
+    l numeric(5,2),
+    w numeric(5,2),
+    d numeric(5,2),
+    t numeric(5,2),
+    cl numeric(5,2),
+    cw numeric(5,2),
+    cd numeric(5,2),
+    nickname character varying(255),
+    date_built character varying(255),
+	date_lost character varying(255),
+	description text,
+	history text,
+	list text
+);
+ALTER TABLE public.shipwreck_table OWNER TO postgres;
+
+CREATE SEQUENCE IF NOT EXISTS public.shipwreck_id_p_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE  public.shipwreck_id_p_seq
+    OWNER TO postgres;
+CREATE TABLE  IF NOT EXISTS public.shipwreck_location
+(
+    gid integer NOT NULL DEFAULT nextval('shipwreck_id_p_seq'::regclass),
+    the_geom geometry(Point,32636),
+    code character varying COLLATE pg_catalog."default",
+    nationality character varying COLLATE pg_catalog."default",
+    name_vessel character varying COLLATE pg_catalog."default",
+    
+    CONSTRAINT shipwreck_pkey PRIMARY KEY (gid)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.shipwreck_location
+    OWNER to postgres;
+
+-- Index: sidx_site_poligon_the_geom
+
+-- DROP INDEX public.sidx_site_poligon_the_geom;
+
+CREATE INDEX sidx_shipwreck_the_geom
+    ON public.shipwreck_location USING gist
+    (the_geom)
+    TABLESPACE pg_default;	
+--
+-- TOC entry 5011 (class 0 OID 0)
+-- Dependencies: 20
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+SET standard_conforming_strings = OFF;
+---CREATE SCHEMA "public";
+CREATE or replace VIEW public.shipwreck_view AS
+SELECT id_shipwreck AS id_shipwreck,
+    a.code_id AS code_id, a.name_vessel AS name_vessel,
+    a.yard AS yard, a.area AS area, a.category AS category,
+    a.confidence AS confidence, a.propulsion AS propulsion,
+    a.material AS material, a.nationality AS nationality,
+    a.type AS type, a.owner AS owner, a.purpose AS purpose,
+    a.builder AS builder, a.cause AS cause,
+    a.quality AS quality, a.divers AS divers,
+    a.wreck AS wreck, a.composition AS composition,
+    a.inclination AS inclination, a.depth AS depth,
+    a.l AS l, a.w AS w, a.d AS d, a.t AS t,
+    a.cl AS cl, a.cw AS cw, a.cd AS cd,
+    a.nickname AS nickname, a.date_built AS date_built,
+    a.date_lost AS date_lost, a.description AS description,
+    a.history AS history, a.list AS list,
+    b.gid AS gid, b.the_geom AS the_geom,
+    b.code AS code, b.nationality AS nationality_1,
+    b.name_vessel AS name_vessel_1
+FROM (public.shipwreck_table AS a
+JOIN shipwreck_location AS b ON (((a.code_id)::text = (b.code)::text)));
+ALTER TABLE public.shipwreck_view OWNER TO postgres;
+CREATE or replace VIEW public.pyarchinit_grabspot_view AS
 	SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -60,8 +168,8 @@ CREATE or replace VIEW public.hff_system__grabspot_view AS
     grab_spot.the_geom
     FROM (public.site_table
 	JOIN public.grab_spot ON (((grab_spot.name_grab)::text = (site_table.name_site)::text)));
-ALTER TABLE public.hff_system__grabspot_view OWNER TO postgres;
-CREATE or replace VIEW public.hff_system__feature_p_view AS
+ALTER TABLE public.pyarchinit_grabspot_view OWNER TO postgres;
+CREATE or replace VIEW public.pyarchinit_feature_p_view AS
 	SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -109,8 +217,8 @@ CREATE or replace VIEW public.hff_system__feature_p_view AS
     features.the_geom
 	 FROM (public.site_table
      JOIN public.features ON (((features.name_feat)::text = (site_table.name_site)::text)));
-ALTER TABLE public.hff_system__feature_p_view OWNER TO postgres;
-CREATE or replace view  public.hff_system__feature_point_view AS
+ALTER TABLE public.pyarchinit_feature_p_view OWNER TO postgres;
+CREATE or replace view  public.pyarchinit_feature_point_view AS
 	SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -158,8 +266,8 @@ CREATE or replace view  public.hff_system__feature_point_view AS
     features_point.the_geom 
 	FROM (public.site_table
 	JOIN public.features_point ON (((features_point.name_f_p)::text = (site_table.name_site)::text)));
-ALTER TABLE public.hff_system__feature_point_view OWNER TO postgres;
-CREATE or replace view public.hff_system__feature_l_view AS
+ALTER TABLE public.pyarchinit_feature_point_view OWNER TO postgres;
+CREATE or replace view public.pyarchinit_feature_l_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -207,8 +315,8 @@ CREATE or replace view public.hff_system__feature_l_view AS
     features_line.the_geom
 FROM (public.site_table
 	JOIN public.features_line ON (((features_line.name_f_l)::text = (site_table.name_site)::text)));
-ALTER TABLE public.hff_system__feature_l_view OWNER TO postgres;
-CREATE or replace view  public.hff_system__transect_view AS
+ALTER TABLE public.pyarchinit_feature_l_view OWNER TO postgres;
+CREATE or replace view  public.pyarchinit_transect_view AS
  SELECT site_table.id_sito,
     site_table.location_,
     site_table.mouhafasat,
@@ -256,7 +364,7 @@ CREATE or replace view  public.hff_system__transect_view AS
     transect.the_geom
 FROM (public.site_table
      JOIN public.transect ON (((transect.name_tr)::text = (site_table.name_site)::text)));
-ALTER TABLE public.hff_system__transect_view OWNER TO postgres;
+ALTER TABLE public.pyarchinit_transect_view OWNER TO postgres;
 
 CREATE TABLE IF NOT EXISTS public.eamena_table
 (
@@ -672,3 +780,4 @@ CREATE or replace VIEW public.eamena_poligon_view AS
 		FROM (public.eamena_table
      JOIN public.site_poligon ON (((site_poligon.name_feat)::text = (eamena_table.name_site)::text)));
 ALTER TABLE public.eamena_poligon_view OWNER TO postgres;
+
