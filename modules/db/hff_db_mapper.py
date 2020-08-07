@@ -33,6 +33,7 @@ from .entities.ART import ART
 from .entities.ANC import ANC
 from .entities.POTTERY import POTTERY
 from .entities.EAMENA import EAMENA
+from .entities.SHIPWRECK import SHIPWRECK
 ############################from structures #########################################
 
 from .structures.Media_table import Media_table
@@ -47,7 +48,7 @@ from .structures.ART_table import ART_table
 from .structures.ANC_table import ANC_table
 from .structures.POTTERY_table import POTTERY_table
 from .structures.Eamena_table import Eamena_table
-
+from .structures.Shipwreck_table import Shipwreck_table
 try:
     
 
@@ -85,6 +86,9 @@ try:
           
     # mapper
     mapper(POTTERY, POTTERY_table.pottery_table)
+    
+    # mapper
+    mapper(SHIPWRECK, Shipwreck_table.shipwreck_table)
 
 except:
     pass

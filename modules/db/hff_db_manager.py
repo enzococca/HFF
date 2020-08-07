@@ -33,7 +33,7 @@ from sqlalchemy.sql.schema import MetaData
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 from qgis.utils import iface
 
-from .hff_db_mapper import UW, ART, ANC, POTTERY, SITE, EAMENA, \
+from .hff_db_mapper import UW, ART, ANC, POTTERY, SITE, EAMENA, SHIPWRECK, \
     MEDIA, \
     MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, \
     PDF_ADMINISTRATOR
@@ -87,6 +87,48 @@ class Hff_db_management(object):
         return test
 
         # insert statement
+    
+    def insert_shipwreck_values(self, *arg):
+        """Istanzia la classe US da hff_system__db_mapper"""
+
+        shipwreck = SHIPWRECK(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15],
+                    arg[16],
+                    arg[17],
+                    arg[18],
+                    arg[19],
+                    arg[20],
+                    arg[21],
+                    arg[22],
+                    arg[23],
+                    arg[24],
+                    arg[25],
+                    arg[26],
+                    arg[27],
+                    arg[28],
+                    arg[29],
+                    arg[30],
+                    arg[31],
+                    arg[32],
+                    arg[33]
+                    )
+
+        return shipwreck
+    
     def insert_eamena_values(self, *arg):
         """Istanzia la classe US da hff_system__db_mapper"""
 
@@ -909,7 +951,12 @@ class Hff_db_management(object):
         res = self.engine.execute(sql_query_string)
         rows= res.fetchall()
         return rows
-    
+    def select_medianame_ship_from_db_sql(self,id):
+        sql_query_string = ("SELECT c.filepath, b.code_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  shipwreck_table as b, media_thumb_table as c WHERE b.id_shipwreck=a.id_entity and c.id_media=a.id_media and a.entity_type='SHIPWRECK'  and code_id = '%s'")%(id) 
+        
+        res = self.engine.execute(sql_query_string)
+        rows= res.fetchall()
+        return rows
     def select_medianame_anc_from_db_sql(self,id):
         sql_query_string = ("SELECT c.filepath, b.anchors_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  anchor_table as b, media_thumb_table as c WHERE b.id_anc=a.id_entity and c.id_media=a.id_media and a.entity_type='ANCHORS'  and anchors_id = '%s'")%(id) 
         
@@ -953,8 +1000,8 @@ class Hff_db_management(object):
         rows= res.fetchall()
         return rows
     
-    def select_thumbnail_art_from_db_sql(self,sito,etype,material,obj):
-        sql_query_string = ("SELECT c.filepath, b.material,b.obj,b.artefact_id,a.media_name,b.area,b.description FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' and b.material = '%s' and b.obj= '%s' order by b.artefact_id")%(sito,etype,material,obj)
+    def select_thumbnail_art_from_db_sql(self,sito,etype):
+        sql_query_string = ("SELECT c.filepath, b.material,b.obj,b.artefact_id,a.media_name,b.area,b.description FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.artefact_id")%(sito,etype)
         res = self.engine.execute(sql_query_string)
         rows= res.fetchall()
         return rows
