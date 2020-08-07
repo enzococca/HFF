@@ -51,6 +51,8 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
     TABLE_NAME = 'media_table'
     MAPPER_TABLE_CLASS = "MEDIA"
     ID_TABLE = "id_media"
+    MAPPER_TABLE_CLASS_ship = 'SHIPWRECK'
+    ID_TABLE_SHIPWRECK = "id_shipwreck"
     MAPPER_TABLE_CLASS_us = 'UW'
     ID_TABLE_US = "id_dive"
     MAPPER_TABLE_CLASS_mat = 'ANC'
@@ -148,6 +150,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.tableWidgetTags_MAT_10.setRowCount(1)
         self.tableWidgetTags_MAT_11.setRowCount(1)
         self.tableWidgetTags_MAT_12.setRowCount(1)
+        self.tableWidgetTags_ship.setRowCount(1)
     
     def split_2(self):
         items_selected = self.iconListWidget.selectedItems()#seleziono le icone
@@ -323,6 +326,28 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(pus_list))
             
+        
+        elif self.radioButton_shipwreck.isChecked()==True:
+            self.comboBox_id.clear()
+            self.comboBox_id.update()
+            sito = str(self.comboBox_id.currentText())
+            search_dict = {
+                'code_id': "'" + sito + "'"
+            }
+            ship_vl = self.DB_MANAGER.query_bool(search_dict, 'SHIPWRECK')
+            ship_list = []
+            if not ship_vl:
+                return 0
+            for i in range(len(ship_vl)):
+                ship_list.append(str(ship_vl[i].code_id))
+            try:
+                ship_vl.remove('')
+            except:
+                pass
+            self.comboBox_id.clear()
+            self.comboBox_id.update()
+            self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(ship_list))
+        
         elif self.radioButton_anc.isChecked()==True:
             self.comboBox_id.clear()
             self.comboBox_id.update()
@@ -929,8 +954,33 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             pe_list.remove([r[0].id_dive, 'PE', 'dive_log'])
         return pe_list  
         
+    def generate_ship(self):
+        tags_list = self.table2dict('self.tableWidgetTags_ship')
+        record_ship_list = []
+        for sing_tags in tags_list:
+                search_dict = {'code_id'  : "'"+str(sing_tags[0])+"'"}
+                                
+                record_ship_list.append(self.DB_MANAGER.query_bool(search_dict, 'SHIPWRECK'))
+
+        ship_list = []
+        for r in record_ship_list:
+            ship_list.append([r[0].id_shipwreck, 'SHIPWRECK', 'shipwreck_table'])
+        return art_list    
         
-        
+    def remove_ship(self):
+        tags_list = self.table2dict('self.tableWidgetTags_ship')
+        record_ship_list = []
+        for sing_tags in tags_list:
+                search_dict = {'code_id'  : "'"+str(sing_tags[0])+"'"}
+                                
+                record_ship_list.remove(self.DB_MANAGER.query_bool(search_dict, 'SHIPWRECK'))
+
+        ship_list = []
+        for r in record_ship_list:
+            ship_list.remove([r[0].id_shipwreck, 'SHIPWRECK', 'shipwreck_table'])
+        return art_list    
+    
+    
     def generate_Artefact(self):
         tags_list = self.table2dict('self.tableWidgetTags_MAT_4')
         record_art_list = []
@@ -1087,6 +1137,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
         self.getDirectory()
 
+    
+    def on_pushButton_addRow_ship_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_ship')
+
+    def on_pushButton_removeRow_ship_pressed(self):
+        self.remove_row('self.tableWidgetTags_ship')
+    
     def on_pushButton_addRow_POT_2_pressed(self):
         self.insert_new_row('self.tableWidgetTags_MAT_3')
 
@@ -1199,6 +1256,28 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
                 self.insert_mediaToEntity_rec(uw_data[0], uw_data[1], uw_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
     
+
+    def on_pushButton_assignTags_ship_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        anc_list = self.generate_ship()
+        if not ship_list:
+            return
+        for item in items_selected:
+            for ship_data in anc_list:
+                id_orig_item = item.text() #return the name of original file
+                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(ship_data[0], ship_data[1], ship_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
 
 
     def on_pushButton_assignTags_anchor_pressed(self):
@@ -1510,6 +1589,72 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 icon = QIcon(thumb_path_str+thumb_path)
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
+        elif self.radioButton_shipwreck.isChecked()==True:
+            # sito = str(self.comboBox_sito.currentText())
+            # year = str(self.comboBox_year.currentText())
+            id = str(self.comboBox_id.currentText())
+            search_dict = {
+                # 'site': "'" + str(sito) + "'",
+                # 'years': "'" + str(year) + "'",
+                'code_id': "'" + str(id) + "'"
+            }
+            u = Utility()
+            search_dict = u.remove_empty_items_fr_dict(search_dict)
+            us_vl = self.DB_MANAGER.select_medianame_anc_from_db_sql(id)
+            if not bool(search_dict):
+                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+            else:
+                res = self.DB_MANAGER.select_medianame_ship_from_db_sql(id)
+                if not bool(res):
+                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
+                    self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+                    self.fill_fields(self.REC_CORR)
+                    self.BROWSE_STATUS = "b"
+                    self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+                    # self.setComboBoxEnable(["self.comboBox_sito"],"True")
+                    # self.setComboBoxEnable(["self.comboBox_year"],"True")
+                    self.setComboBoxEnable(["self.comboBox_id"],"True")
+                else:
+                    self.DATA_LIST = []
+                    self.empty_fields()
+                    for i in res:
+                        self.DATA_LIST.append(i)
+                    self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), 0
+                    self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+                    self.fill_fields()
+                    self.BROWSE_STATUS = "b"
+                    self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+                    self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
+                    if self.REC_TOT == 1:
+                        strings = ("Has been found", self.REC_TOT, "record")
+                    else:
+                        strings = ("Have been found", self.REC_TOT, "records")
+                    # self.setComboBoxEnable(["self.comboBox_sito"],"True")
+                    # self.setComboBoxEnable(["self.comboBox_year"],"True")
+                    self.setComboBoxEnable(["self.comboBox_id"],"True")
+                    #check_for_buttons = 1
+                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+            self.NUM_DATA_BEGIN =  1
+            self.NUM_DATA_END = len(self.DATA_LIST)
+            self.view_num_rec()
+            self.open_images()  
+            self.iconListWidget.clear()
+            thumb_path = conn.thumb_path()
+            thumb_path_str = thumb_path['thumb_path']
+            record_us_list = self.DB_MANAGER.select_medianame_anc_from_db_sql(id)
+            for i in record_us_list:
+                search_dict = {'media_filename': "'" + str(i.media_name) + "'"}
+                u = Utility()
+                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                mediathumb_data = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
+                thumb_path = str(mediathumb_data[0].filepath)
+                item = QListWidgetItem(str(i.media_name))
+                item.setData(Qt.UserRole, str(i.media_name))
+                icon = QIcon(thumb_path_str+thumb_path)
+                item.setIcon(icon)
+                self.iconListWidget.addItem(item)
+        
         elif self.radioButton_anc.isChecked()==True:
             # sito = str(self.comboBox_sito.currentText())
             # year = str(self.comboBox_year.currentText())
@@ -2003,6 +2148,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
     ##              #else
                                 mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Doc_string])
 
+                            
+                            elif sing_res_media.entity_type == 'SHIPWRECK':
+                                search_dict = {'id_shipwreck' : "'"+str(sing_res_media.id_entity)+"'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                ship_data = self.DB_MANAGER.query_bool(search_dict, "SHIPWRECK")
+                            
+                                ship_string = ( 'SHIPWRECK ID: %s') % (ship_data[0].code_id)
+    ##              #else
+                                mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,ship_string])
                             elif sing_res_media.entity_type == 'ARTEFACT':
                                 search_dict = {'id_art' : "'"+str(sing_res_media.id_entity)+"'"}
                                 u = Utility()
