@@ -518,13 +518,13 @@
     <rect>
      <x>50</x>
      <y>480</y>
-     <width>668</width>
+     <width>739</width>
      <height>295</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>668</width>
+     <width>739</width>
      <height>295</height>
     </size>
    </property>
@@ -880,50 +880,10 @@
        <property name="verticalSpacing">
         <number>20</number>
        </property>
-       <item row="1" column="4">
-        <widget class="QRadioButton" name="radioButton_pot">
-         <property name="text">
-          <string>Pottery</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="2">
         <widget class="QRadioButton" name="radioButton_anc">
          <property name="text">
           <string>Anchor</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QRadioButton" name="radioButton_art">
-         <property name="text">
-          <string>Artefact</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QRadioButton" name="radioButton_doc_uw">
-         <property name="text">
-          <string>Doc UW </string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="text">
-          <string>ID</string>
          </property>
         </widget>
        </item>
@@ -944,19 +904,34 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
+       <item row="1" column="1">
+        <widget class="QRadioButton" name="radioButton_p_uw">
          <property name="text">
-          <string>Site</string>
+          <string>P. UW</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QRadioButton" name="radioButton_pot">
+         <property name="text">
+          <string>Pottery</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QRadioButton" name="radioButton_art">
+         <property name="text">
+          <string>Artefact</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="radioButton_doc_uw">
+         <property name="text">
+          <string>Doc UW </string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -973,13 +948,6 @@
          </property>
          <property name="text">
           <string>Year</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QRadioButton" name="radioButton_p_uw">
-         <property name="text">
-          <string>P. UW</string>
          </property>
         </widget>
        </item>
@@ -1005,6 +973,22 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="text">
+          <string>Site</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="1" colspan="6">
         <widget class="QComboBox" name="comboBox_sito">
          <property name="enabled">
@@ -1012,6 +996,22 @@
          </property>
          <property name="editable">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="text">
+          <string>ID</string>
          </property>
         </widget>
        </item>
@@ -1049,6 +1049,13 @@
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="7">
+        <widget class="QRadioButton" name="radioButton_shipwreck">
+         <property name="text">
+          <string>Shipwreck</string>
          </property>
         </widget>
        </item>
@@ -1210,6 +1217,87 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
+      <widget class="QWidget" name="tab_7">
+       <attribute name="title">
+        <string>Shipwreck</string>
+       </attribute>
+       <widget class="QTableWidget" name="tableWidgetTags_ship">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>45</y>
+          <width>531</width>
+          <height>251</height>
+         </rect>
+        </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>262</number>
+        </attribute>
+        <row>
+         <property name="text">
+          <string/>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>Code ID</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QPushButton" name="pushButton_assignTags_ship">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>300</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Assign tag to selected images&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Add tags</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
+        </property>
+       </widget>
+       <widget class="QWidget" name="layoutWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>10</y>
+          <width>234</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_26">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Tags manager</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="pushButton_addRow_ship">
+           <property name="text">
+            <string>+</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="pushButton_removeRow_ship">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
         <string>Doc UW</string>
@@ -2374,7 +2462,7 @@
    <slot>clearEditText()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>620</x>
+     <x>617</x>
      <y>589</y>
     </hint>
     <hint type="destinationlabel">
@@ -2390,7 +2478,7 @@
    <slot>clearEditText()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>684</x>
+     <x>675</x>
      <y>589</y>
     </hint>
     <hint type="destinationlabel">
@@ -2406,7 +2494,7 @@
    <slot>clearEditText()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>684</x>
+     <x>675</x>
      <y>589</y>
     </hint>
     <hint type="destinationlabel">
@@ -2422,7 +2510,7 @@
    <slot>clearEditText()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>684</x>
+     <x>675</x>
      <y>589</y>
     </hint>
     <hint type="destinationlabel">
@@ -2438,8 +2526,8 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>421</x>
-     <y>582</y>
+     <x>400</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>454</x>
@@ -2454,8 +2542,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>310</x>
-     <y>584</y>
+     <x>276</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>506</x>
@@ -2470,8 +2558,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>576</y>
+     <x>276</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>506</x>
@@ -2486,8 +2574,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>353</x>
-     <y>581</y>
+     <x>336</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>380</x>
@@ -2502,8 +2590,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>364</x>
-     <y>582</y>
+     <x>336</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>370</x>
@@ -2518,8 +2606,8 @@
    <slot>update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>423</x>
-     <y>578</y>
+     <x>400</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>471</x>
@@ -2534,8 +2622,8 @@
    <slot>update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>346</x>
-     <y>582</y>
+     <x>336</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>496</x>
@@ -2550,8 +2638,8 @@
    <slot>update()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>303</x>
-     <y>582</y>
+     <x>276</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>505</x>
@@ -2566,8 +2654,8 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>486</x>
-     <y>576</y>
+     <x>468</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>499</x>
@@ -2662,8 +2750,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>408</x>
-     <y>580</y>
+     <x>400</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>506</x>
@@ -2699,6 +2787,54 @@
     </hint>
     <hint type="destinationlabel">
      <x>506</x>
+     <y>619</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_shipwreck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_year</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>719</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>659</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_shipwreck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_id</receiver>
+   <slot>clearEditText()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>719</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>699</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_shipwreck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_sito</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>719</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
      <y>619</y>
     </hint>
    </hints>

@@ -1791,7 +1791,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Export List</string>
+         <string>List</string>
         </property>
         <property name="icon">
          <iconset resource="../../resources/resources.qrc">

@@ -2326,7 +2326,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
     <item row="0" column="3">
      <widget class="QPushButton" name="pushbutton_list">
       <property name="text">
-       <string>Pottery list</string>
+       <string>List</string>
       </property>
       <property name="icon">
        <iconset resource="../../resources/resources.qrc">
