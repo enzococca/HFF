@@ -965,7 +965,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         ship_list = []
         for r in record_ship_list:
             ship_list.append([r[0].id_shipwreck, 'SHIPWRECK', 'shipwreck_table'])
-        return art_list    
+        return ship_list    
         
     def remove_ship(self):
         tags_list = self.table2dict('self.tableWidgetTags_ship')
@@ -978,7 +978,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         ship_list = []
         for r in record_ship_list:
             ship_list.remove([r[0].id_shipwreck, 'SHIPWRECK', 'shipwreck_table'])
-        return art_list    
+        return ship_list    
     
     
     def generate_Artefact(self):
@@ -1268,11 +1268,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         media_name
         """
         items_selected = self.iconListWidget.selectedItems()
-        anc_list = self.generate_ship()
+        ship_list = self.generate_ship()
         if not ship_list:
             return
         for item in items_selected:
-            for ship_data in anc_list:
+            for ship_data in ship_list:
                 id_orig_item = item.text() #return the name of original file
                 search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
                 media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
