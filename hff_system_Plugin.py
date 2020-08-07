@@ -33,6 +33,7 @@ from qgis.core import QgsApplication, QgsSettings
 
 from hff_system_DockWidget import HffPluginDialog
 from .tabs.Eamena import Eamena
+from .tabs.hff_system__Shipwreck import hff_system__Shipwreck
 from .tabs.hff_system__ANC_mainapp import hff_system__ANC
 from .tabs.hff_system__ART_mainapp import hff_system__ART
 from .tabs.hff_system__UW_mainapp import hff_system__UW
@@ -181,8 +182,21 @@ class HffPlugin_s(object):
 
         self.toolBar.addSeparator()
         
-        
-        
+        ######  Section dedicated to the shipwreck
+        # add Actions documentation
+        self.ShipwreckToolButton = QToolButton(self.toolBar)
+        icon_shipwreck = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'Shipwreck.png'))
+        self.actionShipwreck = QAction(QIcon(icon_shipwreck), "Shipwreck", self.iface.mainWindow())
+        self.actionShipwreck.setWhatsThis("Shipwreck")
+        self.actionShipwreck.triggered.connect(self.runShipwreck)
+
+        self.ShipwreckToolButton.addActions(
+            [self.actionShipwreck])
+        self.ShipwreckToolButton.setDefaultAction(self.actionShipwreck)
+
+        self.toolBar.addWidget(self.ShipwreckToolButton)
+
+        self.toolBar.addSeparator()
        
 
      
@@ -261,7 +275,7 @@ class HffPlugin_s(object):
         self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionART)
         self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionPottery)
         
-        
+        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionShipwreck)
         
         
         
@@ -281,6 +295,8 @@ class HffPlugin_s(object):
         self.menu = QMenu("HFF")
         self.menu.addActions([self.actionSite, self.actionEamena])
         self.menu.addSeparator()
+        self.menu.addActions([self.actionShipwreck])
+        self.menu.addSeparator()
         self.menu.addActions([self.actionUW, self.actionART, self.actionANC, self.actionPottery])
         
         
@@ -297,6 +313,7 @@ class HffPlugin_s(object):
         pluginGui.show()
         self.pluginGui = pluginGui  # save
         
+    
     def runEamena(self):
         pluginGui = Eamena(self.iface)
         pluginGui.show()
@@ -323,7 +340,10 @@ class HffPlugin_s(object):
         self.pluginGui = pluginGui  # save
         
         
-        
+    def runShipwreck(self):
+        pluginGui = hff_system__Shipwreck(self.iface)
+        pluginGui.show()
+        self.pluginGui = pluginGui  # save    
     
     
     
@@ -372,6 +392,8 @@ class HffPlugin_s(object):
         self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionART)
         self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionPottery)
         
+        self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionShipwreck)
+        
         self.iface.removePluginMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionSite)
         self.iface.removePluginMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionEamena)
         
@@ -389,7 +411,7 @@ class HffPlugin_s(object):
         self.iface.removeToolBarIcon(self.actionANC)
         self.iface.removeToolBarIcon(self.actionPottery)
         
-        
+        self.iface.removeToolBarIcon(self.actionShipwreck)
         
         self.iface.removeToolBarIcon(self.actionSite)
        
