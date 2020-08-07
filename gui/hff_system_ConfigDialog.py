@@ -334,6 +334,71 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             engine = create_engine(db_url, echo=True)
             listen(engine, 'connect', self.load_spatialite)
             c = engine.connect()
+            shipwreck = """
+            CREATE TABLE IF NOT EXISTS "shipwreck_table" (
+                "id_shipwreck"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+                "code_id"	varchar(255),
+                "name_vessel"	varchar(255),
+                "yard"	varchar(255),
+                "area"	varchar(255),
+                "category"	varchar(255),
+                "confidence"	varchar(255),
+                "propulsion"	varchar(255),
+                "material"	varchar(255),
+                "nationality"	varchar(255),
+                "type"	varchar(255),
+                "owner"	varchar(255),
+                "purpose"	varchar(255),
+                "builder"	varchar(255),
+                "cause"	varchar(255),
+                "quality"	varchar(255),
+                "divers"	varchar(255),
+                "wreck"	varchar(255),
+                "composition"	varchar(255),
+                "inclination"	varchar(255),
+                "depth"	Numeric (5,2),
+                "l"	Numeric (5,2),
+                "w"	Numeric (5,2),
+                "d"	Numeric (5,2),
+                "t"	Numeric (5,2),
+                "cl"	Numeric (5,2),
+                "cw"	Numeric (5,2),
+                "cd"	Numeric (5,2),
+                "nickname"	varchar(255),
+                "date_built"	text,
+                "date_lost"	text,
+                "description"	text,
+                "history"	text,
+                "list"	text
+            );"""
+            c.execute(shipwreck)
+            shipwreck_location= """CREATE TABLE IF NOT EXISTS "shipwreck_location" ("gid" INTEGER PRIMARY KEY AUTOINCREMENT, "code" TEXT, "nationality" TEXT, "name_vessel" TEXT);"""
+            c.execute(shipwreck_location)
+            geom_ship="""SELECT AddGeometryColumn('shipwreck_location', 'the_geom', 0 , 'Point', 'XY') ;"""
+            c.execute(geom_ship)
+            ship="""CREATE VIEW IF NOT EXISTS "shipwreck_view" AS
+                SELECT "a"."ROWID" AS "ROWID", "a"."id_shipwreck" AS "id_shipwreck",
+                    "a"."code_id" AS "code_id", "a"."name_vessel" AS "name_vessel",
+                    "a"."yard" AS "yard", "a"."area" AS "area", "a"."category" AS "category",
+                    "a"."confidence" AS "confidence", "a"."propulsion" AS "propulsion",
+                    "a"."material" AS "material", "a"."nationality" AS "nationality",
+                    "a"."type" AS "type", "a"."owner" AS "owner", "a"."purpose" AS "purpose",
+                    "a"."builder" AS "builder", "a"."cause" AS "cause",
+                    "a"."quality" AS "quality", "a"."divers" AS "divers",
+                    "a"."wreck" AS "wreck", "a"."composition" AS "composition",
+                    "a"."inclination" AS "inclination", "a"."depth" AS "depth",
+                    "a"."l" AS "l", "a"."w" AS "w", "a"."d" AS "d", "a"."t" AS "t",
+                    "a"."cl" AS "cl", "a"."cw" AS "cw", "a"."cd" AS "cd",
+                    "a"."nickname" AS "nickname", "a"."date_built" AS "date_built",
+                    "a"."date_lost" AS "date_lost", "a"."description" AS "description",
+                    "a"."history" AS "history", "a"."list" AS "list",
+                    "b"."ROWID" AS "ROWID_1", "b"."gid" AS "gid", "b"."the_geom" AS "the_geom",
+                    "b"."code" AS "code", "b"."nationality" AS "nationality_1",
+                    "b"."name_vessel" AS "name_vessel_1"
+                FROM "shipwreck_table" AS "a"
+                JOIN "shipwreck_location" AS "b" ON ("a"."code_id" = "b"."code");"""
+            c.execute(ship)
+            
             eamena_table= """
             CREATE TABLE IF NOT EXISTS "eamena_table" (
                 "id_eamena"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
