@@ -52,7 +52,9 @@ class Hff_pyqgis(QDialog):
                             "12": "track",
                             "13": "site_point",
                             "14": "site_line",
-                            "15": "site_poligon"}
+                            "15": "site_poligon",
+                            "16": "shipwreck_location",
+                            "17": "shipwreck_view"}
  
     LAYERS_CONVERT_DIZ = {"anchor_point": "Anchors Point",
                         "hff_system__anchor_view": "Anchors view",
@@ -68,7 +70,9 @@ class Hff_pyqgis(QDialog):
                         "track": "Track",
                         "site_point" : "EAMENA Point",
                         "site_line" : "EAMENA Line",
-                        "site_poligon" : "EAMENA Poligon"}
+                        "site_poligon" : "EAMENA Poligon",
+                        "shipwreck_location" : "Shipwreck",
+                        "shipwreck_view" : "Shipwreck view"}
                       
     def __init__(self, iface):
         super().__init__()
@@ -142,7 +146,66 @@ class Hff_pyqgis(QDialog):
             else:
                 QMessageBox.warning(self, "TESTER", "OK Layer Anchor not available",QMessageBox.Ok)
             
+    def charge_shipwreck_layers(self, data):
+        
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
+
+        settings = Settings(con_sett)
+        settings.set_configuration()
+        
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+
+            gidstr = "id_shipwreck = '" + str(data[0].id_shipwreck) +"'"
+            if len(data) > 1:
+                for i in range(len(data)):
+                    gidstr += " OR id_shipwreck = '" + str(data[i].id_shipwreck) +"'"
+
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
+
+            uri.setDataSource('','shipwreck_view', 'the_geom', gidstr, "ROWIND")
+            layerIndividui=QgsVectorLayer(uri.uri(), 'Shipwreck view', 'spatialite')
+
+            if layerIndividui.isValid() == True:
+                QMessageBox.warning(self, "TESTER", "OK Layer Shipwreck available",QMessageBox.Ok)
+
+                #self.USLayerId = layerUS.getLayerID()
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'shipwreck.qml')
+                layerIndividui.loadNamedStyle(style_path)    
+                self.iface.mapCanvas().setExtent(layerIndividui.extent())
+                QgsProject.instance().addMapLayers([layerIndividui], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "OK Layer Shipwreck not available",QMessageBox.Ok)
+        
+        elif settings.SERVER == 'postgres':
             
+            uri = QgsDataSourceUri()        
+            uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
+
+            gidstr =  "id_shipwreck =  " + str(data[0].id_shipwreck)
+            if len(data) > 1:
+                for i in range(len(data)):
+                    gidstr += "OR id_shipwreck = " + str(data[i].id_shipwreck)
+            srs = QgsCoordinateReferenceSystem(self.SRS, QgsCoordinateReferenceSystem.PostgisCrsId)
+
+            uri.setDataSource("public","shipwreck_view","the_geom",gidstr,"gid")
+            layerUS = QgsVectorLayer(uri.uri(), "Shipwreck view", "postgres")
+            QMessageBox.warning(self, "TESTER", "OK Layer Shipwreck available",QMessageBox.Ok)
+        
+            if  layerUS.isValid() == True:
+                layerUS.setCrs(srs)
+                style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'shipwreck.qml')
+                layerUS.loadNamedStyle(style_path)    
+                QgsProject.instance().addMapLayers([layerUS], True)
+                
+            else:
+                QMessageBox.warning(self, "TESTER", "OK Layer Shipwreck not available",QMessageBox.Ok)        
     def charge_art_layers(self, data):
         
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
@@ -1416,6 +1479,9 @@ class Hff_pyqgis(QDialog):
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
             
+            
+            
+            
             #pyunitastratigrafiche e hff_system__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'pottery_point'
             layer_name_conv = "'"+str(layer_name)+"'"
@@ -1648,6 +1714,113 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layer], True)
             else:
                 QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+
+
+    def charge_shipwreck_geometry(self, options, col, val):
+        self.options = options
+        self.col = col
+        self.val = val
+
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        conf = open(file_path, "r")
+        con_sett = conf.read()
+        conf.close()
+
+        settings = Settings(con_sett)
+        settings.set_configuration()
+
+        if settings.SERVER == 'sqlite':
+            sqliteDB_path = os.path.join(os.sep, 'HFF_DB_folder', settings.DATABASE)
+            db_file_path = '{}{}'.format(self.HOME, sqliteDB_path)
+            uri = QgsDataSourceUri()
+            uri.setDatabase(db_file_path)
+
+        
+            for option in self.options:
+                layer_name = self.LAYERS_DIZ[option]
+                layer_name_conv = "'"+str(layer_name)+"'"
+                value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+                eval(cmq_set_uri_data_source)
+                layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+                layer_label_conv = "'"+layer_label+"'"
+                cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+                layer= eval(cmq_set_vector_layer)
+
+                if  layer.isValid() == True:
+                    #self.USLayerId = layerUS.getLayerID()
+                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                    ##ayerUS.loadNamedStyle(style_path)
+                    QgsProject.instance().addMapLayers([layer], True)
+                else:
+                    QMessageBox.warning(self, "TESTER", "Layer not valid",QMessageBox.Ok)
+                
+            #pyunitastratigrafiche e hff_system__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'shipwreck_location'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"nationality = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                
+                
+        elif settings.SERVER == 'postgres':
+
+            uri = QgsDataSourceUri()
+
+            uri.setConnection(settings.HOST, settings.PORT, settings.DATABASE, settings.USER, settings.PASSWORD)
+
+                
+            for option in self.options:
+                layer_name = self.LAYERS_DIZ[option]
+                layer_name_conv = "'"+str(layer_name)+"'"
+                value_conv =  ('"%s = %s"') % (self.col, "'"+str(self.val)+"'")
+                cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+                eval(cmq_set_uri_data_source)
+                layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+                layer_label_conv = "'"+layer_label+"'"
+                cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+                layer= eval(cmq_set_vector_layer)
+
+                if  layer.isValid() == True:
+                    #self.USLayerId = layerUS.getLayerID()
+                    ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                    ##ayerUS.loadNamedStyle(style_path)
+                    QgsProject.instance().addMapLayers([layer], True)
+                else:
+                    QMessageBox.warning(self, "TESTER", "Layer error",QMessageBox.Ok)
+                
+            #pyunitastratigrafiche e hff_system__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
+            layer_name = 'shipwreck_location'
+            layer_name_conv = "'"+str(layer_name)+"'"
+            value_conv =  ('"nationality = %s"') % ("'"+str(self.val)+"'")
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            eval(cmq_set_uri_data_source)
+            layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
+            layer_label_conv = "'"+layer_label+"'"
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            layer= eval(cmq_set_vector_layer)
+            
+            if  layer.isValid() == True:
+                #self.USLayerId = layerUS.getLayerID()
+                ##style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
+                ##ayerUS.loadNamedStyle(style_path)
+                QgsProject.instance().addMapLayers([layer], True)
+            else:
+                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+
 class MyError(Exception):
         def __init__(self, value):
             self.value = value
