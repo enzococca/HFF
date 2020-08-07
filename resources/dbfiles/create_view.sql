@@ -596,6 +596,7 @@ CREATE or replace VIEW public.eamena_poligon_view AS
      JOIN public.site_poligon ON (((site_poligon.name_feat)::text = (eamena_table.name_site)::text)));
 ALTER TABLE public.eamena_poligon_view OWNER TO postgres
 
+---CREATE SCHEMA "public";
 CREATE or replace VIEW public.shipwreck_view AS
 SELECT id_shipwreck AS id_shipwreck,
     a.code_id AS code_id, a.name_vessel AS name_vessel,
@@ -612,8 +613,8 @@ SELECT id_shipwreck AS id_shipwreck,
     a.nickname AS nickname, a.date_built AS date_built,
     a.date_lost AS date_lost, a.description AS description,
     a.history AS history, a.list AS list,
-    b.ROWID AS ROWID_1, b.gid AS gid, b.the_geom AS the_geom,
+    b.gid AS gid, b.the_geom AS the_geom,
     b.code AS code, b.nationality AS nationality_1,
     b.name_vessel AS name_vessel_1
-FROM shipwreck_table AS a
-JOIN shipwreck_location AS b ON (a.code_id = b.code)
+FROM (public.shipwreck_table AS a
+JOIN shipwreck_location AS b ON (((a.code_id)::text = (b.code)::text)));
