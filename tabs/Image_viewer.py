@@ -657,7 +657,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.filename + ": Image already in the database"
                 else:
                     msg = e
-                QMessageBox.warning(self, "Error", "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
+                #QMessageBox.warning(self, "Error", "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
 
         except Exception as  e:
@@ -691,7 +691,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.filename + ": thumb already present into the database"
                 else:
                     msg = e
-                QMessageBox.warning(self, "Error", "warming 1 ! \n"+ str(msg),  QMessageBox.Ok)
+                #QMessageBox.warning(self, "Error", "warming 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
 
         except Exception as  e:
