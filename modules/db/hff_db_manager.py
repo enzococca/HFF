@@ -124,7 +124,13 @@ class Hff_db_management(object):
                     arg[30],
                     arg[31],
                     arg[32],
-                    arg[33]
+                    arg[33],
+                    arg[34],
+                    arg[35],
+                    arg[36],
+                    arg[37],
+                    arg[38]
+                    
                     )
 
         return shipwreck
