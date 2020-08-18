@@ -36,10 +36,16 @@ CREATE TABLE IF NOT EXISTS public.shipwreck_table (
     purpose character varying(255),
     builder character varying(255),
     cause character varying(255),
-    quality character varying(255),
     divers character varying(255),
     wreck character varying(255),
-    depth numeric(5,2),
+	composition character varying(255),
+	inclination character varying(255),
+    depth_max_min character varying(255),
+	depth_quality character varying(255),
+	coordinates character varying(255),
+	position_quality_1 character varying(255),
+	acquired_coordinates character varying(255),
+	position_quality_2 character varying(255),
     l numeric(5,2),
     w numeric(5,2),
     d numeric(5,2),
@@ -52,7 +58,8 @@ CREATE TABLE IF NOT EXISTS public.shipwreck_table (
 	date_lost character varying(255),
 	description text,
 	history text,
-	list text
+	list text,
+	name text
 );
 ALTER TABLE public.shipwreck_table OWNER TO postgres;
 
@@ -106,20 +113,22 @@ SELECT id_shipwreck AS id_shipwreck,
     a.material AS material, a.nationality AS nationality,
     a.type AS type, a.owner AS owner, a.purpose AS purpose,
     a.builder AS builder, a.cause AS cause,
-    a.quality AS quality, a.divers AS divers,
+    a.divers AS divers,
     a.wreck AS wreck, a.composition AS composition,
-    a.inclination AS inclination, a.depth AS depth,
+    a.inclination AS inclination, a.depth_max_min AS depth_max_min, 
+	a.depth_quality as depth_quality, a.coordinates as coordinates, a.acquired_coordinates as acquired_coordinates,
+	a.position_quality_1 as position_quality_1, a.position_quality_2 as position_quality_2
     a.l AS l, a.w AS w, a.d AS d, a.t AS t,
     a.cl AS cl, a.cw AS cw, a.cd AS cd,
     a.nickname AS nickname, a.date_built AS date_built,
     a.date_lost AS date_lost, a.description AS description,
-    a.history AS history, a.list AS list,
+    a.history AS history, a.list AS list, a.name as name,
     b.gid AS gid, b.the_geom AS the_geom,
     b.code AS code, b.nationality AS nationality_1,
     b.name_vessel AS name_vessel_1
 FROM (public.shipwreck_table AS a
 JOIN shipwreck_location AS b ON (((a.code_id)::text = (b.code)::text)));
-ALTER TABLE public.shipwreck_view OWNER TO postgres;
+ALTER TABLE public.shipwreck_view OWNER TO postgres
 CREATE or replace VIEW public.pyarchinit_grabspot_view AS
 	SELECT site_table.id_sito,
     site_table.location_,

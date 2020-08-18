@@ -239,10 +239,16 @@ CREATE TABLE public.shipwreck_table (
     purpose character varying(255),
     builder character varying(255),
     cause character varying(255),
-    quality character varying(255),
     divers character varying(255),
     wreck character varying(255),
-    depth numeric(5,2),
+	composition character varying(255),
+	inclination character varying(255),
+    depth_max_min character varying(255),
+	depth_quality character varying(255),
+	coordinates character varying(255),
+	position_quality_1 character varying(255),
+	acquired_coordinates character varying(255),
+	position_quality_2 character varying(255),
     l numeric(5,2),
     w numeric(5,2),
     d numeric(5,2),
@@ -255,7 +261,9 @@ CREATE TABLE public.shipwreck_table (
 	date_lost character varying(255),
 	description text,
 	history text,
-	list text
+	list text,
+	name character varying(10)
+	
 );
 ALTER TABLE public.shipwreck_table OWNER TO postgres;
 --
@@ -1700,7 +1708,7 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.shipwreck
+ALTER TABLE public.shipwreck_location
     OWNER to postgres;
 
 -- Index: sidx_site_poligon_the_geom
@@ -1708,7 +1716,7 @@ ALTER TABLE public.shipwreck
 -- DROP INDEX public.sidx_site_poligon_the_geom;
 
 CREATE INDEX sidx_shipwreck_the_geom
-    ON public.shipwreck USING gist
+    ON public.shipwreck_location USING gist
     (the_geom)
     TABLESPACE pg_default;	
 --
