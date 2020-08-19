@@ -77,5 +77,13 @@ class DB_update(object):
             self.engine.execute("ALTER TABLE anchor_table ADD COLUMN qty INTEGER not null DEFAULT 1") 
 
         
-        
+        # ####anchor table_table
+        table = Table("shipwreck_table", self.metadata, autoload=True)
+        table_column_names_list = []
+        for i in table.columns:
+            table_column_names_list.append(str(i.name))
+
+        if not table_column_names_list.__contains__('status'):
+            self.engine.execute("ALTER TABLE shipwreck_table ADD COLUMN status varchar DEFAULT ''") 
+
         

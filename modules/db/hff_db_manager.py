@@ -129,7 +129,8 @@ class Hff_db_management(object):
                     arg[35],
                     arg[36],
                     arg[37],
-                    arg[38]
+                    arg[38],
+                    arg[39]
                     
                     )
 
