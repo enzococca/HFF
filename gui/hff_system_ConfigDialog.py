@@ -374,7 +374,8 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 "description"	text,
                 "history"	text,
                 "list"	text,
-                "name" varchar(255)
+                "name" varchar(10),
+                "status" varchar(255)
             );"""
             c.execute(shipwreck)
             shipwreck_location= """CREATE TABLE IF NOT EXISTS "shipwreck_location" ("gid" INTEGER PRIMARY KEY AUTOINCREMENT, "code" TEXT, "nationality" TEXT, "name_vessel" TEXT);"""
@@ -397,7 +398,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 a.cl AS cl, a.cw AS cw, a.cd AS cd,
                 a.nickname AS nickname, a.date_built AS date_built,
                 a.date_lost AS date_lost, a.description AS description,
-                a.history AS history, a.list AS list, a.name as name,
+                a.history AS history, a.list AS list, a.name as name,a.status as status,
                 b.gid AS gid, b.the_geom AS the_geom,
                 b.code AS code, b.nationality AS nationality_1,
                 b.name_vessel AS name_vessel_1
