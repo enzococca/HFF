@@ -262,7 +262,8 @@ CREATE TABLE public.shipwreck_table (
 	description text,
 	history text,
 	list text,
-	name character varying(10)
+	name character varying(10),
+	status character varying(255)
 	
 );
 ALTER TABLE public.shipwreck_table OWNER TO postgres;

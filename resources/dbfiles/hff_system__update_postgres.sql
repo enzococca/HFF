@@ -59,7 +59,8 @@ CREATE TABLE IF NOT EXISTS public.shipwreck_table (
 	description text,
 	history text,
 	list text,
-	name text
+	name text character varying(10),
+	status character varying(255)
 );
 ALTER TABLE public.shipwreck_table OWNER TO postgres;
 
@@ -122,7 +123,7 @@ SELECT id_shipwreck AS id_shipwreck,
     a.cl AS cl, a.cw AS cw, a.cd AS cd,
     a.nickname AS nickname, a.date_built AS date_built,
     a.date_lost AS date_lost, a.description AS description,
-    a.history AS history, a.list AS list, a.name as name,
+    a.history AS history, a.list AS list, a.name as name, a.status as status,
     b.gid AS gid, b.the_geom AS the_geom,
     b.code AS code, b.nationality AS nationality_1,
     b.name_vessel AS name_vessel_1
