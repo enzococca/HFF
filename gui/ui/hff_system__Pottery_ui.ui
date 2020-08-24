@@ -2390,6 +2390,56 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
       <property name="editable">
        <bool>true</bool>
       </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2013</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2014</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2015</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2016</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2017</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2018</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2019</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2020</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2021</string>
+       </property>
+      </item>
      </widget>
     </item>
     <item row="0" column="0">
