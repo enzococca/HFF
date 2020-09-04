@@ -56,7 +56,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>8</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -130,6 +130,11 @@
        <width>571</width>
        <height>591</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="frameShape">
       <enum>QFrame::WinPanel</enum>
@@ -608,6 +613,11 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
     </widget>
     <widget class="QComboBox" name="comboBox_type">
      <property name="geometry">
@@ -623,6 +633,11 @@
        <width>150</width>
        <height>0</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="editable">
       <bool>true</bool>
@@ -709,6 +724,11 @@
        <height>0</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
      <property name="editable">
       <bool>true</bool>
      </property>
@@ -753,6 +773,11 @@
        <width>150</width>
        <height>0</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="editable">
       <bool>true</bool>
@@ -818,6 +843,11 @@
        <width>150</width>
        <height>0</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="editable">
       <bool>true</bool>
@@ -918,6 +948,11 @@
        <height>121</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
     </widget>
     <widget class="QTextEdit" name="textEdit_history">
      <property name="geometry">
@@ -927,6 +962,11 @@
        <width>521</width>
        <height>111</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
     </widget>
     <widget class="QLabel" name="label_59">
@@ -1016,6 +1056,11 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_nickname">
      <property name="geometry">
@@ -1025,6 +1070,11 @@
        <width>161</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="text">
       <string/>
@@ -1097,6 +1147,11 @@
        <height>0</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
      <property name="editable">
       <bool>true</bool>
      </property>
@@ -1120,6 +1175,11 @@
        <height>22</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
     </widget>
     <widget class="QComboBox" name="comboBox_consulties">
      <property name="geometry">
@@ -1135,6 +1195,11 @@
        <width>150</width>
        <height>0</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="editable">
       <bool>true</bool>
@@ -3087,6 +3152,11 @@
      <height>27</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
    <layout class="QGridLayout" name="gridLayout_6">
     <item row="0" column="5">
      <widget class="QComboBox" name="comboBox_category">
@@ -3095,6 +3165,11 @@
         <width>100</width>
         <height>0</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
       </property>
       <property name="editable">
        <bool>true</bool>
@@ -3130,7 +3205,7 @@
      <widget class="QLabel" name="label_11">
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -3150,7 +3225,7 @@
      <widget class="QLabel" name="label_39">
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -3182,7 +3257,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -3206,6 +3281,11 @@
         <height>0</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
       <property name="editable">
        <bool>true</bool>
       </property>
@@ -3219,6 +3299,11 @@
         <height>0</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
       <property name="editable">
        <bool>true</bool>
       </property>
@@ -3228,7 +3313,7 @@
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
