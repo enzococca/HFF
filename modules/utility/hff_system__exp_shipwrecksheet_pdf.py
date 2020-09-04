@@ -78,10 +78,10 @@ class single_SHIPWRECK_pdf_sheet:
         self.inclination=data[17]
         self.depth_max_min=data[18]
         self.depth_quality=data[19]
-        self.coordinates=data[20]
+        self.latitude=data[20]
         self.position_quality_1=data[21]
-        self.acquired_coordinates=data[22]
-        self.position_quality_2=data[23]
+        self.longitude=data[22]
+        self.consulties=data[23]
         self.l=data[24]
         self.w=data[25]
         self.d=data[26]
@@ -201,10 +201,10 @@ class single_SHIPWRECK_pdf_sheet:
         inclination = Paragraph("<b>Sea bed inclination</b><br/>"  + str(self.inclination), styNormal)
         depth_max_min = Paragraph("<b>Depth Max-Min</b><br/>"  + str(self.depth_max_min), styNormal)
         depth_quality = Paragraph("<b>Depth quality</b><br/>"  + str(self.depth_quality), styNormal)
-        coordinates = Paragraph("<b>Coordinates</b><br/>"  + str(self.coordinates), styNormal)
+        latitude = Paragraph("<b>Latitude</b><br/>"  + str(self.latitude), styNormal)
         position_quality_1 = Paragraph("<b>Position quality</b><br/>"  + str(self.position_quality_1), styNormal)
-        acquired_coordinates = Paragraph("<b>Acquired coordinates</b><br/>"  + str(self.acquired_coordinates), styNormal)
-        position_quality_2 = Paragraph("<b>Position quality</b><br/>"  + str(self.position_quality_2), styNormal)
+        longitude = Paragraph("<b>Longitude</b><br/>"  + str(self.longitude), styNormal)
+        consulties = Paragraph("<b>Consulties</b><br/>"  + str(self.position_quality_2), styNormal)
         l = Paragraph("<b>Length</b><br/>"  + str(self.l), styNum)
         w = Paragraph("<b>Width</b><br/>"  + str(self.w), styNum)
         d = Paragraph("<b>Draugth</b><br/>"  + str(self.d), styNum)
@@ -248,7 +248,7 @@ class single_SHIPWRECK_pdf_sheet:
                         [purpose, '01', '02', '03', '04','05', builder,'07', '08', '09','10','11',cause,'13', '14','15','16','17'], #5 row ok
                         [divers, '01', '02', '03', '04','05', wreck, '07', '08', '09','10','11', composition,'13', '14','15','16','17'], #6 row ok
                         [inclination, '01', '02', '03', '04','05', depth_max_min, '07', '08', '09','10','11',depth_quality,'13', '14','15','16','17'],#7
-                        [coordinates, '01', '02', '03','04'  ,position_quality_1,'06', '07','08',  acquired_coordinates,'10','11','12','13',  position_quality_2,'15','16','17'],#8
+                        [latitude, '01', '02', '03','04'  ,longitude,'06', '07','08',  position_quality_1,'10','11','12','13',  consulties,'15','16','17'],#8
                         
                         [l,w,d,t,cl,cw,cd],#9
                         
@@ -340,11 +340,12 @@ class FOTO_index_pdf_sheet(object):
     def __init__(self, data):
         
         self.code_id= data[0]
-        self.foto = data[4]
-        self.thumbnail = data[5]
-        self.coordinates = data[1]
-        self.name_vessel = data[2]
-        self.description= data[3]
+        self.foto = data[5]
+        self.thumbnail = data[6]
+        self.latitude = data[1]
+        self.longitude = data[2]
+        self.name_vessel = data[3]
+        self.description= data[4]
         #self.unita_tipo =data[3]
     def getTable(self):
         styleSheet = getSampleStyleSheet()
@@ -360,8 +361,8 @@ class FOTO_index_pdf_sheet(object):
     
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']
-        coordinates = Paragraph("<b>Coordinates</b><br/>" + str(self.coordinates), styNormal)
-        
+        latitude = Paragraph("<b>Latitude</b><br/>" + str(self.latitude), styNormal)
+        longitude = Paragraph("<b>Longitude</b><br/>" + str(self.longitude), styNormal)
         name_vessel = Paragraph("<b>Name Vessel</b><br/>" + str(self.name_vessel), styNormal)
         foto = Paragraph("<b>Photo ID</b><br/>" + str(self.foto), styNormal)
         decription = Paragraph("<b>Description</b><br/>" + str(self.description), styNormal)
@@ -376,7 +377,8 @@ class FOTO_index_pdf_sheet(object):
         data = [
                 foto,
                 thumbnail,
-                coordinates,
+                latitude,
+                longitude,
                 name_vessel,
                 decription
                 ]
@@ -394,10 +396,10 @@ class FOTO_index_pdf_sheet_2(object):
         
         self.code_id= data[0]
         #self.foto = data[4]
-        #self.thumbnail = data[5]
-        self.coordinates = data[1]
-        self.name_vessel = data[2]
-        self.description= data[3]
+        self.latitude = data[1]
+        self.longitude = data[2]
+        self.name_vessel = data[3]
+        self.description= data[4]
     def getTable(self):
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
@@ -412,7 +414,8 @@ class FOTO_index_pdf_sheet_2(object):
     
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']
-        coordinates = Paragraph("<b>Coordinates</b><br/>" + str(self.coordinates), styNormal)
+        latitude = Paragraph("<b>Latitude</b><br/>" + str(self.latitude), styNormal)
+        longitude = Paragraph("<b>Longitude</b><br/>" + str(self.longitude), styNormal)
         
         name_vessel = Paragraph("<b>Name Vessel</b><br/>" + str(self.name_vessel), styNormal)
         foto = Paragraph("<b>Photo ID</b><br/>" + str(self.foto), styNormal)
@@ -427,8 +430,8 @@ class FOTO_index_pdf_sheet_2(object):
         #thumbnail= logo
         data = [
                 foto,
-                #thumbnail,
-                coordinates,
+                latitude,
+                longitude,
                 name_vessel,
                 decription
                 ]
@@ -448,8 +451,8 @@ class SHIPWRECK_index_pdf:
         self.code_id=data[0]
         self.name_vessel= data[1]
         self.nickname=data[2]
-        self.coordinates=data[3]
-        self.acquired_coordinates=data[4]
+        self.latitude=data[3]
+        self.longitude=data[4]
         # self.date_built=data[32]
         # self.date_lost=data[33]
         self.owner=data[5]
@@ -467,8 +470,8 @@ class SHIPWRECK_index_pdf:
         code_id = Paragraph("<b>Code ID</b><br/>"  + str(self.code_id), styNormal)
         name_vessel = Paragraph("<b>Name Vessel</b><br/>"  + str(self.name_vessel), styNormal)
         nickname = Paragraph("<b>Nickname</b><br/>"  + str(self.nickname), styNormal)
-        coordinates = Paragraph("<b>Coordinates</b><br/>"  + str(self.coordinates), styNormal)
-        acquired_coordinates = Paragraph("<b>Acquired Coordinates</b><br/>"  + str(self.acquired_coordinates), styNormal)
+        latitude = Paragraph("<b>Latitude</b><br/>"  + str(self.latitude), styNormal)
+        longitude = Paragraph("<b>Longitude</b><br/>"  + str(self.longitude), styNormal)
         # date_built = Paragraph("<b>Date Built</b><br/>"  + str(self.date_built), styNormal)
         # date_lost = Paragraph("<b>Date Lost</b><br/>"  + str(self.date_lost), styNormal)
         owner = Paragraph("<b>Owner</b><br/>"  + str(self.owner), styNormal)
@@ -480,27 +483,12 @@ class SHIPWRECK_index_pdf:
         data1 = [code_id,
                 name_vessel,
                 nickname,
-                coordinates,
-                acquired_coordinates,
+                latitude,
+                longitude,
                 owner,
                 nationality
                 ]
-        """
-        for i in range(20):
-            data.append([area = Paragraph("<b>Sector</b><br/>" + str(area),styNormal),
-                        us = Paragraph("<b>SU</b><br/>" + str(us),styNormal),
-                        covers = Paragraph("<b>Covers</b><br/>" + str(covers),styNormal),
-                        covered_to = Paragraph("<b>Covered by</b><br/>" + str(covered_to),styNormal),
-                        cuts = Paragraph("<b>Cuts</b><br/>" + str(cuts),styNormal),
-                        cut_by = Paragraph("<b>Cut by</b><br/>" + str(cut_by),styNormal),
-                        fills = Paragraph("<b>Fills</b><br/>" + str(fills),styNormal),
-                        filled_by = Paragraph("<b>Filled by</b><br/>" + str(filled_by),styNormal),
-                        abuts_on = Paragraph("<b>Abuts</b><br/>" + str(abuts_on),styNormal),
-                        supports = Paragraph("<b>Supports</b><br/>" + str(gli_si_appoggia),styNormal),
-                        same_as = Paragraph("<b>Same as</b><br/>" + str(same_as),styNormal),
-                        connected_to = Paragraph("<b>Connected to</b><br/>" + str(connected_to),styNormal)])
-        """
-        #t = Table(data,  colWidths=55.5)
+       
         return data1
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
