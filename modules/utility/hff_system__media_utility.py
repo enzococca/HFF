@@ -21,11 +21,11 @@
 """
 
 from __future__ import print_function
-
+import shutil
 from PIL import Image
 from builtins import object
 from builtins import str
-
+from qgis.PyQt.QtWidgets import QMessageBox
 from ..db.hff_system__conn_strings import *
 
 
@@ -100,18 +100,50 @@ if __name__ == '__main__':
     # thumb_resize_str = thumb_resize['thumb_resize']
     # print(thumb_resize_str)
     # m.resample_images('/Users/hff_system_/desktop/Archivio/', 'Immagine2.png', thumb_resize_str, '_pay.png')
-"""
-listfiles = os.listdir(self.pathfiles)
-for infile in listfiles:
-    comp_file = ('%s/%s') % (self.pathfiles,infile)
-    outfile = os.path.splitext(infile)[0] + "_pay.png"
-    if infile != outfile: 
-        try:
-            im = Image.open(self.pathfiles + infile)
-            print 'im', im
-            im.thumbnail(size) 
-            im.save(self.outputpath + outfile, dpi=(100,100)) 
+class Video_utility(object):
 
-        except IOError: 
-            print "cannot create thumbnail for", infile
-"""
+
+    def resample_images(self, mid, ip, i, o, ts):
+        self.max_num_id = mid
+        self.input_path = ip
+        self.infile = i
+        self.outpath = o
+        self.thumb_suffix = ts
+
+        #size = 2008, 1417
+        infile = str(self.input_path)
+        outfile = ('%s%s_%s%s') % (
+        self.outpath, str(self.max_num_id), os.path.splitext(self.infile)[0], self.thumb_suffix)
+        shutil.move(infile, outfile)
+            
+
+if __name__ == '__main__':
+    m = Video_utility()
+    conn = Connection()
+    thumb_path = conn.thumb_path()
+    thumb_path_str = thumb_path['thumb_path']
+    print(thumb_path_str)   
+    
+class Video_utility_resize(object):
+
+
+    def resample_images(self, mid, ip, i, o, ts):
+        self.max_num_id = mid
+        self.input_path = ip
+        self.infile = i
+        self.outpath = o
+        self.thumb_suffix = ts
+
+        #size = 2008, 1417
+        infile = str(self.input_path)
+        outfile = ('%s%s_%s%s') % (
+        self.outpath, str(self.max_num_id), os.path.splitext(self.infile)[0], self.thumb_suffix)
+        shutil.copy(infile, outfile)
+            
+
+if __name__ == '__main__':
+    m = Video_utility_resize()
+    conn = Connection()
+    thumb_resize = conn.thumb_resize()
+    thumb_resize_str = thumb_resize['thumb_resize']
+    print(thumb_resize_str)   
