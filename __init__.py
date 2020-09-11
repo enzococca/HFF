@@ -93,7 +93,13 @@ try:
     import xlsxwriter
 except Exception as e:
     missing_libraries.append(str(e))        
-    
+try:
+    import pkg_resources
+
+    pkg_resources.require("opencv-python")
+    import cv2 
+except Exception as e:
+    missing_libraries.append(str(e))     
     
 install_libraries = []
 for l in missing_libraries:
