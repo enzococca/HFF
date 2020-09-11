@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1042</width>
+    <width>1054</width>
     <height>841</height>
    </rect>
   </property>
@@ -52,8 +52,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>460</width>
-     <height>114</height>
+     <width>471</width>
+     <height>132</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_4">
@@ -82,7 +82,7 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0" colspan="2">
+    <item row="5" column="0">
      <layout class="QGridLayout" name="gridLayout_5">
       <item row="1" column="3">
        <widget class="QPushButton" name="pushButton_last_rec">
@@ -162,104 +162,6 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QPushButton" name="pushButton_chose_dir">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Upload the photos to the database (link) and view them in the listWidget&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Upload image</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="pushButton_sort">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>Order by</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton_view_all">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>View alls records</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="pushButton_prev_rec">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>120</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Torna indietro di 25 foto alla volta&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="1">
        <widget class="QPushButton" name="pushButton_remove_thumb">
         <property name="enabled">
@@ -291,6 +193,39 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="pushButton_prev_rec">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Torna indietro di 25 foto alla volta&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QRadioButton" name="radioButton_2">
+        <property name="text">
+         <string>Show search bar</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QRadioButton" name="radioButton">
         <property name="text">
@@ -307,10 +242,54 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QRadioButton" name="radioButton_2">
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_chose_dir">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Upload the photos to the database (link) and view them in the listWidget&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
-         <string>Show search bar</string>
+         <string>Upload image</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="pushButton_sort">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Order by</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="pushButton_dir_video">
+        <property name="text">
+         <string>Upload video</string>
         </property>
        </widget>
       </item>
@@ -322,9 +301,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
-     <width>461</width>
-     <height>671</height>
+     <y>140</y>
+     <width>471</width>
+     <height>661</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -518,13 +497,13 @@
     <rect>
      <x>50</x>
      <y>480</y>
-     <width>739</width>
+     <width>839</width>
      <height>295</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>739</width>
+     <width>839</width>
      <height>295</height>
     </size>
    </property>
@@ -1118,8 +1097,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>487</x>
-     <y>11</y>
+     <x>490</x>
+     <y>10</y>
      <width>551</width>
      <height>791</height>
     </rect>
@@ -1267,10 +1246,10 @@
        <widget class="QWidget" name="layoutWidget_4">
         <property name="geometry">
          <rect>
-          <x>310</x>
+          <x>260</x>
           <y>10</y>
-          <width>234</width>
-          <height>25</height>
+          <width>285</width>
+          <height>30</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_26">
@@ -1368,8 +1347,8 @@
          <rect>
           <x>310</x>
           <y>10</y>
-          <width>234</width>
-          <height>25</height>
+          <width>285</width>
+          <height>30</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_19">
@@ -1470,8 +1449,8 @@
          <rect>
           <x>310</x>
           <y>9</y>
-          <width>234</width>
-          <height>25</height>
+          <width>285</width>
+          <height>30</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_20">
@@ -1567,8 +1546,8 @@
          <rect>
           <x>300</x>
           <y>10</y>
-          <width>234</width>
-          <height>25</height>
+          <width>285</width>
+          <height>30</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_21">
@@ -1679,8 +1658,8 @@
          <rect>
           <x>310</x>
           <y>9</y>
-          <width>234</width>
-          <height>25</height>
+          <width>285</width>
+          <height>30</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -1788,8 +1767,8 @@
          <rect>
           <x>310</x>
           <y>10</y>
-          <width>234</width>
-          <height>25</height>
+          <width>285</width>
+          <height>30</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_22">
@@ -1869,8 +1848,8 @@
          <rect>
           <x>310</x>
           <y>10</y>
-          <width>234</width>
-          <height>25</height>
+          <width>285</width>
+          <height>30</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_23">
@@ -1953,8 +1932,8 @@
          <rect>
           <x>300</x>
           <y>10</y>
-          <width>234</width>
-          <height>25</height>
+          <width>285</width>
+          <height>30</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_25">
