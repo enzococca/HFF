@@ -40,7 +40,8 @@ if not packages:
         'psycopg2',
         'elasticsearch',
         'pysftp',
-        'xlsxwriter'
+        'xlsxwriter',
+        'opencv-python'
     ]
 python_path = sys.exec_prefix
 python_version = sys.version[:3]
