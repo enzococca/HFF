@@ -255,7 +255,7 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                 art_path = '{}{}{}'.format(art_path, os.sep, "Artefact")
                 self.OS_UTILITY.create_dir(art_path)
                 for sing_art in art_res:
-                    sing_art_num = str(sing_art.divelog_id)
+                    sing_art_num = str(sing_art.artefact_id)
                     prefix = ''
                     sing_art_num_len = len(sing_art_num)
                     if sing_art_num_len == 1:
@@ -293,7 +293,7 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                 pot_path = '{}{}{}'.format(pot_path, os.sep, "Pottery")
                 self.OS_UTILITY.create_dir(pot_path)
                 for sing_pot in pot_res:
-                    sing_pot_num = str(sing_pot.divelog_id)
+                    sing_pot_num = str(sing_pot.artefact_id)
                     prefix = ''
                     sing_pot_num_len = len(sing_pot_num)
                     if sing_pot_num_len == 1:
@@ -332,7 +332,7 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                 anc_path = '{}{}{}'.format(anc_path, os.sep, "Anchor")
                 self.OS_UTILITY.create_dir(anc_path)
                 for sing_anc in anc_res:
-                    sing_anc_num = str(sing_anc.divelog_id)
+                    sing_anc_num = str(sing_anc.anchors_id)
                     prefix = ''
                     sing_anc_num_len = len(sing_anc_num)
                     if sing_anc_num_len == 1:
