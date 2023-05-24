@@ -51,7 +51,7 @@ from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
-from ..modules.utility.print_relazione_pdf import exp_rel_pdf
+#from ..modules.utility.print_relazione_pdf import exp_rel_pdf
 from ..modules.utility.hff_system__error_check import Error_check
 from ..modules.utility.delegateComboBox import ComboBoxDelegate
 from ..test_area import Test_area
