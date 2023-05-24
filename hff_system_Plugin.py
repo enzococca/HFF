@@ -23,8 +23,6 @@ from __future__ import absolute_import
 import os
 
 from builtins import object
-from builtins import str
-
 
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import QIcon
@@ -35,10 +33,15 @@ from hff_system_DockWidget import HffPluginDialog
 from .tabs.Eamena import Eamena
 
 from .tabs.hff_system__Shipwreck import hff_system__Shipwreck
+from .tabs.hff_system__UW_mainapp import hff_system__UW
 from .tabs.hff_system__ANC_mainapp import hff_system__ANC
 from .tabs.hff_system__ART_mainapp import hff_system__ART
-from .tabs.hff_system__UW_mainapp import hff_system__UW
 from .tabs.hff_system__Pottery_mainapp import hff_system__Pottery
+
+from .tabs.hff_system_ANC_conservation import hff_system_ANC_con
+from .tabs.hff_system_ART_conservation import hff_system_ART_con
+from .tabs.hff_system_Pottery_conservation import hff_system_Pottery_con
+
 from .tabs.Image_viewer import Main
 from .tabs.Images_directory_export import hff_system__Images_directory_export
 from .tabs.Excel_export import hff_system__excel_export
@@ -204,9 +207,24 @@ class HffPlugin_s(object):
         self.actionPottery = QAction(QIcon(icon_Pottery), "Pottery", self.iface.mainWindow())
         self.actionPottery.setWhatsThis("Pottery")
         self.actionPottery.triggered.connect(self.runPottery)
-        
+
+        icon_ANC_CON = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'iconANC_CON.png'))
+        self.actionANCCON = QAction(QIcon(icon_ANC_CON), "Anchor conservation", self.iface.mainWindow())
+        self.actionANCCON.setWhatsThis("Anchor conservation")
+        self.actionANCCON.triggered.connect(self.runANCCON)
+
+        icon_ART_CON = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'radar_CON.png'))
+        self.actionARTCON = QAction(QIcon(icon_ART_CON), "Artefact conservation", self.iface.mainWindow())
+        self.actionARTCON.setWhatsThis("Artefact conservation")
+        self.actionARTCON.triggered.connect(self.runARTCON)
+
+        icon_Pottery_CON = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'pottery_CON.png'))
+        self.actionPotteryCON = QAction(QIcon(icon_Pottery_CON), "Pottery conservation", self.iface.mainWindow())
+        self.actionPotteryCON.setWhatsThis("Pottery")
+        self.actionPotteryCON.triggered.connect(self.runPotteryCON)
+
         self.dataToolButton.addActions(
-            [self.actionUW, self.actionART, self.actionANC, self.actionPottery])
+            [self.actionUW, self.actionART, self.actionARTCON, self.actionANC,self.actionANCCON, self.actionPottery,self.actionPotteryCON])
         self.dataToolButton.setDefaultAction(self.actionUW)
 
         self.toolBar.addWidget(self.dataToolButton)
@@ -285,19 +303,22 @@ class HffPlugin_s(object):
 
         # menu
         self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionUW)
-        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionANC)
-        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionART)
-        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionPottery)
+        self.iface.addPluginToMenu("HFF - Survey Anchor Archaeological GIS Tools", self.actionANC)
+        self.iface.addPluginToMenu("HFF - Survey Artefact Archaeological GIS Tools", self.actionART)
+        self.iface.addPluginToMenu("HFF - Survey Pottery Archaeological GIS Tools", self.actionPottery)
+        self.iface.addPluginToMenu("HFF - Survey Anchor conservation Archaeological GIS Tools", self.actionANCCON)
+        self.iface.addPluginToMenu("HFF - Survey Artefact conservation Archaeological GIS Tools", self.actionARTCON)
+        self.iface.addPluginToMenu("HFF - Survey Pottery conservation Archaeological GIS Tools", self.actionPotteryCON)
+
+        self.iface.addPluginToMenu("HFF - Survey Shipwreck Archaeological GIS Tools", self.actionShipwreck)
         
-        self.iface.addPluginToMenu("HFF - Survey UW Archaeological GIS Tools", self.actionShipwreck)
         
         
+        self.iface.addPluginToMenu("HFF - Site Archaeological GIS Tools", self.actionSite)
         
-        self.iface.addPluginToMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionSite)
+        self.iface.addPluginToMenu("HFF - Print Tools", self.actionPrint)
         
-        self.iface.addPluginToMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionPrint)
-        
-        self.iface.addPluginToMenu("HFF - Survey Terrestrial Archaeological GIS Tools", self.actionEamena)
+        self.iface.addPluginToMenu("HFF - Eamena GIS ", self.actionEamena)
         
         self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionimageViewer)
         self.iface.addPluginToMenu("HFF - Media manager GIS Tools", self.actionexcelExp)
@@ -321,7 +342,7 @@ class HffPlugin_s(object):
         
         self.menu.addActions([self.actionShipwreck])
         self.menu.addSeparator()
-        self.menu.addActions([self.actionUW, self.actionART, self.actionANC, self.actionPottery])
+        self.menu.addActions([self.actionUW, self.actionART, self.actionARTCON, self.actionANC, self.actionANCCON,self.actionPottery, self.actionPotteryCON])
         
         
         self.menu.addActions([self.actionimageViewer, self.actionexcelExp, self.actionImages_Directory_export])
@@ -369,7 +390,20 @@ class HffPlugin_s(object):
         pluginGui = hff_system__Pottery(self.iface)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
-        
+    def runANCCON(self):
+        pluginGui = hff_system_ANC_CON(self.iface)
+        pluginGui.show()
+        self.pluginGui = pluginGui  # save
+
+    def runARTCON(self):
+        pluginGui = hff_system_ART_CON(self.iface)
+        pluginGui.show()
+        self.pluginGui = pluginGui  # save
+
+    def runPotteryCON(self):
+        pluginGui = hff_system_Pottery_CON(self.iface)
+        pluginGui.show()
+        self.pluginGui = pluginGui  # save
         
     def runShipwreck(self):
         pluginGui = hff_system__Shipwreck(self.iface)
@@ -422,6 +456,9 @@ class HffPlugin_s(object):
         self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionANC)
         self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionART)
         self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionPottery)
+        self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionANCCON)
+        self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionARTCON)
+        self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionPotteryCON)
         
         self.iface.removePluginMenu("HFF - Survey UW Archaeological GIS Tools", self.actionShipwreck)
         
@@ -444,7 +481,9 @@ class HffPlugin_s(object):
         self.iface.removeToolBarIcon(self.actionART)
         self.iface.removeToolBarIcon(self.actionANC)
         self.iface.removeToolBarIcon(self.actionPottery)
-        
+        self.iface.removeToolBarIcon(self.actionARTCON)
+        self.iface.removeToolBarIcon(self.actionANCCON)
+        self.iface.removeToolBarIcon(self.actionPotteryCON)
         self.iface.removeToolBarIcon(self.actionShipwreck)
         
         self.iface.removeToolBarIcon(self.actionSite)

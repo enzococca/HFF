@@ -39,7 +39,7 @@ from sqlalchemy.dialects.postgresql import insert
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 from qgis.utils import iface
 from geoalchemy2 import *
-from .hff_db_mapper import UW, ART, ANC, POTTERY, SITE, EAMENA, SHIPWRECK, \
+from .hff_db_mapper import UW, ART, ANC, POTTERY,ARCCON,ARTCON,POTTTERYCON, SITE, EAMENA, SHIPWRECK, \
     MEDIA, \
     MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, \
     PDF_ADMINISTRATOR, SITE_POLYGON, SITE_LINE, SITE_POINT, \
@@ -479,6 +479,75 @@ class Hff_db_management(object):
 
         return eamena
     
+    def insert_anccon_values(self, *arg):
+        """Istanzia la classe US da hff_system__db_mapper"""
+
+        anc_con = ANCCON(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15]
+                         )
+
+        return anc_con
+
+    def insert_artcon_values(self, *arg):
+        """Istanzia la classe US da hff_system__db_mapper"""
+
+        art_con = ARTCON(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15]
+                         )
+
+        return art_con
+
+    def insert_potterycon_values(self, *arg):
+        """Istanzia la classe US da hff_system__db_mapper"""
+
+        pottery_con = POTTERYCON(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14],
+                    arg[15]
+                         )
+
+        return pottery_con
+
     def insert_uw_values(self, *arg):
         """Istanzia la classe US da hff_system__db_mapper"""
 
