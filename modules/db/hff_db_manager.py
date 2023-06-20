@@ -39,7 +39,7 @@ from sqlalchemy.dialects.postgresql import insert
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 from qgis.utils import iface
 from geoalchemy2 import *
-from .hff_db_mapper import UW, ART, ANC, POTTERY,ARCCON,ARTCON,POTTTERYCON, SITE, EAMENA, SHIPWRECK, \
+from .hff_db_mapper import UW, ART, ANC, POTTERY,ANCCON,ARTCON,POTTTERYCON, SITE, EAMENA, SHIPWRECK, \
     MEDIA, \
     MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, \
     PDF_ADMINISTRATOR, SITE_POLYGON, SITE_LINE, SITE_POINT, \
