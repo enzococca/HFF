@@ -39,7 +39,7 @@ from sqlalchemy.dialects.postgresql import insert
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 from qgis.utils import iface
 from geoalchemy2 import *
-from .hff_db_mapper import UW, ART, ANC, POTTERY, SITE, EAMENA, SHIPWRECK, \
+from .hff_db_mapper import UW, ART, ANC, POTTERY,ANC_c,ART_c,POT_c, SITE, EAMENA, SHIPWRECK, \
     MEDIA, \
     MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, \
     PDF_ADMINISTRATOR, SITE_POLYGON, SITE_LINE, SITE_POINT, \
@@ -263,7 +263,7 @@ class Hff_db_management(object):
     
     
     
-    
+
     
     
     
@@ -479,6 +479,76 @@ class Hff_db_management(object):
 
         return eamena
     
+    def insert_anccon_values(self, *arg):
+        """Istanzia la classe US da hff_system__db_mapper"""
+
+        anc_con = ANC_c(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14]
+                         )
+
+        return anc_con
+
+    def insert_artcon_values(self, *arg):
+        """Istanzia la classe US da hff_system__db_mapper"""
+
+        art_con = ART_c(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14]
+                         )
+
+        return art_con
+
+    def insert_potterycon_values(self, *arg):
+        """Istanzia la classe US da hff_system__db_mapper"""
+
+        pottery_con = POT_c(arg[0],
+                    arg[1],
+                    arg[2],
+                    arg[3],
+                    arg[4],
+                    arg[5],
+                    arg[6],
+                    arg[7],
+                    arg[8],
+                    arg[9],
+                    arg[10],
+                    arg[11],
+                    arg[12],
+                    arg[13],
+                    arg[14]
+                         )
+
+        return pottery_con
+
+
+
+
+
     def insert_uw_values(self, *arg):
         """Istanzia la classe US da hff_system__db_mapper"""
 
@@ -1210,6 +1280,13 @@ class Hff_db_management(object):
         res = self.engine.execute(sql_query_string)
         # rows= res.fetchall()
         return res    
+
+    def remove_tags_from_db_sql_scheda(self, s,n):
+        sql_query_string = ("DELETE FROM media_to_entity_table WHERE id_entity  = '%s' and media_name= '%s' ") % (s,n)
+
+        res = self.engine.execute(sql_query_string)
+        # rows= res.fetchall()
+        return res
     def delete_thumb_from_db_sql(self,s):
         sql_query_string = ("DELETE FROM media_thumb_table WHERE media_filename  = '%s'") % (s)
     
@@ -1259,6 +1336,36 @@ class Hff_db_management(object):
         res = self.engine.execute(sql_query_string)
         rows= res.fetchall()
         return rows
+
+    def select_medianame_anc_c_from_db_sql(self, id):
+        sql_query_string = (
+                               "SELECT c.filepath, b.anchor_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  anchor_table as b, media_thumb_table as c WHERE b.id_anc=a.id_entity and c.id_media=a.id_media and a.entity_type='ANC_CON'  and anchors_id = '%s'") % (
+                               id)
+
+        res = self.engine.execute(sql_query_string)
+        rows = res.fetchall()
+        return rows
+
+    def select_medianame_art_c_from_db_sql(self, id):
+        sql_query_string = (
+                               "SELECT c.filepath, b.artefact_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and a.entity_type='ART_CON'  and artefact_id = '%s'") % (
+                               id)
+
+        res = self.engine.execute(sql_query_string)
+        rows = res.fetchall()
+        return rows
+
+    def select_medianame_pot_c_from_db_sql(self, id):
+        sql_query_string = (
+                               "SELECT c.filepath, b.pottery_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  pottery_table as b, media_thumb_table as c WHERE b.id_rep=a.id_entity and c.id_media=a.id_media and a.entity_type='POT_CON'  and artefact_id = '%s'") % (
+                               id)
+
+        res = self.engine.execute(sql_query_string)
+        rows = res.fetchall()
+        return rows
+
+
+
     def select_medianame_ss_from_db_sql(self,sito):
         sql_query_string = ("SELECT c.filepath, b.name_site,a.media_name,a.entity_type FROM media_to_entity_table as a,  site_table as b, media_thumb_table as c WHERE b.id_sito=a.id_entity and c.id_media=a.id_media and a.entity_type='SITE'  and name_site = '%s'")%(sito) 
         
