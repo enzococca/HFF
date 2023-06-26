@@ -38,9 +38,9 @@ from .tabs.hff_system__ANC_mainapp import hff_system__ANC
 from .tabs.hff_system__ART_mainapp import hff_system__ART
 from .tabs.hff_system__Pottery_mainapp import hff_system__Pottery
 
-from .tabs.hff_system_ANC_conservation import hff_system_ANC_con
-from .tabs.hff_system_ART_conservation import hff_system_ART_con
-from .tabs.hff_system_Pottery_conservation import hff_system_Pottery_con
+from .tabs.hff_system_ANC_CON import hff_system_ANC_CON
+from .tabs.hff_system_ART_CON import hff_system__ART_CON
+from .tabs.hff_system_Pottery_CON import hff_system__Pottery_CON
 
 from .tabs.Image_viewer import Main
 from .tabs.Images_directory_export import hff_system__Images_directory_export
@@ -396,12 +396,12 @@ class HffPlugin_s(object):
         self.pluginGui = pluginGui  # save
 
     def runARTCON(self):
-        pluginGui = hff_system_ART_CON(self.iface)
+        pluginGui = hff_system__ART_CON(self.iface)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
 
     def runPotteryCON(self):
-        pluginGui = hff_system_Pottery_CON(self.iface)
+        pluginGui = hff_system__Pottery_CON(self.iface)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
         
