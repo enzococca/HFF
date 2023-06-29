@@ -20,8 +20,9 @@
  ***************************************************************************/
 """
 
-from qgis.PyQt.QtCore import Qt
-from qgis.PyQt.QtWidgets import QApplication, QDialog, QMessageBox, QItemDelegate, QComboBox
+from qgis.PyQt.QtCore import Qt, QSize
+from qgis.PyQt.QtGui import QPen,QTextDocument
+from qgis.PyQt.QtWidgets import QApplication, QDialog, QMessageBox, QItemDelegate, QComboBox,QStyledItemDelegate
 
 
 class ComboBoxDelegate(QItemDelegate):
@@ -53,3 +54,60 @@ class ComboBoxDelegate(QItemDelegate):
     def setModelData(self, editor, model, index):
         # model.setData(index, QtCore.QVariant(editor.currentText() ))
         model.setData(index, editor.currentText())
+class MultiColumnDelegate(QStyledItemDelegate):
+    #options = ""
+    editable = ""
+    def __init__(self, parent=None):
+        super(MultiColumnDelegate, self).__init__(parent)
+
+    def options(self, options):
+        self.options = options
+
+    def def_editable(self, editable):
+        self.editable = editable
+    def createEditor(self, parent, option, index):
+        if index.column() < len(self.options):
+            editor = QComboBox(parent)
+            editor.addItems(self.options[index.column()])
+            return editor
+        else:
+            return super(MultiColumnDelegate, self).createEditor(parent, option, index)
+
+    def setEditorData(self, editor, index):
+        if index.column() < len(self.options):
+            value = index.data(Qt.DisplayRole) or ""
+            editor.setCurrentIndex(editor.findText(value))
+        else:
+            super(MultiColumnDelegate, self).setEditorData(editor, index)
+
+    def setModelData(self, editor, model, index):
+        if index.column() < len(self.options):
+            model.setData(index, editor.currentText())
+        else:
+            super(MultiColumnDelegate, self).setModelData(editor, model, index)
+
+class WordWrapDelegate(QStyledItemDelegate):
+    def paint(self, painter, option, index):
+        text = index.model().data(index)
+
+        document = QTextDocument()
+        document.setHtml(text)
+
+        document.setTextWidth(option.rect.width())  # set width of painter's device to width of item
+        index.model().setData(index, option.rect.width(), Qt.UserRole+1)
+
+        painter.setPen(QPen())
+        painter.save()
+        painter.translate(option.rect.x(), option.rect.y())
+        document.drawContents(painter)  # draw the document with the painter
+        painter.restore()
+
+    def sizeHint(self, option, index):
+        text = index.model().data(index)
+        document = QTextDocument()
+        document.setHtml(text)
+
+        return QSize(document.idealWidth() + 10,  # idealWidth + 10 seems to be fine
+                            document.size().height())
+
+

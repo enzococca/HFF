@@ -34,6 +34,9 @@ from .entities.UW import UW
 from .entities.ART import ART
 from .entities.ANC import ANC
 from .entities.POTTERY import POTTERY
+from .entities.ART_c import ART_c
+from .entities.ANC_c import ANC_c
+from .entities.POT_c import POT_c
 from .entities.EAMENA import EAMENA
 from .entities.SHIPWRECK import SHIPWRECK
 from .entities.ANCHOR_POINT import ANCHOR_POINT
@@ -61,6 +64,9 @@ from .structures.UW_table import UW_table
 from .structures.ART_table import ART_table
 from .structures.ANC_table import ANC_table
 from .structures.POTTERY_table import POTTERY_table
+from .structures.ART_con import ART_con
+from .structures.ANC_con import ANC_con
+from .structures.POT_con import POT_con
 from .structures.Eamena_table import Eamena_table
 from .structures.Shipwreck_table import Shipwreck_table
 from .structures.features_poligon_table import features_poligon_table
@@ -117,6 +123,15 @@ try:
           
     # mapper
     mapper(POTTERY, POTTERY_table.pottery_table)
+
+    # mapper
+    mapper(ART_c, ART_con.artefact_con)
+
+    # mapper
+    mapper(ANC_c, ANC_con.anchor_con)
+
+    # mapper
+    mapper(POT_c, POT_con.pottery_con)
     
     # mapper
     mapper(SHIPWRECK, Shipwreck_table.shipwreck_table)
