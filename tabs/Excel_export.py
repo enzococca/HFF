@@ -465,7 +465,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                      
             
             if self.checkBox_anchor.isChecked():
@@ -480,7 +480,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                          
                     # for i in temp_data_list:
                     # self.DATA_LIST.append(i)

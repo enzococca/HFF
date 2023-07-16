@@ -1193,6 +1193,9 @@ class Hff_db_management(object):
 
         # return res
 
+
+
+
     def query_sort(self, id_list, op, to, tc, idn):
         self.order_params = op
         self.type_order = to
@@ -1345,7 +1348,14 @@ class Hff_db_management(object):
         res = self.engine.execute(sql_query_string)
         rows = res.fetchall()
         return rows
+    def select_desalination(self, artefact, table, sito):
+        sql_query_string = (
+                               "SELECT %s, desalination_date FROM %s where site ='%s'") % (artefact,table,sito)
 
+        res = self.engine.execute(sql_query_string)
+        rows = res.fetchall()
+        key=res.keys()
+        return rows, key
     def select_medianame_art_c_from_db_sql(self, id):
         sql_query_string = (
                                "SELECT c.filepath, b.artefact_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and a.entity_type='ART_CON'  and artefact_id = '%s'") % (

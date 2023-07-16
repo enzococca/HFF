@@ -11,7 +11,7 @@
     <x>0</x>
     <y>0</y>
     <width>997</width>
-    <height>681</height>
+    <height>651</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1388,6 +1388,17 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_excel">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../resources/resources.qrc">
+           <normaloff>:/icons/excel-export.png</normaloff>:/icons/excel-export.png</iconset>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab">
@@ -1416,14 +1427,14 @@
            <bool>true</bool>
           </property>
           <property name="windowTitle">
-           <string>Pottery export pdf</string>
+           <string>Anchor conservation export pdf</string>
           </property>
           <widget class="QWidget" name="dockWidgetContents_4">
            <layout class="QGridLayout" name="gridLayout_33">
             <item row="0" column="0">
              <widget class="QCheckBox" name="checkBox_e_pottery">
               <property name="text">
-               <string>Pottery Conservation list</string>
+               <string>Anchor Conservation list</string>
               </property>
              </widget>
             </item>
@@ -1437,7 +1448,7 @@
             <item row="1" column="0">
              <widget class="QCheckBox" name="checkBox_s_pottery">
               <property name="text">
-               <string>Pottery Conservation</string>
+               <string>Anchor Conservation</string>
               </property>
              </widget>
             </item>
@@ -1947,5 +1958,22 @@
  <resources>
   <include location="../../resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_form</sender>
+   <signal>pressed()</signal>
+   <receiver>mDockWidget_export</receiver>
+   <slot>toggleUserVisible()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>66</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>141</x>
+     <y>641</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
