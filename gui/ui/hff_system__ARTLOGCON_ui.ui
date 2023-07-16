@@ -1378,6 +1378,17 @@
            </column>
           </widget>
          </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="pushButton_excel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../resources/resources.qrc">
+             <normaloff>:/icons/excel-export.png</normaloff>:/icons/excel-export.png</iconset>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tab">
