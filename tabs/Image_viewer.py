@@ -647,6 +647,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.pushButton_sort.setEnabled(n)
     
     def getDirectoryVideo(self):
+        self.iconListWidget.clear()
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']      
         if thumb_path_str=='':
@@ -731,6 +732,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                             data_for_thumb = self.db_search_check(self.MAPPER_TABLE_CLASS_thumb, 'media_filename',
                                                                   media_filename)  # recupera i valori della thumb in base al valore id_media del file originale
                             try:
+                                self.iconListWidget.clear()
                                 thumb_path = data_for_thumb[0].filepath_thumb
                                 item.setData(Qt.UserRole, thumb_path)
                                 icon = QIcon(str(thumb_path_str)+filepath_thumb)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
@@ -745,12 +747,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 QMessageBox.warning(self, "WARNING", "Check that the file name is not named with special characters",
                                     QMessageBox.Ok)
-            self.charge_data ()
-            self.view_num_rec()
-            self.open_images()
+            #self.charge_data ()
+            #self.view_num_rec()
+            #self.open_images()
     
     
     def getDirectory(self):
+        self.iconListWidget.clear()
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']      
         if thumb_path_str=='':
@@ -823,6 +826,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                         data_for_thumb = self.db_search_check(self.MAPPER_TABLE_CLASS_thumb, 'media_filename',
                                                               media_filename)  # recupera i valori della thumb in base al valore id_media del file originale
                         try:
+                            self.iconListWidget.clear()
                             thumb_path = data_for_thumb[0].filepath_thumb
                             item.setData(Qt.UserRole, thumb_path)
                             icon = QIcon(str(thumb_path_str)+filepath_thumb)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
@@ -838,9 +842,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 QMessageBox.warning(self, "WARNING", "Check that the file name is not named with special characters",
                                     QMessageBox.Ok)
-            self.charge_data ()
-            self.view_num_rec()
-            self.open_images()
+            #self.charge_data ()
+            #self.view_num_rec()
+            #self.open_images()
 
     def insert_record_media(self, mediatype, filename, filetype, filepath):
         self.mediatype = mediatype
@@ -2734,11 +2738,12 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     for item in items_selected:
                         id_orig_item = item.text()  # return the name of original file
                         s= str(id_orig_item)
-                        self.DB_MANAGER.delete_thumb_from_db_sql(s)
                         search_dict = {'filename': "'" + str(id_orig_item) + "'"}
                         id_media = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
                         self.remove_img1(thumb_path_str, str(id_media[0].id_media) + '_' + s + '_thumb' + '.png')
                         self.remove_img2(thumb_resize_str, str(id_media[0].id_media) + '_' + s + '.png')
+                        self.DB_MANAGER.delete_thumb_from_db_sql(s)
+
                 except Exception as e:
                     QMessageBox.warning(self, "Message!!!", "Error: " + str(e))    
                 self.iconListWidget.clear()
