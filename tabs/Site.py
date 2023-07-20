@@ -32,7 +32,7 @@ import pandas as pd
 import numpy as np
 import re
 import platform
-from pdf2docx import parse
+#from pdf2docx import parse
 from builtins import range
 from builtins import str
 from qgis.PyQt.QtGui import QDesktopServices,QColor, QIcon
@@ -325,22 +325,22 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
         else:
             subprocess.Popen(["xdg-open", path])
     
-    def on_pushButton_convert_pressed(self):
-        # if not bool(self.setPathpdf()):    
-            # QMessageBox.warning(self, "INFO", "devi scegliere un file pdf",
-                                # QMessageBox.Ok)
-        try:
-            pdf_file = self.lineEdit_pdf_path.text()
-            filename=pdf_file.split("/")[-1]
-            docx_file = self.PDFFOLDER+'/'+filename+'.docx'
-            # convert pdf to docx
-            parse(pdf_file, docx_file, start=self.lineEdit_pag1.text(), end=self.lineEdit_pag2.text())
-            
-            QMessageBox.information(self, "INFO", "Conversion completed",
-                                QMessageBox.Ok)
-        except Exception as e:
-            QMessageBox.warning(self, "Error", str(e),
-                                QMessageBox.Ok)
+    # def on_pushButton_convert_pressed(self):
+    #     # if not bool(self.setPathpdf()):
+    #         # QMessageBox.warning(self, "INFO", "devi scegliere un file pdf",
+    #                             # QMessageBox.Ok)
+    #     try:
+    #         pdf_file = self.lineEdit_pdf_path.text()
+    #         filename=pdf_file.split("/")[-1]
+    #         docx_file = self.PDFFOLDER+'/'+filename+'.docx'
+    #         # convert pdf to docx
+    #         parse(pdf_file, docx_file, start=self.lineEdit_pag1.text(), end=self.lineEdit_pag2.text())
+    #
+    #         QMessageBox.information(self, "INFO", "Conversion completed",
+    #                             QMessageBox.Ok)
+    #     except Exception as e:
+    #         QMessageBox.warning(self, "Error", str(e),
+    #                             QMessageBox.Ok)
     def enable_button(self, n):
         """This method Unable or Enable the GUI buttons on browse modality"""
 
