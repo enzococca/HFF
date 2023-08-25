@@ -29,14 +29,7 @@ from sqlalchemy.event import listen
 import platform
 from builtins import range
 from builtins import str
-import pandas as pd
-from pandas import DataFrame
-import ftplib
-from ftplib import FTP
-import subprocess
-from geoalchemy2 import *
-from sqlalchemy.sql import select, func, text
-from geoalchemy2 import func as funcgeom
+
 from sqlalchemy import create_engine
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.dialects.postgresql import insert

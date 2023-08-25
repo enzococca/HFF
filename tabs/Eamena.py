@@ -37,14 +37,9 @@ from qgis.PyQt.uic import loadUiType
 from qgis.core import *
 import processing
 
-from geoalchemy2 import *
+
 from sqlalchemy.event import listen
-from sqlalchemy.sql import select, func
-from geoalchemy2 import func as funcgeom
-from sqlalchemy import create_engine
-from sqlalchemy.dialects import postgresql
-from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.ext.compiler import compiles
+
 from sqlalchemy.sql.expression import *
 from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
 from ..modules.db.hff_system__conn_strings import Connection
