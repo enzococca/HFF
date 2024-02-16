@@ -221,7 +221,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 b=a.to_excel(writer, sheet_name='Sheet1')
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
                         
             if self.checkBox_uw.isChecked():
@@ -236,7 +236,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)    
                      
             if self.checkBox_art.isChecked():
@@ -251,7 +251,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                
                     
             if self.checkBox_pottery.isChecked():
@@ -266,7 +266,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                      
             
             if self.checkBox_anchor.isChecked():
@@ -281,7 +281,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)         
                     # for i in temp_data_list:
                     # self.DATA_LIST.append(i)
@@ -421,7 +421,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 # worksheet1.set_column('D:D', 30, None)
                 
                 
-                writer.save()
+                writer.close()
                    
             if self.checkBox_uw.isChecked():
                 divelog_= '%s' % (sito_location+'_divelog_' +  time.strftime('%Y%m%d_') + '.xlsx')
@@ -435,7 +435,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)    
                      
             if self.checkBox_art.isChecked():
@@ -450,7 +450,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                
                     
             if self.checkBox_pottery.isChecked():
@@ -465,7 +465,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                 #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                      
             
             if self.checkBox_anchor.isChecked():
@@ -480,7 +480,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 a=pd.DataFrame(rows,columns=col_names)
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
-                writer.save()
+                writer.close()
                          
                     # for i in temp_data_list:
                     # self.DATA_LIST.append(i)

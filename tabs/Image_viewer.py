@@ -153,6 +153,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.tableWidgetTags_MAT_10.setRowCount(1)
         self.tableWidgetTags_MAT_11.setRowCount(1)
         self.tableWidgetTags_MAT_12.setRowCount(1)
+        self.tableWidgetTags_MAT_13.setRowCount(1)
+        self.tableWidgetTags_MAT_14.setRowCount(1)
+        self.tableWidgetTags_MAT_15.setRowCount(1)
         self.tableWidgetTags_ship.setRowCount(1)
     
     def split_2(self):
@@ -211,6 +214,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.tableWidgetTags_MAT_4.setHorizontalHeaderLabels(['Artefact ID'])
         self.tableWidgetTags_MAT_9.setHorizontalHeaderLabels(['Anchor ID'])
         self.tableWidgetTags_MAT_10.setHorizontalHeaderLabels(['Pottery ID'])
+        self.tableWidgetTags_MAT_14.setHorizontalHeaderLabels(['Artefact ID'])
+        self.tableWidgetTags_MAT_13.setHorizontalHeaderLabels(['Anchor ID'])
+        self.tableWidgetTags_MAT_15.setHorizontalHeaderLabels(['Pottery ID'])
         self.tableWidgetTags_MAT_11.setHorizontalHeaderLabels(['Site name'])
         self.tableWidgetTags_MAT_12.setHorizontalHeaderLabels(['Site Name'])
         row =0
@@ -249,9 +255,45 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                        
                 except Exception as e:
                     QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
-                self.remove_row('self.tableWidgetTags_MAT_10') 
+                self.remove_row('self.tableWidgetTags_MAT_10')
 
-            elif self.tabWidget.currentIndex()==5:
+            elif self.tabWidget.currentIndex() == 5:
+                try:
+                    self.insert_new_row('self.tableWidgetTags_MAT_13')
+                    for i in list:
+                        self.tableWidgetTags_MAT_13.setItem(row, 0, QTableWidgetItem(names))
+
+
+                except Exception as e:
+                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                self.remove_row('self.tableWidgetTags_MAT_13')
+
+            elif self.tabWidget.currentIndex() == 6:
+                try:
+                    self.insert_new_row('self.tableWidgetTags_MAT_14')
+                    for i in list:
+                        self.tableWidgetTags_MAT_14.setItem(row, 0, QTableWidgetItem(names))
+
+
+                except Exception as e:
+                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                self.remove_row('self.tableWidgetTags_MAT_14')
+
+            elif self.tabWidget.currentIndex() == 7:
+                try:
+                    self.insert_new_row('self.tableWidgetTags_MAT_15')
+                    for i in list:
+                        self.tableWidgetTags_MAT_15.setItem(row, 0, QTableWidgetItem(names))
+
+
+                except Exception as e:
+                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                self.remove_row('self.tableWidgetTags_MAT_15')
+
+
+
+
+            elif self.tabWidget.currentIndex()==8:
                 try:
                     self.insert_new_row('self.tableWidgetTags_MAT_11')
                     for i in list:    
@@ -262,7 +304,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_11') 
 
-            elif self.tabWidget.currentIndex()==6:
+            elif self.tabWidget.currentIndex()==9:
                 try:
                     self.insert_new_row('self.tableWidgetTags_MAT_12')
                     for i in list:    
@@ -411,7 +453,68 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_id.clear()
             self.comboBox_id.update()
             self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(pot_list))
-    
+
+        elif self.radioButton_anc_con.isChecked()==True:
+            self.comboBox_id.clear()
+            self.comboBox_id.update()
+            sito = str(self.comboBox_sito.currentText())
+            search_dict = {
+                'site': "'" + sito + "'"
+            }
+            anc_vl = self.DB_MANAGER.query_bool(search_dict, 'ANC_c')
+            anc_list = []
+            if not anc_vl:
+                return 0
+            for i in range(len(anc_vl)):
+                anc_list.append(str(anc_vl[i].anchors_id))
+            try:
+                anc_vl.remove('')
+            except:
+                pass
+            self.comboBox_id.clear()
+            self.comboBox_id.update()
+            self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(anc_list))
+        elif self.radioButton_art_con.isChecked()==True:
+            self.comboBox_id.clear()
+            self.comboBox_id.update()
+            sito = str(self.comboBox_sito.currentText())
+            search_dict = {
+                'site': "'" + sito + "'"
+            }
+            art_vl = self.DB_MANAGER.query_bool(search_dict, 'ART_c')
+            art_list = []
+            if not art_vl:
+                return 0
+            for i in range(len(art_vl)):
+                art_list.append(str(art_vl[i].artefact_id))
+            try:
+                art_vl.remove('')
+            except:
+                pass
+            self.comboBox_id.clear()
+            self.comboBox_id.update()
+            self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(art_list))
+        elif self.radioButton_pot_con.isChecked()==True:
+            self.comboBox_id.clear()
+            self.comboBox_id.update()
+            sito = str(self.comboBox_sito.currentText())
+            search_dict = {
+                'site': "'" + sito + "'"
+            }
+            pot_vl = self.DB_MANAGER.query_bool(search_dict, 'POT_c')
+            pot_list = []
+            if not pot_vl:
+                return 0
+            for i in range(len(pot_vl)):
+                pot_list.append(str(pot_vl[i].pottery_id))
+            try:
+                pot_vl.remove('')
+            except:
+                pass
+            self.comboBox_id.clear()
+            self.comboBox_id.update()
+            self.comboBox_id.addItems(self.UTILITY.remove_dup_from_list(pot_list))
+
     def charge_year_list(self):
         if self.radioButton_doc_uw.isChecked()==True:
             sito = str(self.comboBox_sito.currentText())
@@ -544,6 +647,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.pushButton_sort.setEnabled(n)
     
     def getDirectoryVideo(self):
+        self.iconListWidget.clear()
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']      
         if thumb_path_str=='':
@@ -628,6 +732,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                             data_for_thumb = self.db_search_check(self.MAPPER_TABLE_CLASS_thumb, 'media_filename',
                                                                   media_filename)  # recupera i valori della thumb in base al valore id_media del file originale
                             try:
+                                self.iconListWidget.clear()
                                 thumb_path = data_for_thumb[0].filepath_thumb
                                 item.setData(Qt.UserRole, thumb_path)
                                 icon = QIcon(str(thumb_path_str)+filepath_thumb)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
@@ -642,12 +747,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 QMessageBox.warning(self, "WARNING", "Check that the file name is not named with special characters",
                                     QMessageBox.Ok)
-            self.charge_data ()
-            self.view_num_rec()
-            self.open_images()
+            #self.charge_data ()
+            #self.view_num_rec()
+            #self.open_images()
     
     
     def getDirectory(self):
+        self.iconListWidget.clear()
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']      
         if thumb_path_str=='':
@@ -720,6 +826,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                         data_for_thumb = self.db_search_check(self.MAPPER_TABLE_CLASS_thumb, 'media_filename',
                                                               media_filename)  # recupera i valori della thumb in base al valore id_media del file originale
                         try:
+                            self.iconListWidget.clear()
                             thumb_path = data_for_thumb[0].filepath_thumb
                             item.setData(Qt.UserRole, thumb_path)
                             icon = QIcon(str(thumb_path_str)+filepath_thumb)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
@@ -735,9 +842,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             except:
                 QMessageBox.warning(self, "WARNING", "Check that the file name is not named with special characters",
                                     QMessageBox.Ok)
-            self.charge_data ()
-            self.view_num_rec()
-            self.open_images()
+            #self.charge_data ()
+            #self.view_num_rec()
+            #self.open_images()
 
     def insert_record_media(self, mediatype, filename, filetype, filepath):
         self.mediatype = mediatype
@@ -1249,6 +1356,128 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             pottery_list.remove([r[0].id_rep, 'POTTERY', 'pottery_table'])
         return pottery_list
 
+    def generate_Artefact_con(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_14')
+        record_art_list = []
+        for sing_tags in tags_list:
+            search_dict = {'artefact_id': "'" + str(sing_tags[0]) + "'"}
+
+            record_art_list.append(self.DB_MANAGER.query_bool(search_dict, 'ART_c'))
+
+        if not record_art_list[0]:
+            result = QMessageBox.warning(self, "Warning",
+                                         "Form not present. Do you want to generate it? Click OK or Cancel to abort",
+                                         QMessageBox.Ok | QMessageBox.Cancel)
+            if result == QMessageBox.Ok:
+                rs = self.DB_MANAGER.insert_art_records(str(sing_tags[0]), str(sing_tags[1]))
+                QMessageBox.information(self, "Info", "Form created\n Now click again Tag button to tag the image",
+                                        QMessageBox.Ok)
+                return rs
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+
+        art_list = []
+        for r in record_art_list:
+            art_list.append([r[0].id_art, 'ART_CON', 'artefact_con'])
+        return art_list
+
+    def remove_Artefact_con(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_14')
+        record_art_list = []
+        for sing_tags in tags_list:
+            search_dict = {'artefact_id': "'" + str(sing_tags[0]) + "'"}
+
+            record_art_list.remove(self.DB_MANAGER.query_bool(search_dict, 'ART_c'))
+
+        art_list = []
+        for r in record_art_list:
+            art_list.remove([r[0].id_art, 'ART_CON', 'artefact_con'])
+        return art_list
+
+    def generate_Anchor_con(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_13')
+        record_anc_list = []
+        for sing_tags in tags_list:
+            search_dict = {'anchor_id': "'" + str(sing_tags[0]) + "'"}
+            record_anc_list.append(self.DB_MANAGER.query_bool(search_dict, 'ANC_c'))
+
+        if not record_anc_list[0]:
+            result = QMessageBox.warning(self, "Warning",
+                                         "Form not present. Do you want to generate it? Click OK or Cancel to abort",
+                                         QMessageBox.Ok | QMessageBox.Cancel)
+            if result == QMessageBox.Ok:
+                rs = self.DB_MANAGER.insert_anc_records(str(sing_tags[0]), str(sing_tags[1]))
+                QMessageBox.information(self, "Info", "Form created\n Now click again Tag button to tag the image",
+                                        QMessageBox.Ok)
+                return rs
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+
+        anc_list = []
+        for r in record_anc_list:
+            anc_list.append([r[0].id_anc, 'ANC_CON', 'anchor_con'])
+        return anc_list
+
+    def remove_Anchor_con(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_13')
+        record_anc_list = []
+        for sing_tags in tags_list:
+            search_dict = {'anchor_id': "'" + str(sing_tags[0]) + "'"}
+            record_anc_list.remove(self.DB_MANAGER.query_bool(search_dict, 'ANC_c'))
+
+        anc_list = []
+        for r in record_anc_list:
+            anc_list.remove([r[0].id_anc, 'ANC_CON', 'anchor_con'])
+        return anc_list
+
+    def generate_Pottery_con(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_15')
+        record_pottery_list = []
+        for sing_tags in tags_list:
+            search_dict = {'pottery_id': "'" + str(sing_tags[0]) + "'"}
+            record_pottery_list.append(self.DB_MANAGER.query_bool(search_dict, 'POT_c'))
+
+        if not record_pottery_list[0]:
+            result = QMessageBox.warning(self, "Warning",
+                                         "Form not present. Do you want to generate it? Click OK or Cancel to abort",
+                                         QMessageBox.Ok | QMessageBox.Cancel)
+            if result == QMessageBox.Ok:
+                rs = self.DB_MANAGER.insert_pottery_records(str(sing_tags[0]), str(sing_tags[1]))
+                QMessageBox.information(self, "Info", "Form created\n Now click again Tag button to tag the image",
+                                        QMessageBox.Ok)
+                return rs
+            else:
+                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                return
+
+        pottery_list = []
+        for r in record_pottery_list:
+            pottery_list.append([r[0].id_pot, 'POT_CON', 'pottery_con'])
+        return pottery_list
+
+    def remove_Pottery_con(self):
+        tags_list = self.table2dict('self.tableWidgetTags_MAT_15')
+        record_pottery_list = []
+        for sing_tags in tags_list:
+            search_dict = {'pottery_id': "'" + str(sing_tags[0]) + "'"}
+            record_pottery_list.remove(self.DB_MANAGER.query_bool(search_dict, 'POT_c'))
+
+        pottery_list = []
+        for r in record_pottery_list:
+            pottery_list.remove([r[0].id_pot, 'POT_CON', 'pottery_con'])
+        return pottery_list
+
+
+
+
+
+
+
+
+
+
 
 
     def generate_Survey(self):
@@ -1387,6 +1616,27 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_removeRow_POT_11_pressed(self):
         self.remove_row('self.tableWidgetTags_MAT_12')
     
+
+
+    def on_pushButton_addRow_POT_con_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_15')
+
+    def on_pushButton_removeRow_POT_con_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_15')
+
+    def on_pushButton_addRow_POT_13_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_14')
+
+    def on_pushButton_removeRow_POT_13_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_14')
+
+    def on_pushButton_addRow_POT_12_pressed(self):
+        self.insert_new_row('self.tableWidgetTags_MAT_13')
+
+    def on_pushButton_removeRow_POT_12_pressed(self):
+        self.remove_row('self.tableWidgetTags_MAT_13')
+
+
     def on_pushButton_assignTags_docuw_pressed(self):
         """
         id_mediaToEntity,
@@ -1431,8 +1681,75 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
 
                 self.insert_mediaToEntity_rec(art_data[0], art_data[1], art_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
-                
-    
+
+    def on_pushButton_assignTags_artefact_con_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        art_list = self.generate_Artefact_con()
+        if not art_list:
+            return
+        for item in items_selected:
+            for art_data in art_list:
+                id_orig_item = item.text()  # return the name of original file
+                search_dict = {'filename': "'" + str(id_orig_item) + "'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(art_data[0], art_data[1], art_data[2], media_data[0].id_media,
+                                              media_data[0].filepath, media_data[0].filename)
+
+    def on_pushButton_assignTags_anchor_con_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        anc_list = self.generate_Anchor_con()
+        if not anc_list:
+            return
+        for item in items_selected:
+            for anc_data in anc_list:
+                id_orig_item = item.text()  # return the name of original file
+                search_dict = {'filename': "'" + str(id_orig_item) + "'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(anc_data[0], anc_data[1], anc_data[2], media_data[0].id_media,
+                                              media_data[0].filepath, media_data[0].filename)
+
+    def on_pushButton_assignTags_pottery_con_pressed(self):
+        """
+        id_mediaToEntity,
+        id_entity,
+        entity_type,
+        table_name,
+        id_media,
+        filepath,
+        media_name
+        """
+        items_selected = self.iconListWidget.selectedItems()
+        pottery_list = self.generate_Pottery_con()
+        if not pottery_list:
+            return
+        for item in items_selected:
+            for pottery_data in pottery_list:
+                id_orig_item = item.text()  # return the name of original file
+                search_dict = {'filename': "'" + str(id_orig_item) + "'"}
+                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+
+                self.insert_mediaToEntity_rec(pottery_data[0], pottery_data[1], pottery_data[2], media_data[0].id_media,
+                                              media_data[0].filepath, media_data[0].filename)
 
     def on_pushButton_assignTags_panouw_pressed(self):
         """
@@ -1569,7 +1886,10 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 self.insert_mediaToEntity_rec(survey2_data[0], survey2_data[1], survey2_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
    
    #######################funzione per rimuovere tutti i tag da una foto da selezione thumbnail#########################
-    
+    def remove_img1(self, path, img_name):
+        os.remove(path + img_name)
+    def remove_img2(self, path, img_name):
+        os.remove(path + img_name)
     
     def on_pushButton_remove_tags_pressed(self):
         if not bool(self.tableWidget_tags.selectedItems()):
@@ -2050,6 +2370,226 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 icon = QIcon(thumb_path_str+thumb_path)
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
+
+
+
+
+
+
+
+
+        elif self.radioButton_anc.isChecked()==True:
+            # sito = str(self.comboBox_sito.currentText())
+            # year = str(self.comboBox_year.currentText())
+            id = str(self.comboBox_id.currentText())
+            search_dict = {
+                # 'site': "'" + str(sito) + "'",
+                # 'years': "'" + str(year) + "'",
+                'anchor_id': "'" + str(id) + "'"
+            }
+            u = Utility()
+            search_dict = u.remove_empty_items_fr_dict(search_dict)
+            us_vl = self.DB_MANAGER.select_medianame_anc_c_from_db_sql(id)
+            if not bool(search_dict):
+                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+            else:
+                res = self.DB_MANAGER.select_medianame_anc_c_from_db_sql(id)
+                if not bool(res):
+                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
+                    self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+                    self.fill_fields(self.REC_CORR)
+                    self.BROWSE_STATUS = "b"
+                    self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+                    # self.setComboBoxEnable(["self.comboBox_sito"],"True")
+                    # self.setComboBoxEnable(["self.comboBox_year"],"True")
+                    self.setComboBoxEnable(["self.comboBox_id"],"True")
+                else:
+                    self.DATA_LIST = []
+                    self.empty_fields()
+                    for i in res:
+                        self.DATA_LIST.append(i)
+                    self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), 0
+                    self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+                    self.fill_fields()
+                    self.BROWSE_STATUS = "b"
+                    self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+                    self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
+                    if self.REC_TOT == 1:
+                        strings = ("Has been found", self.REC_TOT, "record")
+                    else:
+                        strings = ("Have been found", self.REC_TOT, "records")
+                    # self.setComboBoxEnable(["self.comboBox_sito"],"True")
+                    # self.setComboBoxEnable(["self.comboBox_year"],"True")
+                    self.setComboBoxEnable(["self.comboBox_id"],"True")
+                    #check_for_buttons = 1
+                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+            self.NUM_DATA_BEGIN =  1
+            self.NUM_DATA_END = len(self.DATA_LIST)
+            self.view_num_rec()
+            self.open_images()
+            self.iconListWidget.clear()
+            thumb_path = conn.thumb_path()
+            thumb_path_str = thumb_path['thumb_path']
+            record_us_list = self.DB_MANAGER.select_medianame_anc_from_db_sql(id)
+            for i in record_us_list:
+                search_dict = {'media_filename': "'" + str(i.media_name) + "'"}
+                u = Utility()
+                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                mediathumb_data = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
+                thumb_path = str(mediathumb_data[0].filepath)
+                item = QListWidgetItem(str(i.media_name))
+                item.setData(Qt.UserRole, str(i.media_name))
+                icon = QIcon(thumb_path_str+thumb_path)
+                item.setIcon(icon)
+                self.iconListWidget.addItem(item)
+        elif self.radioButton_art_con.isChecked()==True:
+            # sito = str(self.comboBox_sito.currentText())
+            # year = str(self.comboBox_year.currentText())
+            id = str(self.comboBox_id.currentText())
+            search_dict = {
+                # 'site': "'" + str(sito) + "'",
+                # 'years': "'" + str(year) + "'",
+                'artefact_id': "'" + str(id) + "'"
+            }
+            u = Utility()
+            search_dict = u.remove_empty_items_fr_dict(search_dict)
+            us_vl = self.DB_MANAGER.select_medianame_art_c_from_db_sql(id)
+            if not bool(search_dict):
+                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+            else:
+                res = self.DB_MANAGER.select_medianame_art_c_from_db_sql(id)
+                if not bool(res):
+                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
+                    self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+                    self.fill_fields(self.REC_CORR)
+                    self.BROWSE_STATUS = "b"
+                    self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+                    # self.setComboBoxEnable(["self.comboBox_sito"],"True")
+                    # self.setComboBoxEnable(["self.comboBox_year"],"True")
+                    self.setComboBoxEnable(["self.comboBox_id"],"True")
+                else:
+                    self.DATA_LIST = []
+                    self.empty_fields()
+                    for i in res:
+                        self.DATA_LIST.append(i)
+                    self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), 0
+                    self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+                    self.fill_fields()
+                    self.BROWSE_STATUS = "b"
+                    self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+                    self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
+                    if self.REC_TOT == 1:
+                        strings = ("Has been found", self.REC_TOT, "record")
+                    else:
+                        strings = ("Have been found", self.REC_TOT, "records")
+                    # self.setComboBoxEnable(["self.comboBox_sito"],"True")
+                    # self.setComboBoxEnable(["self.comboBox_year"],"True")
+                    self.setComboBoxEnable(["self.comboBox_id"],"True")
+                    #check_for_buttons = 1
+                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+            self.NUM_DATA_BEGIN =  1
+            self.NUM_DATA_END = len(self.DATA_LIST)
+            self.view_num_rec()
+            self.open_images()
+            self.iconListWidget.clear()
+            thumb_path = conn.thumb_path()
+            thumb_path_str = thumb_path['thumb_path']
+            record_us_list = self.DB_MANAGER.select_medianame_art_from_db_sql(id)
+            for i in record_us_list:
+                search_dict = {'media_filename': "'" + str(i.media_name) + "'"}
+                u = Utility()
+                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                mediathumb_data = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
+                thumb_path = str(mediathumb_data[0].filepath)
+                item = QListWidgetItem(str(i.media_name))
+                item.setData(Qt.UserRole, str(i.media_name))
+                icon = QIcon(thumb_path_str+thumb_path)
+                item.setIcon(icon)
+                self.iconListWidget.addItem(item)
+        elif self.radioButton_pot_con.isChecked()==True:
+            # sito = str(self.comboBox_sito.currentText())
+            # year = str(self.comboBox_year.currentText())
+            id = str(self.comboBox_id.currentText())
+            search_dict = {
+                # 'site': "'" + str(sito) + "'",
+                # 'years': "'" + str(year) + "'",
+                'pottery_id': "'" + str(id) + "'"
+            }
+            u = Utility()
+            search_dict = u.remove_empty_items_fr_dict(search_dict)
+            us_vl = self.DB_MANAGER.select_medianame_pot_c_from_db_sql(id)
+            if not bool(search_dict):
+                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+            else:
+                res = self.DB_MANAGER.select_medianame_pot_c_from_db_sql(id)
+                if not bool(res):
+                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
+                    self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+                    self.fill_fields(self.REC_CORR)
+                    self.BROWSE_STATUS = "b"
+                    self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+                    # self.setComboBoxEnable(["self.comboBox_sito"],"True")
+                    # self.setComboBoxEnable(["self.comboBox_year"],"True")
+                    self.setComboBoxEnable(["self.comboBox_id"],"True")
+                else:
+                    self.DATA_LIST = []
+                    self.empty_fields()
+                    for i in res:
+                        self.DATA_LIST.append(i)
+                    self.REC_TOT, self.REC_CORR = len(self.DATA_LIST), 0
+                    self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
+                    self.fill_fields()
+                    self.BROWSE_STATUS = "b"
+                    self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
+                    self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
+                    if self.REC_TOT == 1:
+                        strings = ("Has been found", self.REC_TOT, "record")
+                    else:
+                        strings = ("Have been found", self.REC_TOT, "records")
+                    # self.setComboBoxEnable(["self.comboBox_sito"],"True")
+                    # self.setComboBoxEnable(["self.comboBox_year"],"True")
+                    self.setComboBoxEnable(["self.comboBox_id"],"True")
+                    #check_for_buttons = 1
+                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+            self.NUM_DATA_BEGIN =  1
+            self.NUM_DATA_END = len(self.DATA_LIST)
+            self.view_num_rec()
+            self.open_images()
+            self.iconListWidget.clear()
+            thumb_path = conn.thumb_path()
+            thumb_path_str = thumb_path['thumb_path']
+            record_us_list = self.DB_MANAGER.select_medianame_pot_from_db_sql(id)
+            for i in record_us_list:
+                search_dict = {'media_filename': "'" + str(i.media_name) + "'"}
+                u = Utility()
+                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                mediathumb_data = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
+                thumb_path = str(mediathumb_data[0].filepath)
+                item = QListWidgetItem(str(i.media_name))
+                item.setData(Qt.UserRole, str(i.media_name))
+                icon = QIcon(thumb_path_str+thumb_path)
+                item.setIcon(icon)
+                self.iconListWidget.addItem(item)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         elif self.radioButton_ss.isChecked()==True:
             sito = str(self.comboBox_sito.currentText())
             # year = str(self.comboBox_year.currentText())
@@ -2182,6 +2722,10 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 self.iconListWidget.addItem(item)
     
     def on_pushButton_remove_thumb_pressed(self):
+        thumb_path = conn.thumb_path()
+        thumb_path_str = thumb_path['thumb_path']
+        thumb_resize = conn.thumb_resize()
+        thumb_resize_str = thumb_resize['thumb_resize']
         items_selected = self.iconListWidget.selectedItems()
         if bool (items_selected):
             msg = QMessageBox.warning(self, "Warning!",
@@ -2194,7 +2738,12 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     for item in items_selected:
                         id_orig_item = item.text()  # return the name of original file
                         s= str(id_orig_item)
+                        search_dict = {'filename': "'" + str(id_orig_item) + "'"}
+                        id_media = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                        self.remove_img1(thumb_path_str, str(id_media[0].id_media) + '_' + s + '_thumb' + '.png')
+                        self.remove_img2(thumb_resize_str, str(id_media[0].id_media) + '_' + s + '.png')
                         self.DB_MANAGER.delete_thumb_from_db_sql(s)
+
                 except Exception as e:
                     QMessageBox.warning(self, "Message!!!", "Error: " + str(e))    
                 self.iconListWidget.clear()
@@ -2368,6 +2917,19 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
     ##              #else
                                 mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Art_string])
 
+                            elif sing_res_media.entity_type == 'ART_CON':
+                                search_dict = {'id_art': "'" + str(sing_res_media.id_entity) + "'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                art_data = self.DB_MANAGER.query_bool(search_dict, "ART_c")
+
+                                Art_string = ('ARTEFACT ID: %s') % (art_data[0].artefact_id)
+                                ##              #else
+                                mediaToEntity_list.append(
+                                    [str(sing_res_media.id_entity), sing_res_media.entity_type, Art_string])
+
+
+
                             elif sing_res_media.entity_type == 'PE':
                                 search_dict = {'id_dive' : "'"+str(sing_res_media.id_entity)+"'"}
                                 u = Utility()
@@ -2397,7 +2959,32 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 Pottery_string = ( 'Pottery ID: %s') % (pottery_data[0].artefact_id)
     ##              #else
                                 mediaToEntity_list.append([str(sing_res_media.id_entity),sing_res_media.entity_type,Pottery_string])
-                            
+
+                            elif sing_res_media.entity_type == 'ANC_CON':
+                                search_dict = {'id_anc': "'" + str(sing_res_media.id_entity) + "'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                anc_data = self.DB_MANAGER.query_bool(search_dict, "ANC_c")
+
+                                Anc_string = ('ANCHORS ID: %s') % (anc_data[0].anchor_id)
+                                ##              #else
+                                mediaToEntity_list.append(
+                                    [str(sing_res_media.id_entity), sing_res_media.entity_type, Anc_string])
+
+                            elif sing_res_media.entity_type == 'POT_CON':
+                                search_dict = {'id_pot': "'" + str(sing_res_media.id_entity) + "'"}
+                                u = Utility()
+                                search_dict = u.remove_empty_items_fr_dict(search_dict)
+                                pottery_data = self.DB_MANAGER.query_bool(search_dict, "POT_c")
+
+                                Pottery_string = ('Pottery ID: %s') % (pottery_data[0].pottery_id)
+                                ##              #else
+                                mediaToEntity_list.append(
+                                    [str(sing_res_media.id_entity), sing_res_media.entity_type, Pottery_string])
+
+
+
+
                             elif sing_res_media.entity_type == 'SITE':
                                 search_dict = {'id_sito' : "'"+str(sing_res_media.id_entity)+"'"}
                                 u = Utility()

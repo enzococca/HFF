@@ -143,7 +143,7 @@
      <property name="geometry">
       <rect>
        <x>870</x>
-       <y>40</y>
+       <y>60</y>
        <width>61</width>
        <height>31</height>
       </rect>
@@ -162,7 +162,7 @@
      <property name="geometry">
       <rect>
        <x>870</x>
-       <y>20</y>
+       <y>40</y>
        <width>61</width>
        <height>20</height>
       </rect>
@@ -178,9 +178,9 @@
      <property name="geometry">
       <rect>
        <x>515</x>
-       <y>11</y>
+       <y>31</y>
        <width>621</width>
-       <height>591</height>
+       <height>571</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -832,6 +832,87 @@
       <string>Petrography results</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_assigntags">
+     <property name="geometry">
+      <rect>
+       <x>544</x>
+       <y>10</y>
+       <width>20</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../resources/resources.qrc">
+       <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_all_images">
+     <property name="geometry">
+      <rect>
+       <x>518</x>
+       <y>10</y>
+       <width>20</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="icon">
+      <iconset resource="../../resources/resources.qrc">
+       <normaloff>:/icons/photo2.png</normaloff>:/icons/photo2.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_removetags">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>10</y>
+       <width>20</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="icon">
+      <iconset resource="../../resources/resources.qrc">
+       <normaloff>:/icons/remove_tag.png</normaloff>:/icons/remove_tag.png</iconset>
+     </property>
+    </widget>
     <zorder>label</zorder>
     <zorder>lineEdit_list</zorder>
     <zorder>label_12</zorder>
@@ -869,6 +950,9 @@
     <zorder>textEdit_description_i</zorder>
     <zorder>textEdit_petrography_r</zorder>
     <zorder>label_47</zorder>
+    <zorder>pushButton_assigntags</zorder>
+    <zorder>pushButton_all_images</zorder>
+    <zorder>pushButton_removetags</zorder>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
@@ -2077,7 +2161,10 @@
              </property>
              <property name="font">
               <font>
+               <family>MS Shell Dlg 2</family>
+               <pointsize>10</pointsize>
                <weight>75</weight>
+               <italic>false</italic>
                <bold>true</bold>
               </font>
              </property>
@@ -2121,7 +2208,10 @@
              </property>
              <property name="font">
               <font>
+               <family>MS Shell Dlg 2</family>
+               <pointsize>10</pointsize>
                <weight>75</weight>
+               <italic>false</italic>
                <bold>true</bold>
               </font>
              </property>
@@ -2194,6 +2284,8 @@
      <property name="font">
       <font>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="toolTip">
@@ -2222,6 +2314,8 @@
      <property name="font">
       <font>
        <pointsize>8</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="toolTip">

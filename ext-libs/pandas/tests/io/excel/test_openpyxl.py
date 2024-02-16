@@ -91,7 +91,7 @@ def test_write_append_mode(ext, mode, expected):
         wb = openpyxl.Workbook()
         wb.worksheets[0].title = "foo"
         wb.worksheets[0]["A1"].value = "foo"
-        wb.create_sheet("bar")
+        wb.create_sheet
         wb.worksheets[1]["A1"].value = "bar"
         wb.save(f)
 

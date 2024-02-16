@@ -1,23 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-/***************************************************************************
-        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
-                             stored in Postgres
-                             -------------------
-    begin                : 2007-12-01
-    copyright            : (C) 2008 by Luca Mandolesi
-    email                : mandoluca at gmail.com
- ***************************************************************************/
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-"""
 import os
 
 from builtins import object
@@ -47,9 +29,9 @@ class Connection(object):
 
         if conn_str_dict["server"] == 'postgres':
             try:
-                conn_str = "%s://%s:%s@%s:%s/%s%s?" % (
+                conn_str = "%s://%s:%s@%s:%s/%s" % (
                 "postgresql", conn_str_dict["user"], conn_str_dict["password"], conn_str_dict["host"],
-                conn_str_dict["port"], conn_str_dict["db_name"], "?sslmode=allow")
+                conn_str_dict["port"], conn_str_dict["db_name"])
                 
             except:
                 conn_str = "%s://%s:%s@%s:%d/%s" % (

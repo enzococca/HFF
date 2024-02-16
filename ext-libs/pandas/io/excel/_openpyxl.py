@@ -409,7 +409,7 @@ class _OpenpyxlWriter(ExcelWriter):
         if sheet_name in self.sheets:
             wks = self.sheets[sheet_name]
         else:
-            wks = self.book.create_sheet()
+            wks = self.book.create_sheet
             wks.title = sheet_name
             self.sheets[sheet_name] = wks
 

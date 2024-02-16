@@ -222,7 +222,7 @@ class ExcelReader:
                 continue
             else:
                 fh = self.archive.open(rel.target)
-                ws = self.wb.create_sheet(sheet.name)
+                ws = self.wb.create_sheet
                 ws._rels = rels
                 ws_parser = WorksheetReader(ws, fh, self.shared_strings, self.data_only)
                 ws_parser.bind_all()

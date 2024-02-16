@@ -37,21 +37,16 @@ from qgis.PyQt.uic import loadUiType
 from qgis.core import *
 import processing
 
-from geoalchemy2 import *
+
 from sqlalchemy.event import listen
-from sqlalchemy.sql import select, func
-from geoalchemy2 import func as funcgeom
-from sqlalchemy import create_engine
-from sqlalchemy.dialects import postgresql
-from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.ext.compiler import compiles
+
 from sqlalchemy.sql.expression import *
 from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
 from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
-from ..modules.utility.print_relazione_pdf import exp_rel_pdf
+#from ..modules.utility.print_relazione_pdf import exp_rel_pdf
 from ..modules.utility.hff_system__error_check import Error_check
 from ..modules.utility.delegateComboBox import ComboBoxDelegate
 from ..test_area import Test_area
