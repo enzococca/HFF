@@ -703,6 +703,9 @@
        </item>
        <item row="2" column="2">
         <widget class="QPushButton" name="pushButton_form">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="minimumSize">
           <size>
            <width>30</width>
@@ -800,135 +803,35 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="4">
+        <widget class="QPushButton" name="pushButton_filter_uw">
+         <property name="font">
+          <font>
+           <family>Open Sans</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Filter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QPushButton" name="pushButton_report_generator">
+         <property name="font">
+          <font>
+           <family>Open Sans</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Report</string>
+         </property>
+        </widget>
+       </item>
       </layout>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="0">
-    <layout class="QGridLayout" name="gridLayout_6">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_39">
-       <property name="font">
-        <font>
-         <family>Open Sans</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <property name="text">
-        <string>Site</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label">
-       <property name="font">
-        <font>
-         <family>Open Sans</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <property name="text">
-        <string>Partial Object</string>
-       </property>
-       <property name="openExternalLinks">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_9">
-       <property name="font">
-        <font>
-         <family>Open Sans</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <property name="text">
-        <string>Anchor ID</string>
-       </property>
-       <property name="openExternalLinks">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QComboBox" name="comboBox_partial_obj">
-       <property name="font">
-        <font>
-         <family>Open Sans</family>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-       <item>
-        <property name="text">
-         <string>Complite</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Incomplite</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="0" column="5">
-      <widget class="QComboBox" name="comboBox_artefact">
-       <property name="minimumSize">
-        <size>
-         <width>127</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="comboBox_site_name">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>
@@ -972,13 +875,6 @@
        <string>General information</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_12">
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>State of conservation</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="0" colspan="2">
         <widget class="QLabel" name="label_6">
          <property name="text">
@@ -986,10 +882,24 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
-        <widget class="QLineEdit" name="dateEdit_start">
-         <property name="clearButtonEnabled">
-          <bool>false</bool>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Start date</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>State of conservation</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>End date</string>
          </property>
         </widget>
        </item>
@@ -1008,21 +918,39 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Author</string>
+       <item row="1" column="2">
+        <widget class="QComboBox" name="comboBox_st_conservation">
+         <property name="font">
+          <font>
+           <family>Open Sans</family>
+           <pointsize>8</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLineEdit" name="dateEdit_end"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Start date</string>
+         <property name="editable">
+          <bool>true</bool>
          </property>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Good</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Bad</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Intermediate</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item row="0" column="3" rowspan="6">
@@ -1157,39 +1085,11 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="2">
-        <widget class="QComboBox" name="comboBox_st_conservation">
-         <property name="font">
-          <font>
-           <family>Open Sans</family>
-           <pointsize>8</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Author</string>
          </property>
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Good</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Bad</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Intermediate</string>
-          </property>
-         </item>
         </widget>
        </item>
        <item row="5" column="0" colspan="3">
@@ -1216,12 +1116,15 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>End date</string>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="dateEdit_start">
+         <property name="clearButtonEnabled">
+          <bool>false</bool>
          </property>
         </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLineEdit" name="dateEdit_end"/>
        </item>
       </layout>
      </widget>
@@ -1944,6 +1847,134 @@
       </widget>
      </widget>
     </widget>
+   </item>
+   <item row="1" column="0">
+    <layout class="QGridLayout" name="gridLayout_6">
+     <item row="1" column="2">
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>Open Sans</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::WinPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="text">
+        <string>Partial Object</string>
+       </property>
+       <property name="openExternalLinks">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QComboBox" name="comboBox_artefact">
+       <property name="minimumSize">
+        <size>
+         <width>127</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="comboBox_site_name">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_39">
+       <property name="font">
+        <font>
+         <family>Open Sans</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::WinPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="text">
+        <string>Site</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QComboBox" name="comboBox_partial_obj">
+       <property name="font">
+        <font>
+         <family>Open Sans</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>Complite</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Incomplite</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLabel" name="label_9">
+       <property name="font">
+        <font>
+         <family>Open Sans</family>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::WinPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="text">
+        <string>Anchor ID</string>
+       </property>
+       <property name="openExternalLinks">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

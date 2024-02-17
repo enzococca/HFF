@@ -857,7 +857,30 @@ class Hff_db_management(object):
         return mediaentity_view 
     
     
-    
+    def query_all(self, table_class_str):
+        """
+        Retrieve all records from a specified table.
+
+        :param table_class_str: The name of the table class as a string.
+        :return: A list of all records from the specified table.
+        """
+        # Reflect the table from the database
+        table = Table(table_class_str, self.metadata, autoload_with=self.engine)
+
+        # Create a session
+        Session = sessionmaker(bind=self.engine)
+        session = Session()
+
+        try:
+            # Query all records from the table
+            query = session.query(table).all()
+            return query
+        except Exception as e:
+            print(f"An error occurred while querying all records: {e}")
+            return []
+        finally:
+            # Close the session
+            session.close()
     
 
     def insert_pdf_administrator_values(self, *arg):

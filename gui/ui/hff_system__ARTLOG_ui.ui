@@ -751,7 +751,10 @@
    </item>
    <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout_6">
-     <item row="0" column="0">
+     <item row="1" column="11">
+      <widget class="QLineEdit" name="lineEdit_date"/>
+     </item>
+     <item row="1" column="0">
       <widget class="QLabel" name="label_39">
        <property name="font">
         <font>
@@ -771,77 +774,7 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="comboBox_site">
-       <property name="minimumSize">
-        <size>
-         <width>162</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_40">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <property name="text">
-        <string>Area</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QComboBox" name="comboBox_area">
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_21">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <property name="text">
-        <string>DIVE ID</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="5">
-      <widget class="QLineEdit" name="lineEdit_divelog_id">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="6">
+     <item row="1" column="6">
       <widget class="QLabel" name="label_10">
        <property name="font">
         <font>
@@ -861,7 +794,47 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="7">
+     <item row="1" column="2">
+      <widget class="QLabel" name="label_40">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::WinPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="text">
+        <string>Area</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLabel" name="label_21">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::WinPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="text">
+        <string>DIVE ID</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="7">
       <widget class="QComboBox" name="comboBox_years">
        <property name="minimumSize">
         <size>
@@ -909,7 +882,27 @@
        </item>
       </widget>
      </item>
-     <item row="0" column="8">
+     <item row="1" column="10">
+      <widget class="QLabel" name="label_6">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::WinPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="text">
+        <string>Date</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="8">
       <widget class="QLabel" name="label_9">
        <property name="font">
         <font>
@@ -932,7 +925,37 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="9">
+     <item row="1" column="3">
+      <widget class="QComboBox" name="comboBox_area">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QLineEdit" name="lineEdit_divelog_id">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="comboBox_site">
+       <property name="minimumSize">
+        <size>
+         <width>162</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="9">
       <widget class="QComboBox" name="comboBox_artefact">
        <property name="minimumSize">
         <size>
@@ -945,28 +968,31 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="10">
-      <widget class="QLabel" name="label_6">
+     <item row="0" column="8">
+      <widget class="QPushButton" name="pushButton_filter_uw">
        <property name="font">
         <font>
-         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
        <property name="text">
-        <string>Date</string>
+        <string>Filter</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="11">
-      <widget class="QLineEdit" name="lineEdit_date"/>
+     <item row="0" column="9">
+      <widget class="QPushButton" name="pushButton_report_generator">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Report</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
