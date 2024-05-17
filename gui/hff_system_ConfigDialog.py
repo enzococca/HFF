@@ -2078,7 +2078,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
             
             if test:
-                QMessageBox.warning(self, "Message", "Successfully connected", QMessageBox.Ok)
+                QMessageBox.information(self, "Message", "Successfully connected", QMessageBox.Ok)
                 self.pushButton_upd_postgres.setEnabled(False)
                 self.pushButton_upd_sqlite.setEnabled(True)
             else:

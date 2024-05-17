@@ -23,16 +23,18 @@ import os
 from builtins import object
 
 from ..utility.settings import Settings
-
+from ..utility.hff_system__OS_utility import Hff_OS_Utility
+from qgis.PyQt.QtWidgets import QDialog, QMessageBox
 
 class Connection(object):
     HOME = os.environ["HFF_HOME"]
+    RESOURCES_PATH = os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'resources')
 
+    OS_UTILITY = Hff_OS_Utility()
     def conn_str(self):
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
-
         data = conf.read()
         settings = Settings(data)
         settings.set_configuration()
@@ -60,7 +62,7 @@ class Connection(object):
 
         elif conn_str_dict["server"] == 'sqlite':
             sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
-                                             "pyarchinit_DB_folder")
+                                             "HFF_DB_folder")
             dbname_abs = sqlite_DB_path + os.sep + conn_str_dict["db_name"]
             conn_str = "%s:///%s" % (conn_str_dict["server"], dbname_abs)
         else:

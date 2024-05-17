@@ -977,7 +977,7 @@
            </item>
            <item>
             <property name="text">
-             <string>MEIDA_THUMB</string>
+             <string>MEDIA_THUMB</string>
             </property>
            </item>
            <item>
@@ -1506,11 +1506,13 @@
                  </property>
                  <property name="font">
                   <font>
+                   <family>MS Shell Dlg 2</family>
                    <pointsize>10</pointsize>
                    <weight>50</weight>
                    <italic>false</italic>
                    <bold>false</bold>
                    <underline>true</underline>
+                   <kerning>true</kerning>
                   </font>
                  </property>
                  <property name="text">
@@ -1540,8 +1542,10 @@
                    <family>MS Shell Dlg 2</family>
                    <pointsize>10</pointsize>
                    <weight>50</weight>
+                   <italic>false</italic>
                    <bold>false</bold>
                    <underline>true</underline>
+                   <kerning>true</kerning>
                   </font>
                  </property>
                  <property name="text">
@@ -1571,6 +1575,10 @@
                <property name="font">
                 <font>
                  <family>8514oem</family>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <kerning>true</kerning>
                 </font>
                </property>
                <property name="url" stdset="0">
@@ -1605,9 +1613,12 @@
                </property>
                <property name="font">
                 <font>
+                 <family>MS Shell Dlg 2</family>
                  <pointsize>17</pointsize>
                  <weight>75</weight>
+                 <italic>false</italic>
                  <bold>true</bold>
+                 <kerning>true</kerning>
                 </font>
                </property>
                <property name="orientation">
