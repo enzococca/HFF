@@ -2125,6 +2125,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
     
     def on_pushButton_import_geometry_pressed(self):
         
+        global conn_str_read
         if self.L=='it':
 
             msg = QMessageBox.warning(self, "Attenzione", "Il sistema aggiornerà le geometrie con i dati importati. Schiaccia Annulla per abortire altrimenti schiaccia Ok per contiunuare." ,  QMessageBox.Ok  | QMessageBox.Cancel)
@@ -2206,7 +2207,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 self.lineEdit_field_rd.text(): "'" + str(self.lineEdit_value_rd.text()) + "'"
             }
             mapper_class_read = str(self.comboBox_geometry.currentText())
+
             res_read = self.DB_MANAGER_read.query_bool(search_dict, mapper_class_read)
+
             ####INSERISCE I DATI DA UPLOADARE DENTRO ALLA LISTA DATA_LIST_TOIMP
             data_list_toimp = []
             for i in res_read:
@@ -2225,7 +2228,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             if conn_str_dict_write["server"] == 'postgres':
                 try:
                     conn_str_write = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
-                        "postgresql", conn_str_dict_writed["user"], conn_str_dict_write["password"],
+                        "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
                         conn_str_dict_write["host"], conn_str_dict_write["port"], conn_str_dict_write["db_name"],
                         "?sslmode=allow")
                 except:
@@ -2249,7 +2252,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             if mapper_class_write == 'SITE_LINE' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_siteline(
+                        data = self.DB_MANAGER_write.insert_siteline_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].location,
@@ -2272,7 +2275,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'SITE_POINT' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_sitepoint(
+                        data = self.DB_MANAGER_write.insert_sitepoint_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             
@@ -2296,7 +2299,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'SITE_POLYGON' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_sitepoligon(
+                        data = self.DB_MANAGER_write.insert_sitepoligon_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].name_feat,
@@ -2319,7 +2322,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'ANCHOR_POINT' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_anchor_point(
+                        data = self.DB_MANAGER_write.insert_anchor_point_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].the_geom,
@@ -2344,7 +2347,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'ARTEFACT_POINT' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_artefact_point(
+                        data = self.DB_MANAGER_write.insert_artefact_point_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].the_geom,
@@ -2367,7 +2370,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'POTTERY_POINT' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_pottery_point(
+                        data = self.DB_MANAGER_write.insert_pottery_point_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].the_geom,
@@ -2390,7 +2393,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'SHIPWRECK_POINT':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_shipwreck_point(
+                        data = self.DB_MANAGER_write.insert_shipwreck_point_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].the_geom,
@@ -2413,7 +2416,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'FEATURES_LINE':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_features_line(
+                        data = self.DB_MANAGER_write.insert_features_line_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].location,
@@ -2435,7 +2438,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'FEATURES_POINT':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_features_point(
+                        data = self.DB_MANAGER_write.insert_features_point_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].location,
@@ -2457,7 +2460,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'FEATURES_POLYGON':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_pydocumentazione(
+                        data = self.DB_MANAGER_write.insert_features_poligon_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,                            
                             data_list_toimp[sing_rec].name_feat,
@@ -2479,10 +2482,10 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'TRANSECT_POLYGON':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_pylineeriferimento(
+                        data = self.DB_MANAGER_write.insert_transect_poligon_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
-                            ata_list_toimp[sing_rec].name_tr,
+                            data_list_toimp[sing_rec].name_tr,
                             data_list_toimp[sing_rec].location,
                             data_list_toimp[sing_rec].area,
                             data_list_toimp[sing_rec].the_geom)
@@ -2502,7 +2505,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             elif mapper_class_write == 'GRABSPOT_POINT':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
-                        data = self.DB_MANAGER_write.insert_pyripartizioni_spaziali(
+                        data = self.DB_MANAGER_write.insert_grabsopt_point_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].location,
@@ -2524,6 +2527,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             
     
     def on_pushButton_import_pressed(self):
+        global conn_str_read
         if self.L=='it':
 
             msg = QMessageBox.warning(self, "Attenzione", "Il sistema aggiornerà le tabelle con i dati importati. Schiaccia Annulla per abortire altrimenti schiaccia Ok per contiunuare." ,  QMessageBox.Ok  | QMessageBox.Cancel)
@@ -2626,7 +2630,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         if conn_str_dict_write["server"] == 'postgres':
             try:
                 conn_str_write = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
-                    "postgresql", conn_str_dict_writed["user"], conn_str_dict_write["password"],
+                    "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
                     conn_str_dict_write["host"], conn_str_dict_write["port"], conn_str_dict_write["db_name"],
                     "?sslmode=allow")
             except:
@@ -2774,7 +2778,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             QMessageBox.information(self, "Message", "Data Loaded")
         
         ####SITE TABLE
-        if mapper_class_write == 'SITE' :
+        if mapper_class_write == 'SITE':
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_site_values(
@@ -2827,7 +2831,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].material_c,
                         data_list_toimp[sing_rec].morphology_c,
                         data_list_toimp[sing_rec].collection_c,
-                        data_list_toimp[sing_rec].photo_material)
+                        data_list_toimp[sing_rec].photo_material,
+                        data_list_toimp[sing_rec].damage,
+                        data_list_toimp[sing_rec].country )
 
                     self.DB_MANAGER_write.insert_data_session(data)
 

@@ -908,6 +908,7 @@ CREATE TABLE public.site_table (
 	material_c text,
 	morphology_c text,
 	collection_c text,
+    photo_material text,
 	damage character varying(255),
 	country character varying(255)
 );
