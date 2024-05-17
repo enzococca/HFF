@@ -2173,15 +2173,20 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             ####CREA LA STRINGA DI CONNESSIONE IN LETTURA
             if conn_str_dict_read["server"] == 'postgres':
                 try:
-                    conn_str_read = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
-                        "postgresql", conn_str_dict_read["user"], conn_str_dict_read["password"],
-                        conn_str_dict_read["host"],
-                        conn_str_dict_read["port"], conn_str_dict_read["db_name"], "?sslmode=allow")
-                except:
-                    conn_str_read = "%s://%s:%s@%s:%d/%s" % (
+                    conn_str_read = "%s://%s:%s@%s:%s/%s" % (
                         "postgresql", conn_str_dict_read["user"], conn_str_dict_read["password"],
                         conn_str_dict_read["host"],
                         conn_str_dict_read["port"], conn_str_dict_read["db_name"])
+                except Exception as e:
+                    print(
+                        "Error in connection parameter. <br> If they are correct restart QGIS. <br> Error: " + str(e))
+
+                else:
+                    conn_str_read = "%s://%s:%s@%s:%s/%s" % (
+                        "postgresql", conn_str_dict_read["user"], conn_str_dict_read["password"],
+                        conn_str_dict_read["host"],
+                        conn_str_dict_read["port"], conn_str_dict_read["db_name"])
+
             elif conn_str_dict_read["server"] == 'sqlite':
                 sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
                                                  "HFF_DB_folder")
@@ -2252,11 +2257,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].the_geom,
                             data_list_toimp[sing_rec].coord)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2272,11 +2281,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].the_geom ,
                             data_list_toimp[sing_rec].coord)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2291,11 +2304,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].the_geom ,
                             data_list_toimp[sing_rec].coord)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2312,11 +2329,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].type,
                             data_list_toimp[sing_rec].obj)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2331,11 +2352,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].code ,
                             data_list_toimp[sing_rec].years)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2350,11 +2375,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].code ,
                             data_list_toimp[sing_rec].years)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2369,11 +2398,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].nationality ,
                             data_list_toimp[sing_rec].name_vessel)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2387,11 +2420,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].name_f_l,
                             data_list_toimp[sing_rec].the_geom)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2405,11 +2442,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].name_f_p,
                             data_list_toimp[sing_rec].the_geom)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2423,11 +2464,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].location,
                             data_list_toimp[sing_rec].the_geom)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2442,11 +2487,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].area,
                             data_list_toimp[sing_rec].the_geom)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2460,11 +2509,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].name_grab,
                             data_list_toimp[sing_rec].the_geom)
                         self.DB_MANAGER_write.insert_data_session(data)
-                        value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                        self.progress_bar.setValue(value)
+                        # Calculate the progress as a percentage
+                        value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                        # Convert the progress value to an integer
+                        int_value = int(value)
+                        # Update the progress bar with the integer value
+                        self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e :
-                        QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
+                    except Exception as e:
+                        QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
@@ -2523,10 +2576,10 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         ####CREA LA STRINGA DI CONNESSIONE IN LETTURA
         if conn_str_dict_read["server"] == 'postgres':
             try:
-                conn_str_read = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
+                conn_str_read = "%s://%s:%s@%s:%s/%s" % (
                     "postgresql", conn_str_dict_read["user"], conn_str_dict_read["password"],
                     conn_str_dict_read["host"],
-                    conn_str_dict_read["port"], conn_str_dict_read["db_name"], "?sslmode=allow")
+                    conn_str_dict_read["port"], conn_str_dict_read["db_name"])
             except:
                 conn_str_read = "%s://%s:%s@%s:%d/%s" % (
                     "postgresql", conn_str_dict_read["user"], conn_str_dict_read["password"],
@@ -2706,18 +2759,17 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].datum_type,
                         data_list_toimp[sing_rec].datum_description_epsg_code,
                         data_list_toimp[sing_rec].restricted_access_record_designation)
-                    
+
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
-                        
-                    
-                
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
-               
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
         
@@ -2776,16 +2828,18 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].morphology_c,
                         data_list_toimp[sing_rec].collection_c,
                         data_list_toimp[sing_rec].photo_material)
-            
-                      
+
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
+
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
-               
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
         elif mapper_class_write == 'ART' :
@@ -2822,17 +2876,17 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].washed,
                         data_list_toimp[sing_rec].site,
                         data_list_toimp[sing_rec].area)
-                    
-                    
-                      
+
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
-               
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
         
@@ -2903,15 +2957,17 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].bfb,
                         data_list_toimp[sing_rec].bft,
                         data_list_toimp[sing_rec].qty)
-                    
+
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
-               
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")       
     
@@ -2962,15 +3018,16 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].wheel_made,
                         data_list_toimp[sing_rec].qty)
 
-                    
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
-               
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
     
@@ -3020,15 +3077,16 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].bar_end_diver2,
                         data_list_toimp[sing_rec].dp_diver2)
 
-                    
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
-               
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
     
@@ -3047,15 +3105,16 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].descrizione,
                         data_list_toimp[sing_rec].tags)
 
-                    
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
-               
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
     
@@ -3074,15 +3133,16 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].filepath,
                         data_list_toimp[sing_rec].path_resize)
 
-                    
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ "duplicate key",  QMessageBox.Ok)
-               
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
     
@@ -3101,15 +3161,16 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].filepath,
                         data_list_toimp[sing_rec].media_name)
 
-                    
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
-                    QApplication.processEvents() 
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
-               
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
+                    QApplication.processEvents()
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
         elif mapper_class_write == 'SHIPWRECK' :
@@ -3133,7 +3194,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].purpose,
                         data_list_toimp[sing_rec].builder,
                         data_list_toimp[sing_rec].cause,
-                        data_list_toimp[sing_rec].diver,
+                        data_list_toimp[sing_rec].divers,
                         data_list_toimp[sing_rec].wreck,
                         data_list_toimp[sing_rec].composition,
                         data_list_toimp[sing_rec].inclination,
@@ -3159,15 +3220,16 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].name,
                         data_list_toimp[sing_rec].status)
 
-                    
                     self.DB_MANAGER_write.insert_data_session(data)
-                    value = (float(sing_rec)/float(len(data_list_toimp)))*100
-                    self.progress_bar.setValue(value)
-                    QApplication.processEvents() 
-                except Exception as  e:
-                    e_str = str(e)
-                    QMessageBox.warning(self, "Warning", "Error ! \n"+ str(e),  QMessageBox.Ok)
-               
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
+                    QApplication.processEvents()
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
             QMessageBox.information(self, "Message", "Data Loaded")
     

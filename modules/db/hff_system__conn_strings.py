@@ -1,5 +1,23 @@
 # -*- coding: utf-8 -*-
+"""
+/***************************************************************************
+        HFF_system Plugin  - A QGIS plugin to manage archaeological dataset
+                             stored in Postgres
+                             -------------------
+    begin                : 2007-12-01
+    copyright            : (C) 2008 by Luca Mandolesi
+    email                : mandoluca at gmail.com
+ ***************************************************************************/
 
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+"""
 import os
 
 from builtins import object
@@ -29,26 +47,27 @@ class Connection(object):
 
         if conn_str_dict["server"] == 'postgres':
             try:
-                conn_str = "%s://%s:%s@%s:%s/%s" % (
-                "postgresql", conn_str_dict["user"], conn_str_dict["password"], conn_str_dict["host"],
-                conn_str_dict["port"], conn_str_dict["db_name"])
-                
+
+                conn_str = "%s://%s:%s@%s:%s/%s%s" % (
+                    "postgresql", conn_str_dict["user"], conn_str_dict["password"], conn_str_dict["host"],
+                    conn_str_dict["port"], conn_str_dict["db_name"], "?sslmode=allow")
+                test = True
             except:
+                QMessageBox.warning(self, "Attenzione", 'Problema', QMessageBox.Ok)
                 conn_str = "%s://%s:%s@%s:%d/%s" % (
-                "postgresql", conn_str_dict["user"], conn_str_dict["password"], conn_str_dict["host"],
-                conn_str_dict["port"], conn_str_dict["db_name"])
+                    "postgresql", conn_str_dict["user"], conn_str_dict["password"], conn_str_dict["host"],
+                    conn_str_dict["port"], conn_str_dict["db_name"])
+
         elif conn_str_dict["server"] == 'sqlite':
             sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
-                                           "HFF_DB_folder")
-
+                                             "pyarchinit_DB_folder")
             dbname_abs = sqlite_DB_path + os.sep + conn_str_dict["db_name"]
-
             conn_str = "%s:///%s" % (conn_str_dict["server"], dbname_abs)
         else:
             conn_str = None
 
         return conn_str
-    
+
     def databasename(self):
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
