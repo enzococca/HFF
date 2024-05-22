@@ -2206,10 +2206,13 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             search_dict = {
                 self.lineEdit_field_rd.text(): "'" + str(self.lineEdit_value_rd.text()) + "'"
             }
-            mapper_class_read = str(self.comboBox_geometry.currentText())
+            try:
+                mapper_class_read = str(self.comboBox_geometry.currentText())
 
-            res_read = self.DB_MANAGER_read.query_bool(search_dict, mapper_class_read)
-
+                res_read = self.DB_MANAGER_read.query_bool(search_dict, mapper_class_read)
+            except Exception as e:
+                QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
+                return 0
             ####INSERISCE I DATI DA UPLOADARE DENTRO ALLA LISTA DATA_LIST_TOIMP
             data_list_toimp = []
             for i in res_read:

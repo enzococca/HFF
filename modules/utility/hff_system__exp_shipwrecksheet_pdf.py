@@ -204,7 +204,7 @@ class single_SHIPWRECK_pdf_sheet:
         latitude = Paragraph("<b>Latitude</b><br/>"  + str(self.latitude), styNormal)
         position_quality_1 = Paragraph("<b>Position quality</b><br/>"  + str(self.position_quality_1), styNormal)
         longitude = Paragraph("<b>Longitude</b><br/>"  + str(self.longitude), styNormal)
-        consulties = Paragraph("<b>Consulties</b><br/>"  + str(self.position_quality_2), styNormal)
+        consulties = Paragraph("<b>Consulties</b><br/>"  + str(self.consulties), styNormal)
         l = Paragraph("<b>Length</b><br/>"  + str(self.l), styNum)
         w = Paragraph("<b>Width</b><br/>"  + str(self.w), styNum)
         d = Paragraph("<b>Draugth</b><br/>"  + str(self.d), styNum)
@@ -395,7 +395,7 @@ class FOTO_index_pdf_sheet_2(object):
     def __init__(self, data):
         
         self.code_id= data[0]
-        #self.foto = data[4]
+        self.foto = data[5]
         self.latitude = data[1]
         self.longitude = data[2]
         self.name_vessel = data[3]
