@@ -594,9 +594,8 @@ class generate_SHIPWRECK_pdf:
         self.PDF_path, os.sep, 'List photo thumbnail SHIPWRECK', dt.day, dt.month, dt.year, dt.hour, dt.minute, dt.second, ".pdf")
         f = open(filename, "wb")
 
-        doc = SimpleDocTemplate(f, pagesize=A4)
-        doc.build(lst, canvasmaker=NumberedCanvas_USsheet)
-
+        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 21 * cm), showBoundary=0)
+        doc.build(lst, canvasmaker=NumberedCanvas_USindex)
         f.close()
     def build_index_Foto_2(self, records, sito):
         home = os.environ['HFF_HOME']
@@ -640,7 +639,7 @@ class generate_SHIPWRECK_pdf:
         self.PDF_path, os.sep, 'List photo SHIPWRECK', dt.day, dt.month, dt.year, dt.hour, dt.minute, dt.second, ".pdf")
         f = open(filename, "wb")
 
-        doc = SimpleDocTemplate(f, pagesize=A4)
-        doc.build(lst, canvasmaker=NumberedCanvas_USsheet)
-
+        doc = SimpleDocTemplate(f, pagesize=(29 * cm, 21 * cm), showBoundary=0)
+        doc.build(lst, canvasmaker=NumberedCanvas_USindex)
         f.close()
+
