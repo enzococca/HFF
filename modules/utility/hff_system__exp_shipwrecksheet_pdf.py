@@ -419,7 +419,7 @@ class FOTO_index_pdf_sheet_2(object):
         
         name_vessel = Paragraph("<b>Name Vessel</b><br/>" + str(self.name_vessel), styNormal)
         foto = Paragraph("<b>Photo ID</b><br/>" + str(self.foto), styNormal)
-        decription = Paragraph("<b>SHIPWRECK Type</b><br/>" + str(self.description), styNormal)
+        decription = Paragraph("<b>Description</b><br/>" + str(self.description), styNormal)
         #us_presenti = Paragraph("<b>US-USM presenti</b><br/>", styNormal)
         
         # logo= Image(self.thumbnail)
