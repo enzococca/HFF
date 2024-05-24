@@ -119,7 +119,7 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         loc_vl.sort()
         self.comboBox_location.addItems(loc_vl)
 
-        loc_s = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'area', 'SHIPWRECK'))
+        loc_s = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'category', 'SHIPWRECK'))
         try:
             loc_s.remove('')
         except:
@@ -375,7 +375,7 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                 QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
         
         if self.checkBox_shipwreck.isChecked()== True:
-            anc_res = self.db_search_DB('SHIPWRECK', 'area', area)
+            anc_res = self.db_search_DB('SHIPWRECK', 'category', area)
             anc_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
             self.OS_UTILITY.create_dir(anc_path)
             if bool(anc_res):

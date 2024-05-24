@@ -76,7 +76,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
             pass
         self.charge_list()
         self.set_home_path()
-
+        self.comboBox_s.setHidden(True)
         # self.load_dict()
         # self.charge_data()
 
@@ -130,7 +130,16 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
 
         sito_vl.sort()
         self.comboBox_sito.addItems(sito_vl)
+        loc_s = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'category', 'SHIPWRECK'))
+        try:
+            loc_s.remove('')
+        except:
+            pass
 
+        self.comboBox_s.clear()
+
+        loc_s.sort()
+        self.comboBox_s.addItems(loc_s)
     def set_home_path(self):
         self.HOME = os.environ['HFF_HOME']
 
@@ -187,6 +196,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
         home = os.environ['HFF_HOME']
         sito_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_EXCEL_folder")
         sito_location = str(self.comboBox_sito.currentText())
+        category= str(self.comboBox_s.currentText())
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(home, cfg_rel_path)
         conf = open(file_path, "r")
@@ -286,7 +296,23 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                     # for i in temp_data_list:
                     # self.DATA_LIST.append(i)
             QMessageBox.warning(self, "Message","Exported completed" , QMessageBox.Ok)
-        
+            if self.checkBox_shipwreck.isChecked():
+                shipwreck_ = '%s' % (category + '_shipwreck_' + time.strftime('%Y%m%d_') + '.xlsx')
+                dump_dir = os.path.join(sito_path, shipwreck_)
+                cur.execute("SELECT * FROM shipwreck_table where category='%s';" % category)
+                rows = cur.fetchall()
+                col_names = []
+                for i in cur.description:
+                    col_names.append(i[0])
+
+                a = pd.DataFrame(rows, columns=col_names)
+                writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
+                a.to_excel(writer, sheet_name='Sheet1', index=True)
+                writer.close()
+                # QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
+                # for i in temp_data_list:
+                # self.DATA_LIST.append(i)
+            QMessageBox.warning(self, "Message", "Exported completed", QMessageBox.Ok)
            
         
         elif server=='sqlite':        
@@ -486,7 +512,23 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                     # self.DATA_LIST.append(i)
             QMessageBox.warning(self, "Message","Exported completed" , QMessageBox.Ok)    
             
-            
+            if self.checkBox_shipwreck.isChecked():
+                shipwreck_ = '%s' % (category + '_shipwreck_' + time.strftime('%Y%m%d_') + '.xlsx')
+                dump_dir = os.path.join(sito_path, shipwreck_)
+                cur.execute("SELECT * FROM shipwreck_table where category='%s';" % category)
+                rows = cur.fetchall()
+                col_names = []
+                for i in cur.description:
+                    col_names.append(i[0])
+
+                a = pd.DataFrame(rows, columns=col_names)
+                writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
+                a.to_excel(writer, sheet_name='Sheet1', index=True)
+                writer.close()
+                # QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
+                # for i in temp_data_list:
+                # self.DATA_LIST.append(i)
+            QMessageBox.warning(self, "Message", "Exported completed", QMessageBox.Ok)
             
     
 
