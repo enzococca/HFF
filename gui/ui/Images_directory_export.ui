@@ -70,7 +70,7 @@
        <property name="geometry">
         <rect>
          <x>218</x>
-         <y>280</y>
+         <y>300</y>
          <width>93</width>
          <height>28</height>
         </rect>
@@ -166,16 +166,22 @@
          <x>10</x>
          <y>100</y>
          <width>529</width>
-         <height>153</height>
+         <height>193</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0" colspan="2">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Select a Site</string>
+        <item row="5" column="2">
+         <spacer name="horizontalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-         </widget>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>438</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item row="1" column="0" colspan="3">
          <widget class="QComboBox" name="comboBox_location">
@@ -213,7 +219,17 @@
           </item>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="5" column="0">
+         <widget class="QCheckBox" name="checkBox_pottery">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Pottery</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
          <widget class="QCheckBox" name="checkBox_divelog">
           <property name="enabled">
            <bool>true</bool>
@@ -223,7 +239,27 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="1" colspan="2">
+        <item row="6" column="2">
+         <spacer name="horizontalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>438</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="7" column="0">
+         <widget class="QCheckBox" name="checkBox_shipwreck">
+          <property name="text">
+           <string>Shipwreck</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" colspan="2">
          <spacer name="horizontalSpacer_7">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -236,7 +272,30 @@
           </property>
          </spacer>
         </item>
-        <item row="3" column="0">
+        <item row="6" column="0">
+         <widget class="QCheckBox" name="checkBox_anchor">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Anchor</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="4" column="0">
          <widget class="QCheckBox" name="checkBox_artefact">
           <property name="enabled">
            <bool>true</bool>
@@ -246,7 +305,14 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
+        <item row="0" column="0" colspan="2">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Select a Site</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
          <spacer name="horizontalSpacer_8">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -259,51 +325,15 @@
           </property>
          </spacer>
         </item>
-        <item row="4" column="0">
-         <widget class="QCheckBox" name="checkBox_pottery">
-          <property name="enabled">
-           <bool>true</bool>
+        <item row="2" column="0" colspan="3">
+         <widget class="QComboBox" name="comboBox_s">
+          <property name="editable">
+           <bool>false</bool>
           </property>
-          <property name="text">
-           <string>Pottery</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="2">
-         <spacer name="horizontalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>438</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="5" column="0">
-         <widget class="QCheckBox" name="checkBox_anchor">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Anchor</string>
+          <property name="currentIndex">
+           <number>-1</number>
           </property>
          </widget>
-        </item>
-        <item row="5" column="2">
-         <spacer name="horizontalSpacer_10">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>438</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -333,5 +363,38 @@
   <include location="resources.qrc"/>
   <include location="../../resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkBox_shipwreck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_s</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>76</x>
+     <y>296</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>171</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_shipwreck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_location</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>264</x>
+     <y>145</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

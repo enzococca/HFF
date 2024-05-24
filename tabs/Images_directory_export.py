@@ -69,6 +69,7 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         except:
             pass
         self.charge_list()
+        self.comboBox_s.setHidden(True)
         #self.set_home_path()
 
         # self.load_dict()
@@ -117,10 +118,21 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
 
         loc_vl.sort()
         self.comboBox_location.addItems(loc_vl)
-   
+
+        loc_s = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'area', 'SHIPWRECK'))
+        try:
+            loc_s.remove('')
+        except:
+            pass
+
+        self.comboBox_s.clear()
+
+        loc_s.sort()
+        self.comboBox_s.addItems(loc_s)
     def on_pushButton_exp_icons_pressed(self):
         sito = str(self.comboBox_p_name.currentText())
         location = str(self.comboBox_location.currentText())
+        area= str(self.comboBox_s.currentText())
         conn = Connection()
         conn_str = conn.conn_str()
         thumb_resize = conn.thumb_resize()
@@ -362,7 +374,42 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                     search_images_res = ""
                 QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
         
-    
+        if self.checkBox_shipwreck.isChecked()== True:
+            anc_res = self.db_search_DB('SHIPWRECK', 'area', area)
+            anc_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
+            self.OS_UTILITY.create_dir(anc_path)
+            if bool(anc_res):
+                anc_path = '{}{}{}'.format(anc_path, os.sep, "Shipwreck")
+                self.OS_UTILITY.create_dir(anc_path)
+                for sing_anc in anc_res:
+                    sing_anc_num = str(sing_anc.code_id)
+                    prefix = ''
+                    sing_anc_num_len = len(sing_anc_num)
+                    if sing_anc_num_len == 1:
+                        prefix = prefix * 4
+                    elif sing_anc_num_len == 2:
+                        prefix = prefix * 3
+                    elif sing_anc_num_len == 3:
+                        prefix = prefix * 2
+                    else:
+                        pass
+
+                    sing_anc_dir = prefix + str(sing_anc_num)
+                    sing_anc_path = ('%s%s%s') % (anc_path, os.sep, sing_anc_dir)
+                    self.OS_UTILITY.create_dir(sing_anc_path)
+
+                    search_dict = {'id_entity': sing_anc.id_shipwreck, 'entity_type': "'" + "SHIPWRECK" + "'"}
+
+                    u = Utility()
+                    search_dict = u.remove_empty_items_fr_dict(search_dict)
+                    search_images_res = self.DB_MANAGER.query_bool(search_dict, 'MEDIAVIEW')
+
+                    for sing_media in search_images_res:
+                        self.OS_UTILITY.copy_file_img(thumb_resize_str+str(sing_media.path_resize), sing_anc_path)
+
+
+                    search_images_res = ""
+                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
     def db_search_DB(self, table_class, field, value):
         self.table_class = table_class
         self.field = field
@@ -376,7 +423,19 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         res = self.DB_MANAGER.query_bool(search_dict, self.table_class)
 
         return res
+    def db_search_DB_single(self, table_class, field):
+        self.table_class = table_class
+        self.field = field
+        #self.value = value
 
+        search_dict = {self.field: "'" }
+
+        u = Utility()
+        search_dict = u.remove_empty_items_fr_dict(search_dict)
+
+        res = self.DB_MANAGER.query_bool(search_dict, self.table_class)
+
+        return res
     def on_pushButton_open_dir_pressed(self):
         path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
 
