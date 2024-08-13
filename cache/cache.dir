@@ -1,5 +1,0 @@
-'estrai latitudine e longitudine dalla colonna coordinate e aggiungile come colonne', (0, 181)
-'estrai latitudine e longitudine dalla colonna COORDINATES e aggiungile come colonne', (512, 92)
-'estrai latitudine e longitudine dalla colonna COORDINATES e aggiungile come colonne, se il valore è mancante saltalo', (1024, 711)
-'estrai latitudine e longitudine dalla colonna COORDINATES se il valore manca  saltalo', (2048, 425)
-'estrai latitudine e longitudine dalla colonna COORDINATES se il valore manca  saltalo e salvalo in un nuovo file excel test2.xlsx', (2560, 507)
