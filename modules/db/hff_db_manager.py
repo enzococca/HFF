@@ -32,6 +32,7 @@ from sqlalchemy import and_, or_, Table, select, func, asc,UniqueConstraint
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.schema import MetaData
+from sqlalchemy.event import listen
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql.expression import *
 from sqlalchemy.dialects import postgresql
@@ -39,6 +40,7 @@ from sqlalchemy.dialects.postgresql import insert
 from qgis.core import QgsMessageLog, Qgis, QgsSettings
 from qgis.utils import iface
 from geoalchemy2 import *
+from qgis.PyQt.QtWidgets import QMessageBox
 from .hff_db_mapper import UW, ART, ANC, POTTERY,ANC_c,ART_c,POT_c, SITE, EAMENA, SHIPWRECK, \
     MEDIA, \
     MEDIA_THUMB, MEDIATOENTITY, MEDIAVIEW, \
@@ -47,7 +49,7 @@ from .hff_db_mapper import UW, ART, ANC, POTTERY,ANC_c,ART_c,POT_c, SITE, EAMENA
     GRABSPOT_POINT, ANCHOR_POINT, ARTEFACT_POINT, POTTERY_POINT, SHIPWRECK_POINT
 from .hff_system__db_update import DB_update
 from .hff_system__utility import Utility
-
+from ..utility.hff_system__OS_utility import Hff_OS_Utility
 
 class Hff_db_management(object):
     metadata = ''
@@ -61,32 +63,35 @@ class Hff_db_management(object):
 
     def __init__(self, c):
         self.conn_str = c
-    def load_spatialite(self,dbapi_conn, connection_record):
+
+    def load_spatialite(self, dbapi_conn, connection_record):
         dbapi_conn.enable_load_extension(True)
         
-        if Pyarchinit_OS_Utility.isWindows()== True:
+        if Hff_OS_Utility.isWindows()== True:
             dbapi_conn.load_extension('mod_spatialite.dll')
         
-        elif Pyarchinit_OS_Utility.isMac()== True:
+        elif Hff_OS_Utility.isMac()== True:
             dbapi_conn.load_extension('mod_spatialite')
         else:
-            dbapi_conn.load_extension('mod_spatialite.so')  
+            dbapi_conn.load_extension('mod_spatialite.so')
+
     def connection(self):
+        global conn
         test = True
+
         try:
             test_conn = self.conn_str.find("sqlite")
             if test_conn == 0:
                 self.engine = create_engine(self.conn_str, echo=eval(self.boolean))
+                #listen(self.engine, 'connect', self.load_spatialite)
             else:
                 self.engine = create_engine(self.conn_str, max_overflow=-1, echo=eval(self.boolean))
+
             self.metadata = MetaData(self.engine)
             conn = self.engine.connect()
+
         except Exception as e:
-            QgsMessageLog.logMessage(
-                "Something gone wrong on db connection: " + str(e), tag="HFF", level=Qgis.Warning)
-            iface.messageBar().pushMessage("Error",
-                                            "Something gone wrong on db connection, view log message",
-                                            level=Qgis.Warning)
+            QMessageBox.warning(None, "Message", "Error: " + str(e), QMessageBox.Ok)
             test = False
         finally:
             conn.close()
@@ -95,15 +100,9 @@ class Hff_db_management(object):
             db_upd = DB_update(self.conn_str)
             db_upd.update_table()
         except Exception as e:
-            QgsMessageLog.logMessage(
-                "Something gone wrong on update table: " + str(e), tag="HFF", level=Qgis.Warning)
-            iface.messageBar().pushMessage("Error",
-                                            "Something gone wrong on update table, view log message",
-                                            level=Qgis.Warning)
+            QMessageBox.warning(None, "Message", "Error: " + str(e), QMessageBox.Ok)
             test = False
         return test
-
-        # insert statement
     
     def insert_grabsopt_point_values(self, *arg):
         """Istanzia la classe US da hff_system__db_mapper"""

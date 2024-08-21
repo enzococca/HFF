@@ -1716,7 +1716,7 @@ CREATE TABLE public.site_poligon
     photo5 character varying COLLATE pg_catalog."default",
     photo6 character varying COLLATE pg_catalog."default",
     location character varying COLLATE pg_catalog."default",
-    the_geom geometry(LineString,-1),
+    the_geom geometry(POLYGON,-1),
 	coord character varying COLLATE pg_catalog."default",
 	CONSTRAINT site_poligon_pkey PRIMARY KEY (gid)
 )

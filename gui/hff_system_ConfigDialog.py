@@ -2230,15 +2230,17 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             ####CREA LA STRINGA DI CONNESSIONE IN LETTURA
             if conn_str_dict_write["server"] == 'postgres':
                 try:
-                    conn_str_write = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
-                        "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
-                        conn_str_dict_write["host"], conn_str_dict_write["port"], conn_str_dict_write["db_name"],
-                        "?sslmode=allow")
-                except:
+
                     conn_str_write = "%s://%s:%s@%s:%d/%s" % (
                         "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
                         conn_str_dict_write["host"],
                         int(conn_str_dict_write["port"]), conn_str_dict_write["db_name"])
+
+                except:
+                    conn_str_write = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
+                        "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
+                        conn_str_dict_write["host"], conn_str_dict_write["port"], conn_str_dict_write["db_name"],
+                        "?sslmode=allow")
             elif conn_str_dict_write["server"] == 'sqlite':
                 sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
                                                  "HFF_DB_folder")  # "C:\\Users\\Windows\\Dropbox\\pyarchinit_san_marco\\" fare modifiche anche in pyarchinit_pyqgis
@@ -2258,8 +2260,15 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data = self.DB_MANAGER_write.insert_siteline_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                            data_list_toimp[sing_rec].id,
                             data_list_toimp[sing_rec].location,
                             data_list_toimp[sing_rec].name_f_l,
+                            data_list_toimp[sing_rec].photo1,
+                            data_list_toimp[sing_rec].photo2,
+                            data_list_toimp[sing_rec].photo3,
+                            data_list_toimp[sing_rec].photo4,
+                            data_list_toimp[sing_rec].photo5,
+                            data_list_toimp[sing_rec].photo6,
                             data_list_toimp[sing_rec].the_geom,
                             data_list_toimp[sing_rec].coord)
                         self.DB_MANAGER_write.insert_data_session(data)
@@ -2281,9 +2290,16 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data = self.DB_MANAGER_write.insert_sitepoint_values(
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
-                            
+
+                            data_list_toimp[sing_rec].id,
                             data_list_toimp[sing_rec].location ,
                             data_list_toimp[sing_rec].name_f_p,
+                            data_list_toimp[sing_rec].photo,
+                            data_list_toimp[sing_rec].photo2,
+                            data_list_toimp[sing_rec].photo3,
+                            data_list_toimp[sing_rec].photo4,
+                            data_list_toimp[sing_rec].photo5,
+                            data_list_toimp[sing_rec].photo6,
                             data_list_toimp[sing_rec].the_geom ,
                             data_list_toimp[sing_rec].coord)
                         self.DB_MANAGER_write.insert_data_session(data)
@@ -2307,6 +2323,12 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].name_feat,
                             data_list_toimp[sing_rec].location ,
+                            data_list_toimp[sing_rec].photo,
+                            data_list_toimp[sing_rec].photo2,
+                            data_list_toimp[sing_rec].photo3,
+                            data_list_toimp[sing_rec].photo4,
+                            data_list_toimp[sing_rec].photo5,
+                            data_list_toimp[sing_rec].photo6,
                             data_list_toimp[sing_rec].the_geom ,
                             data_list_toimp[sing_rec].coord)
                         self.DB_MANAGER_write.insert_data_session(data)
@@ -2322,7 +2344,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         return 0
                 self.progress_bar.reset()
                 QMessageBox.information(self, "Message", "Data Loaded")
-            elif mapper_class_write == 'ANCHOR_POINT' :
+            elif mapper_class_write == 'ANCHOR_POINT':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
                         data = self.DB_MANAGER_write.insert_anchor_point_values(
@@ -2334,6 +2356,8 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             data_list_toimp[sing_rec].years ,
                             data_list_toimp[sing_rec].type,
                             data_list_toimp[sing_rec].obj)
+
+
                         self.DB_MANAGER_write.insert_data_session(data)
                         # Calculate the progress as a percentage
                         value = (float(sing_rec) / float(len(data_list_toimp))) * 100
@@ -2632,15 +2656,17 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         ####CREA LA STRINGA DI CONNESSIONE IN LETTURA
         if conn_str_dict_write["server"] == 'postgres':
             try:
-                conn_str_write = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
-                    "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
-                    conn_str_dict_write["host"], conn_str_dict_write["port"], conn_str_dict_write["db_name"],
-                    "?sslmode=allow")
-            except:
                 conn_str_write = "%s://%s:%s@%s:%d/%s" % (
                     "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
                     conn_str_dict_write["host"],
                     int(conn_str_dict_write["port"]), conn_str_dict_write["db_name"])
+
+
+            except:
+                conn_str_write = "%s://%s:%s@%s:%s/%s%s?charset=utf8" % (
+                    "postgresql", conn_str_dict_write["user"], conn_str_dict_write["password"],
+                    conn_str_dict_write["host"], conn_str_dict_write["port"], conn_str_dict_write["db_name"],
+                    "?sslmode=allow")
         elif conn_str_dict_write["server"] == 'sqlite':
             sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep,
                                              "HFF_DB_folder")  # "C:\\Users\\Windows\\Dropbox\\hff_system__san_marco\\" fare modifiche anche in hff_system__pyqgis

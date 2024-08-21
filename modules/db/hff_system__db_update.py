@@ -84,6 +84,25 @@ class DB_update(object):
             table_column_names_list.append(str(i.name))
 
         if not table_column_names_list.__contains__('status'):
-            self.engine.execute("ALTER TABLE shipwreck_table ADD COLUMN status varchar DEFAULT ''") 
+            self.engine.execute("ALTER TABLE shipwreck_table ADD COLUMN status varchar DEFAULT ''")
 
-        
+        # ####anchor table_table
+        table = Table("site_point", self.metadata, autoload=True)
+        table_column_names_list = []
+        for i in table.columns:
+            table_column_names_list.append(str(i.name))
+
+        if not table_column_names_list.__contains__('coord'):
+            self.engine.execute("ALTER TABLE site_point ADD COLUMN coord TEXT DEFAULT ''")
+
+        # ####anchor table_table
+        table = Table("site_poligon", self.metadata, autoload=True)
+        table_column_names_list = []
+        for i in table.columns:
+            table_column_names_list.append(str(i.name))
+
+        if not table_column_names_list.__contains__('coord'):
+            self.engine.execute("ALTER TABLE site_poligon ADD COLUMN coord TEXT DEFAULT ''")
+
+
+
