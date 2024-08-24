@@ -91,13 +91,13 @@ try:
     # mapper
     mapper(MEDIATOENTITY, Media_to_Entity_table.media_to_entity_table)
 
-     # mapper
+    # mapper
     mapper(MEDIAVIEW, Media_to_Entity_table_view.mediaentity_view)
     
     # mapper
     mapper(PDF_ADMINISTRATOR, PDF_administrator_table.pdf_administrator_table)
 
-   # mapper
+    # mapper
     mapper(SITE_POLYGON, Site_polygon_table.sitepoligon)
     
     # mapper
@@ -108,10 +108,10 @@ try:
     
     # mapper
     mapper(SITE, Site_table.site_table)
-	
+
     # mapper
     mapper(EAMENA, Eamena_table.eamena_table)
-	
+
     # mapper
     mapper(UW, UW_table.dive_log)
     
@@ -152,7 +152,7 @@ try:
     
     
     # mapper
-    mapper(GRABSPOT_POINT, grabspot_point_table.grabspot_point)
+    mapper(GRABSPOT_POINT, grabspot_point_table.grab_spot)
     
     
     # mapper
@@ -168,5 +168,5 @@ try:
     # mapper
     mapper(SHIPWRECK_POINT, shipwreck_point_table.shipwreck_point)
 
-except:
-    pass
+except Exception as e:
+    raise

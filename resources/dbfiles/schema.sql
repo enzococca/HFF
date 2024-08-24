@@ -134,11 +134,11 @@ ALTER TABLE public.anchor_p_gid_seq OWNER TO postgres;
 --
 CREATE TABLE public.anchor_point (
     gid integer DEFAULT nextval('public.anchor_p_gid_seq'::regclass) NOT NULL,
+    the_geom public.geometry(Point,-1),
     site character varying(255),
     code character varying(255),
     years integer,
     link character varying(255),
-    the_geom public.geometry(Point,-1),
     type character varying(255),
     obj character varying(255)
 );

@@ -218,7 +218,7 @@ class Hff_db_management(object):
                     arg[6],
                     arg[7],
                     arg[8],
-                    arg[9],
+                    arg[9]
                     )
 
         return features_poligon
@@ -235,7 +235,7 @@ class Hff_db_management(object):
                     arg[6],
                     arg[7],
                     arg[8],
-                    arg[9],
+                    arg[9]
                     )
 
         return features_line
@@ -252,7 +252,7 @@ class Hff_db_management(object):
                     arg[6],
                     arg[7],
                     arg[8],
-                    arg[9],
+                    arg[9]
                     )
 
         return features_point
@@ -281,7 +281,7 @@ class Hff_db_management(object):
                     arg[6],
                     arg[7],
                     arg[8],
-                    arg[9],
+                    arg[9]
                     )
 
         return sitepoligon
@@ -299,7 +299,7 @@ class Hff_db_management(object):
                     arg[6],
                     arg[7],
                     arg[8],
-                    arg[9],
+                    arg[9]
                     )
 
         return siteline
