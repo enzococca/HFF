@@ -5,7 +5,7 @@ import cv2
 import pygame
 from qgis.PyQt.QtCore import QTimer,Qt
 from qgis.PyQt.QtGui import QImage, QPixmap,QIcon
-from qgis.PyQt.QtWidgets import QTableWidgetItem, QInputDialog, QMainWindow, QListWidgetItem,  QMessageBox, QWidget, QLabel, QSizePolicy, QSlider, QPushButton, QHBoxLayout, QVBoxLayout
+from qgis.PyQt.QtWidgets import QInputDialog, QMainWindow, QListWidgetItem,  QMessageBox, QWidget, QLabel, QSizePolicy, QSlider, QPushButton, QHBoxLayout, QVBoxLayout
 
 
 from modules.db.hff_system__conn_strings import Connection
@@ -170,10 +170,10 @@ class VideoPlayerWindow(QMainWindow):
     def save_frame_to_db(self):
         # Check if required fields are set
         sito = self.mainclass.comboBox_site.currentText()
-        divelog = self.mainclass.lineEdit_divelog_id.text()
-        years = self.mainclass.comboBox_years.currentText()
+        artefact = self.mainclass.comboBox_artefact.currentText()
+        #years = self.mainclass.comboBox_years.currentText()
 
-        if not sito or not divelog or not years:
+        if not sito or not artefact :
             QMessageBox.warning(self, "Warning",
                                 "Please ensure that Site, Divelog ID, and Year are set before saving the frame.")
             return
@@ -276,18 +276,6 @@ class VideoPlayerWindow(QMainWindow):
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
 
-                row_position = self.mainclass.tableWidget_photo.rowCount()
-                self.mainclass.tableWidget_photo.insertRow(row_position)
-
-                # Aggiungi l'ID della foto (nome del file)
-                id_item = QTableWidgetItem(str(filename_resize))
-                self.mainclass.tableWidget_photo.setItem(row_position, 0, id_item)
-
-                # Aggiungi una descrizione vuota (può essere modificata dall'utente in seguito)
-                desc_item = QTableWidgetItem("")
-                self.mainclass.tableWidget_photo.setItem(row_position, 1, desc_item)
-
-
                 # Generate and assign tags
                 us_list = self.generate_US()
                 if us_list:
@@ -299,13 +287,40 @@ class VideoPlayerWindow(QMainWindow):
             QMessageBox.warning(self, "Error", "Failed to insert media record")
             return
 
+        # Create and save thumbnail
+        filepath_t = os.path.join(thumb_path_str, f"{filename_thumb}.{filetype}")
+        thumb = cv2.resize(frame, (100, 100))
+        cv2.imwrite(filepath_t, thumb)
 
 
+        # Insert record in the media_thumb table
+        self.insert_record_mediathumb(media_max_num_id, mediatype, filename, filename_thumb, filetype,
+                                      filepath_thumb, filepath_resize)
 
+        # Add item to the iconListWidget if available
+        if self.iconListWidget is not None:
+            item = QListWidgetItem(filename)
+            item.setData(Qt.UserRole, str(media_max_num_id))
+            icon = QIcon(filepath_thumb)
+            item.setIcon(icon)
+            self.iconListWidget.addItem(item)
+
+            # Generate and assign tags
+            us_list = self.generate_US()
+            if us_list:
+                self.assignTags_US(item)
+                self.iconListWidget.repaint()
+            else:
+                print("No tags generated for this item")
+        else:
+            print("Warning: iconListWidget not available. Item not added to the list.")
+
+        QMessageBox.information(self, "Success", "Frame saved to database")
+        self.iconListWidget.update()
     def generate_US(self):
         sito = self.mainclass.comboBox_site.currentText()
-        divelog = self.mainclass.lineEdit_divelog_id.text()
-        years = self.mainclass.comboBox_years.currentText()
+        artefact = self.mainclass.comboBox_artefact.currentText()
+        #years = self.mainclass.comboBox_years.currentText()
 
 
         #QMessageBox.information(self, 'test', f"Warning: Record {sito}\n{divelog}\n{years}"
@@ -313,47 +328,26 @@ class VideoPlayerWindow(QMainWindow):
 
         search_dict = {
             'site': "'" + str(sito) + "'",
-            'divelog_id': "'" + str(divelog) + "'",
-            'years': "'" + str(years) + "'"
+            'artefact_id': "'" + str(artefact) + "'",
+            #'years': "'" + str(years) + "'"
         }
 
-        records = self.DB_MANAGER.query_bool(search_dict, 'UW')
+        records = self.DB_MANAGER.query_bool(search_dict, 'ART')
 
         us_list = []
         for record in records:
-            if hasattr(record, 'id_dive'):
-                us_list.append([record.id_dive, 'DOC', 'dive_log'])
+            if hasattr(record, 'id_art'):
+                us_list.append([record.id_art, 'ARTEFACT', 'artefact_id'])
             else:
                 QMessageBox.information(self,'test',f"Warning: Record {record} does not have 'id_dive' attribute")
 
         if not us_list:
             print("No matching records found in generate_US")
-            print(f"Search parameters: Site: {sito}, Divelog: {divelog}, Years: {years}")
+            print(f"Search parameters: Site: {sito}, Divelog: {artefact}")
 
         return us_list
 
-    def generate_pano(self):
-        # tags_list = self.table2dict('self.tableWidgetTags_US')
 
-        sito = self.mainclass.comboBox_site.currentText()
-        divelog = self.mainclass.lineEdit_divelog_id.text()
-        years = self.mainclass.comboBox_years.currentText()
-
-
-        record_us_list = []
-        # for sing_tags in selected_us:
-        search_dict = {'site': "'" + str(sito) + "'",
-                       'divelog_id': "'" + str(divelog) + "'",
-                       'years': "'" + str(years) + "'"
-                       }
-        j = self.DB_MANAGER.query_bool(search_dict, 'UW')
-        record_us_list.append(j)
-        # QMessageBox.information(self, 'search db', str(record_us_list))
-        us_list = []
-        for r in record_us_list:
-            us_list.append([r[0].id_dive, 'PE', 'dive_log'])
-        # QMessageBox.information(self, "Scheda US", str(us_list), QMessageBox.Ok)
-        return us_list
 
     def assignTags_US(self, item):
 
@@ -370,19 +364,7 @@ class VideoPlayerWindow(QMainWindow):
             self.insert_mediaToEntity_rec(us_data[0], us_data[1], us_data[2], media_data[0].id_media,
                                           media_data[0].filepath, media_data[0].filename)
 
-    def assignTags_pano(self, item):
 
-        us_list = self.generate_pano()
-        # QMessageBox.information(self,'search db',str(us_list))
-        if not us_list:
-            return
-
-        for us_data in us_list:
-            id_orig_item = item.text()  # return the name of original file
-            search_dict = {'filename': "'" + str(id_orig_item) + "'"}
-            media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
-            self.insert_mediaToEntity_rec(us_data[0], us_data[1], us_data[2], media_data[0].id_media,
-                                          media_data[0].filepath, media_data[0].filename)
 
     def db_search_check(self, table, field, value):
         self.table_class = table
