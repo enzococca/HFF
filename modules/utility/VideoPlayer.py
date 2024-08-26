@@ -268,33 +268,65 @@ class VideoPlayerWindow(QMainWindow):
             self.insert_record_mediathumb(media_id, mediatype, filename, filename_thumb, filetype,
                                           filepath_thumb, filepath_resize)
 
-            # Add item to the iconListWidget if available
-            if self.iconListWidget is not None:
-                item = QListWidgetItem(filename)
-                item.setData(Qt.UserRole, str(media_id))
-                icon = QIcon(filepath_t)  # Usa filepath_t invece di filepath_thumb
-                item.setIcon(icon)
-                self.iconListWidget.addItem(item)
-
-                row_position = self.mainclass.tableWidget_photo.rowCount()
-                self.mainclass.tableWidget_photo.insertRow(row_position)
-
-                # Aggiungi l'ID della foto (nome del file)
-                id_item = QTableWidgetItem(str(filename_resize))
-                self.mainclass.tableWidget_photo.setItem(row_position, 0, id_item)
-
-                # Aggiungi una descrizione vuota (può essere modificata dall'utente in seguito)
-                desc_item = QTableWidgetItem("")
-                self.mainclass.tableWidget_photo.setItem(row_position, 1, desc_item)
 
 
-                # Generate and assign tags
-                us_list = self.generate_US()
-                if us_list:
-                    self.assignTags_US(item)
-                    self.iconListWidget.repaint()
-                else:
-                    print("No tags generated for this item")
+            if 'pano' in base_filename:
+                # Add item to the iconListWidget if available
+                if self.mainclass.icongigi is not None:
+                    item = QListWidgetItem(filename)
+                    item.setData(Qt.UserRole, str(media_id))
+                    icon = QIcon(filepath_t)  # Usa filepath_t invece di filepath_thumb
+                    item.setIcon(icon)
+                    self.mainclass.icongigi.addItem(item)
+
+                    row_position = self.mainclass.tableWidget_photo.rowCount()
+                    self.mainclass.tableWidget_photo.insertRow(row_position)
+
+                    # Aggiungi l'ID della foto (nome del file)
+                    id_item = QTableWidgetItem(str(filename_resize))
+                    self.mainclass.tableWidget_photo.setItem(row_position, 0, id_item)
+
+                    # Aggiungi una descrizione vuota (può essere modificata dall'utente in seguito)
+                    desc_item = QTableWidgetItem("")
+                    self.mainclass.tableWidget_photo.setItem(row_position, 1, desc_item)
+
+                    # Generate and assign tags
+                    us_list = self.generate_pano()
+                    if us_list:
+                        self.assignTags_pano(item)
+                        self.mainclass.icongigi.repaint()
+                    else:
+                        print("No tags generated for this item")
+
+
+            else:
+                # Add item to the iconListWidget if available
+                if self.iconListWidget is not None:
+                    item = QListWidgetItem(filename)
+                    item.setData(Qt.UserRole, str(media_id))
+                    icon = QIcon(filepath_t)  # Usa filepath_t invece di filepath_thumb
+                    item.setIcon(icon)
+                    self.iconListWidget.addItem(item)
+
+                    row_position = self.mainclass.tableWidget_photo.rowCount()
+                    self.mainclass.tableWidget_photo.insertRow(row_position)
+
+                    # Aggiungi l'ID della foto (nome del file)
+                    id_item = QTableWidgetItem(str(filename_resize))
+                    self.mainclass.tableWidget_photo.setItem(row_position, 0, id_item)
+
+                    # Aggiungi una descrizione vuota (può essere modificata dall'utente in seguito)
+                    desc_item = QTableWidgetItem("")
+                    self.mainclass.tableWidget_photo.setItem(row_position, 1, desc_item)
+
+
+                    # Generate and assign tags
+                    us_list = self.generate_US()
+                    if us_list:
+                        self.assignTags_US(item)
+                        self.iconListWidget.repaint()
+                    else:
+                        print("No tags generated for this item")
         else:
             QMessageBox.warning(self, "Error", "Failed to insert media record")
             return
@@ -333,26 +365,32 @@ class VideoPlayerWindow(QMainWindow):
         return us_list
 
     def generate_pano(self):
-        # tags_list = self.table2dict('self.tableWidgetTags_US')
-
         sito = self.mainclass.comboBox_site.currentText()
         divelog = self.mainclass.lineEdit_divelog_id.text()
         years = self.mainclass.comboBox_years.currentText()
 
+        # QMessageBox.information(self, 'test', f"Warning: Record {sito}\n{divelog}\n{years}"
 
-        record_us_list = []
-        # for sing_tags in selected_us:
-        search_dict = {'site': "'" + str(sito) + "'",
-                       'divelog_id': "'" + str(divelog) + "'",
-                       'years': "'" + str(years) + "'"
-                       }
-        j = self.DB_MANAGER.query_bool(search_dict, 'UW')
-        record_us_list.append(j)
+        search_dict = {
+            'site': "'" + str(sito) + "'",
+            'divelog_id': "'" + str(divelog) + "'",
+            'years': "'" + str(years) + "'"
+        }
+
+        records = self.DB_MANAGER.query_bool(search_dict, 'UW')
+
         # QMessageBox.information(self, 'search db', str(record_us_list))
         us_list = []
-        for r in record_us_list:
-            us_list.append([r[0].id_dive, 'PE', 'dive_log'])
-        # QMessageBox.information(self, "Scheda US", str(us_list), QMessageBox.Ok)
+        for record in records:
+            if hasattr(record, 'id_dive'):
+                us_list.append([record.id_dive, 'PE', 'dive_log'])
+            else:
+                QMessageBox.information(self, 'test', f"Warning: Record {record} does not have 'id_dive' attribute")
+
+        if not us_list:
+            print("No matching records found in generate_US")
+            print(f"Search parameters: Site: {sito}, Divelog: {divelog}, Years: {years}")
+
         return us_list
 
     def assignTags_US(self, item):
