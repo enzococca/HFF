@@ -318,13 +318,8 @@ class VideoPlayerWindow(QMainWindow):
         QMessageBox.information(self, "Success", "Frame saved to database")
         self.iconListWidget.update()
     def generate_US(self):
-        sito = self.mainclass.comboBox_site.currentText()
-        artefact = self.mainclass.comboBox_artefact.currentText()
-        #years = self.mainclass.comboBox_years.currentText()
-
-
-        #QMessageBox.information(self, 'test', f"Warning: Record {sito}\n{divelog}\n{years}"
-
+        sito = self.comboBox_site_name.currentText()
+        artefact = self.comboBox_artefact.currentText()
 
         search_dict = {
             'site': "'" + str(sito) + "'",
@@ -332,12 +327,12 @@ class VideoPlayerWindow(QMainWindow):
             #'years': "'" + str(years) + "'"
         }
 
-        records = self.DB_MANAGER.query_bool(search_dict, 'ART')
+        records = self.DB_MANAGER.query_bool(search_dict, 'ART_c')
 
         us_list = []
         for record in records:
             if hasattr(record, 'id_art'):
-                us_list.append([record.id_art, 'ARTEFACT', 'artefact_log'])
+                us_list.append([record.id_art, 'ART_CON', 'artefact_con'])
             else:
                 QMessageBox.information(self,'test',f"Warning: Record {record} does not have 'id_dive' attribute")
 

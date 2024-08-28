@@ -328,16 +328,16 @@ class VideoPlayerWindow(QMainWindow):
 
         search_dict = {
             'site': "'" + str(sito) + "'",
-            'artefact_id': "'" + str(artefact) + "'",
+            'anchors_id': "'" + str(artefact) + "'",
             #'years': "'" + str(years) + "'"
         }
 
-        records = self.DB_MANAGER.query_bool(search_dict, 'ART')
+        records = self.DB_MANAGER.query_bool(search_dict, 'ANC')
 
         us_list = []
         for record in records:
-            if hasattr(record, 'id_art'):
-                us_list.append([record.id_art, 'ARTEFACT', 'artefact_log'])
+            if hasattr(record, 'id_anc'):
+                us_list.append([record.id_anc, 'ANC', 'anchor_table'])
             else:
                 QMessageBox.information(self,'test',f"Warning: Record {record} does not have 'id_dive' attribute")
 

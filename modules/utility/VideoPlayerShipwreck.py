@@ -1,15 +1,17 @@
 
 import os
-import numpy as np
-import cv2
-import pygame
-from qgis.PyQt.QtCore import QTimer,Qt
-from qgis.PyQt.QtGui import QImage, QPixmap,QIcon
-from qgis.PyQt.QtWidgets import QInputDialog, QMainWindow, QListWidgetItem,  QMessageBox, QWidget, QLabel, QSizePolicy, QSlider, QPushButton, QHBoxLayout, QVBoxLayout
+from qgis.PyQt.QtCore import QTimer, Qt
+from qgis.PyQt.QtGui import QImage, QPixmap, QIcon
+from qgis.PyQt.QtWidgets import QInputDialog, QMainWindow, QListWidgetItem, QMessageBox, QWidget, QLabel, QSizePolicy, \
+    QSlider, QPushButton, QHBoxLayout, QVBoxLayout
 
+import cv2
+import numpy as np
+import pygame
 
 from modules.db.hff_system__conn_strings import Connection
 from modules.db.hff_system__utility import Utility
+
 
 class VideoPlayerWindow(QMainWindow):
     def __init__(self, parent, db_manager=None, icon_list_widget=None, main_class=None):
@@ -318,8 +320,8 @@ class VideoPlayerWindow(QMainWindow):
         QMessageBox.information(self, "Success", "Frame saved to database")
         self.iconListWidget.update()
     def generate_US(self):
-        sito = self.mainclass.comboBox_site.currentText()
-        artefact = self.mainclass.comboBox_artefact.currentText()
+
+        code = self.mainclass.comboBox_code.currentText()
         #years = self.mainclass.comboBox_years.currentText()
 
 
@@ -327,23 +329,23 @@ class VideoPlayerWindow(QMainWindow):
 
 
         search_dict = {
-            'site': "'" + str(sito) + "'",
-            'artefact_id': "'" + str(artefact) + "'",
+
+            'code_id': "'" + str(code) + "'",
             #'years': "'" + str(years) + "'"
         }
 
-        records = self.DB_MANAGER.query_bool(search_dict, 'ART')
+        records = self.DB_MANAGER.query_bool(search_dict, 'SHIPEWRECK')
 
         us_list = []
         for record in records:
-            if hasattr(record, 'id_art'):
-                us_list.append([record.id_art, 'ARTEFACT', 'artefact_log'])
+            if hasattr(record, 'id_shipwreck'):
+                us_list.append([record.id_shipwreck, 'SHIPWRECK', 'shipwreck_table'])
             else:
                 QMessageBox.information(self,'test',f"Warning: Record {record} does not have 'id_dive' attribute")
 
         if not us_list:
             print("No matching records found in generate_US")
-            print(f"Search parameters: Site: {sito}, Divelog: {artefact}")
+            #print(f"Search parameters: Site: {sito}, Divelog: {artefact}")
 
         return us_list
 

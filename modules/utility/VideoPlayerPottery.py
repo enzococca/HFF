@@ -332,12 +332,12 @@ class VideoPlayerWindow(QMainWindow):
             #'years': "'" + str(years) + "'"
         }
 
-        records = self.DB_MANAGER.query_bool(search_dict, 'ART')
+        records = self.DB_MANAGER.query_bool(search_dict, 'POTTERY')
 
         us_list = []
         for record in records:
-            if hasattr(record, 'id_art'):
-                us_list.append([record.id_art, 'ARTEFACT', 'artefact_log'])
+            if hasattr(record, 'id_rep'):
+                us_list.append([record.id_rep, 'POTTERY', 'pottery_table'])
             else:
                 QMessageBox.information(self,'test',f"Warning: Record {record} does not have 'id_dive' attribute")
 
