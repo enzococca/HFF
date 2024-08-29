@@ -169,7 +169,7 @@ class VideoPlayerWindow(QMainWindow):
 
     def save_frame_to_db(self):
         # Check if required fields are set
-        sito = self.mainclass.comboBox_site.currentText()
+        sito = self.mainclass.comboBox_site_name.currentText()
         artefact = self.mainclass.comboBox_artefact.currentText()
         #years = self.mainclass.comboBox_years.currentText()
 
@@ -318,7 +318,7 @@ class VideoPlayerWindow(QMainWindow):
         QMessageBox.information(self, "Success", "Frame saved to database")
         self.iconListWidget.update()
     def generate_US(self):
-        sito = self.mainclass.comboBox_site.currentText()
+        sito = self.mainclass.comboBox_site_name.currentText()
         artefact = self.mainclass.comboBox_artefact.currentText()
         #years = self.mainclass.comboBox_years.currentText()
 
