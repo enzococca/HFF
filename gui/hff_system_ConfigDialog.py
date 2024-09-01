@@ -2351,9 +2351,10 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                              id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                             data_list_toimp[sing_rec].the_geom,
-                            data_list_toimp[sing_rec].site ,
-                            data_list_toimp[sing_rec].code ,
-                            data_list_toimp[sing_rec].years ,
+                            data_list_toimp[sing_rec].site,
+                            data_list_toimp[sing_rec].code,
+                            data_list_toimp[sing_rec].years,
+                            data_list_toimp[sing_rec].link,
                             data_list_toimp[sing_rec].type,
                             data_list_toimp[sing_rec].obj)
 
@@ -2366,7 +2367,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         # Update the progress bar with the integer value
                         self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except Exception as e:
+                    except AssertionError as e:
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()

@@ -26,23 +26,26 @@ import time
 import sys
 from builtins import range
 from builtins import str
+from datetime import date
+
 import PIL as Image
 from PIL import *
 import shutil
 import cv2
-import numpy as np
-from qgis.PyQt.QtCore import Qt, QSize
+
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import *#QDialog, QMessageBox, QAbstractItemView, QListWidgetItem, QFileDialog, QTableWidgetItem,QWidget
 from qgis.PyQt.uic import loadUiType
-from qgis.core import QgsSettings
+
+
+from ..gui.sortpanelmain import SortPanelMain
 from ..gui.imageViewer import ImageViewer
-from ..modules.db.hff_system__conn_strings import *
+
 from ..modules.db.hff_db_manager import *
 from ..modules.db.hff_system__utility import *
 from ..modules.utility.delegateComboBox import *
 from ..modules.utility.hff_system__media_utility import *
-from sqlalchemy import and_, or_, Table, select, func, asc
+
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'hff_system__image_viewer_dialog.ui'))
 
@@ -647,13 +650,14 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.pushButton_sort.setEnabled(n)
     
     def getDirectoryVideo(self):
+        global filepath_thumb, idunique_video_check
         self.iconListWidget.clear()
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']      
         if thumb_path_str=='':
             QMessageBox.information(self, "Message", "you must first set the path to save the thumbnails and resampled images. Go to system/path setting ")
         else:    
-            video_list=[]
+            image_list=[]
             directory = QFileDialog.getExistingDirectory(self, "Directory", "Choose a directory:",
                                                          QFileDialog.ShowDirsOnly)
             
@@ -708,7 +712,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 QMessageBox.warning(self, "Cucu", str(e), QMessageBox.Ok)
 
                             try:
-                                for i in enumerate(image):
+                                for i in enumerate(video):
                                     image_list.append(i[0])
                                 for n in range(len(image_list)):
                                     self.progressBar.setValue(((n)/100)*100)
@@ -1130,7 +1134,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         record_spm_list = []
         for sing_tags in tags_list:
                 search_dict = {'name_site'  : "'"+str(sing_tags[0])+"'"}
-                record_doc_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
+                record_spm_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
 
         spm_list = []
         for r in record_spm_list:
@@ -1165,10 +1169,10 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         for sing_tags in tags_list:
                 search_dict = {'divelog_id'  : "'"+str(sing_tags[0])+"'",
                                 'years': "'"+str(sing_tags[1])+"'"}
-                record_doc_list.remove(self.DB_MANAGER.query_bool(search_dict, 'UW'))
+                record_us_list.remove(self.DB_MANAGER.query_bool(search_dict, 'UW'))
 
         doc_list = []
-        for r in record_doc_list:
+        for r in record_us_list:
             doc_list.remove([r[0].id_dive, 'DOC', 'dive_log'])
         return doc_list 
         
@@ -1468,16 +1472,6 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         for r in record_pottery_list:
             pottery_list.remove([r[0].id_pot, 'POT_CON', 'pottery_con'])
         return pottery_list
-
-
-
-
-
-
-
-
-
-
 
 
     def generate_Survey(self):
