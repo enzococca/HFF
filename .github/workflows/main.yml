@@ -1,0 +1,84 @@
+name: Test Ubuntu Install Script
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-script:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create install script
+      run: |
+        cat << EOF > install_packages.sh
+        #!/bin/bash
+
+        # Aggiorna l'elenco dei pacchetti
+        sudo apt update
+
+        # Funzione per installare un pacchetto con una versione specifica se disponibile
+        install_package() {
+            package=$1
+            version=$2
+            available_version=$(apt-cache policy $package | grep -oP '(?<=Candidate: ).*')
+            
+            if [ -n "$available_version" ]; then
+                if [ "$available_version" = "$version" ]; then
+                    sudo apt install -y $package=$version
+                else
+                    echo "ATTENZIONE: $package versione $version non disponibile. Installando versione $available_version"
+                    sudo apt install -y $package
+                fi
+            else
+                echo "ERRORE: $package non trovato nei repository"
+            fi
+        }
+
+        # Installa i pacchetti con le versioni specificate, se possibile
+        install_package python3-sqlalchemy 1.4.27
+        install_package python3-geoalchemy2 0.9.4
+        install_package python3-reportlab 4.1.0
+        install_package graphviz 0.20.3
+        install_package python3-xlsxwriter 3.2.0
+        install_package python3-opencv 4.10.0
+        install_package python3-psutil 5.9.8
+        install_package python3-openpyxl 3.1.2
+        install_package python3-matplotlib 3.9.0
+        install_package python3-pandas 2.2.2
+        install_package python3-requests 2.32.2
+        install_package python3-nltk 3.6.6
+        install_package python3-docx 1.1.2
+        install_package python3-pygame 2.6.0
+        install_package python3-vtk7 9.3.1
+
+        # Pacchetti non disponibili tramite apt
+        echo "I seguenti pacchetti non sono disponibili tramite apt e richiedono soluzioni alternative:"
+        echo "- SQLAlchemy-Utils==0.38.0"
+        echo "- PyMuPDF==1.24.4"
+        echo "- openai==1.30.3"
+        echo "- pyvista==0.44.1"
+        echo "- pyvistaqt==0.11.1"
+        EOF
+
+    - name: Make script executable
+      run: chmod +x install_packages.sh
+
+    - name: Run install script
+      run: |
+        ./install_packages.sh
+        echo "Script eseguito con successo"
+
+    - name: Check installed packages
+      run: |
+        for package in python3-sqlalchemy python3-geoalchemy2 python3-reportlab graphviz python3-xlsxwriter python3-opencv python3-psutil python3-openpyxl python3-matplotlib python3-pandas python3-requests python3-nltk python3-docx python3-pygame python3-vtk7; do
+          if dpkg -s $package &> /dev/null; then
+            echo "$package è installato"
+          else
+            echo "$package non è installato"
+          fi
+        done
