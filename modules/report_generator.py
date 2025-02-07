@@ -80,25 +80,23 @@ class ReportGenerator(QWidget):
         session.close()
         return descriptions
 
-
     @staticmethod
     def generate_report_with_openai(descriptions_text, api_key, model):
         prompt = descriptions_text
         prompt += "\n\nReport:"
 
-        openai.api_key = api_key
-        #while True:
+        client = openai.OpenAI(api_key=api_key)
         try:
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model=model,
                 messages=[
                     {"role": "system", "content": prompt}]
             )
-            return response['choices'][0]['message']['content']
-        except openai.error.OpenAIError as e:
-            if isinstance(e, openai.error.RateLimitError):
+            return response.choices[0].message.content
+        except openai.OpenAIError as e:
+            if "rate_limit" in str(e).lower():
                 time.sleep(5)
-                return ReportGenerator.generate_report_with_openai(descriptions_text, api_key, model)  # Retry
+                return ReportGenerator.generate_report_with_openai(descriptions_text, api_key, model)
             else:
                 raise e
 
