@@ -27,6 +27,12 @@ import sys
 from builtins import range
 from builtins import str
 from datetime import date
+import pyvista as pv
+from pyvistaqt import QtInteractor
+import vtk
+import numpy as np
+
+import math
 
 import PIL as Image
 from PIL import *
@@ -849,6 +855,105 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             #self.charge_data ()
             #self.view_num_rec()
             #self.open_images()
+
+    def process_3d_model(self, media_max_num_id, filepath, filename, thumb_path_str, thumb_resize_str,
+                         media_thumb_suffix, media_resize_suffix):
+        import pyvista as pv
+
+        # Carica il modello 3D
+        mesh = pv.read(filepath)
+
+        # Genera una thumbnail
+        plotter = pv.Plotter(off_screen=True)
+        plotter.add_mesh(mesh)
+        plotter.camera_position = 'xy'  # Imposta la posizione della camera per la vista dall'alto
+        thumbnail_path = os.path.join(thumb_path_str, f"{media_max_num_id}_{filename}{media_thumb_suffix}")
+        plotter.screenshot(thumbnail_path)
+
+        # Copia il file originale nella cartella di resize
+        import shutil
+        resize_path = os.path.join(thumb_resize_str, f"{media_max_num_id}_{filename}{media_resize_suffix}")
+        shutil.copy(filepath, resize_path)
+
+        # Controlla se esiste una texture JPG con lo stesso nome del modello
+        texture_filename = os.path.splitext(filename)[0] + ".jpg"
+        texture_filepath = os.path.join(os.path.dirname(filepath), texture_filename)
+
+        if os.path.exists(texture_filepath):
+            # Se la texture esiste, copiala nella cartella di resize
+            texture_resize_path = os.path.join(thumb_resize_str, f"{media_max_num_id}_{texture_filename}")
+            shutil.copy(texture_filepath, texture_resize_path)
+
+        return thumbnail_path, resize_path
+    def getDirectory3D(self):
+        self.iconListWidget.clear()
+        thumb_path = conn.thumb_path()
+        thumb_path_str = thumb_path['thumb_path']
+        thumb_resize_str = conn.thumb_resize()['thumb_resize']
+
+        if thumb_path_str == '':
+            QMessageBox.information(self, "Message",
+                                    "you must first set the path to save the thumbnails and resampled images. Go to system/path setting ")
+        else:
+            directory = QFileDialog.getExistingDirectory(self, "Directory", "Choose a directory:",
+                                                         QFileDialog.ShowDirsOnly)
+            if not directory:
+                return 0
+
+            try:
+                for model in sorted(os.listdir(directory)):
+                    if model.endswith((".obj", ".ply", ".fbx", ".3ds")):
+                        filename, filetype = model.split(".")[0], model.split(".")[1]
+                        filepath = directory + '/' + filename + "." + filetype
+                        idunique_model_check = self.db_search_check(self.MAPPER_TABLE_CLASS, 'filepath', filepath)
+
+                        if not bool(idunique_model_check):
+                            mediatype = '3d'
+                            self.insert_record_media(mediatype, filename, filetype, filepath)
+                            media_max_num_id = self.DB_MANAGER.max_num_id(self.MAPPER_TABLE_CLASS, self.ID_TABLE)
+
+                            # Richiama la funzione process_3d_model per generare la thumbnail e copiare i file
+                            thumbnail_path, resize_path = self.process_3d_model(media_max_num_id, filepath, filename,
+                                                                                thumb_path_str, thumb_resize_str,
+                                                                                '_thumb.png', '.' + filetype)
+
+                            # Inserisci le informazioni nel database delle thumbnail
+                            self.insert_record_mediathumb(media_max_num_id, mediatype, filename, thumbnail_path,
+                                                          filetype, thumbnail_path)
+
+                            # Aggiungi l'elemento alla lista dell'interfaccia utente
+                            item = QListWidgetItem(str(filename))
+                            item.setData(Qt.UserRole, str(media_max_num_id))
+                            icon = QIcon(thumbnail_path)
+                            item.setIcon(icon)
+                            self.iconListWidget.addItem(item)
+                            self.progressBar.reset()
+
+                        elif bool(idunique_model_check):
+                            data = idunique_model_check
+                            media_filename = data[0].filename
+                            item = QListWidgetItem(str(media_filename))
+                            data_for_thumb = self.db_search_check(self.MAPPER_TABLE_CLASS_thumb, 'media_filename',
+                                                                  media_filename)
+                            try:
+                                self.iconListWidget.clear()
+                                thumb_path = data_for_thumb[0].filepath_thumb
+                                item.setData(Qt.UserRole, thumb_path)
+                                icon = QIcon(str(thumb_path_str) + thumb_path)
+                                item.setIcon(icon)
+                                self.iconListWidget.addItem(item)
+                            except:
+                                pass
+
+                if bool(idunique_model_check):
+                    QMessageBox.information(self, "Message", "The 3D models are already loaded into the database")
+                elif not bool(idunique_model_check):
+                    QMessageBox.information(self, "Message", "3D models loaded! You can tag them")
+
+            except:
+                QMessageBox.warning(self, "WARNING", "Check that the file name is not named with special characters",
+                                    QMessageBox.Ok)
+
 
     def insert_record_media(self, mediatype, filename, filetype, filepath):
         self.mediatype = mediatype
