@@ -32,7 +32,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>HFF Underwater LS Anchor conservation</string>
+   <string>HFF Underwater Anchor conservation</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/resources.qrc">
@@ -1149,7 +1149,7 @@
        <item row="1" column="5" colspan="2">
         <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Conservation and restoration prcedure</string>
+          <string>Conservation and restoration pocedure</string>
          </property>
         </widget>
        </item>
@@ -1635,7 +1635,7 @@
        </attribute>
        <column>
         <property name="text">
-         <string>Concration and stains</string>
+         <string>Concretion and stains</string>
         </property>
         <property name="font">
          <font>
@@ -1940,12 +1940,12 @@
        </property>
        <item>
         <property name="text">
-         <string>Complite</string>
+         <string>Complete</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Incomplite</string>
+         <string>Incomplete</string>
         </property>
        </item>
       </widget>
