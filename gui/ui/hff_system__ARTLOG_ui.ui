@@ -27,7 +27,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>HFF Artifacts</string>
+   <string>HFF Artefacts</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/resources.qrc">
