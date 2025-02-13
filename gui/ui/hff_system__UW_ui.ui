@@ -2762,9 +2762,9 @@
       <widget class="QTabWidget" name="tabWidget_2">
        <property name="geometry">
         <rect>
-         <x>150</x>
+         <x>30</x>
          <y>0</y>
-         <width>951</width>
+         <width>1071</width>
          <height>581</height>
         </rect>
        </property>
@@ -2890,16 +2890,11 @@
         <enum>Qt::NoArrow</enum>
        </property>
       </widget>
-     </widget>
-     <widget class="QWidget" name="tab_3">
-      <attribute name="title">
-       <string>List</string>
-      </attribute>
       <widget class="QgsDockWidget" name="mDockWidget_3">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>20</y>
+         <x>110</x>
+         <y>300</y>
          <width>761</width>
          <height>500</height>
         </rect>
@@ -3109,8 +3104,8 @@
       <widget class="QgsDockWidget" name="mDockWidget_4">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>530</y>
+         <x>230</x>
+         <y>380</y>
          <width>600</width>
          <height>224</height>
         </rect>
@@ -3284,6 +3279,13 @@
         </widget>
        </widget>
       </widget>
+      <zorder>pushButton_exptab</zorder>
+      <zorder>pushButton_explist</zorder>
+      <zorder>pushButton_gisview</zorder>
+      <zorder>toolButtonPreviewMedia</zorder>
+      <zorder>mDockWidget_3</zorder>
+      <zorder>mDockWidget_4</zorder>
+      <zorder>tabWidget_2</zorder>
      </widget>
     </widget>
    </item>
@@ -3307,38 +3309,5 @@
   <include location="../../resources/resources.qrc"/>
   <include location="../../../pyarchinit/resources/resources.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>pushbutton_list</sender>
-   <signal>pressed()</signal>
-   <receiver>mDockWidget_3</receiver>
-   <slot>toggleUserVisible()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>83</x>
-     <y>186</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>696</x>
-     <y>313</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_word</sender>
-   <signal>pressed()</signal>
-   <receiver>mDockWidget_4</receiver>
-   <slot>toggleUserVisible()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>468</x>
-     <y>186</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>392</x>
-     <y>816</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
