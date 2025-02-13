@@ -11,7 +11,7 @@
     <x>0</x>
     <y>0</y>
     <width>1042</width>
-    <height>764</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -2281,9 +2281,9 @@
       <widget class="QTabWidget" name="tabWidget_2">
        <property name="geometry">
         <rect>
-         <x>150</x>
+         <x>20</x>
          <y>0</y>
-         <width>951</width>
+         <width>1081</width>
          <height>581</height>
         </rect>
        </property>
