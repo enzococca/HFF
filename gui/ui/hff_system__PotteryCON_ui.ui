@@ -33,7 +33,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>HFF Underwater LS Pottery conservation</string>
+   <string>HFF Underwater Pottery conservation</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/resources.qrc">
@@ -848,12 +848,12 @@
        </property>
        <item>
         <property name="text">
-         <string>Complite</string>
+         <string>Complete</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Incomplite</string>
+         <string>Incomplete</string>
         </property>
        </item>
       </widget>
@@ -983,7 +983,7 @@
         <set>Qt::ImhNone</set>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="documentMode">
         <bool>true</bool>
@@ -1759,7 +1759,7 @@
          </attribute>
          <column>
           <property name="text">
-           <string>Concration and stains</string>
+           <string>Concretion and stains</string>
           </property>
           <property name="font">
            <font>
