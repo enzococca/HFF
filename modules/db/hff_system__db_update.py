@@ -104,5 +104,38 @@ class DB_update(object):
         if not table_column_names_list.__contains__('coord'):
             self.engine.execute("ALTER TABLE site_poligon ADD COLUMN coord TEXT DEFAULT ''")
 
+        # ####anchor_table - add biblio and storage columns (silent migration)
+        self._safe_add_column("anchor_table", "biblio", "TEXT DEFAULT ''")
+        self._safe_add_column("anchor_table", "storage_", "TEXT DEFAULT ''")
+
+        # ####shipwreck_table - add biblio and storage columns (silent migration)
+        self._safe_add_column("shipwreck_table", "biblio", "TEXT DEFAULT ''")
+        self._safe_add_column("shipwreck_table", "storage_", "TEXT DEFAULT ''")
+
+        # ####dive_log - add biblio and storage columns (silent migration)
+        self._safe_add_column("dive_log", "biblio", "TEXT DEFAULT ''")
+        self._safe_add_column("dive_log", "storage_", "TEXT DEFAULT ''")
+
+    def _safe_add_column(self, table_name, column_name, column_def):
+        """Safely add a column to a table, silently ignoring errors.
+
+        This method handles both PostgreSQL and SQLite, and gracefully
+        handles cases where the column already exists or spatial views
+        might cause issues.
+        """
+        try:
+            # Refresh metadata to get current table state
+            self.metadata.reflect(only=[table_name], extend_existing=True)
+            table = Table(table_name, self.metadata, autoload=True, autoload_with=self.engine)
+
+            # Check if column already exists
+            existing_columns = [str(col.name) for col in table.columns]
+            if column_name not in existing_columns:
+                sql = "ALTER TABLE {} ADD COLUMN {} {}".format(table_name, column_name, column_def)
+                self.engine.execute(sql)
+        except Exception:
+            # Silently ignore errors (column may already exist, or spatial views, etc.)
+            pass
+
 
 
