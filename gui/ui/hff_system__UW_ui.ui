@@ -2703,6 +2703,109 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_references">
+      <attribute name="title">
+       <string>References</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_references">
+       <item row="0" column="0">
+        <widget class="QTabWidget" name="tabWidget_3">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tab_7">
+          <attribute name="title">
+           <string>Bibliography</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_biblio">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_biblio">
+             <property name="text">
+              <string>Bibliography</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButton_insert_row_rif_biblio">
+             <property name="text">
+              <string>Insert row</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QPushButton" name="pushButton_remove_row_rif_biblio">
+             <property name="text">
+              <string>Delete row</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="3">
+            <widget class="QTableWidget" name="tableWidget_rif_biblio">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="rowCount">
+              <number>1</number>
+             </property>
+             <property name="columnCount">
+              <number>5</number>
+             </property>
+             <row/>
+             <column>
+              <property name="text">
+               <string>Author</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Year</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Title</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Pag.</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Fig.</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_6">
+          <attribute name="title">
+           <string>Storage</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_storage">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_storage">
+             <property name="text">
+              <string>Storage Location</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineEdit_storage_">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+
      <widget class="QWidget" name="tabWidgetPage3">
       <attribute name="title">
        <string>Tools</string>
@@ -2759,6 +2862,49 @@
          <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
        </property>
       </widget>
+     <widget class="QPushButton" name="pushButton_pdf_foto">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>80</y>
+         <width>181</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>8</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Export Photo List (with thumbnails)</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_pdf_foto_no_thumb">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>130</y>
+         <width>181</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>8</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Export Photo List (no thumbnails)</string>
+       </property>
+      </widget>
+
       <widget class="QTabWidget" name="tabWidget_2">
        <property name="geometry">
         <rect>

@@ -1434,6 +1434,20 @@ class Hff_db_management(object):
         res = self.engine.execute(sql_query_string)
         rows= res.fetchall()
         return rows
+    def select_medianame_uw_from_db_sql(self, divelog_id):
+        """Query media for UW/Divelog records."""
+        sql_query_string = ("SELECT c.filepath, b.divelog_id, a.media_name, a.entity_type FROM media_to_entity_table as a, dive_log as b, media_thumb_table as c WHERE b.id_dive=a.id_entity and c.id_media=a.id_media and a.entity_type='DIVELOG' and divelog_id = '%s'") % (divelog_id)
+        res = self.engine.execute(sql_query_string)
+        rows = res.fetchall()
+        return rows
+
+    def select_thumbnail_uw_from_db_sql(self, sito, etype):
+        """Query thumbnails for UW/Divelog records."""
+        sql_query_string = ("SELECT c.filepath, b.area_id, b.divelog_id, b.task, a.media_name, c.filepath FROM media_to_entity_table as a, dive_log as b, media_thumb_table as c WHERE b.id_dive=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.divelog_id") % (sito, etype)
+        res = self.engine.execute(sql_query_string)
+        rows = res.fetchall()
+        return rows
+
     
     def select_quote_from_db_sql(self, sito, area, us):
         sql_query_string = ("SELECT * FROM hff_system__quote WHERE sito_q = '%s' AND area_q = '%s' AND us_q = '%s'") % (
