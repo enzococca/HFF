@@ -23,9 +23,10 @@ import os
 from builtins import object
 from builtins import range
 from builtins import str
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+# Qt5/Qt6 compatible imports via qgis.PyQt
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import *
 from qgis.core import *
 from qgis.gui import *
 import qgis.utils

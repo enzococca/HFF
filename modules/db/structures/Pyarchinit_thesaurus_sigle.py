@@ -17,7 +17,7 @@ class Hff_thesaurus_sigle(object):
     # create engine and metadata
 
     engine = create_engine(internal_connection.conn_str(), echo=False, convert_unicode=True)
-    metadata = MetaData(engine)
+    metadata = MetaData()
 
     # define tables
     hff_system__thesaurus_sigle = Table('hff_system__thesaurus_sigle', metadata,

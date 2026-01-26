@@ -18,7 +18,7 @@ class ANC_table(object):
 	internal_connection = Connection()
 	engine = create_engine(internal_connection.conn_str(), echo=False, convert_unicode = True)
 
-	metadata = MetaData(engine)
+	metadata = MetaData()
 	anchor_table = Table('anchor_table', metadata,	
 
 	Column('id_anc', Integer, primary_key=True),

@@ -35,8 +35,7 @@ from datetime import date
 
 from distutils.dir_util import copy_tree
 from random import randrange as rand
-from PyQt5 import QtCore, QtGui, QtWidgets
-#from PyQt5.QtXml import QDomDocument
+# Qt5/Qt6 compatible imports via qgis.PyQt
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import QColor, QIcon
 from qgis.PyQt.QtWidgets import *

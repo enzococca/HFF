@@ -34,7 +34,7 @@ class UW_table(object):
 
     engine = create_engine(internal_connection.conn_str(), echo=False, convert_unicode = True)
 
-    metadata = MetaData(engine)
+    metadata = MetaData()
 
 
 
