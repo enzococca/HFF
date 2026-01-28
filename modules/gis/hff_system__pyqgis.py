@@ -134,7 +134,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'Anchors view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer Anchor available",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer Anchor available",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'anchor.qml')
@@ -143,7 +143,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], False)
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer Anchor not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer Anchor not available",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -158,7 +158,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","pyarchinit_anchor_view","the_geom",gidstr,"gid")
             layerUS = QgsVectorLayer(uri.uri(), "Anchors view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Layer Anchor available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Layer Anchor available",QMessageBox.Ok)
         
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
@@ -168,7 +168,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerUS], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer Anchor not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer Anchor not available",QMessageBox.Ok)
             
     def charge_shipwreck_layers(self, data):
         
@@ -200,7 +200,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'Shipwreck view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer Shipwreck available",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer Shipwreck available",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'shipwreck.qml')
@@ -209,7 +209,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], False)
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer Shipwreck not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer Shipwreck not available",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -224,7 +224,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","shipwreck_view","the_geom",gidstr,"gid")
             layerUS = QgsVectorLayer(uri.uri(), "Shipwreck view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Layer Shipwreck available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Layer Shipwreck available",QMessageBox.Ok)
         
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
@@ -234,7 +234,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerUS],False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer Shipwreck not available",QMessageBox.Ok)        
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer Shipwreck not available",QMessageBox.Ok)        
     def charge_art_layers(self, data):
         
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
@@ -265,7 +265,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'Artefact view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer artefact available",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer artefact available",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'artefact.qml')
@@ -274,7 +274,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], True)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Artefact Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer Artefact Error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -289,7 +289,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","pyarchinit_art_view","the_geom",gidstr,"gid")
             layerUS = QgsVectorLayer(uri.uri(), "Artefact view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Layer artefact available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Layer artefact available",QMessageBox.Ok)
         
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
@@ -299,7 +299,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerUS], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer artefact not available",QMessageBox.Ok)       
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer artefact not available",QMessageBox.Ok)       
     
     
     
@@ -333,7 +333,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'Pottery view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer pottery available",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer pottery available",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
                 style_path = '{}{}'.format(self.LAYER_STYLE_PATH, 'pottery.qml')
@@ -342,7 +342,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], True)
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer pottery not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer pottery not available",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -357,7 +357,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","pyarchinit_pot_view","the_geom",gidstr,"gid")
             layerUS = QgsVectorLayer(uri.uri(), "Pottery view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Layer pottery available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Layer pottery available",QMessageBox.Ok)
         
             if  layerUS.isValid() == True:
                 layerUS.setCrs(srs)
@@ -367,7 +367,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerUS], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer pottery not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer pottery not available",QMessageBox.Ok)
     
     def charge_grab_layers(self, data):
         
@@ -399,7 +399,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'pyarchinit_grabspot_view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer grabspot",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer grabspot",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
 ##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
@@ -408,7 +408,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer grab spot error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer grab spot error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -423,7 +423,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","pyarchinit_grabspot_view","the_geom",gidstr,"gid")
             layerGRAB = QgsVectorLayer(uri.uri(), "Grab Spot view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Layer grab spot available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Layer grab spot available",QMessageBox.Ok)
         
             if  layerGRAB.isValid() == True:
                 layerGRAB.setCrs(srs)
@@ -431,7 +431,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerGRAB], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer grab spot not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer grab spot not available",QMessageBox.Ok)
     
     
     def charge_eamena_pol_layers(self, data):
@@ -464,13 +464,13 @@ class Hff_pyqgis(QDialog):
             layer_eamena_poligon=QgsVectorLayer(uri.uri(), 'EAMENA Poligon View', 'spatialite')
 
             if layer_eamena_poligon.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer Eamena Polygon ",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer Eamena Polygon ",QMessageBox.Ok)
 
                 self.iface.mapCanvas().setExtent(layer_eamena_poligon.extent())
                 group.insertChildNode(-1, QgsLayerTreeLayer(layer_eamena_poligon))
                 QgsProject.instance().addMapLayers([layer_eamena_poligon], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Eamena Polygon error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer Eamena Polygon error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -485,7 +485,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","emeana_poligon_view","the_geom",gidstr,"gid")
             layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Poligon View", "postgres")
-            #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
+            #QMessageBox.warning(self, tr('title_tester'), "OK Layer eamena poligon available",QMessageBox.Ok)
         
             if  layerGRAB.isValid() == True:
                 layerGRAB.setCrs(srs)
@@ -493,7 +493,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerGRAB], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon view not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer eamena poligon view not available",QMessageBox.Ok)
     
     
     def charge_eamena_line_layers(self, data):
@@ -526,13 +526,13 @@ class Hff_pyqgis(QDialog):
             layer_eamena_line=QgsVectorLayer(uri.uri(), 'EAMENA Line View', 'spatialite')
 
             if layer_eamena_line.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer Eamena Line ",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer Eamena Line ",QMessageBox.Ok)
 
                 self.iface.mapCanvas().setExtent(layer_eamena_line.extent())
                 group.insertChildNode(-1, QgsLayerTreeLayer(layer_eamena_line))
                 QgsProject.instance().addMapLayers([layer_eamena_line], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Eamena Line error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer Eamena Line error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -547,7 +547,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","emeana_line_view","the_geom",gidstr,"gid")
             layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Line View", "postgres")
-            #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
+            #QMessageBox.warning(self, tr('title_tester'), "OK Layer eamena poligon available",QMessageBox.Ok)
         
             if  layerGRAB.isValid() == True:
                 layerGRAB.setCrs(srs)
@@ -555,7 +555,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerGRAB], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer eamena line view not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer eamena line view not available",QMessageBox.Ok)
     
     
     def charge_eamena_point_layers(self, data):
@@ -588,13 +588,13 @@ class Hff_pyqgis(QDialog):
             layer_eamena_point=QgsVectorLayer(uri.uri(), 'EAMENA Point View', 'spatialite')
 
             if layer_eamena_point.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer Eamena Point ",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer Eamena Point ",QMessageBox.Ok)
 
                 self.iface.mapCanvas().setExtent(layer_eamena_point.extent())
                 group.insertChildNode(-1, QgsLayerTreeLayer(layer_eamena_point))
                 QgsProject.instance().addMapLayers([layer_eamena_point], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Eamena Point error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer Eamena Point error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -609,7 +609,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","emeana_point_view","the_geom",gidstr,"gid")
             layerGRAB = QgsVectorLayer(uri.uri(), "EAMENA Point View", "postgres")
-            #QMessageBox.warning(self, "TESTER", "OK Layer eamena poligon available",QMessageBox.Ok)
+            #QMessageBox.warning(self, tr('title_tester'), "OK Layer eamena poligon available",QMessageBox.Ok)
         
             if  layerGRAB.isValid() == True:
                 layerGRAB.setCrs(srs)
@@ -617,7 +617,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerGRAB], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer eamena point view not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer eamena point view not available",QMessageBox.Ok)
     
     
     
@@ -664,7 +664,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'pyarchinit_feature_p_view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer grabspot",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer grabspot",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
 ##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
@@ -673,7 +673,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer grab spot error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer grab spot error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -688,7 +688,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","hff_system_feature_p_view","the_geom",gidstr,"gid")
             layerF1 = QgsVectorLayer(uri.uri(), "Features polygon view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Features polygon spot available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Features polygon spot available",QMessageBox.Ok)
         
             if  layerF1.isValid() == True:
                 layerF1.setCrs(srs)
@@ -696,7 +696,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerF1], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer Features polygon spot not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer Features polygon spot not available",QMessageBox.Ok)
                 
                 
     def charge_features_l_layers(self, data):
@@ -729,7 +729,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'pyarchinit_feature_p_view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer grabspot",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer grabspot",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
 ##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
@@ -738,7 +738,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer grab spot error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer grab spot error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -753,7 +753,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","pyarchinit_feature_l_view","the_geom",gidstr,"gid")
             layerF2 = QgsVectorLayer(uri.uri(), "Features linestring view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Features linestring spot available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Features linestring spot available",QMessageBox.Ok)
         
             if  layerF2.isValid() == True:
                 layerF2.setCrs(srs)
@@ -761,7 +761,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerF2], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer Features linestring spot not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer Features linestring spot not available",QMessageBox.Ok)
 
 
 
@@ -795,7 +795,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'pyarchinit_feature_p_view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer grabspot",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer grabspot",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
 ##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
@@ -804,7 +804,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer grab spot error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer grab spot error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -819,7 +819,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","pyarchinit_feature_point_view","the_geom",gidstr,"gid")
             layerF3 = QgsVectorLayer(uri.uri(), "Features point view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Features point spot available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Features point spot available",QMessageBox.Ok)
         
             if  layerF3.isValid() == True:
                 layerF3.setCrs(srs)
@@ -827,7 +827,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerF3], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer Features point spot not available",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer Features point spot not available",QMessageBox.Ok)
     def charge_transect_layers(self, data):
         
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
@@ -858,7 +858,7 @@ class Hff_pyqgis(QDialog):
             layerIndividui=QgsVectorLayer(uri.uri(), 'pyarchinit_transect_view', 'spatialite')
 
             if layerIndividui.isValid() == True:
-                #QMessageBox.warning(self, "TESTER", "OK Layer transect",QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_tester'), "OK Layer transect",QMessageBox.Ok)
 
                 #self.USLayerId = layerUS.getLayerID()
 ##              style_path = ('%s%s') % (self.LAYER_STYLE_PATH_SPATIALITE, 'us_view.qml')
@@ -867,7 +867,7 @@ class Hff_pyqgis(QDialog):
                 group.insertChildNode(-1, QgsLayerTreeLayer(layerIndividui))
                 QgsProject.instance().addMapLayers([layerIndividui], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer transect error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), "Layer transect error",QMessageBox.Ok)
         
         elif settings.SERVER == 'postgres':
             
@@ -882,7 +882,7 @@ class Hff_pyqgis(QDialog):
 
             uri.setDataSource("public","pyarchinit_transect_view","the_geom",gidstr,"gid")
             layerF4 = QgsVectorLayer(uri.uri(), "Transect view", "postgres")
-            QMessageBox.warning(self, "TESTER", "OK Transect available",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_tester'), "OK Transect available",QMessageBox.Ok)
         
             if  layerF4.isValid() == True:
                 layerF4.setCrs(srs)
@@ -890,7 +890,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layerF4], False)
                 
             else:
-                QMessageBox.warning(self, "TESTER", "OK Layer Transect not available",QMessageBox.Ok)               
+                QMessageBox.warning(self, tr('title_tester'), "OK Layer Transect not available",QMessageBox.Ok)               
     def loadMapPreview(self, gidstr):
         """ if has geometry column load to map canvas """
         layerToSet = []
@@ -1014,7 +1014,7 @@ class Hff_pyqgis(QDialog):
                     # ##ayerUS.loadNamedStyle(style_path)
                     # QgsProject.instance().addMapLayers([layer], False)
                 # else:
-                    # QMessageBox.warning(self, "TESTER", "Layer not available",QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('title_tester'), "Layer not available",QMessageBox.Ok)
             layer_name = 'grab_spot'
             layer_name_conv = "'"+str(layer_name)+"'"
             #value_conv =  ('"location = %s"') % ("'"+str(self.val)+"'")
@@ -1032,7 +1032,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
@@ -1053,7 +1053,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'features_line'
@@ -1073,7 +1073,7 @@ class Hff_pyqgis(QDialog):
                 myGroup2.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'features'
@@ -1093,7 +1093,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'transect'
@@ -1113,7 +1113,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
         
             if self.internet_on():
                 
@@ -1135,7 +1135,7 @@ class Hff_pyqgis(QDialog):
                     QgsProject.instance().addMapLayers([rlayer_wiki,rlayer],False)
         
             else:
-                QMessageBox.warning(self, "HFF", "Internet slow or absent\n The base map will be not loaded", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_hff'), tr('msg_internet_slow'), QMessageBox.Ok)
         
         
         
@@ -1163,7 +1163,7 @@ class Hff_pyqgis(QDialog):
                     # ##ayerUS.loadNamedStyle(style_path)
                     # QgsProject.instance().addMapLayers([layer], False)
                 # else:
-                    # QMessageBox.warning(self, "TESTER", "Layer not available",QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('title_tester'), "Layer not available",QMessageBox.Ok)
             
             layer_name = 'grab_spot'
             layer_name_conv = "'"+str(layer_name)+"'"
@@ -1182,7 +1182,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
@@ -1203,7 +1203,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'features_line'
@@ -1223,7 +1223,7 @@ class Hff_pyqgis(QDialog):
                 myGroup2.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'features'
@@ -1243,7 +1243,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'transect'
@@ -1263,7 +1263,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
         
             if self.internet_on():
                 
@@ -1285,7 +1285,7 @@ class Hff_pyqgis(QDialog):
                     QgsProject.instance().addMapLayers([rlayer_wiki,rlayer],False)
         
             else:
-                QMessageBox.warning(self, "HFF", "Internet slow or absent\n The base map will be not loaded", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_hff'), tr('msg_internet_slow'), QMessageBox.Ok)
     def charge_sites_geometry(self, options, col, val):
         self.options = options
         self.col = col
@@ -1335,7 +1335,7 @@ class Hff_pyqgis(QDialog):
                     # ##ayerUS.loadNamedStyle(style_path)
                     # QgsProject.instance().addMapLayers([layer], False)
                 # else:
-                    # QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('title_tester'), "Layer non valido",QMessageBox.Ok)
                 
             
             
@@ -1357,7 +1357,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
@@ -1378,7 +1378,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'features_line'
@@ -1398,7 +1398,7 @@ class Hff_pyqgis(QDialog):
                 myGroup2.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'features'
@@ -1418,7 +1418,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'transect'
@@ -1438,7 +1438,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
         
         
             if self.internet_on():
@@ -1461,7 +1461,7 @@ class Hff_pyqgis(QDialog):
                     QgsProject.instance().addMapLayers([rlayer_wiki,rlayer],False)
         
             else:
-                QMessageBox.warning(self, "HFF", "Internet slow or absent\n The base map will be not loaded", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_hff'), tr('msg_internet_slow'), QMessageBox.Ok)
         
         
         
@@ -1491,7 +1491,7 @@ class Hff_pyqgis(QDialog):
                     # myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                     # QgsProject.instance().addMapLayers([layer], False)
                 # else:
-                    # QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('title_tester'), "Layer non valido",QMessageBox.Ok)
                 
             
             
@@ -1513,7 +1513,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
@@ -1534,7 +1534,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'features_line'
@@ -1554,7 +1554,7 @@ class Hff_pyqgis(QDialog):
                 myGroup2.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'features'
@@ -1574,7 +1574,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'transect'
@@ -1594,7 +1594,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             if self.internet_on():
                 
@@ -1616,7 +1616,7 @@ class Hff_pyqgis(QDialog):
                     QgsProject.instance().addMapLayers([rlayer_wiki,rlayer],False)
         
             else:
-                QMessageBox.warning(self, "HFF", "Internet slow or absent\n The base map will be not loaded", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_hff'), tr('msg_internet_slow'), QMessageBox.Ok)
     def charge_eamena_geometry(self, options, col, val):
         self.options = options
         self.col = col
@@ -1667,7 +1667,7 @@ class Hff_pyqgis(QDialog):
                     # myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))##ayerUS.loadNamedStyle(style_path)
                     # QgsProject.instance().addMapLayers([layer], False)
                 # else:
-                    # QMessageBox.warning(self, "TESTER", "Layer not valid",QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('title_tester'), "Layer not valid",QMessageBox.Ok)
                 
             
             
@@ -1689,7 +1689,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))##ayerUS.loadNamedStyle(style_path)
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'site_line'
@@ -1708,7 +1708,7 @@ class Hff_pyqgis(QDialog):
                 myGroup2.insertChildNode(-1, QgsLayerTreeLayer(layer))##ayerUS.loadNamedStyle(style_path)
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'site_poligon'
@@ -1727,7 +1727,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))##ayerUS.loadNamedStyle(style_path)
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             
             if self.internet_on():
@@ -1750,7 +1750,7 @@ class Hff_pyqgis(QDialog):
                     QgsProject.instance().addMapLayers([rlayer_wiki,rlayer],False)
         
             else:
-                QMessageBox.warning(self, "HFF", "Internet slow or absent\n The base map will be not loaded", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_hff'), tr('msg_internet_slow'), QMessageBox.Ok)
         
         
         elif settings.SERVER == 'postgres':
@@ -1777,7 +1777,7 @@ class Hff_pyqgis(QDialog):
                     ##ayerUS.loadNamedStyle(style_path)
                     QgsProject.instance().addMapLayers([layer], False)
                 else:
-                    QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_tester'), "Layer non valido",QMessageBox.Ok)
                 
             
             
@@ -1800,7 +1800,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))##ayerUS.loadNamedStyle(style_path)
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'site_line'
@@ -1819,7 +1819,7 @@ class Hff_pyqgis(QDialog):
                 myGroup2.insertChildNode(-1, QgsLayerTreeLayer(layer))##ayerUS.loadNamedStyle(style_path)
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'site_poligon'
@@ -1838,7 +1838,7 @@ class Hff_pyqgis(QDialog):
                 myGroup3.insertChildNode(-1, QgsLayerTreeLayer(layer))##ayerUS.loadNamedStyle(style_path)
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             if self.internet_on():
                 
@@ -1860,7 +1860,7 @@ class Hff_pyqgis(QDialog):
                     QgsProject.instance().addMapLayers([rlayer_wiki,rlayer],False)
         
             else:
-                QMessageBox.warning(self, "HFF", "Internet slow or absent\n The base map will be not loaded", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_hff'), tr('msg_internet_slow'), QMessageBox.Ok)
     
     def charge_uw_geometry(self, options, col, val):
         self.options = options
@@ -1911,7 +1911,7 @@ class Hff_pyqgis(QDialog):
                     # # layer.loadNamedStyle(style_path)    
                     # QgsProject.instance().addMapLayers([layer], False)
                 # else:
-                    # QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('title_tester'), "Layer non valido",QMessageBox.Ok)
                 
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'anchor_point'
@@ -1931,7 +1931,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             
             
@@ -1954,7 +1954,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
@@ -1975,7 +1975,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             if self.internet_on():
                 
@@ -1997,7 +1997,7 @@ class Hff_pyqgis(QDialog):
                     QgsProject.instance().addMapLayers([rlayer_wiki,rlayer],False)
         
             else:
-                QMessageBox.warning(self, "HFF", "Internet slow or absent\n The base map will be not loaded", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_hff'), tr('msg_internet_slow'), QMessageBox.Ok)
         elif settings.SERVER == 'postgres':
 
             uri = QgsDataSourceUri()
@@ -2022,7 +2022,7 @@ class Hff_pyqgis(QDialog):
                     # ##ayerUS.loadNamedStyle(style_path)
                     # QgsProject.instance().addMapLayers([layer], False)
                 # else:
-                    # QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('title_tester'), "Layer non valido",QMessageBox.Ok)
                 
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'anchor_point'
@@ -2042,7 +2042,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'pottery_point'
@@ -2062,7 +2062,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
@@ -2083,7 +2083,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
             
             if self.internet_on():
                 
@@ -2105,7 +2105,7 @@ class Hff_pyqgis(QDialog):
                     QgsProject.instance().addMapLayers([rlayer_wiki,rlayer],False)
         
             else:
-                QMessageBox.warning(self, "HFF", "Internet slow or absent\n The base map will be not loaded", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_hff'), tr('msg_internet_slow'), QMessageBox.Ok)
     
     
     
@@ -2147,7 +2147,7 @@ class Hff_pyqgis(QDialog):
                     ##ayerUS.loadNamedStyle(style_path)
                     QgsProject.instance().addMapLayers([layer], False)
                 else:
-                    QMessageBox.warning(self, "TESTER", "Layer non valido",QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_tester'), "Layer non valido",QMessageBox.Ok)
                 
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'track'
@@ -2166,7 +2166,7 @@ class Hff_pyqgis(QDialog):
                 ##ayerUS.loadNamedStyle(style_path)
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
                 
                 
         elif settings.SERVER == 'postgres':
@@ -2193,7 +2193,7 @@ class Hff_pyqgis(QDialog):
                     ##ayerUS.loadNamedStyle(style_path)
                     QgsProject.instance().addMapLayers([layer], False)
                 else:
-                    QMessageBox.warning(self, "TESTER", "Layer error",QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_tester'), "Layer error",QMessageBox.Ok)
                 
             #pyunitastratigrafiche e pyarchinit__quote nn possono essere aggiornate dinamicamente perche non hanno il campo sito. Da moficare?
             layer_name = 'track'
@@ -2212,7 +2212,7 @@ class Hff_pyqgis(QDialog):
                 ##ayerUS.loadNamedStyle(style_path)
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
 
 
     def charge_shipwreck_geometry(self, options):
@@ -2265,7 +2265,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
         
         if settings.SERVER == 'postgres':
 
@@ -2291,7 +2291,7 @@ class Hff_pyqgis(QDialog):
                 myGroup1.insertChildNode(-1, QgsLayerTreeLayer(layer))
                 QgsProject.instance().addMapLayers([layer], False)
             else:
-                QMessageBox.warning(self, "TESTER", "Layer Error",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
 class MyError(Exception):
         def __init__(self, value):
             self.value = value

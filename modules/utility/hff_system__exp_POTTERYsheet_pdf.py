@@ -12,6 +12,11 @@ from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer, Tabl
 from reportlab.platypus.paragraph import Paragraph
 from .hff_system__OS_utility import *
 from ..db.hff_system__conn_strings import Connection
+from .hff_pdf_base import (
+    HFF_BLUE, HFF_BLUE_LIGHT, HFF_GRAY, HFF_GRAY_DARK, HFF_WHITE,
+    HffPdfStyles, HffNumberedCanvas, get_paragraph_styles,
+    FONT_HEADER, FONT_NORMAL, FONT_SIZE_HEADER, FONT_SIZE_NORMAL
+)
 class NumberedCanvas_USsheet(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
@@ -111,13 +116,13 @@ class single_pottery_pdf_sheet:
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
-        styNormal.fontSize = 6
+        styNormal.fontSize = 9
         styNormal.alignment = 0  # LEFT
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
-        styDescrizione.fontSize = 6
+        styDescrizione.fontSize = 9
         styDescrizione.alignment = 4  # Justified
         styleSheet = getSampleStyleSheet()
         styUnitaTipo = styleSheet['Normal']
@@ -129,7 +134,7 @@ class single_pottery_pdf_sheet:
         styTitoloComponenti = styleSheet['Normal']
         styTitoloComponenti.spaceBefore = 20
         styTitoloComponenti.spaceAfter = 20
-        styTitoloComponenti.fontSize = 6
+        styTitoloComponenti.fontSize = 9
         styTitoloComponenti.alignment = 1  # CENTER
         intestazione = Paragraph("<b>Archaeological Underwater Survey - POTTERY FORM<br/>" + "</b>", styInt)
         home = os.environ['HFF_HOME']
@@ -199,7 +204,7 @@ class single_pottery_pdf_sheet:
                         ]
         #table style
         table_style=[
-                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                    ('GRID',(0,0),(-1,-1),0.5,HFF_GRAY_DARK),
                     #0 row
                     ('SPAN', (0,0),(1,0)),  #logo2
                     ('SPAN', (2,0),(15,0)),  #intestazione
@@ -277,7 +282,7 @@ class FOTO_index_pdf_sheet(object):
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
         styNormal.alignment = 0  # LEFT
-        styNormal.fontSize = 6
+        styNormal.fontSize = 9
 
         
 
@@ -330,7 +335,7 @@ class FOTO_index_pdf_sheet_2(object):
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
         styNormal.alignment = 0  # LEFT
-        styNormal.fontSize = 6
+        styNormal.fontSize = 9
 
         
 

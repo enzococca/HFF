@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=9.9
+version=10.0
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,16 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=9.9:
+changelog=10.0:
+    - Add internationalization (i18n) support with Arabic Lebanese
+    - Add User Management system for PostgreSQL multi-user
+    - Add Connection Settings manager with password storage
+    - Add Remote Storage support (Cloudinary, S3, WebDAV, Google Drive, Dropbox)
+    - Add Tutorial Viewer with markdown support
+    - Add dark/light theme toggle in toolbar
+    - Improve all dialog layouts and button spacing
+    - Add RTL (Right-to-Left) support for Arabic languages
+    9.9:
     - Upgrade to SQLAlchemy 2.x compatibility
     - Add Qt5/Qt6 compatibility via qgis.PyQt
     - Add theme manager for dark/light mode

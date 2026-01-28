@@ -47,6 +47,11 @@ from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 from ..modules.utility.hff_system__error_check import Error_check
 from ..modules.utility.hff_system__media_utility import *
 from ..modules.utility.hff_system__exp_USsheet_pdf import *
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations, standardize_toolbar
+from ..modules.utility.hff_statistics import HffStatistics, StatisticsWidget
+from ..modules.utility.hff_statistics_mixin import StatisticsMixin, UW_STATS_FIELDS
 from ..gui.imageViewer import ImageViewer
 from ..gui.sortpanelmain import SortPanelMain
 
@@ -109,7 +114,7 @@ class ReportDialog(QDialog):
 
 
 
-class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
+class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     L=QgsSettings().value("locale/userLocale")[0:2]
     MSG_BOX_TITLE = "HFF - UW form"
     DATA_LIST = []
@@ -318,6 +323,9 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         self.iface = iface
         self.pyQGIS = Hff_pyqgis(iface)
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        standardize_toolbar(self)
+        self.i18n = HffI18n.instance()
         # Nella classe principale (ad esempio, hff_system__UW_mainapp)
         self.video_player = None#VideoPlayerWindow(self, db_manager=self.DB_MANAGER, icon_list_widget=self.iconListWidget)
         self.setAcceptDrops(True)
@@ -335,7 +343,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         try:
             self.on_pushButton_connect_pressed()
         except Exception as e:
-            QMessageBox.warning(self, "Connection system", str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('connection_system', "Connection System"), str(e), QMessageBox.Ok)
 
 
         site = self.comboBox_site.currentText()
@@ -353,6 +361,12 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         # Imposta la finestra principale per rimanere sempre in primo piano
         #self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
 
+        # Initialize statistics tab
+        self.init_statistics(UW_STATS_FIELDS)
+
+    def get_stats_records(self):
+        """Get records for statistics - override from StatisticsMixin."""
+        return self.DATA_LIST if hasattr(self, 'DATA_LIST') else []
 
     def apikey_gpt(self):
         # HOME = os.environ['PYARCHINIT_HOME']
@@ -435,11 +449,11 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                         self.report_thread.report_generated.connect(self.on_report_generated)
                         self.report_thread.start()
                     else:
-                        QMessageBox.warning(self, "Warning", "No model selected", QMessageBox.Ok)
+                        QMessageBox.warning(self, tr('warning', "Warning"), "No model selected", QMessageBox.Ok)
             else:
-                QMessageBox.warning(self, "Warning", "No custom prompt provided", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "No custom prompt provided", QMessageBox.Ok)
         except Exception as e:
-            QMessageBox.warning(self, "Error", f"Error generating the report: {str(e)}", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), f"Error generating the report: {str(e)}", QMessageBox.Ok)
     def on_report_generated(self, report_text):
         # Close the progress dialog
         self.progress_dialog.close()
@@ -470,9 +484,9 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                             else:
                                 self.load_and_process_image(path)
                         else:
-                            QMessageBox.warning(self, "Error", f"Unsupported file type: {filetype}", QMessageBox.Ok)
+                            QMessageBox.warning(self, tr('error', "Error"), f"Unsupported file type: {filetype}", QMessageBox.Ok)
                 except Exception as e:
-                    QMessageBox.warning(self, "Error", f"Failed to process the file: {str(e)}", QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), f"Failed to process the file: {str(e)}", QMessageBox.Ok)
         super().dropEvent(event)
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -509,7 +523,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                 #QMessageBox.warning(self, "Errore", "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
         except Exception as  e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
     def insert_record_mediathumb(self, media_max_num_id, mediatype, filename, filename_thumb, filetype, filepath_thumb, filepath_resize):
         self.media_max_num_id = media_max_num_id
@@ -538,10 +552,10 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.filename + ": thumb already present into the database"
                 else:
                     msg = e
-                #QMessageBox.warning(self, "Error", "warming 1 ! \n"+ str(msg),  QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('error', "Error"), "warming 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
         except Exception as  e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
     def insert_mediaToEntity_rec(self, id_entity, entity_type, table_name, id_media, filepath, media_name):
         """
@@ -576,10 +590,10 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.ID_TABLE + " already present into the database"
                 else:
                     msg = e
-                QMessageBox.warning(self, "Error", "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
         except Exception as  e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
     def delete_mediaToEntity_rec(self, id_entity, entity_type, table_name, id_media, filepath, media_name):
         """
@@ -606,7 +620,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             str(self.filepath),                                                     #5 - filepath
             str(self.media_name))
         except Exception as  e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
 
     def generate_US(self):
@@ -708,11 +722,11 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         thumb_path_str = thumb_path['thumb_path']
         if thumb_path_str=='':
             if self.L=='it':
-                QMessageBox.information(self, "Info", "devi settare prima la path per salvare le thumbnail e i video. Vai in impostazioni di sistema/ path setting ")
+                QMessageBox.information(self, tr('info', "Info"), "devi settare prima la path per salvare le thumbnail e i video. Vai in impostazioni di sistema/ path setting ")
             elif self.L=='de':
-                QMessageBox.information(self, "Info", "müssen Sie zuerst den Pfad zum Speichern der Miniaturansichten und Videos festlegen. Gehen Sie zu System-/Pfad-Einstellung")
+                QMessageBox.information(self, tr('info', "Info"), "müssen Sie zuerst den Pfad zum Speichern der Miniaturansichten und Videos festlegen. Gehen Sie zu System-/Pfad-Einstellung")
             else:
-                QMessageBox.information(self, "Message", "you must first set the path to save the thumbnails and videos. Go to system/path setting")
+                QMessageBox.information(self, tr('title_message'), "you must first set the path to save the thumbnails and videos. Go to system/path setting")
         else:
             filename = os.path.basename(filepath)
             filename, filetype = filename.split(".")[0], filename.split(".")[1]
@@ -833,18 +847,18 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             except AssertionError as e:
 
                 if self.L == 'it':
-                    QMessageBox.warning(self, "Warning", "controlla che il nome del file non abbia caratteri speciali",
+                    QMessageBox.warning(self, tr('warning', "Warning"), "controlla che il nome del file non abbia caratteri speciali",
 
                                         QMessageBox.Ok)
 
                 if self.L == 'de':
 
-                    QMessageBox.warning(self, "Warning", "prüfen, ob der Dateiname keine Sonderzeichen enthält",
+                    QMessageBox.warning(self, tr('warning', "Warning"), "prüfen, ob der Dateiname keine Sonderzeichen enthält",
                                         QMessageBox.Ok)
 
                 else:
 
-                    QMessageBox.warning(self, "Warning", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
 
     def load_and_process_pano(self, filepath):
         media_resize_suffix=''
@@ -854,11 +868,11 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         thumb_path_str = thumb_path['thumb_path']
         if thumb_path_str=='':
             if self.L=='it':
-                QMessageBox.information(self, "Info", "devi settare prima la path per salvare le thumbnail e i video. Vai in impostazioni di sistema/ path setting ")
+                QMessageBox.information(self, tr('info', "Info"), "devi settare prima la path per salvare le thumbnail e i video. Vai in impostazioni di sistema/ path setting ")
             elif self.L=='de':
-                QMessageBox.information(self, "Info", "müssen Sie zuerst den Pfad zum Speichern der Miniaturansichten und Videos festlegen. Gehen Sie zu System-/Pfad-Einstellung")
+                QMessageBox.information(self, tr('info', "Info"), "müssen Sie zuerst den Pfad zum Speichern der Miniaturansichten und Videos festlegen. Gehen Sie zu System-/Pfad-Einstellung")
             else:
-                QMessageBox.information(self, "Message", "you must first set the path to save the thumbnails and videos. Go to system/path setting")
+                QMessageBox.information(self, tr('title_message'), "you must first set the path to save the thumbnails and videos. Go to system/path setting")
         else:
             filename = os.path.basename(filepath)
             filename, filetype = filename.split(".")[0], filename.split(".")[1]
@@ -976,18 +990,18 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             except AssertionError as e:
 
                 if self.L == 'it':
-                    QMessageBox.warning(self, "Warning", "controlla che il nome del file non abbia caratteri speciali",
+                    QMessageBox.warning(self, tr('warning', "Warning"), "controlla che il nome del file non abbia caratteri speciali",
 
                                         QMessageBox.Ok)
 
                 if self.L == 'de':
 
-                    QMessageBox.warning(self, "Warning", "prüfen, ob der Dateiname keine Sonderzeichen enthält",
+                    QMessageBox.warning(self, tr('warning', "Warning"), "prüfen, ob der Dateiname keine Sonderzeichen enthält",
                                         QMessageBox.Ok)
 
                 else:
 
-                    QMessageBox.warning(self, "Warning", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
     def db_search_check(self, table_class, field, value):
         self.table_class = table_class
         self.field = field
@@ -1202,16 +1216,16 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                                           QMessageBox.Ok)
             else:
 
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "you must first select an image",
                                           QMessageBox.Ok)
         else:
             if self.L == 'it':
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Vuoi veramente cancellare i tags dalle thumbnail selezionate? \n L'azione è irreversibile",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Messaggio!!!", "Azione Annullata!")
+                    QMessageBox.warning(self, "Messaggio!!!", tr('msg_action_cancelled'))
                 else:
 
                     for item in items_selected:
@@ -1223,13 +1237,13 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                         self.iconListWidget.takeItem(row)
 
 
-                    QMessageBox.warning(self, "Info", "Tags rimossi!")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
             elif self.L == 'de':
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Wollen Sie wirklich die Tags aus den ausgewählten Miniaturbildern löschen? \n Die Aktion ist unumkehrbar",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Warnung", "Azione Annullata!")
+                    QMessageBox.warning(self, "Warnung", tr('msg_action_cancelled'))
                 else:
 
                     for item in items_selected:
@@ -1240,14 +1254,14 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                         row = self.iconListWidget.row(item)
                         self.iconListWidget.takeItem(row)
 
-                    QMessageBox.warning(self, "Info", "Tags entfernt")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
 
             else:
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Do you really want to delete the tags from the selected thumbnails? \n The action is irreversible",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Warning", "Action cancelled")
+                    QMessageBox.warning(self, tr('warning', "Warning"), "Action cancelled")
                 else:
 
                     for item in items_selected:
@@ -1258,7 +1272,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                         row = self.iconListWidget.row(item)
                         self.iconListWidget.takeItem(row)  # remove the item from the list
 
-                    QMessageBox.warning(self, "Info", "Tags removed")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
 
 
     def on_pushButton_removetags_2_pressed(self):
@@ -1296,16 +1310,16 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                                           QMessageBox.Ok)
             else:
 
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "you must first select an image",
                                           QMessageBox.Ok)
         else:
             if self.L == 'it':
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Vuoi veramente cancellare i tags dalle thumbnail selezionate? \n L'azione è irreversibile",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Messaggio!!!", "Azione Annullata!")
+                    QMessageBox.warning(self, "Messaggio!!!", tr('msg_action_cancelled'))
                 else:
 
                     for item in items_selected:
@@ -1315,13 +1329,13 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                         self.DB_MANAGER.remove_tags_from_db_sql_scheda(r_id(), id_orig_item)
                         row = self.icongigi.row(item)
                         self.icongigi.takeItem(row)
-                    QMessageBox.warning(self, "Info", "Tags rimossi!")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
             elif self.L == 'de':
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Wollen Sie wirklich die Tags aus den ausgewählten Miniaturbildern löschen? \n Die Aktion ist unumkehrbar",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Warnung", "Azione Annullata!")
+                    QMessageBox.warning(self, "Warnung", tr('msg_action_cancelled'))
                 else:
 
                     for item in items_selected:
@@ -1331,14 +1345,14 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                         self.DB_MANAGER.remove_tags_from_db_sql_scheda(r_id(), id_orig_item)
                         row = self.icongigi.row(item)
                         self.icongigi.takeItem(row)
-                    QMessageBox.warning(self, "Info", "Tags entfernt")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
 
             else:
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Do you really want to delete the tags from the selected thumbnails? \n The action is irreversible",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Warning", "Action cancelled")
+                    QMessageBox.warning(self, tr('warning', "Warning"), "Action cancelled")
                 else:
 
                     for item in items_selected:
@@ -1349,7 +1363,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                         row = self.icongigi.row(item)
                         self.icongigi.takeItem(row)  # remove the item from the list
 
-                    QMessageBox.warning(self, "Info", "Tags removed")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
     def on_pushButton_all_images_2_pressed(self):
         record_us_list = self.DB_MANAGER.query('MEDIA_THUMB')
 
@@ -1357,7 +1371,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         ser = self.DB_MANAGER.query_bool(et, 'MEDIATOENTITY')
         # Verifica se record_us_list è vuota
         if not record_us_list and not ser:
-            QMessageBox.information(self, "Info", "No images to show.")
+            QMessageBox.information(self, tr('info', "Info"), "No images to show.")
             return  # Termina la funzione
 
         # Inizializza la QListWidget fuori dal ciclo
@@ -1648,7 +1662,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         ser = self.DB_MANAGER.query_bool(et, 'MEDIATOENTITY')
         # Verifica se record_us_list è vuota
         if not record_us_list and not ser:
-            QMessageBox.information(self, "Info", "No images to show.")
+            QMessageBox.information(self, tr('info', "Info"), "No images to show.")
             return  # Termina la funzione
 
         # Inizializza la QListWidget fuori dal ciclo
@@ -2226,7 +2240,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
     
     # def on_pushButton_convert_pressed(self):
     #     # if not bool(self.setPathpdf()):
-    #         # QMessageBox.warning(self, "INFO", "devi scegliere un file pdf",
+    #         # QMessageBox.warning(self, tr('title_info'), "devi scegliere un file pdf",
     #                             # QMessageBox.Ok)
     #     try:
     #         pdf_file = self.lineEdit_pdf_path.text()
@@ -2235,10 +2249,10 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
     #         # convert pdf to docx
     #         parse(pdf_file, docx_file, start=self.lineEdit_pag1.text(), end=self.lineEdit_pag2.text())
     #
-    #         QMessageBox.information(self, "INFO", "Conversion completed",
+    #         QMessageBox.information(self, tr('title_info'), "Conversion completed",
     #                             QMessageBox.Ok)
     #     except Exception as e:
-    #         QMessageBox.warning(self, "Error", str(e),
+    #         QMessageBox.warning(self, tr('error', "Error"), str(e),
     #                             QMessageBox.Ok)
     
     def on_pushButton_connect_pressed(self):
@@ -2503,11 +2517,11 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             if self.model_a.submitAll():
                 self.model_a.database().commit()
                 if self.L=='it':
-                    QMessageBox.information(self, "Record",  "record salvato")
+                    QMessageBox.information(self, tr('record'),  tr('msg_record_saved'))
                 elif self.L=='de':
-                    QMessageBox.information(self, "Datensatz",  "Datensatz gespeichert")
+                    QMessageBox.information(self, tr('record'),  tr('msg_record_saved'))
                 else:
-                    QMessageBox.information(self, "Record",  "record saved")
+                    QMessageBox.information(self, tr('record'),  tr('msg_record_saved'))
             
             else:
                 self.model_a.database().rollback()
@@ -2543,7 +2557,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                     filter_str = "{} LIKE '%{}%'".format(s_field,s) 
                     self.model_a.setFilter(filter_str)
                 except Exception as e:
-                    QMessageBox.warning(self, "Warning", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
             else:
                 try:
                     # if bool(sito_set_str):
@@ -2561,7 +2575,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                     else:
                         pass
                 except Exception as e:
-                    QMessageBox.warning(self, "Warning", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
         else:    
             self.checkBox_query.setChecked(False)
     
@@ -2569,7 +2583,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         if self.L=='it':
             QMessageBox.warning(self, "ATTENZIONE", "Se hai modificato il record e non lo hai salvato perderai il dato. Salvare?", QMessageBox.Ok | QMessageBox.Cancel)
         else:
-            QMessageBox.warning(self, "Warning", "If you changed the record and didn't save it, you'll lose the record. Do you want save it?", QMessageBox.Ok | QMessageBox.Cancel)
+            QMessageBox.warning(self, tr('warning', "Warning"), "If you changed the record and didn't save it, you'll lose the record. Do you want save it?", QMessageBox.Ok | QMessageBox.Cancel)
         
         
         try:
@@ -2604,17 +2618,17 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:
             e = str(e)
             if self.L=='it':
-                QMessageBox.warning(self, "Alert", "Non hai selezionato nessuna riga. Errore python: %s " % (str(e)),
+                QMessageBox.warning(self, tr('alert', "Alert"), "Non hai selezionato nessuna riga. Errore python: %s " % (str(e)),
                                 QMessageBox.Ok)
             elif self.L=='de':
                 QMessageBox.warning(self, "ACHTUNG", "Keine Spalte ausgewält. Error python: %s " % (str(e)),
                                 QMessageBox.Ok)
             else:
-                QMessageBox.warning(self, "Alert", "You didn't select any row. Python error: %s " % (str(e)),
+                QMessageBox.warning(self, tr('alert', "Alert"), "You didn't select any row. Python error: %s " % (str(e)),
                                 QMessageBox.Ok) 
     def on_toolButtonPreviewMedia_toggled(self):
         if self.toolButtonPreviewMedia.isChecked() == True:
-            QMessageBox.warning(self, "Message",
+            QMessageBox.warning(self, tr('system_message', "Message"),
                                 "Preview Media Dive Log actived. The image can be visualaized in media section",
                                 QMessageBox.Ok)
             self.loadMediaPreview()
@@ -2733,7 +2747,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             elif media_type == 'image':
                 show_image(full_path)
             else:
-                QMessageBox.warning(self, "Error", f"Unsupported media type: {media_type}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"Unsupported media type: {media_type}", QMessageBox.Ok)
 
         def query_media(search_dict, table="MEDIA_THUMB"):
             u = Utility()
@@ -2741,7 +2755,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             try:
                 return self.DB_MANAGER.query_bool(search_dict, table)
             except Exception as e:
-                QMessageBox.warning(self, "Error", f"Database query failed: {str(e)}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"Database query failed: {str(e)}", QMessageBox.Ok)
                 return None
 
         for item in items:
@@ -2754,7 +2768,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                 media_type = getattr(res[0], 'mediatype', 'image')
                 show_media(file_path, media_type)
             else:
-                QMessageBox.warning(self, "Error", f"File not found: {id_orig_item}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"File not found: {id_orig_item}", QMessageBox.Ok)
 
     def openWide_image_pano(self):
         # Get the selected items from both lists
@@ -2799,7 +2813,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             elif media_type == 'image':
                 show_image(full_path)
             else:
-                QMessageBox.warning(self, "Error", f"Unsupported media type: {media_type}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"Unsupported media type: {media_type}", QMessageBox.Ok)
 
         def query_media(search_dict, table="MEDIA_THUMB"):
             u = Utility()
@@ -2807,7 +2821,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             try:
                 return self.DB_MANAGER.query_bool(search_dict, table)
             except Exception as e:
-                QMessageBox.warning(self, "Error", f"Database query failed: {str(e)}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"Database query failed: {str(e)}", QMessageBox.Ok)
                 return None
 
         for item in items:
@@ -2820,7 +2834,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                 media_type = getattr(res[0], 'mediatype', 'image')
                 show_media(file_path, media_type)
             else:
-                QMessageBox.warning(self, "Error", f"File not found: {id_orig_item}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"File not found: {id_orig_item}", QMessageBox.Ok)
     def on_pushButton_sort_pressed(self):
         if self.check_record_state() == 1:
             pass
@@ -2928,9 +2942,9 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         
         if data_list_foto:
             UW_index_pdf.build_index_Foto(data_list_foto, data_list_foto[0][0])
-            QMessageBox.warning(self, 'Ok', "Photo list export completed", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('success'), "Photo list export completed", QMessageBox.Ok)
         else:
-            QMessageBox.warning(self, 'Warning', "No photos tagged to divelog records", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_warning'), "No photos tagged to divelog records", QMessageBox.Ok)
 
     def on_pushButton_pdf_foto_no_thumb_pressed(self):
         """Export photo list PDF without thumbnails."""
@@ -2941,9 +2955,9 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         
         if data_list_foto:
             UW_index_pdf.build_index_Foto_2(data_list_foto, data_list_foto[0][0])
-            QMessageBox.warning(self, 'Ok', "Photo list export completed", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('success'), "Photo list export completed", QMessageBox.Ok)
         else:
-            QMessageBox.warning(self, 'Warning', "No photos tagged to divelog records", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_warning'), "No photos tagged to divelog records", QMessageBox.Ok)
 
     def on_pushButton_insert_row_rif_biblio_pressed(self):
         self.insert_new_row('self.tableWidget_rif_biblio')
@@ -2969,7 +2983,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                     
                 else:
 
-                    QMessageBox.warning(self, "Warning", "No changes have been made", QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No changes have been made", QMessageBox.Ok)
         else:
             if self.data_error_check() == 0:
                 test_insert = self.insert_new_rec()
@@ -3006,7 +3020,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                 else:
                     print('no changed')
 
-                    #QMessageBox.warning(self, "Warning", "No changes have been made", QMessageBox.Ok)
+                    #QMessageBox.warning(self, tr('warning', "Warning"), "No changes have been made", QMessageBox.Ok)
         else:
             if self.data_error_check() == 0:
                 test_insert = self.insert_new_rec()
@@ -3097,14 +3111,14 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
 
 
                     msg = self.ID_TABLE + " exist in db"
-                    QMessageBox.warning(self, "Error", "Error" + str(msg), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), "Error" + str(msg), QMessageBox.Ok)
                 else:
                     msg = e
-                    QMessageBox.warning(self, "Error", "Error 1 \n" + str(msg), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), "Error 1 \n" + str(msg), QMessageBox.Ok)
                 return 0
 
         except Exception as e:
-            QMessageBox.warning(self, "Error", "Error 2 \n" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Error 2 \n" + str(e), QMessageBox.Ok)
             return 0
     # insert new row into tableWidget
     def on_pushButton_insert_row_photo_pressed(self):
@@ -3185,7 +3199,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             self.REC_CORR = self.REC_CORR - 1
         if self.REC_CORR == -1:
             self.REC_CORR = 0
-            QMessageBox.warning(self, "Warning", "You are to the first record!", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('warning', "Warning"), "You are to the first record!", QMessageBox.Ok)
         else:
             try:
                 self.empty_fields()
@@ -3200,7 +3214,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             self.REC_CORR = self.REC_CORR + 1
             if self.REC_CORR >= self.REC_TOT:
                 self.REC_CORR = self.REC_CORR - 1
-                QMessageBox.warning(self, "Error", "You are on the last record!", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), "You are on the last record!", QMessageBox.Ok)
             else:
                 try:
                     self.empty_fields()
@@ -3216,17 +3230,17 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                                   "Do you really want to break the record? \n Action is irreversible.",
                                   QMessageBox.Ok | QMessageBox.Cancel)
         if msg == QMessageBox.Cancel:
-            QMessageBox.warning(self, "Message!!!", "Action deleted!")
+            QMessageBox.warning(self, tr('title_message'), tr('msg_action_deleted'))
         else:
             try:
                 id_to_delete = eval("self.DATA_LIST[self.REC_CORR]." + self.ID_TABLE)
                 self.DB_MANAGER.delete_one_record(self.TABLE_NAME, self.ID_TABLE, id_to_delete)
                 self.charge_records()  # charge records from DB
-                QMessageBox.warning(self, "Message!!!", "Record deleted!")
+                QMessageBox.warning(self, tr('title_message'), tr('msg_record_deleted'))
             except Exception as e:
                 QMessageBox.warning(self, "Message!!!", "error type: " + str(e))
             if not bool(self.DATA_LIST):
-                QMessageBox.warning(self, "Warning", "the db is empty!", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "the db is empty!", QMessageBox.Ok)
                 self.DATA_LIST = []
                 self.DATA_LIST_REC_CORR = []
                 self.DATA_LIST_REC_TEMP = []
@@ -3345,12 +3359,12 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
 
             if not bool(search_dict):
 
-                QMessageBox.warning(self, " WARNING", "No search has been set!!!", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_warning'), tr('msg_no_search_set'), QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.query_bool(search_dict, self.MAPPER_TABLE_CLASS)
                 if not bool(res):
 
-                    QMessageBox.warning(self, "WARNING", "No record found!", QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_warning'), tr('msg_no_records'), QMessageBox.Ok)
 
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR + 1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
@@ -3393,7 +3407,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEditable(["self.comboBox_site"], 1)
                     
                     
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
         
         
         self.enable_button_search(1)
@@ -3434,7 +3448,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
             return 1
         except Exception as e:
 
-            QMessageBox.warning(self, "Message",
+            QMessageBox.warning(self, tr('system_message', "Message"),
                                 "encoding problem: accents or characters not accepted by the database have been inserted. If you close the card now without correcting the errors you will lose the data. Make a copy of everything on a separate word sheet. Error :" + str(
                                     e), QMessageBox.Ok)
             return 0
@@ -3832,7 +3846,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                 # self.setComboBoxEnable(["self.lineEdit_divelog_id"], "False")
         except Exception as e:
             e = str(e)
-            QMessageBox.warning(self, "Alert", "no row selected. Error python: %s " % (str(e)),
+            QMessageBox.warning(self, tr('alert', "Alert"), "no row selected. Error python: %s " % (str(e)),
             QMessageBox.Ok)
         #with open(file_path, mode='rt', encoding='utf-8') as f:
         self.provo = str(self.lineEdit_testo.text())
@@ -3881,7 +3895,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                 f.close()
                 self.plot_chart(dataset_sum, 'Frequency analysis', 'Qty')
             else:
-                QMessageBox.warning(self, "Warning", "The datas not are present", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "The datas not are present", QMessageBox.Ok)
     def parameter_quant_creator(self, par_list, n_rec):
         self.parameter_list = par_list
         self.record_number = n_rec
@@ -3911,7 +3925,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
         ind = np.arange(n_bars)
         # randomNumbers = random.sample(range(0, 10), 10)
         self.widget.canvas.ax.clear()
-        # QMessageBox.warning(self, "Alert", str(teams) ,  QMessageBox.Ok)
+        # QMessageBox.warning(self, tr('alert', "Alert"), str(teams) ,  QMessageBox.Ok)
         bars = self.widget.canvas.ax.bar(x, height=values, width=0.5, align='center', alpha=0.4, picker=5)
         # guardare il metodo barh per barre orizzontali
         self.widget.canvas.ax.set_title(self.title)
@@ -3982,7 +3996,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS):
                 self.BROWSE_STATUS = "b"
                 self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
             else:
-                QMessageBox.information(self, 'No Results', "No records match the selected filters.", QMessageBox.Ok)
+                QMessageBox.information(self, tr('title_no_results'), "No records match the selected filters.", QMessageBox.Ok)
 
 class USFilterDialog(QDialog):
     L = QgsSettings().value("locale/userLocale")[0:2]

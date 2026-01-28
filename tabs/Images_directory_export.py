@@ -33,6 +33,9 @@ from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
 from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Images_directory_export.ui'))
@@ -62,6 +65,8 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         QDialog.__init__(self, parent)
         # Set up the user interface from Designer.
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
 
         try:
             self.connect()
@@ -76,7 +81,7 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         # self.charge_data()
 
     def connect(self):
-        #QMessageBox.warning(self, "Alert", "Sistema sperimentale solo per lo sviluppo", QMessageBox.Ok)
+        #QMessageBox.warning(self, tr('alert', "Alert"), "Sistema sperimentale solo per lo sviluppo", QMessageBox.Ok)
 
         conn = Connection()
         conn_str = conn.conn_str()
@@ -86,11 +91,11 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:
             e = str(e)
             if e.find("no such table"):
-                QMessageBox.warning(self, "Alert",
+                QMessageBox.warning(self, tr('alert', "Alert"),
                                     "connection falied <br><br> %s. Restart Qgis" % (str(e)),
                                     QMessageBox.Ok)
             else:
-                QMessageBox.warning(self, "Alert",
+                QMessageBox.warning(self, tr('alert', "Alert"),
                                     "Bug: <br>" + str(e),
                                     QMessageBox.Ok)
 
@@ -172,11 +177,11 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
                     
                     for sing_media in search_images_res:
                         self.OS_UTILITY.copy_file_img(thumb_resize_str+str(sing_media.path_resize), sing_US_path)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_media.filepath),  QMessageBox.Ok)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_US_path),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_media.filepath),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_US_path),  QMessageBox.Ok)
 
                     search_images_res = ""
-                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('alert', "Alert"), "Directory created", QMessageBox.Ok)
         
         if self.checkBox_divelog.isChecked()== True:
             div_res = self.db_search_DB('UW', 'site', location)
@@ -212,12 +217,12 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
 
                     for sing_media in search_images_res:
                         self.OS_UTILITY.copy_file_img(thumb_resize_str+str(sing_media.path_resize), sing_div_path)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_media.filepath),  QMessageBox.Ok)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_div_path),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_media.filepath),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_div_path),  QMessageBox.Ok)
 
                     search_images_res = ""
                     
-                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('alert', "Alert"), "Directory created", QMessageBox.Ok)
         
         if self.checkBox_divelog.isChecked()== True:
             div_pe_res = self.db_search_DB('UW', 'site', location)
@@ -253,12 +258,12 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
 
                     for sing_media in search_images_res:
                         self.OS_UTILITY.copy_file_img(thumb_resize_str+str(sing_media.path_resize), sing_div_pe_path)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_media.filepath),  QMessageBox.Ok)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_div_pe_path),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_media.filepath),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_div_pe_path),  QMessageBox.Ok)
 
                     search_images_res = ""
                     
-                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('alert', "Alert"), "Directory created", QMessageBox.Ok)
         if self.checkBox_artefact.isChecked()== True:
             art_res = self.db_search_DB('ART', 'site', location)
             art_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_image_export")
@@ -291,11 +296,11 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
 
                     for sing_media in search_images_res:
                         self.OS_UTILITY.copy_file_img(thumb_resize_str+str(sing_media.path_resize), sing_art_path)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_media.filepath),  QMessageBox.Ok)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_art_path),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_media.filepath),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_art_path),  QMessageBox.Ok)
 
                     search_images_res = ""
-                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('alert', "Alert"), "Directory created", QMessageBox.Ok)
         
         if self.checkBox_pottery.isChecked()== True:
             pot_res = self.db_search_DB('POTTERY', 'site', location)
@@ -329,11 +334,11 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
 
                     for sing_media in search_images_res:
                         self.OS_UTILITY.copy_file_img(thumb_resize_str+str(sing_media.path_resize), sing_pot_path)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_media.filepath),  QMessageBox.Ok)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_pot_path),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_media.filepath),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_pot_path),  QMessageBox.Ok)
 
                     search_images_res = ""
-                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('alert', "Alert"), "Directory created", QMessageBox.Ok)
         
         
         if self.checkBox_anchor.isChecked()== True:
@@ -368,11 +373,11 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
 
                     for sing_media in search_images_res:
                         self.OS_UTILITY.copy_file_img(thumb_resize_str+str(sing_media.path_resize), sing_anc_path)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_media.filepath),  QMessageBox.Ok)
-                    ##                      QMessageBox.warning(self, "Alert", str(sing_anc_path),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_media.filepath),  QMessageBox.Ok)
+                    ##                      QMessageBox.warning(self, tr('alert', "Alert"), str(sing_anc_path),  QMessageBox.Ok)
 
                     search_images_res = ""
-                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('alert', "Alert"), "Directory created", QMessageBox.Ok)
         
         if self.checkBox_shipwreck.isChecked()== True:
             anc_res = self.db_search_DB('SHIPWRECK', 'category', area)
@@ -409,7 +414,7 @@ class hff_system__Images_directory_export(QDialog, MAIN_DIALOG_CLASS):
 
 
                     search_images_res = ""
-                QMessageBox.warning(self, "Alert", "Directory created", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('alert', "Alert"), "Directory created", QMessageBox.Ok)
     def db_search_DB(self, table_class, field, value):
         self.table_class = table_class
         self.field = field

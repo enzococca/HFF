@@ -82,5 +82,11 @@
     <file>icons/Layer_plus.png</file>
     <file>icons/site_point.png</file>
     <file>icons/site_point2.png</file>
+    <file>icons/tutorials.png</file>
+    <file>icons/users.png</file>
+    <file>icons/remote_storage.png</file>
+    <file>icons/iconANC_CON.png</file>
+    <file>icons/radar_CON.png</file>
+    <file>icons/pottery_CON.png</file>
   </qresource>
 </RCC>

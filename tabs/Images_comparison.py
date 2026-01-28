@@ -34,6 +34,9 @@ from ..modules.utility.hff_system__media_utility import *
 from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 
 filepath = os.path.dirname(__file__)
 
@@ -67,8 +70,10 @@ class Comparision(QDialog, MAIN_DIALOG_CLASS):
     def __init__(self):
         QDialog.__init__(self)
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
         self.setWindowTitle("HFF_system - Images Comparision Tools")
-        QMessageBox.warning(self, "Alert", "Sistema sperimentale solo per lo sviluppo", QMessageBox.Ok)
+        QMessageBox.warning(self, tr('alert', "Alert"), "Sistema sperimentale solo per lo sviluppo", QMessageBox.Ok)
 
     def connection(self):
 
@@ -80,11 +85,11 @@ class Comparision(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:
             e = str(e)
             if e.find("no such table"):
-                QMessageBox.warning(self, "Alert",
+                QMessageBox.warning(self, tr('alert', "Alert"),
                                     "La connessione e' fallita <br><br> Tabella non presente. E' NECESSARIO RIAVVIARE QGIS",
                                     QMessageBox.Ok)
             else:
-                QMessageBox.warning(self, "Alert",
+                QMessageBox.warning(self, tr('alert', "Alert"),
                                     "Attenzione rilevato bug! Segnalarlo allo sviluppatore<br> Errore: <br>" + str(e),
                                     QMessageBox.Ok)
 
@@ -135,7 +140,7 @@ class Comparision(QDialog, MAIN_DIALOG_CLASS):
 
             return (label, s)
         except Exception as e:
-            QMessageBox.warning(self, "Messaggio", str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"), str(e), QMessageBox.Ok)
 
     def generate_files_couples(self):
         path = self.PATH

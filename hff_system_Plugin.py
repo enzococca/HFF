@@ -26,7 +26,7 @@ from builtins import object
 
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
+from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu, QComboBox, QLabel
 from qgis.core import QgsApplication, QgsSettings
 
 from hff_system_DockWidget import HffPluginDialog
@@ -47,9 +47,15 @@ from .tabs.Images_directory_export import hff_system__Images_directory_export
 from .tabs.Excel_export import hff_system__excel_export
 from .tabs.Site import hff_system__Site
 from .tabs.PRINTMAP import hff_PRINTMAP
+from .tabs.Tutorial_viewer import TutorialViewerDialog
 from .gui.hff_system_ConfigDialog import HFF_systemDialog_Config
 from .gui.dbmanagment import hff_system__dbmanagment
 from .gui.hff_system_InfoDialog import HFF_systemDialog_Info
+from .gui.hff_user_management_dialog import UserManagementDialog, LoginDialog
+from .gui.hff_connection_settings_dialog import ConnectionSettingsDialog
+from .gui.hff_remote_storage_dialog import RemoteStorageDialog
+from .modules.utility.hff_theme_manager import ThemeManager
+from .modules.utility.hff_i18n import HffI18n, tr
 
 filepath = os.path.dirname(__file__)
 
@@ -293,11 +299,61 @@ class HffPlugin_s(object):
         self.actionInfo.setWhatsThis("Plugin info")
         self.actionInfo.triggered.connect(self.runInfo)
 
+        # Tutorial button
+        icon_tutorial = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'tutorials.png'))
+        self.actionTutorial = QAction(QIcon(icon_tutorial), "Tutorials", self.iface.mainWindow())
+        self.actionTutorial.setWhatsThis("Tutorials and Help")
+        self.actionTutorial.triggered.connect(self.runTutorial)
+
+        # User Management button (admin functions for PostgreSQL)
+        icon_users = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'users.png'))
+        self.actionUserManagement = QAction(QIcon(icon_users), "User Management", self.iface.mainWindow())
+        self.actionUserManagement.setWhatsThis("User Management")
+        self.actionUserManagement.triggered.connect(self.runUserManagement)
+
+        # Connection Settings button
+        icon_conn_settings = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'iconConn.png'))
+        self.actionConnectionSettings = QAction(QIcon(icon_conn_settings), "Connection Settings", self.iface.mainWindow())
+        self.actionConnectionSettings.setWhatsThis("Manage saved database connections")
+        self.actionConnectionSettings.triggered.connect(self.runConnectionSettings)
+
+        # Remote Storage button
+        icon_remote = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'remote_storage.png'))
+        self.actionRemoteStorage = QAction(QIcon(icon_remote), "Remote Storage", self.iface.mainWindow())
+        self.actionRemoteStorage.setWhatsThis("Configure remote storage for media files")
+        self.actionRemoteStorage.triggered.connect(self.runRemoteStorage)
+
         self.manageToolButton.addActions(
-            [self.actionConf,  self.actionDbmanagment, self.actionInfo])
+            [self.actionConf, self.actionConnectionSettings, self.actionDbmanagment,
+             self.actionRemoteStorage, self.actionUserManagement, self.actionTutorial, self.actionInfo])
         self.manageToolButton.setDefaultAction(self.actionConf)
 
         self.toolBar.addWidget(self.manageToolButton)
+
+        self.toolBar.addSeparator()
+
+        # Theme toggle button
+        self.themeToolButton = QToolButton(self.toolBar)
+        self.themeToolButton.setFixedSize(28, 28)
+        self.themeToolButton.setToolTip("Toggle Dark/Light Mode")
+        self._update_theme_button_icon()
+        self.themeToolButton.clicked.connect(self.toggleTheme)
+        self.toolBar.addWidget(self.themeToolButton)
+
+        # Language selector
+        self.langComboBox = QComboBox(self.toolBar)
+        self.langComboBox.setFixedWidth(80)
+        self.langComboBox.setToolTip("Select Language / اختر اللغة")
+        i18n = HffI18n.instance()
+        for code, name in i18n.get_available_languages().items():
+            self.langComboBox.addItem(name, code)
+        # Set current language
+        current_lang = i18n.get_current_language()
+        idx = self.langComboBox.findData(current_lang)
+        if idx >= 0:
+            self.langComboBox.setCurrentIndex(idx)
+        self.langComboBox.currentIndexChanged.connect(self.onLanguageChanged)
+        self.toolBar.addWidget(self.langComboBox)
 
         self.toolBar.addSeparator()
 
@@ -326,8 +382,11 @@ class HffPlugin_s(object):
 
         
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionConf)
-        
+        self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionConnectionSettings)
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionDbmanagment)
+        self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionRemoteStorage)
+        self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionUserManagement)
+        self.iface.addPluginToMenu("HFF - Help", self.actionTutorial)
         self.iface.addPluginToMenu("HFF - Info GIS Tools", self.actionInfo)
 
         # MENU
@@ -348,7 +407,8 @@ class HffPlugin_s(object):
         self.menu.addActions([self.actionimageViewer, self.actionexcelExp, self.actionImages_Directory_export])
         self.menu.addSeparator()
       
-        self.menu.addActions([self.actionConf,  self.actionDbmanagment, self.actionInfo])
+        self.menu.addActions([self.actionConf, self.actionConnectionSettings, self.actionDbmanagment,
+                              self.actionRemoteStorage, self.actionUserManagement, self.actionTutorial, self.actionInfo])
         menuBar = self.iface.mainWindow().menuBar()
         menuBar.addMenu(self.menu)
     
@@ -447,7 +507,97 @@ class HffPlugin_s(object):
         pluginPdfexp.show()
         self.pluginGui = pluginPdfexp  # save
 
-   
+    def runTutorial(self):
+        tutorialViewer = TutorialViewerDialog(parent=self.iface.mainWindow())
+        tutorialViewer.exec_()
+        self.pluginGui = tutorialViewer  # save
+
+    def runUserManagement(self):
+        # Check if we're connected to PostgreSQL before showing user management
+        try:
+            if self.PARAMS_DICT.get('SERVER', '') == 'postgres':
+                userMgmtDialog = UserManagementDialog(parent=self.iface.mainWindow())
+                userMgmtDialog.exec_()
+                self.pluginGui = userMgmtDialog
+            else:
+                from qgis.PyQt.QtWidgets import QMessageBox
+                QMessageBox.information(
+                    self.iface.mainWindow(),
+                    "User Management",
+                    "User Management is only available when connected to a PostgreSQL database.\n\n"
+                    "Please configure a PostgreSQL connection in the Config dialog first."
+                )
+        except Exception as e:
+            from qgis.PyQt.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self.iface.mainWindow(),
+                "Error",
+                f"Could not open User Management: {str(e)}"
+            )
+
+    def runConnectionSettings(self):
+        """Open the connection settings dialog."""
+        try:
+            connSettingsDialog = ConnectionSettingsDialog(parent=self.iface.mainWindow())
+            connSettingsDialog.exec_()
+            self.pluginGui = connSettingsDialog
+        except Exception as e:
+            from qgis.PyQt.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self.iface.mainWindow(),
+                "Error",
+                f"Could not open Connection Settings: {str(e)}"
+            )
+
+    def runRemoteStorage(self):
+        """Open the remote storage settings dialog."""
+        try:
+            remoteStorageDialog = RemoteStorageDialog(parent=self.iface.mainWindow())
+            remoteStorageDialog.exec_()
+            self.pluginGui = remoteStorageDialog
+        except Exception as e:
+            from qgis.PyQt.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self.iface.mainWindow(),
+                "Error",
+                f"Could not open Remote Storage: {str(e)}"
+            )
+
+    def toggleTheme(self):
+        """Toggle between dark and light theme."""
+        theme_manager = ThemeManager.instance()
+        theme_manager.toggle_theme()
+        self._update_theme_button_icon()
+        # Optionally refresh all open forms
+        if hasattr(self, 'pluginGui') and self.pluginGui is not None:
+            try:
+                theme_manager.apply_theme(self.pluginGui)
+            except:
+                pass
+
+    def _update_theme_button_icon(self):
+        """Update the theme toggle button icon based on current theme."""
+        theme_manager = ThemeManager.instance()
+        if theme_manager.get_current_theme() == ThemeManager.DARK:
+            self.themeToolButton.setText("\u2600")  # Sun symbol for switching to light
+        else:
+            self.themeToolButton.setText("\U0001F319")  # Moon symbol for switching to dark
+
+    def onLanguageChanged(self, index):
+        """Handle language selection change."""
+        lang_code = self.langComboBox.currentData()
+        if lang_code:
+            i18n = HffI18n.instance()
+            i18n.set_language(lang_code)
+            # Show message that restart may be needed for full effect
+            from qgis.PyQt.QtWidgets import QMessageBox
+            QMessageBox.information(
+                self.iface.mainWindow(),
+                "Language Changed",
+                "Language changed to: " + self.langComboBox.currentText() + "\n\n"
+                "Some changes will take effect immediately.\n"
+                "For full effect, please restart QGIS or reopen the forms."
+            )
 
     def unload(self):
         # Remove the plugin
@@ -473,9 +623,13 @@ class HffPlugin_s(object):
         self.iface.removePluginMenu("HFF - Media manager GIS Tools", self.actionexcelExp)
         
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionConf)
-       
+
         self.iface.removePluginMenu("HFF - Info GIS Tools", self.actionInfo)
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionDbmanagment)
+        self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionConnectionSettings)
+        self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionRemoteStorage)
+        self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionUserManagement)
+        self.iface.removePluginMenu("HFF - Help", self.actionTutorial)
 
         self.iface.removeToolBarIcon(self.actionUW)
         self.iface.removeToolBarIcon(self.actionART)

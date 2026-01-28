@@ -58,8 +58,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1072</width>
-        <height>578</height>
+        <width>1079</width>
+        <height>386</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
@@ -154,11 +154,11 @@
                <attribute name="verticalHeaderCascadingSectionResizes">
                 <bool>false</bool>
                </attribute>
-               <attribute name="verticalHeaderDefaultSectionSize">
-                <number>37</number>
-               </attribute>
                <attribute name="verticalHeaderMinimumSectionSize">
                 <number>8</number>
+               </attribute>
+               <attribute name="verticalHeaderDefaultSectionSize">
+                <number>37</number>
                </attribute>
                <attribute name="verticalHeaderShowSortIndicator" stdset="0">
                 <bool>false</bool>
@@ -184,6 +184,8 @@
               <widget class="QComboBox" name="comboBox_ge_assessment">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -241,6 +243,8 @@
                </property>
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -277,11 +281,11 @@
                <attribute name="horizontalHeaderDefaultSectionSize">
                 <number>270</number>
                </attribute>
-               <attribute name="verticalHeaderDefaultSectionSize">
-                <number>37</number>
-               </attribute>
                <attribute name="verticalHeaderMinimumSectionSize">
                 <number>8</number>
+               </attribute>
+               <attribute name="verticalHeaderDefaultSectionSize">
+                <number>37</number>
                </attribute>
                <column>
                 <property name="text">
@@ -349,11 +353,11 @@
                <attribute name="horizontalHeaderDefaultSectionSize">
                 <number>274</number>
                </attribute>
-               <attribute name="verticalHeaderDefaultSectionSize">
-                <number>37</number>
-               </attribute>
                <attribute name="verticalHeaderMinimumSectionSize">
                 <number>8</number>
+               </attribute>
+               <attribute name="verticalHeaderDefaultSectionSize">
+                <number>37</number>
                </attribute>
                <column>
                 <property name="text">
@@ -379,11 +383,11 @@
                <attribute name="horizontalHeaderDefaultSectionSize">
                 <number>271</number>
                </attribute>
-               <attribute name="verticalHeaderDefaultSectionSize">
-                <number>37</number>
-               </attribute>
                <attribute name="verticalHeaderMinimumSectionSize">
                 <number>8</number>
+               </attribute>
+               <attribute name="verticalHeaderDefaultSectionSize">
+                <number>37</number>
                </attribute>
                <column>
                 <property name="text">
@@ -424,11 +428,11 @@
                <attribute name="verticalHeaderCascadingSectionResizes">
                 <bool>false</bool>
                </attribute>
-               <attribute name="verticalHeaderDefaultSectionSize">
-                <number>37</number>
-               </attribute>
                <attribute name="verticalHeaderMinimumSectionSize">
                 <number>8</number>
+               </attribute>
+               <attribute name="verticalHeaderDefaultSectionSize">
+                <number>37</number>
                </attribute>
                <attribute name="verticalHeaderShowSortIndicator" stdset="0">
                 <bool>false</bool>
@@ -456,6 +460,8 @@
             <widget class="QToolBox" name="toolBox_2">
              <property name="font">
               <font>
+               <family>Times New Roman</family>
+               <pointsize>13</pointsize>
                <weight>50</weight>
                <bold>false</bold>
               </font>
@@ -486,8 +492,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1036</width>
-                <height>440</height>
+                <width>1031</width>
+                <height>221</height>
                </rect>
               </property>
               <attribute name="label">
@@ -623,8 +629,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <attribute name="label">
@@ -737,11 +743,11 @@
                   <attribute name="horizontalHeaderDefaultSectionSize">
                    <number>244</number>
                   </attribute>
-                  <attribute name="verticalHeaderDefaultSectionSize">
-                   <number>37</number>
-                  </attribute>
                   <attribute name="verticalHeaderMinimumSectionSize">
                    <number>8</number>
+                  </attribute>
+                  <attribute name="verticalHeaderDefaultSectionSize">
+                   <number>37</number>
                   </attribute>
                   <column>
                    <property name="text">
@@ -788,11 +794,11 @@
                   <attribute name="verticalHeaderCascadingSectionResizes">
                    <bool>false</bool>
                   </attribute>
-                  <attribute name="verticalHeaderDefaultSectionSize">
-                   <number>37</number>
-                  </attribute>
                   <attribute name="verticalHeaderMinimumSectionSize">
                    <number>8</number>
+                  </attribute>
+                  <attribute name="verticalHeaderDefaultSectionSize">
+                   <number>37</number>
                   </attribute>
                   <attribute name="verticalHeaderShowSortIndicator" stdset="0">
                    <bool>false</bool>
@@ -841,8 +847,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>169</width>
-                <height>120</height>
+                <width>183</width>
+                <height>134</height>
                </rect>
               </property>
               <attribute name="label">
@@ -889,11 +895,11 @@
                    <attribute name="verticalHeaderCascadingSectionResizes">
                     <bool>false</bool>
                    </attribute>
-                   <attribute name="verticalHeaderDefaultSectionSize">
-                    <number>37</number>
-                   </attribute>
                    <attribute name="verticalHeaderMinimumSectionSize">
                     <number>8</number>
+                   </attribute>
+                   <attribute name="verticalHeaderDefaultSectionSize">
+                    <number>37</number>
                    </attribute>
                    <attribute name="verticalHeaderShowSortIndicator" stdset="0">
                     <bool>false</bool>
@@ -986,6 +992,8 @@
               <widget class="QLabel" name="label_22">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -999,6 +1007,8 @@
               <widget class="QComboBox" name="comboBox_administrative_subvision_type">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1052,6 +1062,8 @@
               <widget class="QComboBox" name="comboBox_administrative_subvision">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1065,6 +1077,8 @@
               <widget class="QLabel" name="label_23">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1078,6 +1092,8 @@
               <widget class="QLabel" name="label_21">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1091,6 +1107,8 @@
               <widget class="QComboBox" name="comboBox_site_overall_shape_type">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1189,6 +1207,8 @@
               <widget class="QLabel" name="label_36">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1202,6 +1222,8 @@
               <widget class="QComboBox" name="comboBox_resource_orientation">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1285,6 +1307,8 @@
               <widget class="QLabel" name="label_24">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1298,6 +1322,8 @@
               <widget class="QComboBox" name="comboBox_cadastral_reference">
                <property name="font">
                 <font>
+                 <family>Times New Roman</family>
+                 <pointsize>13</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -1319,8 +1345,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1036</width>
-                <height>413</height>
+                <width>1031</width>
+                <height>176</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1359,6 +1385,8 @@
                   <widget class="QLabel" name="label_17">
                    <property name="font">
                     <font>
+                     <family>Times New Roman</family>
+                     <pointsize>13</pointsize>
                      <weight>50</weight>
                      <bold>false</bold>
                     </font>
@@ -1372,6 +1400,8 @@
                   <widget class="QComboBox" name="comboBox_geometry_qualifier">
                    <property name="font">
                     <font>
+                     <family>Times New Roman</family>
+                     <pointsize>13</pointsize>
                      <weight>50</weight>
                      <bold>false</bold>
                     </font>
@@ -1499,8 +1529,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>586</width>
-                <height>120</height>
+                <width>601</width>
+                <height>134</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1634,6 +1664,8 @@
             <widget class="QToolBox" name="toolBox">
              <property name="font">
               <font>
+               <family>Times New Roman</family>
+               <pointsize>13</pointsize>
                <weight>50</weight>
                <bold>false</bold>
               </font>
@@ -1664,8 +1696,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1034</width>
-                <height>312</height>
+                <width>345</width>
+                <height>334</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1682,11 +1714,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>232</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>232</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1716,11 +1748,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>232</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>232</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1750,11 +1782,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>232</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>232</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1771,11 +1803,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>232</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>232</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1792,11 +1824,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>232</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>232</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1813,11 +1845,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>232</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>232</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1860,11 +1892,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>232</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>232</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1881,11 +1913,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>232</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>232</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1903,8 +1935,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>597</width>
-                <height>226</height>
+                <width>612</width>
+                <height>253</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1921,11 +1953,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>484</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>484</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1961,11 +1993,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>487</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>487</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -1988,11 +2020,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>487</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>487</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -2022,11 +2054,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>484</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>484</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -2070,8 +2102,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1034</width>
-                <height>312</height>
+                <width>1029</width>
+                <height>79</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2108,11 +2140,11 @@
                   <property name="selectionMode">
                    <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
-                  <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>240</number>
-                  </attribute>
                   <attribute name="horizontalHeaderMinimumSectionSize">
                    <number>37</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>240</number>
                   </attribute>
                   <column>
                    <property name="text">
@@ -2129,11 +2161,11 @@
                   <property name="selectionMode">
                    <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
-                  <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>240</number>
-                  </attribute>
                   <attribute name="horizontalHeaderMinimumSectionSize">
                    <number>37</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>240</number>
                   </attribute>
                   <column>
                    <property name="text">
@@ -2150,11 +2182,11 @@
                   <property name="selectionMode">
                    <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
-                  <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>239</number>
-                  </attribute>
                   <attribute name="horizontalHeaderMinimumSectionSize">
                    <number>37</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>239</number>
                   </attribute>
                   <column>
                    <property name="text">
@@ -2171,11 +2203,11 @@
                   <property name="selectionMode">
                    <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
-                  <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>238</number>
-                  </attribute>
                   <attribute name="horizontalHeaderMinimumSectionSize">
                    <number>37</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>238</number>
                   </attribute>
                   <column>
                    <property name="text">
@@ -2205,8 +2237,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>169</width>
-                <height>120</height>
+                <width>183</width>
+                <height>134</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2236,11 +2268,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>726</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>726</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -2257,11 +2289,11 @@
                    <property name="selectionMode">
                     <enum>QAbstractItemView::SingleSelection</enum>
                    </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>238</number>
-                   </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
                     <number>37</number>
+                   </attribute>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>238</number>
                    </attribute>
                    <column>
                     <property name="text">
@@ -2292,8 +2324,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1034</width>
-                <height>312</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2343,11 +2375,11 @@
                   <property name="selectionMode">
                    <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
-                  <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>247</number>
-                  </attribute>
                   <attribute name="horizontalHeaderMinimumSectionSize">
                    <number>37</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>247</number>
                   </attribute>
                   <column>
                    <property name="text">
@@ -2364,11 +2396,11 @@
                   <property name="selectionMode">
                    <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
-                  <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>244</number>
-                  </attribute>
                   <attribute name="horizontalHeaderMinimumSectionSize">
                    <number>37</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>244</number>
                   </attribute>
                   <column>
                    <property name="text">
@@ -2385,11 +2417,11 @@
                   <property name="selectionMode">
                    <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
-                  <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>241</number>
-                  </attribute>
                   <attribute name="horizontalHeaderMinimumSectionSize">
                    <number>37</number>
+                  </attribute>
+                  <attribute name="horizontalHeaderDefaultSectionSize">
+                   <number>241</number>
                   </attribute>
                   <column>
                    <property name="text">
@@ -2406,8 +2438,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1034</width>
-                <height>312</height>
+                <width>595</width>
+                <height>231</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2573,8 +2605,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1036</width>
-                <height>413</height>
+                <width>1016</width>
+                <height>254</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2787,8 +2819,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>526</width>
-                <height>120</height>
+                <width>541</width>
+                <height>134</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2886,8 +2918,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>798</width>
-                <height>120</height>
+                <width>831</width>
+                <height>140</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3026,8 +3058,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <attribute name="label">
@@ -3039,7 +3071,7 @@
                  <x>12</x>
                  <y>13</y>
                  <width>941</width>
-                 <height>196</height>
+                 <height>239</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout_19">
@@ -3317,7 +3349,7 @@
              <x>275</x>
              <y>11</y>
              <width>741</width>
-             <height>255</height>
+             <height>285</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_37">
@@ -3504,6 +3536,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>8</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -3790,6 +3823,8 @@
       <widget class="QLabel" name="label_25">
        <property name="font">
         <font>
+         <family>Times New Roman</family>
+         <pointsize>13</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -3803,6 +3838,8 @@
       <widget class="QComboBox" name="comboBox_Address">
        <property name="font">
         <font>
+         <family>Times New Roman</family>
+         <pointsize>13</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -3816,6 +3853,8 @@
       <widget class="QLabel" name="label_20">
        <property name="font">
         <font>
+         <family>Times New Roman</family>
+         <pointsize>13</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -3829,6 +3868,8 @@
       <widget class="QComboBox" name="comboBox_address_type">
        <property name="font">
         <font>
+         <family>Times New Roman</family>
+         <pointsize>13</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -3867,6 +3908,8 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
+         <pointsize>13</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -3892,6 +3935,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
         </font>
        </property>
@@ -3923,6 +3967,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
         </font>
        </property>
@@ -3989,6 +4034,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
         </font>
        </property>
@@ -4072,6 +4118,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
         </font>
        </property>
@@ -4229,6 +4276,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
         </font>
        </property>
@@ -4260,6 +4308,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
         </font>
        </property>
@@ -4291,6 +4340,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
         </font>
        </property>
@@ -4363,6 +4413,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -4404,6 +4455,8 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
+         <pointsize>13</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -4426,6 +4479,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -4455,6 +4509,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -4496,6 +4551,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -4519,6 +4575,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -4576,6 +4633,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Times New Roman</family>
          <pointsize>9</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -4625,138 +4683,62 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="1">
-    <widget class="QgsDockWidget" name="mDockWidget">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>498</width>
-       <height>38</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>498</width>
-       <height>106</height>
-      </size>
-     </property>
-     <property name="mouseTracking">
-      <bool>true</bool>
-     </property>
-     <property name="tabletTracking">
-      <bool>true</bool>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="contextMenuPolicy">
-      <enum>Qt::PreventContextMenu</enum>
-     </property>
-     <property name="acceptDrops">
-      <bool>true</bool>
-     </property>
-     <property name="windowIcon">
-      <iconset resource="../../resources/resources.qrc">
-       <normaloff>:/icons/eamena.jpg</normaloff>:/icons/eamena.jpg</iconset>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-     <property name="floating">
-      <bool>true</bool>
-     </property>
-     <property name="allowedAreas">
-      <set>Qt::AllDockWidgetAreas</set>
-     </property>
-     <property name="windowTitle">
-      <string>Import Excel2Emeana</string>
-     </property>
-     <widget class="QWidget" name="dockWidgetContents">
-      <widget class="QLineEdit" name="lineEdit_path_excel">
-       <property name="geometry">
-        <rect>
-         <x>50</x>
-         <y>20</y>
-         <width>381</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="cursorMoveStyle">
-        <enum>Qt::VisualMoveStyle</enum>
-       </property>
-       <property name="clearButtonEnabled">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QToolButton" name="toolButton_import_excel">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>20</y>
-         <width>25</width>
-         <height>19</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="popupMode">
-        <enum>QToolButton::DelayedPopup</enum>
-       </property>
-       <property name="autoRaise">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_import">
-       <property name="geometry">
-        <rect>
-         <x>450</x>
-         <y>20</y>
-         <width>28</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icons/import-excel.png</normaloff>:/icons/import-excel.png</iconset>
-       </property>
-      </widget>
+   <item row="5" column="2">
+    <widget class="QDockWidget" name="mDockWidget">
+     <widget class="QWidget" name="dockWidgetContents_2">
+      <layout class="QGridLayout" name="gridLayout_41">
+       <item row="0" column="0">
+        <widget class="QToolButton" name="toolButton_import_excel">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::DelayedPopup</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_path_excel">
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="cursorMoveStyle">
+          <enum>Qt::VisualMoveStyle</enum>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton_import">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="icon">
+          <iconset resource="../../resources/resources.qrc">
+           <normaloff>:/icons/import-excel.png</normaloff>:/icons/import-excel.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QgsDockWidget</class>
-   <extends>QDockWidget</extends>
-   <header>qgsdockwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../../resources/resources.qrc"/>
  </resources>
@@ -4765,15 +4747,15 @@
    <sender>pushButton_import_excel</sender>
    <signal>pressed()</signal>
    <receiver>mDockWidget</receiver>
-   <slot>toggleUserVisible()</slot>
+   <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>55</x>
-     <y>53</y>
+     <x>64</x>
+     <y>62</y>
     </hint>
     <hint type="destinationlabel">
-     <x>525</x>
-     <y>833</y>
+     <x>634</x>
+     <y>601</y>
     </hint>
    </hints>
   </connection>

@@ -176,13 +176,13 @@ class Single_site_pdf_sheet:
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
-        styNormal.fontSize = 6
+        styNormal.fontSize = 9
         styNormal.alignment = 0  # LEFT
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
-        styDescrizione.fontSize = 6
+        styDescrizione.fontSize = 9
         styDescrizione.alignment = 4  # Justified
         styleSheet = getSampleStyleSheet()
         styUnitaTipo = styleSheet['Normal']
@@ -194,7 +194,7 @@ class Single_site_pdf_sheet:
         styTitoloComponenti = styleSheet['Normal']
         styTitoloComponenti.spaceBefore = 20
         styTitoloComponenti.spaceAfter = 20
-        styTitoloComponenti.fontSize = 6
+        styTitoloComponenti.fontSize = 9
         styTitoloComponenti.alignment = 1  # CENTER
         intestazione = Paragraph("<b>Archaeological Terrestrial Survey - SITE FORM<br/>" + "</b>", styInt)
         home = os.environ['HFF_HOME']
@@ -500,7 +500,7 @@ class Single_site_pdf_sheet:
 
         #table style
         table_style=[
-                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                    ('GRID',(0,0),(-1,-1),0.5,HFF_GRAY_DARK),
                     #0 row
                     ('SPAN', (0,0),(1,0)),  #logo2
                     ('SPAN', (2,0),(15,0)),  #intestazione
@@ -615,13 +615,13 @@ class Single_site_pdf_sheet:
         # styNormal = styleSheet['Normal']
         # styNormal.spaceBefore = 10
         # styNormal.spaceAfter = 10
-        # styNormal.fontSize = 6
+        # styNormal.fontSize = 9
         # styNormal.alignment = 0  # LEFT
         # styleSheet = getSampleStyleSheet()
         # styDescrizione = styleSheet['Normal']
         # styDescrizione.spaceBefore = 20
         # styDescrizione.spaceAfter = 20
-        # styDescrizione.fontSize = 6
+        # styDescrizione.fontSize = 9
         # styDescrizione.alignment = 4  # Justified
         # styleSheet = getSampleStyleSheet()
         # styUnitaTipo = styleSheet['Normal']
@@ -633,7 +633,7 @@ class Single_site_pdf_sheet:
         # styTitoloComponenti = styleSheet['Normal']
         # styTitoloComponenti.spaceBefore = 20
         # styTitoloComponenti.spaceAfter = 20
-        # styTitoloComponenti.fontSize = 6
+        # styTitoloComponenti.fontSize = 9
         # styTitoloComponenti.alignment = 1  # CENTER
         # intestazione = Paragraph("<b>Archaeological Terrestrial Survey - Photo Index<br/>" + "</b>", styInt)
         # home = os.environ['HFF_HOME']
@@ -692,7 +692,7 @@ class Single_site_pdf_sheet:
                         # [camera_id, '01', '02', orientation2, '04','05', '06', dec, '08', '09','10','11','12','13', '14','15','16','17']] #2 row ok
                         
         # table_style=[
-                    # ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                    # ('GRID',(0,0),(-1,-1),0.5,HFF_GRAY_DARK),
                     # #0 row
                     # ('SPAN', (0,0),(1,0)),  #logo2
                     # ('SPAN', (2,0),(15,0)),  #intestazione

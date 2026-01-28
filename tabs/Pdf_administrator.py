@@ -32,6 +32,9 @@ from .US_USM import hff_system__US
 from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Pdf_administrator.ui'))
@@ -86,6 +89,8 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
     def __init__(self, parent=None, db=None):
         super().__init__()
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
         ##  def __init__(self, iface):
         ##      self.iface = iface
         ##      #self.pyQGIS = Hff_pyqgis(self.iface)
@@ -167,11 +172,11 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:
             e = str(e)
             if e.find("no such table"):
-                QMessageBox.warning(self, "Alert",
+                QMessageBox.warning(self, tr('alert', "Alert"),
                                     "La connessione e' fallita <br><br> Tabella non presente. E' NECESSARIO RIAVVIARE QGIS" + str(
                                         e), QMessageBox.Ok)
             else:
-                QMessageBox.warning(self, "Alert",
+                QMessageBox.warning(self, tr('alert', "Alert"),
                                     "Attenzione rilevato bug! Segnalarlo allo sviluppatore<br> Errore: <br>" + str(e),
                                     QMessageBox.Ok)
 
@@ -181,7 +186,7 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
 
     def on_pushButton_inserisci_nome_campo_pressed(self):
         # a = self.tableWidget_schema_griglia.item()
-        # QMessageBox.warning(self, "Alert", str(self.ROW),  QMessageBox.Ok)
+        # QMessageBox.warning(self, tr('alert', "Alert"), str(self.ROW),  QMessageBox.Ok)
         item = QTableWidgetItem(str(self.comboBox_elenco_campi.currentText()))
         exec_str = ('self.tableWidget_schema_griglia.setItem(%d,%d,item)') % (self.ROW, self.COL)
         eval(exec_str)
@@ -218,7 +223,7 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
                                     ["C0R6", "C1R6", "C2R6", "C3R6", "C4R4", "C5R6", "C6R6", "C7R6", "C8R6"]]"""
 
         self.tableInsertData('self.tableWidget_schema_griglia', default_schema)
-        QMessageBox.warning(self, "Alert", str(self.ID_LIST), QMessageBox.Ok)
+        QMessageBox.warning(self, tr('alert', "Alert"), str(self.ID_LIST), QMessageBox.Ok)
 
         # buttons functions
 
@@ -284,12 +289,12 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
         if self.BROWSE_STATUS == "b":
             if self.records_equal_check() == 1:
                 self.update_if(
-                    QMessageBox.warning(self, 'ATTENZIONE', "Il record e' stato modificato. Vuoi salvare le modifiche?",
+                    QMessageBox.warning(self, tr('attention', "Attention"), "Il record e' stato modificato. Vuoi salvare le modifiche?",
                                         QMessageBox.Ok | QMessageBox.Cancel))
                 self.label_sort.setText(self.SORTED_ITEMS["n"])
                 self.enable_button(1)
             else:
-                QMessageBox.warning(self, "ATTENZIONE", "Non è stata realizzata alcuna modifica.", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('attention', "Attention"), "Non è stata realizzata alcuna modifica.", QMessageBox.Ok)
         else:
             if self.data_error_check() == 0:
                 test_insert = self.insert_new_rec()
@@ -313,7 +318,7 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
         ##      EC = Error_check()
         ##
         ##      if EC.data_is_empty(unicode(self.comboBox_sito.currentText())) == 0:
-        ##          QMessageBox.warning(self, "ATTENZIONE", "Campo Sito. \n Il campo non deve essere vuoto",  QMessageBox.Ok)
+        ##          QMessageBox.warning(self, tr('attention', "Attention"), "Campo Sito. \n Il campo non deve essere vuoto",  QMessageBox.Ok)
         ##          test = 1
         ##
         return test

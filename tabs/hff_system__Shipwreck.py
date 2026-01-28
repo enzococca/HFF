@@ -68,6 +68,11 @@ from ..modules.utility.csv_writer import UnicodeWriter
 from ..gui.imageViewer import ImageViewer
 from ..gui.sortpanelmain import SortPanelMain
 from ..gui.quantpanelmain import QuantPanelMain
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations, standardize_toolbar
+from ..modules.utility.hff_statistics import HffStatistics, StatisticsWidget
+from ..modules.utility.hff_statistics_mixin import StatisticsMixin, SHIPWRECK_STATS_FIELDS
 
 from pyproj import Proj
 MAIN_DIALOG_CLASS, _ = loadUiType(
@@ -124,11 +129,11 @@ class ReportDialog(QDialog):
             # Save the report as a .docx file
 
             ReportGenerator.save_report_to_file(self.report_text, file_path)
-            QMessageBox.information(self, "Report Saved", f"Report has been saved to {file_path}")
+            QMessageBox.information(self, tr('success', "Success"), f"Report has been saved to {file_path}")
 
 
 
-class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
+class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     L=QgsSettings().value("locale/userLocale")[0:2]
     MSG_BOX_TITLE = "HFF - Shipwreck form"
     DATA_LIST = []
@@ -345,6 +350,9 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         self.iface = iface
         self.pyQGIS = Hff_pyqgis(iface)
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        standardize_toolbar(self)
+        self.i18n = HffI18n.instance()
         self.mDockWidget_2.setHidden(True)
         self.mDockWidget_export.setHidden(True)
         self.currentLayerId = None
@@ -358,7 +366,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         try:
             self.on_pushButton_connect_pressed()
         except Exception as e:
-            QMessageBox.warning(self, "Connection System", str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('connection_system', "Connection System"), str(e), QMessageBox.Ok)
         code = self.comboBox_code.currentText()
         self.comboBox_code.setEditText(code)
         self.search_1.textChanged.connect(self.update_filter)
@@ -371,6 +379,173 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         self.pushButton_report_generator.clicked.connect(self.generate_and_display_report)
         # Imposta la finestra principale per rimanere sempre in primo piano
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+
+        # Setup coordinate sync between form and GIS layer
+        self.setup_coordinate_sync()
+
+        # Initialize statistics tab
+        self.init_statistics(SHIPWRECK_STATS_FIELDS)
+
+    def get_stats_records(self):
+        """Get records for statistics - override from StatisticsMixin."""
+        return self.DATA_LIST if hasattr(self, 'DATA_LIST') else []
+
+    def setup_coordinate_sync(self):
+        """Setup bidirectional coordinate sync between form and GIS layer."""
+        try:
+            # Connect to layer selection changes
+            self.connect_layer_selection_signal()
+
+            # Connect coordinate field changes to update GIS (optional - auto sync on edit)
+            # Uncomment the following lines to enable auto-sync on field change:
+            # self.lineEdit_latitude.editingFinished.connect(self.sync_coordinates_to_gis)
+            # self.lineEdit_longitude.editingFinished.connect(self.sync_coordinates_to_gis)
+        except Exception as e:
+            pass  # Silently fail if layer not available
+
+    def connect_layer_selection_signal(self):
+        """Connect to shipwreck layer selection changed signal."""
+        try:
+            # Find the shipwreck_location layer
+            layers = QgsProject.instance().mapLayersByName('shipwreck_location')
+            if not layers:
+                layers = QgsProject.instance().mapLayersByName('Shipwreck')
+            if layers:
+                layer = layers[0]
+                layer.selectionChanged.connect(self.on_gis_feature_selected)
+        except Exception as e:
+            pass
+
+    def on_gis_feature_selected(self, selected, deselected, clearAndSelect):
+        """Handle feature selection in GIS layer - sync coordinates to form.
+
+        When a feature is selected in the GIS layer, update the form's
+        latitude/longitude fields with the feature's coordinates.
+        """
+        try:
+            # Find the shipwreck layer
+            layers = QgsProject.instance().mapLayersByName('shipwreck_location')
+            if not layers:
+                layers = QgsProject.instance().mapLayersByName('Shipwreck')
+            if not layers:
+                return
+
+            layer = layers[0]
+            selected_features = layer.selectedFeatures()
+
+            if not selected_features:
+                return
+
+            # Get the first selected feature
+            feature = selected_features[0]
+            geom = feature.geometry()
+
+            if geom.isEmpty():
+                return
+
+            # Get the point coordinates
+            point = geom.asPoint()
+
+            # Check the layer CRS
+            layer_crs = layer.crs()
+
+            # Convert to WGS84 lat/long if needed
+            if layer_crs.authid() == 'EPSG:32636':
+                # UTM Zone 36N - convert to WGS84
+                from pyproj import Proj, transform
+                utm_proj = Proj("+proj=utm +zone=36 +north +datum=WGS84 +units=m +no_defs")
+                wgs84_proj = Proj("+proj=longlat +datum=WGS84 +no_defs")
+                lon, lat = transform(utm_proj, wgs84_proj, point.x(), point.y())
+            elif layer_crs.authid() == 'EPSG:4326':
+                # Already WGS84
+                lon, lat = point.x(), point.y()
+            else:
+                # Try to transform using QGIS
+                wgs84_crs = QgsCoordinateReferenceSystem('EPSG:4326')
+                transform = QgsCoordinateTransform(layer_crs, wgs84_crs, QgsProject.instance())
+                point_wgs84 = transform.transform(point)
+                lon, lat = point_wgs84.x(), point_wgs84.y()
+
+            # Update the form fields with the coordinates
+            # Format as decimal degrees
+            self.lineEdit_latitude.setText(f"{lat:.6f}")
+            self.lineEdit_longitude.setText(f"{lon:.6f}")
+
+            # Also try to match the record in the database by code
+            code_field_index = feature.fieldNameIndex('code')
+            if code_field_index >= 0:
+                code = feature.attribute('code')
+                if code:
+                    # Find and navigate to the matching record
+                    idx = self.comboBox_code.findText(str(code))
+                    if idx >= 0:
+                        self.comboBox_code.setCurrentIndex(idx)
+
+        except Exception as e:
+            # Silently fail - don't interrupt user workflow
+            pass
+
+    def sync_coordinates_to_gis(self):
+        """Sync form coordinates to GIS layer.
+
+        When latitude/longitude are updated in the form, update or create
+        the corresponding point in the GIS layer.
+        """
+        try:
+            lat_text = self.lineEdit_latitude.text().strip()
+            lon_text = self.lineEdit_longitude.text().strip()
+
+            if not lat_text or not lon_text:
+                return
+
+            # Convert to UTM for the GIS layer
+            easting, northing = self.longconvert()
+
+            # Find the shipwreck layer
+            layers = QgsProject.instance().mapLayersByName('shipwreck_location')
+            if not layers:
+                return
+
+            layer = layers[0]
+            code = str(self.comboBox_code.currentText())
+
+            if not code:
+                return
+
+            # Check if feature with this code exists
+            expr = QgsExpression(f"\"code\" = '{code}'")
+            request = QgsFeatureRequest(expr)
+            features = list(layer.getFeatures(request))
+
+            if features:
+                # Update existing feature
+                feature = features[0]
+                layer.startEditing()
+                geom = QgsGeometry.fromPointXY(QgsPointXY(easting, northing))
+                layer.changeGeometry(feature.id(), geom)
+                layer.commitChanges()
+            else:
+                # Insert new feature using existing method
+                self.insert_point()
+
+            # Refresh the map canvas
+            self.iface.mapCanvas().refresh()
+
+        except Exception as e:
+            # Silently fail - don't interrupt user workflow
+            pass
+
+    def update_gis_on_save(self):
+        """Call this method when saving the record to sync coordinates to GIS."""
+        try:
+            lat_text = self.lineEdit_latitude.text().strip()
+            lon_text = self.lineEdit_longitude.text().strip()
+
+            if lat_text and lon_text:
+                self.sync_coordinates_to_gis()
+        except Exception:
+            pass
+
     def apikey_gpt(self):
         # HOME = os.environ['PYARCHINIT_HOME']
         BIN = '{}{}{}'.format(self.HOME, os.sep, "bin")
@@ -451,9 +626,9 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                     self.report_thread.report_generated.connect(self.on_report_generated)
                     self.report_thread.start()
                 else:
-                    QMessageBox.warning(self, "Warning", "No model selected", QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No model selected", QMessageBox.Ok)
         else:
-            QMessageBox.warning(self, "Warning", "No custom prompt provided", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('warning', "Warning"), "No custom prompt provided", QMessageBox.Ok)
 
     def on_report_generated(self, report_text):
         # Close the progress dialog
@@ -478,9 +653,9 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                         if filetype.lower() in accepted_formats:
                             self.load_and_process_image(path)
                         else:
-                            QMessageBox.warning(self, "Error", f"Unsupported file type: {filetype}", QMessageBox.Ok)
+                            QMessageBox.warning(self, tr('error', "Error"), f"Unsupported file type: {filetype}", QMessageBox.Ok)
                 except Exception as e:
-                    QMessageBox.warning(self, "Error", f"Failed to process the file: {str(e)}", QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), f"Failed to process the file: {str(e)}", QMessageBox.Ok)
         super().dropEvent(event)
 
     def dragEnterEvent(self, event):
@@ -518,7 +693,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 # QMessageBox.warning(self, "Errore", "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
         except Exception as e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n" + str(e), QMessageBox.Ok)
             return 0
 
     def insert_record_mediathumb(self, media_max_num_id, mediatype, filename, filename_thumb, filetype, filepath_thumb,
@@ -549,10 +724,10 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.filename + ": thumb already present into the database"
                 else:
                     msg = e
-                # QMessageBox.warning(self, "Error", "warming 1 ! \n"+ str(msg),  QMessageBox.Ok)
+                # QMessageBox.warning(self, tr('error', "Error"), "warming 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
         except Exception as e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n" + str(e), QMessageBox.Ok)
             return 0
 
     def insert_mediaToEntity_rec(self, id_entity, entity_type, table_name, id_media, filepath, media_name):
@@ -588,10 +763,10 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.ID_TABLE + " already present into the database"
                 else:
                     msg = e
-                QMessageBox.warning(self, "Error", "Warning 1 ! \n" + str(msg), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), "Warning 1 ! \n" + str(msg), QMessageBox.Ok)
                 return 0
         except Exception as e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n" + str(e), QMessageBox.Ok)
             return 0
 
     def delete_mediaToEntity_rec(self, id_entity, entity_type, table_name, id_media, filepath, media_name):
@@ -619,7 +794,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 str(self.filepath),  # 5 - filepath
                 str(self.media_name))
         except Exception as e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n" + str(e), QMessageBox.Ok)
             return 0
 
     def generate_US(self):
@@ -669,13 +844,13 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         thumb_path_str = thumb_path['thumb_path']
         if thumb_path_str == '':
             if self.L == 'it':
-                QMessageBox.information(self, "Info",
+                QMessageBox.information(self, tr('info', "Info"),
                                         "devi settare prima la path per salvare le thumbnail e i video. Vai in impostazioni di sistema/ path setting ")
             elif self.L == 'de':
-                QMessageBox.information(self, "Info",
+                QMessageBox.information(self, tr('info', "Info"),
                                         "müssen Sie zuerst den Pfad zum Speichern der Miniaturansichten und Videos festlegen. Gehen Sie zu System-/Pfad-Einstellung")
             else:
-                QMessageBox.information(self, "Message",
+                QMessageBox.information(self, tr('system_message', "Message"),
                                         "you must first set the path to save the thumbnails and videos. Go to system/path setting")
         else:
             filename = os.path.basename(filepath)
@@ -782,18 +957,18 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             except AssertionError as e:
 
                 if self.L == 'it':
-                    QMessageBox.warning(self, "Warning", "controlla che il nome del file non abbia caratteri speciali",
+                    QMessageBox.warning(self, tr('warning', "Warning"), "controlla che il nome del file non abbia caratteri speciali",
 
                                         QMessageBox.Ok)
 
                 if self.L == 'de':
 
-                    QMessageBox.warning(self, "Warning", "prüfen, ob der Dateiname keine Sonderzeichen enthält",
+                    QMessageBox.warning(self, tr('warning', "Warning"), "prüfen, ob der Dateiname keine Sonderzeichen enthält",
                                         QMessageBox.Ok)
 
                 else:
 
-                    QMessageBox.warning(self, "Warning", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
 
     def db_search_check(self, table_class, field, value):
         self.table_class = table_class
@@ -832,7 +1007,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         # Aggiungi un pulsante "Fatto"
         done_button = QPushButton("Done")
         if not self.iconListWidget.selectedItems():
-            QMessageBox.warning(self, 'attenzione', 'You must select one or more images to tag')
+            QMessageBox.warning(self, tr('attention'), tr('msg_select_images_tag'))
         else:
             done_button.clicked.connect(self.on_done_selecting)
 
@@ -899,27 +1074,27 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         if not bool(items_selected):
             if self.L == 'it':
 
-                msg = QMessageBox.warning(self, "Attenzione!!!",
+                msg = QMessageBox.warning(self, tr('attention', "Attention"),
                                           "devi selezionare prima l'immagine",
                                           QMessageBox.Ok)
 
             elif self.L == 'de':
 
-                msg = QMessageBox.warning(self, "Warnung",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "moet je eerst de afbeelding selecteren",
                                           QMessageBox.Ok)
             else:
 
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "you must first select an image",
                                           QMessageBox.Ok)
         else:
             if self.L == 'it':
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Vuoi veramente cancellare i tags dalle thumbnail selezionate? \n L'azione è irreversibile",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Messaggio!!!", "Action deleted!")
+                    QMessageBox.warning(self, "Messaggio!!!", tr('msg_action_deleted'))
                 else:
                     # items_selected = self.iconListWidget.selectedItems()
                     for item in items_selected:
@@ -930,13 +1105,13 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                         row = self.iconListWidget.row(item)
                         self.iconListWidget.takeItem(row)
 
-                    QMessageBox.warning(self, "Info", "Tags rimossi!")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
             elif self.L == 'de':
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Wollen Sie wirklich die Tags aus den ausgewählten Miniaturbildern löschen? \n Die Aktion ist unumkehrbar",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Warnung", "Azione Annullata!")
+                    QMessageBox.warning(self, tr('warning', "Warning"), tr('msg_action_cancelled'))
                 else:
                     # items_selected = self.iconListWidget.selectedItems()
                     for item in items_selected:
@@ -946,14 +1121,14 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                         self.DB_MANAGER.remove_tags_from_db_sql_scheda(r_id(), id_orig_item)
                         row = self.iconListWidget.row(item)
                         self.iconListWidget.takeItem(row)
-                    QMessageBox.warning(self, "Info", "Tags entfernt")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
 
             else:
-                msg = QMessageBox.warning(self, "Warning",
+                msg = QMessageBox.warning(self, tr('warning', "Warning"),
                                           "Do you really want to delete the tags from the selected thumbnails? \n The action is irreversible",
                                           QMessageBox.Ok | QMessageBox.Cancel)
                 if msg == QMessageBox.Cancel:
-                    QMessageBox.warning(self, "Warning", "Action cancelled")
+                    QMessageBox.warning(self, tr('warning', "Warning"), "Action cancelled")
                 else:
                     # items_selected = self.iconListWidget.selectedItems()
                     for item in items_selected:
@@ -964,7 +1139,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                         row = self.iconListWidget.row(item)
                         self.iconListWidget.takeItem(row)  # remove the item from the list
 
-                    QMessageBox.warning(self, "Info", "Tags removed")
+                    QMessageBox.warning(self, tr('title_info'), tr('msg_tags_removed'))
 
     def on_pushButton_all_images_pressed(self):
         record_us_list = self.DB_MANAGER.query('MEDIA_THUMB')
@@ -973,7 +1148,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         ser = self.DB_MANAGER.query_bool(et, 'MEDIATOENTITY')
         # Verifica se record_us_list è vuota
         if not record_us_list and not ser:
-            QMessageBox.information(self, "Info", "There are no images to show.")
+            QMessageBox.information(self, tr('info', "Info"), "There are no images to show.")
             return  # Termina la funzione
 
         # Inizializza la QListWidget fuori dal ciclo
@@ -1503,7 +1678,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 f.close()
                 self.plot_chart(dataset_sum, 'Frequency analisys', 'Qty')
             else:
-                QMessageBox.warning(self, "Warning", "The datas not are present",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "The datas not are present",  QMessageBox.Ok)
     def parameter_quant_creator(self, par_list, n_rec):
         self.parameter_list = par_list
         self.record_number = n_rec
@@ -1532,7 +1707,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         ind = np.arange(n_bars)
         #randomNumbers = random.sample(range(0, 10), 10)
         self.widget.canvas.ax.clear()
-        #QMessageBox.warning(self, "Alert", str(teams) ,  QMessageBox.Ok)
+        #QMessageBox.warning(self, tr('alert', "Alert"), str(teams) ,  QMessageBox.Ok)
         bars = self.widget.canvas.ax.bar(x, height=values, width=0.5, align='center', alpha=0.4,picker=5)
         #guardare il metodo barh per barre orizzontali
         self.widget.canvas.ax.set_title(self.title)
@@ -1614,7 +1789,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 self.fill_fields()
             else:
 
-                QMessageBox.warning(self,"WELCOME HFF user", "Welcome in HFF survey:" + " Shipwreck form." + " The DB is empty. Push 'Ok' and Good Work!",
+                QMessageBox.warning(self, tr('welcome_hff_user'), tr('welcome_shipwreck_form'),
                                     QMessageBox.Ok)
                 self.charge_list()
                 self.BROWSE_STATUS = 'x'
@@ -1638,7 +1813,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_code.clear()
         code_vl.sort()
         self.comboBox_code.addItems(code_vl)
@@ -1651,7 +1826,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in area list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in area list: " + str(e), QMessageBox.Ok)
         
         self.comboBox_area.clear()
         area_vl.sort()
@@ -1665,7 +1840,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_confidence.clear()
         confidence_vl.sort()
         self.comboBox_confidence.addItems(confidence_vl)
@@ -1680,7 +1855,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_owner.clear()
         owner_vl.sort()
         self.comboBox_owner.addItems(owner_vl)
@@ -1694,7 +1869,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_nationality.clear()
         nationality_vl.sort()
         self.comboBox_nationality.addItems(nationality_vl)
@@ -1708,7 +1883,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_builder.clear()
         builder_vl.sort()
         self.comboBox_builder.addItems(builder_vl)
@@ -1722,7 +1897,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_purpose.clear()
         purpose_vl.sort()
         self.comboBox_purpose.addItems(purpose_vl)
@@ -1735,7 +1910,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_name_vessel.clear()
         name_vl.sort()
         self.comboBox_name_vessel.addItems(name_vl)
@@ -1748,7 +1923,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_quality_depth.clear()
         depth_vl.sort()
         self.comboBox_quality_depth.addItems(depth_vl)
@@ -1761,7 +1936,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_quality_coordinates.clear()
         position_1.sort()
         self.comboBox_quality_coordinates.addItems(position_1)
@@ -1774,7 +1949,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_consulties.clear()
         position_2.sort()
         self.comboBox_consulties.addItems(position_2)
@@ -1786,7 +1961,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Message", "Update system in site list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
         self.comboBox_status.clear()
         status.sort()
         self.comboBox_status.addItems(status)
@@ -1923,11 +2098,11 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             if self.model_a.submitAll():
                 self.model_a.database().commit()
                 if self.L=='it':
-                    QMessageBox.information(self, "Record",  "record salvato")
+                    QMessageBox.information(self, tr('record', "Record"),  tr('msg_record_saved'))
                 elif self.L=='de':
-                    QMessageBox.information(self, "Datensatz",  "Datensatz gespeichert")
+                    QMessageBox.information(self, tr('record', "Record"),  tr('msg_record_saved'))
                 else:
-                    QMessageBox.information(self, "Record",  "record saved")
+                    QMessageBox.information(self, tr('record', "Record"),  tr('msg_record_saved'))
             
             else:
                 self.model_a.database().rollback()
@@ -1963,7 +2138,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                     filter_str = "{} LIKE '%{}%'".format(s_field,s) 
                     self.model_a.setFilter(filter_str)
                 except Exception as e:
-                    QMessageBox.warning(self, "Warning", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
             else:
                 try:
                     # if bool(sito_set_str):
@@ -1981,15 +2156,15 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                     else:
                         pass
                 except Exception as e:
-                    QMessageBox.warning(self, "Warning", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
         else:    
             self.checkBox_query.setChecked(False)
     
     def on_pushButton_go_to_scheda_pressed(self):
         if self.L=='it':
-            QMessageBox.warning(self, "ATTENZIONE", "Se hai modificato il record e non lo hai salvato perderai il dato. Salvare?", QMessageBox.Ok | QMessageBox.Cancel)
+            QMessageBox.warning(self, tr('attention', "Attention"), "Se hai modificato il record e non lo hai salvato perderai il dato. Salvare?", QMessageBox.Ok | QMessageBox.Cancel)
         else:
-            QMessageBox.warning(self, "Warning", "If you changed the record and didn't save it, you'll lose the record. Do you want save it?", QMessageBox.Ok | QMessageBox.Cancel)
+            QMessageBox.warning(self, tr('warning', "Warning"), "If you changed the record and didn't save it, you'll lose the record. Do you want save it?", QMessageBox.Ok | QMessageBox.Cancel)
         
         # try:
             # table_name = "self.tableWidget_foto"
@@ -2014,11 +2189,11 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             # if not bool(res):
                 
                 # if self.L=='it':
-                    # QMessageBox.warning(self, "ATTENZIONE", "Non e' stato trovato alcun record!", QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('attention', "Attention"), "Non e' stato trovato alcun record!", QMessageBox.Ok)
                 # elif self.L=='de':
-                    # QMessageBox.warning(self, "ACHTUNG", "kein Eintrag gefunden!", QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('attention', "Attention"), "kein Eintrag gefunden!", QMessageBox.Ok)
                 # else:
-                    # QMessageBox.warning(self, "Warning", "The record has not been found ", QMessageBox.Ok)
+                    # QMessageBox.warning(self, tr('warning', "Warning"), "The record has not been found ", QMessageBox.Ok)
                 # self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR + 1)
                 # self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                 # self.fill_fields(self.REC_CORR)
@@ -2068,13 +2243,13 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         # except Exception as e:
             # e = str(e)
             # if self.L=='it':
-                # QMessageBox.warning(self, "Alert", "Non hai selezionato nessuna riga. Errore python: %s " % (str(e)),
+                # QMessageBox.warning(self, tr('alert', "Alert"), "Non hai selezionato nessuna riga. Errore python: %s " % (str(e)),
                                 # QMessageBox.Ok)
             # elif self.L=='de':
-                # QMessageBox.warning(self, "ACHTUNG", "Keine Spalte ausgewält. Error python: %s " % (str(e)),
+                # QMessageBox.warning(self, tr('attention', "Attention"), "Keine Spalte ausgewält. Error python: %s " % (str(e)),
                                 # QMessageBox.Ok)
             # else:
-                # QMessageBox.warning(self, "Alert", "You didn't select any row. Python error: %s " % (str(e)),
+                # QMessageBox.warning(self, tr('alert', "Alert"), "You didn't select any row. Python error: %s " % (str(e)),
                                 # QMessageBox.Ok)
         try:
             #table_name = "self.table"
@@ -2107,23 +2282,23 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:
             e = str(e)
             if self.L=='it':
-                QMessageBox.warning(self, "Alert", "Non hai selezionato nessuna riga. Errore python: %s " % (str(e)),
+                QMessageBox.warning(self, tr('alert', "Alert"), "Non hai selezionato nessuna riga. Errore python: %s " % (str(e)),
                                 QMessageBox.Ok)
             elif self.L=='de':
-                QMessageBox.warning(self, "ACHTUNG", "Keine Spalte ausgewält. Error python: %s " % (str(e)),
+                QMessageBox.warning(self, tr('attention', "Attention"), "Keine Spalte ausgewält. Error python: %s " % (str(e)),
                                 QMessageBox.Ok)
             else:
-                QMessageBox.warning(self, "Alert", "You didn't select any row. Python error: %s " % (str(e)),
+                QMessageBox.warning(self, tr('alert', "Alert"), "You didn't select any row. Python error: %s " % (str(e)),
                                 QMessageBox.Ok)   
     def on_toolButtonPreview_toggled(self):
         if self.toolButtonPreview.isChecked() == True:
-            QMessageBox.warning(self, "Message", "Shipwreck Preview mode attivata. The plnas will be shown in the map section", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"), "Shipwreck Preview mode attivata. The plnas will be shown in the map section", QMessageBox.Ok)
             self.loadMapPreview()
         else:
             self.loadMapPreview(1)
     def on_toolButtonPreviewMedia_toggled(self):
         if self.toolButtonPreviewMedia.isChecked() == True:
-            QMessageBox.warning(self, "Message",
+            QMessageBox.warning(self, tr('system_message', "Message"),
                                     "Shipwreck Media Preview mode enabled. Anchor images will be displayed in the Media section", QMessageBox.Ok)
             self.loadMediaPreview()
         else:
@@ -2383,10 +2558,10 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                                        return_img=False)
                     plotter.camera_position = camera
                     add_debug_message(f"Immagine salvata come {file_path}", important=True)
-                    QMessageBox.information(self, "Success", f"Image saved {file_path} to 300 DPI (15x10 cm)")
+                    QMessageBox.information(self, tr('success', "Success"), f"Image saved {file_path} to 300 DPI (15x10 cm)")
             except Exception as e:
                 add_debug_message(f'Error: {str(e)}', important=True)
-                QMessageBox.warning(self, "Error", f"Error saving image: {str(e)}")
+                QMessageBox.warning(self, tr('error', "Error"), f"Error saving image: {str(e)}")
 
         def get_visible_faces(plotter, mesh):
             camera_position = np.array(plotter.camera_position[0])
@@ -2605,7 +2780,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             elif media_type == 'image':
                 show_image(full_path)
             else:
-                QMessageBox.warning(self, "Error", f"Unsupported media type: {media_type}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"Unsupported media type: {media_type}", QMessageBox.Ok)
 
         def query_media(search_dict, table="MEDIA_THUMB"):
             u = Utility()
@@ -2613,7 +2788,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             try:
                 return self.DB_MANAGER.query_bool(search_dict, table)
             except Exception as e:
-                QMessageBox.warning(self, "Error", f"Database query failed: {str(e)}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"Database query failed: {str(e)}", QMessageBox.Ok)
                 return None
 
         for item in items:
@@ -2645,7 +2820,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 else:
                     show_media(file_path, media_type)
             else:
-                QMessageBox.warning(self, "Error", f"File not found: {id_orig_item}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), f"File not found: {id_orig_item}", QMessageBox.Ok)
     def on_pushButton_sort_pressed(self):
         if self.check_record_state() == 1:
             pass
@@ -2656,7 +2831,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             items,order_type = dlg.ITEMS, dlg.TYPE_ORDER
             self.SORT_ITEMS_CONVERTED = []
             for i in items:
-                #QMessageBox.warning(self, "Messaggio",i, QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('title_message'),i, QMessageBox.Ok)
                 self.SORT_ITEMS_CONVERTED.append(self.CONVERSION_DICT[str(i)]) #apportare la modifica nellle altre schede
             self.SORT_MODE = order_type
             self.empty_fields()
@@ -2723,9 +2898,9 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                     self.update_if(QMessageBox.warning(self, 'Error',
                                                        "The record has been changed. Do you want to save the changes?",
                                                        QMessageBox.Ok | QMessageBox.Cancel))
-                    
-                    
-                    self.insert_point()
+
+                    # Sync coordinates to GIS layer (handles both insert and update)
+                    self.update_gis_on_save()
                     self.empty_fields()
                     self.SORT_STATUS = "n"
                     self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
@@ -2734,7 +2909,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                     
                 else:
 
-                    QMessageBox.warning(self, "Warning", "No changes have been made", QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No changes have been made", QMessageBox.Ok)
         else:
             if self.data_error_check() == 0:
                 test_insert = self.insert_new_rec()
@@ -2847,13 +3022,13 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 e_str = str(e)
                 if e_str.__contains__("IntegrityError"):
                     msg = self.ID_TABLE + " exist in db"
-                    QMessageBox.warning(self, "Error", "Error" + str(msg), QMessageBox.Ok)  
+                    QMessageBox.warning(self, tr('error', "Error"), "Error" + str(msg), QMessageBox.Ok)  
                 else:
                     msg = e
-                    QMessageBox.warning(self, "Error", "Error 1 \n" + str(msg), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), "Error 1 \n" + str(msg), QMessageBox.Ok)
                 return 0
         except Exception as e:
-            QMessageBox.warning(self, "Error", "Error 2 \n" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Error 2 \n" + str(e), QMessageBox.Ok)
             return 0
     def check_record_state(self):
         ec = self.data_error_check()
@@ -2891,7 +3066,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 self.fill_fields(0)
                 self.set_rec_counter(self.REC_TOT, self.REC_CORR + 1)
             except Exception as e:
-                QMessageBox.warning(self, "Error", str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), str(e), QMessageBox.Ok)
     def on_pushButton_last_rec_pressed(self):
         if self.check_record_state() == 1:
             pass
@@ -2902,12 +3077,12 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 self.fill_fields(self.REC_CORR)
                 self.set_rec_counter(self.REC_TOT, self.REC_CORR + 1)
             except Exception as e:
-                QMessageBox.warning(self, "Error", str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), str(e), QMessageBox.Ok)
     def data_error_check(self):
         test = 0
         EC = Error_check()
         if EC.data_is_empty(str(self.comboBox_code.currentText())) == 0:
-            QMessageBox.warning(self, "Warning", "Code field. \n This field cannot be empty",  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('warning', "Warning"), "Code field. \n This field cannot be empty",  QMessageBox.Ok)
             test = 1
         return test 
     def on_pushButton_prev_rec_pressed(self):
@@ -2917,14 +3092,14 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             self.REC_CORR = self.REC_CORR - 1
             if self.REC_CORR == -1:
                 self.REC_CORR = 0
-                QMessageBox.warning(self, "Warning", "You are to the first record!", QMessageBox.Ok)        
+                QMessageBox.warning(self, tr('warning', "Warning"), "You are to the first record!", QMessageBox.Ok)        
             else:
                 try:
                     self.empty_fields()
                     self.fill_fields(self.REC_CORR)
                     self.set_rec_counter(self.REC_TOT, self.REC_CORR + 1)
                 except Exception as e:
-                    QMessageBox.warning(self, "Error", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), str(e), QMessageBox.Ok)
     def on_pushButton_next_rec_pressed(self):
         if self.check_record_state() == 1:
             pass
@@ -2932,28 +3107,28 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             self.REC_CORR = self.REC_CORR + 1
             if self.REC_CORR >= self.REC_TOT:
                 self.REC_CORR = self.REC_CORR - 1
-                QMessageBox.warning(self, "Error", "You are to the first record!", QMessageBox.Ok)  
+                QMessageBox.warning(self, tr('error', "Error"), "You are to the first record!", QMessageBox.Ok)  
             else:
                 try:
                     self.empty_fields()
                     self.fill_fields(self.REC_CORR)
                     self.set_rec_counter(self.REC_TOT, self.REC_CORR + 1)
                 except Exception as e:
-                    QMessageBox.warning(self, "Error", str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), str(e), QMessageBox.Ok)
     def on_pushButton_delete_pressed(self):
-        msg = QMessageBox.warning(self,"Warning!!!","Do you really want to delete the record? \n The action is irreversible", QMessageBox.Ok|QMessageBox.Cancel)
+        msg = QMessageBox.warning(self, tr('warning', "Warning"),"Do you really want to delete the record? \n The action is irreversible", QMessageBox.Ok|QMessageBox.Cancel)
         if msg == QMessageBox.Cancel:
-            QMessageBox.warning(self,"Message!!!","Action cancelled!")
+            QMessageBox.warning(self, tr('system_message', "Message"),tr('msg_action_cancelled'))
         else:
             try:
                 id_to_delete = eval("self.DATA_LIST[self.REC_CORR]." + self.ID_TABLE)
                 self.DB_MANAGER.delete_one_record(self.TABLE_NAME, self.ID_TABLE, id_to_delete)
                 self.charge_records() #charge records from DB
-                QMessageBox.warning(self,"Message!!!","Record deleted!")
+                QMessageBox.warning(self, tr('system_message', "Message"),tr('msg_record_deleted'))
             except Exception as e:
-                QMessageBox.warning(self,"Message!!!","Type of Error: "+str(e))
+                QMessageBox.warning(self, tr('system_message', "Message"),"Type of Error: "+str(e))
             if not bool(self.DATA_LIST):
-                QMessageBox.warning(self, "Warning", "The database is empty!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "The database is empty!",  QMessageBox.Ok)
                 self.DATA_LIST = []
                 self.DATA_LIST_REC_CORR = []
                 self.DATA_LIST_REC_TEMP = []
@@ -2999,12 +3174,12 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
         self.pyQGIS.charge_shipwreck_layers(sing_layer)
     def on_toolButtonGis_toggled(self):
         if self.toolButtonGis.isChecked() == True:
-            QMessageBox.warning(self, "Message", "GIS mode activated. From now on what you search will be shown in GIS", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"), "GIS mode activated. From now on what you search will be shown in GIS", QMessageBox.Ok)
         else:
-            QMessageBox.warning(self, "Message", "GIS mode deactivated. From now on what you search will not be shown in GIS", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"), "GIS mode deactivated. From now on what you search will not be shown in GIS", QMessageBox.Ok)
     def on_pushButton_search_go_pressed(self):
         if self.BROWSE_STATUS != "f":
-            QMessageBox.warning(self, "Warning", "To carry out a new search click on the 'new search' button",  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('warning', "Warning"), "To carry out a new search click on the 'new search' button",  QMessageBox.Ok)
         else:
             #TableWidget
             
@@ -3082,11 +3257,11 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             u = Utility()
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning",  "No search has been set!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"),  "No search has been set!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.query_bool(search_dict, self.MAPPER_TABLE_CLASS)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No record has been found",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No record has been found",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -3122,7 +3297,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                     #self.setComboBoxEnable(["self.lineEdit_years"],"True")
                     #self.setTableEnable(["self.tableWidget_photo", "self.tableWidget_video"], "True")
                     check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
         self.enable_button_search(1)
     def update_if(self, msg):
         rec_corr = self.REC_CORR
@@ -3160,7 +3335,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                                    self.rec_toupdate())
             return 1
         except Exception as e:
-            QMessageBox.warning(self, "Message", "Encoding problem: accents or characters that are not accepted by the database have been inserted. If you close the window without correcting the errors the data will be lost. Create a copy of everything on a seperate word document. Error :" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"), "Encoding problem: accents or characters that are not accepted by the database have been inserted. If you close the window without correcting the errors the data will be lost. Create a copy of everything on a seperate word document. Error :" + str(e), QMessageBox.Ok)
             return 0
     def rec_toupdate(self):
         rec_to_update = self.UTILITY.pos_none_in_list(self.DATA_LIST_REC_TEMP)
@@ -3483,7 +3658,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             SHIPWRECK_pdf_sheet = generate_SHIPWRECK_pdf()
             data_list = self.generate_list_pdf()
             SHIPWRECK_pdf_sheet.build_SHIPWRECK_sheets(data_list)
-            QMessageBox.warning(self, 'Ok',"Export completed",QMessageBox.Ok)
+            QMessageBox.warning(self, tr('success', "Success"),tr('msg_export_completed'),QMessageBox.Ok)
         else:   
             pass
     
@@ -3494,11 +3669,11 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             try:               
                 if bool(data_list):
                     SHIPWRECK_index_pdf.build_index_SHIPWRECK(data_list, data_list[0][0]) 
-                    QMessageBox.warning(self, 'Ok',"Export completed",QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('success', "Success"),tr('msg_export_completed'),QMessageBox.Ok)
                 else:
-                    QMessageBox.warning(self, 'Warning',"List  can't to be exported, you must fill before the form",QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"),"List  can't to be exported, you must fill before the form",QMessageBox.Ok)
             except Exception as e :
-                QMessageBox.warning(self, 'Warning',str(e),QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"),str(e),QMessageBox.Ok)
         else:
             pass
     
@@ -3509,12 +3684,12 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             try:
                     if bool(data_list_foto):
                         SHIPWRECK_index_pdf.build_index_Foto(data_list_foto, data_list_foto[0][0])
-                        QMessageBox.warning(self, 'Ok',"Export completed",QMessageBox.Ok)
+                        QMessageBox.warning(self, tr('success', "Success"),tr('msg_export_completed'),QMessageBox.Ok)
                                    
                     else:
-                        QMessageBox.warning(self, 'Warning',"Photo list can't to be exported, you must tag before the pics",QMessageBox.Ok)
+                        QMessageBox.warning(self, tr('warning', "Warning"),"Photo list can't to be exported, you must tag before the pics",QMessageBox.Ok)
             except Exception as e :
-                QMessageBox.warning(self, 'Warning',str(e),QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"),str(e),QMessageBox.Ok)
         
         if self.checkBox_e_foto.isChecked():
             SHIPWRECK_index_pdf = generate_SHIPWRECK_pdf()
@@ -3523,12 +3698,12 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
             try:
                     if bool(data_list_foto):
                         SHIPWRECK_index_pdf.build_index_Foto_2(data_list_foto, data_list_foto[0][0])
-                        QMessageBox.warning(self, 'Ok',"Export completed",QMessageBox.Ok)
+                        QMessageBox.warning(self, tr('success', "Success"),tr('msg_export_completed'),QMessageBox.Ok)
                                    
                     else:
-                        QMessageBox.warning(self, 'Warniong',"Photo list can't to be exported because the image are not tagged",QMessageBox.Ok)
+                        QMessageBox.warning(self, tr('warning', "Warning"),"Photo list can't to be exported because the image are not tagged",QMessageBox.Ok)
             except Exception as e :
-                QMessageBox.warning(self, 'Warning',str(e),QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"),str(e),QMessageBox.Ok)
     def on_pushButton_exppdf_pressed(self):
         SHIPWRECK_pdf_sheet = generate_SHIPWRECK_pdf()
         data_list = self.generate_list_pdf()
@@ -3626,7 +3801,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
     def records_equal_check(self):
         self.set_LIST_REC_TEMP()
         self.set_LIST_REC_CORR()
-        #QMessageBox.warning(self, "Error", str(self.DATA_LIST_REC_CORR) + str(self.DATA_LIST_REC_TEMP),  QMessageBox.Ok)
+        #QMessageBox.warning(self, tr('error', "Error"), str(self.DATA_LIST_REC_CORR) + str(self.DATA_LIST_REC_TEMP),  QMessageBox.Ok)
         if self.DATA_LIST_REC_CORR == self.DATA_LIST_REC_TEMP:
             return 0
         else:
@@ -3703,7 +3878,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS):
                 self.BROWSE_STATUS = "b"
                 self.label_status.setText(self.STATUS_ITEMS[self.BROWSE_STATUS])
             else:
-                QMessageBox.information(self, 'No Results', "No records match the selected filters.",
+                QMessageBox.information(self, tr('info', "Info"), "No records match the selected filters.",
                                         QMessageBox.Ok)
 
 

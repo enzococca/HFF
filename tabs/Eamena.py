@@ -19,6 +19,7 @@
 """
 from __future__ import absolute_import
 import os
+import sqlite3
 from datetime import date
 import sqlite3 as sq
 import subprocess
@@ -56,6 +57,9 @@ from ..modules.utility.settings import Settings
 from .Excel_export import hff_system__excel_export
 from qgis.gui import QgsMapCanvas, QgsMapToolPan
 from ..modules.utility.hff_system__exp_site_pdf import *
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 import openpyxl
 from openpyxl import load_workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
@@ -359,8 +363,10 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         self.iface = iface
         self.pyQGIS = Hff_pyqgis(iface)
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
         self.currentLayerId = None
-        
+
         try:
             self.on_pushButton_connect_pressed()
         except Exception as e:
@@ -422,125 +428,142 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         '''import eamena excel file into HFF System'''
         
         conn = Connection()
+
         conn_str = conn.conn_str()
+
+
         res = []
-        
+
+
         try:
-            EXCEL_FILE_NAME = self.lineEdit_path_excel.text()
-            try:
-                wb = pd.read_excel(EXCEL_FILE_NAME,skiprows=2)
-                
-            except TypeError as e:
-                QMessageBox.warning(self, "Error", str(e),QMessageBox.Ok)
-            
-            wb.columns = [  
-                            "location",
-                            "assessment_investigator_actor",
-                            "investigator_role_type",
-                            "assessment_activity_type",
-                            "assessment_activity_date",
-                            "ge_assessment",
-                            "ge_imagery_acquisition_date",
-                            "information_resource_used",
-                            "information_resource_acquisition_date",
-                            "resource_name",
-                            "name_type",
-                            "heritage_place_type",
-                            "general_description_type",
-                            "general_description",
-                            "heritage_place_function",
-                            "heritage_place_function_certainty",
-                            "designation",
-                            "designation_from_date",
-                            "designation_to_date",
-                            "geometric_place_expression",
-                            "geometry_qualifier",
-                            "site_location_certainty",
-                            "geometry_extent_certainty",
-                            "site_overall_shape_type",
-                            "grid_id",
-                            "country_type",
-                            "cadastral_reference",
-                            "resource_orientation",
-                            "address",
-                            "address_type",
-                            "administrative_subdivision",
-                            "administrative_subdivision_type",
-                            "overall_archaeological_certainty_value",
-                            "overall_site_morphology_type",
-                            "cultural_period_type",
-                            "cultural_period_certainty",
-                            "cultural_subperiod_type",
-                            "cultural_subperiod_certainty",
-                            "date_inference_making_actor",
-                            "archaeological_date_from",
-                            "archaeological_date_to",
-                            "bp_date_from",
-                            "bp_date_to",
-                            "ah_date_from",
-                            "ah_date_to",
-                            "sh_date_from",
-                            "sh_date_to",
-                            "site_feature_form_type",
-                            "site_feature_form_type_certainty",
-                            "site_feature_shape_type",
-                            "site_feature_arrangement_type",
-                            "site_feature_number_type",
-                            "site_feature_interpretation_type",
-                            "site_feature_interpretation_number",
-                            "site_feature_interpretation_certainty",
-                            "built_component_related_resource",
-                            "hp_related_resource",
-                            "material_class",
-                            "material_type",
-                            "construction_technique",
-                            "measurement_number",
-                            "measurement_unit",
-                            "dimension_type",
-                            "measurement_source_type",
-                            "related_geoarch_palaeo",
-                            "overall_condition_state",
-                            "damage_extent_type",
-                            "disturbance_cause_category_type",
-                            "disturbance_cause_type",
-                            "disturbance_cause_certainty",
-                            "disturbance_date_from",
-                            "disturbance_date_to",
-                            "disturbance_date_occurred_before",
-                            "disturbance_date_occurred_on",
-                            "disturbance_cause_assignment_assessor_name",
-                            "effect_type",
-                            "effect_certainty",
-                            "threat_category",
-                            "threat_type",
-                            "threat_probability",
-                            "threat_inference_making_assessor_name",
-                            "intervention_activity_type",
-                            "recommendation_type",
-                            "priority_type",
-                            "related_detailed_condition_resource",
-                            "topography_type",
-                            "land_cover_type",
-                            "land_cover_assessment_date",
-                            "surficial_geology_type",
-                            "depositional_process",
-                            "bedrock_geology",
-                            "fetch_type",
-                            "wave_climate",
-                            "tidal_energy",
-                            "minimum_depth_max_elevation",
-                            "maximum_depth_min_elevation",
-                            "datum_type",
-                            "datum_description_epsg_code",
-                            "restricted_access_record_designation"]
-            
-            
-            wb.to_sql('eamena_table',conn_str, if_exists='append',index=False)
-            
-            self.empty_fields()
-            self.charge_records()
-            self.fill_fields()
-            self.update()
+            db_path = conn_str.replace('sqlite:///', '')
+
+            # Connect directly with sqlite3
+            with sqlite3.connect(db_path) as connection:
+
+                EXCEL_FILE_NAME = self.lineEdit_path_excel.text()
+                try:
+                    wb = pd.read_excel(EXCEL_FILE_NAME,skiprows=2)
+
+
+
+                except TypeError as e:
+                    QMessageBox.warning(self, tr('error', "Error"), str(e),QMessageBox.Ok)
+
+                wb.columns = [
+                                "location",
+                                "assessment_investigator_actor",
+                                "investigator_role_type",
+                                "assessment_activity_type",
+                                "assessment_activity_date",
+                                "ge_assessment",
+                                "ge_imagery_acquisition_date",
+                                "information_resource_used",
+                                "information_resource_acquisition_date",
+                                "resource_name",
+                                "name_type",
+                                "heritage_place_type",
+                                "general_description_type",
+                                "general_description",
+                                "heritage_place_function",
+                                "heritage_place_function_certainty",
+                                "designation",
+                                "designation_from_date",
+                                "designation_to_date",
+                                "geometric_place_expression",
+                                "geometry_qualifier",
+                                "site_location_certainty",
+                                "geometry_extent_certainty",
+                                "site_overall_shape_type",
+                                "grid_id",
+                                "country_type",
+                                "cadastral_reference",
+                                "resource_orientation",
+                                "address",
+                                "address_type",
+                                "administrative_subdivision",
+                                "administrative_subdivision_type",
+                                "overall_archaeological_certainty_value",
+                                "overall_site_morphology_type",
+                                "cultural_period_type",
+                                "cultural_period_certainty",
+                                "cultural_subperiod_type",
+                                "cultural_subperiod_certainty",
+                                "date_inference_making_actor",
+                                "archaeological_date_from",
+                                "archaeological_date_to",
+                                "bp_date_from",
+                                "bp_date_to",
+                                "ah_date_from",
+                                "ah_date_to",
+                                "sh_date_from",
+                                "sh_date_to",
+                                "site_feature_form_type",
+                                "site_feature_form_type_certainty",
+                                "site_feature_shape_type",
+                                "site_feature_arrangement_type",
+                                "site_feature_number_type",
+                                "site_feature_interpretation_type",
+                                "site_feature_interpretation_number",
+                                "site_feature_interpretation_certainty",
+                                "built_component_related_resource",
+                                "hp_related_resource",
+                                "material_class",
+                                "material_type",
+                                "construction_technique",
+                                "measurement_number",
+                                "measurement_unit",
+                                "dimension_type",
+                                "measurement_source_type",
+                                "related_geoarch_palaeo",
+                                "overall_condition_state",
+                                "damage_extent_type",
+                                "disturbance_cause_category_type",
+                                "disturbance_cause_type",
+                                "disturbance_cause_certainty",
+                                "disturbance_date_from",
+                                "disturbance_date_to",
+                                "disturbance_date_occurred_before",
+                                "disturbance_date_occurred_on",
+                                "disturbance_cause_assignment_assessor_name",
+                                "effect_type",
+                                "effect_certainty",
+                                "threat_category",
+                                "threat_type",
+                                "threat_probability",
+                                "threat_inference_making_assessor_name",
+                                "intervention_activity_type",
+                                "recommendation_type",
+                                "priority_type",
+                                "related_detailed_condition_resource",
+                                "topography_type",
+                                "land_cover_type",
+                                "land_cover_assessment_date",
+                                "surficial_geology_type",
+                                "depositional_process",
+                                "bedrock_geology",
+                                "fetch_type",
+                                "wave_climate",
+                                "tidal_energy",
+                                "minimum_depth_max_elevation",
+                                "maximum_depth_min_elevation",
+                                "datum_type",
+                                "datum_description_epsg_code",
+                                "restricted_access_record_designation"]
+
+                try:
+
+                    wb.to_sql('eamena_table', connection, if_exists='append', index=False)
+                    QMessageBox.information(self, tr('title_info'), f"Import completed {wb.info()}",  QMessageBox.Ok)
+
+                except Exception as sql_error:
+
+                    raise
+
+                self.empty_fields()
+                self.charge_records()
+                self.fill_fields()
+                self.update()
             
             
             
@@ -548,15 +571,15 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             
             
         except Exception as e:
-            QMessageBox.warning(self, "Error", str(e),QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), str(e),QMessageBox.Ok)
         
         self.control()
-        i= self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'geometric_place_expression', 'EAMENA'))
+        self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'geometric_place_expression', 'EAMENA'))
         
         self.insert_geom()
         
         
-        QMessageBox.information(self, "INFO", "Import completed",  QMessageBox.Ok)
+        QMessageBox.information(self, tr('title_info'), tr('msg_import_completed'),  QMessageBox.Ok)
         
 
     def control(self):
@@ -1084,43 +1107,115 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         # sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'geometric_place_expression', 'EAMENA'))
         # for i in sito_vl:
         return str(t).replace(']]','').replace('[[','').replace(']','').replace('[','')
+
     def insert_geom(self):
-        conn = Connection()
-        db_url = conn.conn_str()
+        home = os.environ['HFF_HOME']
+        sito_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_EXCEL_folder")
+        sito_location = str(self.comboBox_location.currentText())
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(home, cfg_rel_path)
+        conf = open(file_path, "r")
+        data = conf.read()
+        settings = Settings(data)
+        settings.set_configuration()
+        conf.close()
+
+        db_username = settings.USER
+        host = settings.HOST
+        port = settings.PORT
+        database_password = settings.PASSWORD
+        db_names = settings.DATABASE
+        server = settings.SERVER
+        self.HOME = os.environ['HFF_HOME']
+        sqlite_DB_path = '{}{}{}'.format(self.HOME, os.sep, "HFF_DB_folder")
+
+        file_path_sqlite = sqlite_DB_path + os.sep + db_names
+        conn = sq.connect(file_path_sqlite)
+
+        conn.enable_load_extension(True)
+
+        conn.execute("SELECT load_extension('/Applications/QGIS.app/Contents/MacOS/lib/mod_spatialite.so')")
+        conn.execute('SELECT InitSpatialMetaData(1);')
+        c = conn.cursor()
         try:
-            engine = create_engine(db_url, echo=True)
-            listen(engine, 'connect', self.load_spatialite)
-            c = engine.connect()
-        
-            
+            # engine = create_engine(db_url, echo=True)
+            # listen(engine, 'connect', self.load_spatialite)
+            # c = engine.connect()
+            # c.enable_load_extension(True)
+            #
+
             sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'location', 'EAMENA'))
             a_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'geometric_place_expression', 'EAMENA'))
-            
-            for i,e in zip(sito_vl,a_vl):
-                
-                if  str('MULTIPOLYGON') in e:
-                    site_point='INSERT INTO site_poligon (location,the_geom) VALUES ("{}",GeomFromText({},4326));'.format(i,str(e.replace(']]','').replace('[[','').replace(']','').replace('[','')))
-                    c.execute(site_point)
-                
-                elif  str('LINE') in e:
-                
-                    site_point='INSERT INTO site_line (location,the_geom) VALUES ("{}",GeomFromText({},4326));'.format(i,str(e.replace(']]','').replace('[[','').replace(']','').replace('[','')))
-                    c.execute(site_point)
-                
-                else:
-                    site_point='INSERT INTO site_point (location,the_geom) VALUES ("{}",GeomFromText({},4326));'.format(i,str(e.replace(']]','').replace('[[','').replace(']','').replace('[','')))
-                    c.execute(site_point)
+
+
+            # Chiedi all'utente una volta sola prima di iniziare
+            reply = QMessageBox.question(self, 'Coordinate Order',
+                                         "Vuoi invertire tutte le coordinate (x,y) → (y,x)?",
+                                         QMessageBox.Yes | QMessageBox.No)
+
+            for i, e in zip(sito_vl, a_vl):
+                try:
+                    if str('MULTIPOLYGON') in e:
+                        cleaned_geom = str(e.replace(']]', '').replace('[[', '').replace(']', '').replace('[', ''))
+                        if reply == QMessageBox.Yes:
+                            # Inverti le coordinate per MULTIPOLYGON
+                            import re
+                            # Trova tutte le coppie di coordinate nei MULTIPOLYGON
+                            coords_pairs = re.findall(r'(\d+\.?\d*)\s+(\d+\.?\d*)', cleaned_geom)
+                            for x, y in coords_pairs:
+                                cleaned_geom = cleaned_geom.replace(f"{x} {y}", f"{y} {x}")
+
+                        site_point = 'INSERT INTO site_poligon (location,the_geom) VALUES ("{}",GeomFromText({},4326));'.format(
+                            i, cleaned_geom)
+
+                        c.execute(site_point)
+
+                    elif str('LINE') in e:
+                        cleaned_geom = str(e.replace(']]', '').replace('[[', '').replace(']', '').replace('[', ''))
+                        if reply == QMessageBox.Yes:
+                            # Inverti le coordinate per LINE
+                            import re
+                            coords_pairs = re.findall(r'(\d+\.?\d*)\s+(\d+\.?\d*)', cleaned_geom)
+                            for x, y in coords_pairs:
+                                cleaned_geom = cleaned_geom.replace(f"{x} {y}", f"{y} {x}")
+
+                        site_point = 'INSERT INTO site_line (location,the_geom) VALUES ("{}",GeomFromText({},4326));'.format(
+                            i, cleaned_geom)
+
+                        c.execute(site_point)
+
+                    else:
+                        cleaned_geom = str(e.replace(']]', '').replace('[[', '').replace(']', '').replace('[', ''))
+                        import re
+                        coords = re.findall(r'POINT \((.*?)\)', cleaned_geom)
+                        if coords:
+                            x, y = map(float, coords[0].split())
+                            if reply == QMessageBox.Yes:
+                                # Inverti le coordinate se l'utente ha scelto Yes
+                                x, y = y, x
+
+                            wkt = f"'POINT({x} {y})'"
+                            site_point = f'INSERT INTO site_point (location,the_geom) VALUES ("{i}",GeomFromText({wkt},4326));'
+
+                            c.execute(site_point)
+
+                    conn.commit()
+
+                except Exception as err:
+                    QMessageBox.warning(self, 'Error', f"Errore nell'inserire la geometria per {i}: {err}")
+            #QMessageBox.warning(self,'error', f"errore nell inserire le geometrie{e}")
             if  str('MULTIPOLYGON') in e:
-                a="SELECT RecoverGeometryColumn('site_poligon', 'the_geom', 4326, 'multipolygon', 'XY')";
-            
+                a="SELECT RecoverGeometryColumn('site_poligon', 'the_geom', 4326, 'multipolygon', 'YX')";
+
             elif  str('LINE') in e:
-                a="SELECT RecoverGeometryColumn('site_line', 'the_geom', 4326, 'linestring', 'XY')";
+                a="SELECT RecoverGeometryColumn('site_line', 'the_geom', 4326, 'linestring', 'YX')";
             else:
-                a="SELECT RecoverGeometryColumn('site_point', 'the_geom', 4326, 'point', 'XY')";
+                a="SELECT RecoverGeometryColumn('site_point', 'the_geom', 4326, 'point', 'YX')";
             c.execute(a)
-            
+
+
         except Exception as e:
-            print(str(e))
+            QMessageBox.warning(self,'error', f"errore nell inserire le geometrie{e}")
     
     # def line(self):
         # a_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'geometric_place_expression', 'EAMENA'))
@@ -1182,11 +1277,17 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             'location': "'" + str(self.comboBox_location.currentText()) + "'",
             #'name_feat': "'" + str(self.comboBox_name_site.currentText()) + "'"
         }
-    
-        geometry_vl = self.DB_MANAGER.query_bool(search_dict,'SITE_POLYGON')
+
+        geometry_vl = self.DB_MANAGER.query_bool(search_dict, 'SITE_POLYGON')
         geometry_list = []
-        
+
         for i in range(len(geometry_vl)):
+            if geometry_vl[i] is None:
+                print(f"Record {i} è None")
+                continue
+            if not hasattr(geometry_vl[i], 'coord'):
+                print(f"Record {i} non ha l'attributo coord")
+                continue
             geometry_list.append(str(geometry_vl[i].coord))
         # try:
             # geometry_vl.remove('')
@@ -1200,6 +1301,12 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         geometry_vl_1 = self.DB_MANAGER.query_bool(search_dict1,'SITE_LINE')
         geometry_list_1 = []
         for a in range(len(geometry_vl_1)):
+            if geometry_vl_1[a] is None:
+                print(f"Record {a} è None")
+                continue
+            if not hasattr(geometry_vl_1[a], 'coord'):
+                print(f"Record {a} non ha l'attributo coord")
+                continue
             geometry_list_1.append(str(geometry_vl_1[a].coord))
         # try:
             # geometry_vl_1.remove('')
@@ -1213,7 +1320,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         geometry_vl_2 = self.DB_MANAGER.query_bool(search_dict2,'SITE_POINT')
         geometry_list_2 = []
         for b in range(len(geometry_vl_2)):
-            geometry_list_1.append(str(geometry_vl_2[b].coord))
+            if geometry_vl_2[b] is None:
+                print(f"Record {b} è None")
+                continue
+            if not hasattr(geometry_vl_2[b], 'coord'):
+                print(f"Record {b} non ha l'attributo coord")
+                continue
+            geometry_list_2.append(str(geometry_vl_2[b].coord))
         # try:
             # geometry_vl_2.remove('')
         # except:
@@ -1275,7 +1388,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 self.charge_list()
                 self.fill_fields()
             else:
-                QMessageBox.warning(self,"WELCOME HFF user", "Welcome in HFF survey:" + " Eamena form\n" + " The DB is empty. Push 'Ok' and Good Work!",
+                QMessageBox.warning(self, tr('welcome_hff_user'), tr('welcome_eamena_form'),
                                     QMessageBox.Ok)
                 self.charge_list()
                 self.BROWSE_STATUS = 'x'
@@ -1592,7 +1705,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.tableWidget_designation.setItemDelegateForColumn(0,self.delegate_designation)
         
         except Exception as e:         
-            QMessageBox.warning(self, "Error", "Error 2 \n" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Error 2 \n" + str(e), QMessageBox.Ok)
     def charge_list(self):
         sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'location', 'EAMENA'))
         try:
@@ -1717,7 +1830,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     self.enable_button(1)
                     self.fill_fields(self.REC_CORR)
                 else:
-                    QMessageBox.warning(self, "Warning", "No changes have been made", QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No changes have been made", QMessageBox.Ok)
         else:
             if self.data_error_check() == 0:
                 test_insert = self.insert_new_rec()
@@ -1912,13 +2025,13 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                 e_str = str(e)
                 if e_str.__contains__("IntegrityError"):
                     msg = self.ID_TABLE + " exist in db"
-                    QMessageBox.warning(self, "Error", "Error" + str(msg), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), "Error" + str(msg), QMessageBox.Ok)
                 else:
                     msg = e
-                    QMessageBox.warning(self, "Error", "Error 1 \n" + str(msg), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('error', "Error"), "Error 1 \n" + str(msg), QMessageBox.Ok)
                 return 0
         except AssertionError as e:
-            QMessageBox.warning(self, "Error", "Error 2 \n" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Error 2 \n" + str(e), QMessageBox.Ok)
             return 0
     #'''button to manage tablewidgets'''
     def on_pushButton_add_assessment_pressed(self):
@@ -2237,7 +2350,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.REC_CORR = self.REC_CORR - 1
             if self.REC_CORR == -1:
                 self.REC_CORR = 0
-                QMessageBox.warning(self, "Warning", "You are to the first record!", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "You are to the first record!", QMessageBox.Ok)
             else:
                 try:
                     self.empty_fields()
@@ -2252,7 +2365,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             self.REC_CORR = self.REC_CORR + 1
             if self.REC_CORR >= self.REC_TOT:
                 self.REC_CORR = self.REC_CORR - 1
-                QMessageBox.warning(self, "Error", "You are to the first record!", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), "You are to the first record!", QMessageBox.Ok)
             else:
                 try:
                     self.empty_fields()
@@ -2265,17 +2378,17 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                                   "Do you really want to break the record? \n Action is irreversible.",
                                   QMessageBox.Ok | QMessageBox.Cancel)
         if msg == QMessageBox.Cancel:
-            QMessageBox.warning(self, "Message!!!", "Action deleted!")
+            QMessageBox.warning(self, "Message!!!", tr('msg_action_deleted'))
         else:
             try:
                 id_to_delete = eval("self.DATA_LIST[self.REC_CORR]." + self.ID_TABLE)
                 self.DB_MANAGER.delete_one_record(self.TABLE_NAME, self.ID_TABLE, id_to_delete)
                 self.charge_records()  
-                QMessageBox.warning(self, "Message!!!", "Record deleted!")
+                QMessageBox.warning(self, "Message!!!", tr('msg_record_deleted'))
             except Exception as e:
                 QMessageBox.warning(self, "Message!!!", "error type: " + str(e))
             if not bool(self.DATA_LIST):
-                QMessageBox.warning(self, "Warning", "the db is empty!", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "the db is empty!", QMessageBox.Ok)
                 self.DATA_LIST = []
                 self.DATA_LIST_REC_CORR = []
                 self.DATA_LIST_REC_TEMP = []
@@ -2373,7 +2486,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             else:
                 res = self.DB_MANAGER.query_bool(search_dict, self.MAPPER_TABLE_CLASS)
                 if not bool(res):
-                    QMessageBox.warning(self, "WARNING", "No record found!", QMessageBox.Ok)
+                    QMessageBox.warning(self, "WARNING", tr('msg_no_records'), QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR + 1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2407,7 +2520,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                             self.pyQGIS.charge_eamena_line_layers(self.DATA_LIST)
                             self.pyQGIS.charge_eamena_point_layers(self.DATA_LIST)
                     #self.setComboBoxEnable(["self.comboBox_name_site"], "False")
-                    QMessageBox.warning(self, "Message", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('system_message', "Message"), "%s %d %s" % strings, QMessageBox.Ok)
         self.enable_button_search(1)
     # def on_pushButton_draw_pressed(self):
         # self.pyQGIS.charge_layers_for_draw(["1", "3", "5", "7", "8", "9", "10","11"])
@@ -2417,11 +2530,11 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                                           "location", sito)
     def on_toolButton_draw_siti_toggled(self):
         if self.toolButton_draw_siti.isChecked():
-            QMessageBox.warning(self, "Message",
+            QMessageBox.warning(self, tr('system_message', "Message"),
                                 "GIS mode active. Now your request will be displayed on the GIS",
                                 QMessageBox.Ok)
         else:
-            QMessageBox.warning(self, "Message",
+            QMessageBox.warning(self, tr('system_message', "Message"),
                                 "GIS mode disabled. Now your request will no longer be displayed on the GIS.",
                                 QMessageBox.Ok)
     def update_if(self, msg):
@@ -2855,7 +2968,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             str(self.comboBox_datum_description.setEditText(self.DATA_LIST[self.rec_num].datum_description_epsg_code))  # 4 - comune
             str(self.comboBox_restricted.setEditText(self.DATA_LIST[self.rec_num].restricted_access_record_designation))
         except:# Exception as e:
-            pass#QMessageBox.warning(self, "Message",str(e), QMessageBox.Ok)
+            pass#QMessageBox.warning(self, tr('system_message', "Message"),str(e), QMessageBox.Ok)
     
     
     
@@ -3060,30 +3173,64 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                                    self.rec_toupdate())
             return 1
         except Exception as e:
-            QMessageBox.warning(self, "Message",
+            QMessageBox.warning(self, tr('system_message', "Message"),
                                 "encoding problem: accents or characters not accepted by the database have been inserted. If you close the card now without correcting the errors you will lose the data. Make a copy of everything on a separate word sheet. Error :" + str(
                                     e), QMessageBox.Ok)
             return 0
-    def list2pipe(self,x):
-        lista =[]
-        if isinstance(x,str) and x.startswith('[') and '], [' in x:
-            
-            return '|'.join(str(e) for e in eval(x)).replace("['",'').replace("']",'').replace("[",'').replace("]",'')
-            
-        elif isinstance(x,str) and x.startswith('[['):    
-            return '|'.join(str(e) for e in eval(x)[0])
-       
-        elif isinstance(x,str) and x.startswith('[]'): 
-            return ''
-        
-        else: 
+    # def list2pipe(self,x):
+    #     lista =[]
+    #     if isinstance(x,str) and x.startswith('[') and '], [' in x:
+    #
+    #         return '|'.join(str(e) for e in eval(x)).replace("['",'').replace("']",'').replace("[",'').replace("]",'')
+    #
+    #     elif isinstance(x,str) and x.startswith('[['):
+    #         return '|'.join(str(e) for e in eval(x)[0])
+    #
+    #     elif isinstance(x,str) and x.startswith('[]'):
+    #         return ''
+    #
+    #     else:
+    #         return x
+
+    def list2pipe(self, x):
+        if not isinstance(x, str):
             return x
+
+        if x.startswith('[]'):
+            return ''
+
+        # Rimuovi le parentesi quadre esterne
+        x = x.strip('[]')
+
+        # Se contiene '], [' gestiamo multiple liste
+        if '], [' in x:
+            # Dividi per '], [' e pulisci ogni parte
+            parts = x.split('], [')
+            cleaned_parts = []
+            for part in parts:
+                # Pulisci ogni parte dalle quote e parentesi residue
+                cleaned = part.replace('"', '').replace("'", '').replace('[', '').replace(']', '').strip()
+                if cleaned:
+                    cleaned_parts.append(cleaned)
+            return '|'.join(cleaned_parts)
+
+        # Per stringhe che iniziano con [[
+        elif x.startswith('['):
+            # Pulisci dalle quote e parentesi
+            cleaned = x.replace('"', '').replace("'", '').replace('[', '').replace(']', '').strip()
+            return cleaned
+
+        return x
     def load_spatialite(self,conn, connection_record):
+
         conn.enable_load_extension(True)
         if Hff_OS_Utility.isWindows()== True:
             conn.load_extension('mod_spatialite.dll')
         elif Hff_OS_Utility.isMac()== True:
+
             conn.load_extension('mod_spatialite.dylib')
+
+
         else:
             conn.load_extension('mod_spatialite.so')  
     
@@ -3116,7 +3263,7 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             conn = sq.connect(file_path_sqlite)
             conn.enable_load_extension(True)
             
-            conn.execute('SELECT load_extension("mod_spatialite")')   
+            conn.execute("SELECT load_extension('/Applications/QGIS.app/Contents/MacOS/lib/mod_spatialite.so')")
             conn.execute('SELECT InitSpatialMetaData(1);')  
             
             cur1 = conn.cursor()
@@ -3266,60 +3413,64 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
             worksheet1.set_column('A:S', 35, format)
             worksheet1.set_column('T:T', 100, format)
             worksheet1.set_column('U:CU', 35, format)
+
+            # PRIMA RIGA - Header principali
+            worksheet1.merge_range('B1:I1', 'ASSESSMENT SUMMARY', merge_format1)
+            worksheet1.merge_range('J1:S1', 'RESOURCE SUMMARY', merge_format2)
+            worksheet1.merge_range('T1:W1', 'GEOMETRIES', merge_format3)
+            worksheet1.merge_range('X1:AF1', 'GEOGRAPHY', merge_format4)
+            worksheet1.merge_range('AG1:BM1', 'ARCHAEOLOGICAL ASSESSMENT', merge_format5)
+            worksheet1.merge_range('BN1:CG1', 'CONDITION ASSESSMENT', merge_format6)
+            worksheet1.merge_range('CH1:CT1', 'ENVIRONMENT ASSESSMENT', merge_format7)
+            worksheet1.merge_range('CU1:CU2', 'ACCESS', merge_format8)
+
+            # SECONDA RIGA - Sottocategorie
+            # Assessment Summary section
+            worksheet1.merge_range('B2:C2', '', merge_format1)
+            worksheet1.merge_range('D2:I2', 'ASSESSMENT ACTIVITY', merge_format11)
+
+            # Resource Summary section
+            worksheet1.merge_range('J2:K2', 'RESOURCE NAME', merge_format21)
+            worksheet1.merge_range('M2:N2', 'RESOURCE DESCRIPTION', merge_format31)
+            worksheet1.merge_range('O2:P2', 'HERITAGE RESOURCE CLASSIFICATION', merge_format41)
+            worksheet1.merge_range('Q2:S2', 'DESIGNATION', merge_format51)
+
+            # Geometries section
+            worksheet1.merge_range('T2:W2', '', merge_format3)
+
+            # Geography section
+            worksheet1.merge_range('X2:AB2', 'GEOGRAPHY', merge_format4)
+            worksheet1.merge_range('AC2:AD2', 'ADDRESS', merge_format61)
+            worksheet1.merge_range('AE2:AF2', 'ADMINISTRATIVE SUBDIVISION', merge_format71)
+
+            # Archaeological Assessment section
+            worksheet1.merge_range('AG2:AH2', 'ARCHAEOLOGICAL ASSESSMENT', merge_format5)
+            worksheet1.merge_range('AI2:AM2', 'PERIODIZATION', merge_format81)
+            worksheet1.merge_range('AN2:AU2', 'ABSOLUTE CHRONOLOGY', merge_format11)
+            worksheet1.merge_range('AV2:BE2', 'SITE FEATURES & INTERPRETATIONS', merge_format21)
+            worksheet1.merge_range('BF2:BH2', 'MATERIAL', merge_format31)
+            worksheet1.merge_range('BI2:BL2', 'MEASUREMENTS', merge_format41)
+
+            # Condition Assessment section
+            worksheet1.merge_range('BN2:BO2', 'CONDITION ASSESSMENT', merge_format6)
+            worksheet1.merge_range('BP2:BY2', 'DISTURBANCES', merge_format51)
+            worksheet1.merge_range('BZ2:CC2', 'THREATS', merge_format61)
+            worksheet1.merge_range('CD2:CF2', 'RECOMMENDATION PLAN', merge_format71)
+
+            # Environment Assessment section
+            worksheet1.merge_range('CH2:CH2', 'ENVIRONMENT ASSESSMENT', merge_format7)
+            worksheet1.merge_range('CI2:CJ2', 'LAND COVER', merge_format81)
+            worksheet1.merge_range('CK2:CL2', 'SURFICIAL GEOLOGY', merge_format11)
+            worksheet1.merge_range('CN2:CP2', 'MARINE ENVIRONMENT', merge_format21)
+            worksheet1.merge_range('CQ2:CT2', 'DEPTH/ELEVATION', merge_format31)
             
             
             
-            ############first row####################
-            worksheet1.merge_range('B1:I1','ASSESSMENT SUMMARY', merge_format1)
-            worksheet1.merge_range('J1:S1','RESOURCE SUMMARY', merge_format2)
-            worksheet1.merge_range('T1:W1','GEOMETRIES', merge_format3)
-            worksheet1.merge_range('X1:AF1','GEOGRAPHY', merge_format4)
-            worksheet1.merge_range('AG1:BM1','ARCHAEOLOGICAL ASSESSMENT', merge_format5)
-            worksheet1.merge_range('BN1:CG1','CONDITION ASSESSMENT', merge_format6)
-            worksheet1.merge_range('CH1:CT1','ENVIRONMENT ASSESSMENT', merge_format7)
-            worksheet1.merge_range('CU1:CU2','ACCESS', merge_format8)
-            #######secon row################################
             
-            
-            worksheet1.merge_range('D2:I2','ASSESSMENT ACTIVITY', merge_format11)
-            worksheet1.merge_range('J2:K2','RESOURCE NAME', merge_format21)
-            worksheet1.merge_range('M2:N2','RESOURCE DESCRIPTION', merge_format31)
-            worksheet1.merge_range('O2:P2','HERITAGE RESOURCE CLASSIFICATION', merge_format41)
-            worksheet1.merge_range('Q2:S2','DESIGNATION', merge_format51)
-            worksheet1.merge_range('AC2:AD2','ADDRESS', merge_format61)
-            worksheet1.merge_range('AE2:AF2','ADMINISTRATIVE SUBDIVISION', merge_format71)
-            worksheet1.merge_range('AI2:AM2','PERIODIZATION', merge_format81)
-            
-            worksheet1.merge_range('AN2:AU2','ABSOLUTE CHRONOLOGY', merge_format11)
-            worksheet1.merge_range('AV2:BE2','SITE FEATURES & INTERPRETATIONS', merge_format21)
-            worksheet1.merge_range('BF2:BH2','MATERIAL', merge_format31)
-            worksheet1.merge_range('BI2:BL2','MEASUREMENTS', merge_format41)
-            worksheet1.merge_range('BP2:BY2','DISTURBANCES', merge_format51)
-            worksheet1.merge_range('BZ2:CC2','THREATS', merge_format61)
-            worksheet1.merge_range('CD2:CF2','RECOMMENDATION PLAN', merge_format71)
-            
-            worksheet1.merge_range('CI2:CJ2','LAND COVER', merge_format81)
-            worksheet1.merge_range('CK2:CL2','SURFICIAL GEOLOGY', merge_format11)
-            worksheet1.merge_range('CN2:CP2','MARINE ENVIRONMENT', merge_format21)
-            worksheet1.merge_range('CQ2:CT2','DEPTH/ELEVATION', merge_format31)
-            worksheet1.merge_range('B2:C2','', merge_format1)
-            worksheet1.merge_range('L1:L2','', merge_format2)
-            worksheet1.merge_range('T2:W2','', merge_format3)
-            worksheet1.merge_range('X1:AB2','GEOGRAPHY', merge_format4)
-            worksheet1.merge_range('AG1:AH2','ARCHAEOLOGICAL ASSESSMENT', merge_format5)
-            worksheet1.merge_range('BM1:BM2','', merge_format5)
-            worksheet1.merge_range('BN1:BO2','CONDITION ASSESSMENT', merge_format6)
-            worksheet1.merge_range('CG1:CG2','', merge_format6)
-            worksheet1.merge_range('CH1:CH2','ENVIRONMENT ASSESSMENT', merge_format7)
-            worksheet1.merge_range('CM1:CM2','', merge_format7)
-            
-            
-            
-            
-            writer.save()
+            writer.close()
         
             
-        QMessageBox.warning(self, "Message","Exported completed" , QMessageBox.Ok)       
+        QMessageBox.warning(self, tr('system_message', "Message"),"Exported completed" , QMessageBox.Ok)       
     def on_pushButton_open_dir_pressed(self):
         path = '{}{}{}'.format(self.HOME, os.sep, "HFF_EXCEL_folder")
 

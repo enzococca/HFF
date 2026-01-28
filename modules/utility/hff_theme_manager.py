@@ -5,7 +5,7 @@
                              -------------------
     begin                : 2024
     copyright            : (C) 2024 by HFF Team
-    email                :
+    email                : enzo.ccc@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -44,50 +44,66 @@ class ThemeManager(QObject):
 
     # Cross-platform font stack
     FONT_FAMILY = '"Segoe UI", "SF Pro Display", "Helvetica Neue", Arial, sans-serif'
-    FONT_SIZE = "12px"
+    FONT_SIZE = "11px"
     FONT_SIZE_SMALL = "10px"
-    FONT_SIZE_LARGE = "14px"
+    FONT_SIZE_LARGE = "13px"
 
     # Dark theme colors
     DARK_COLORS = {
         "background": "#2b2b2b",
         "background_alt": "#323232",
-        "text": "#ffffff",
-        "text_secondary": "#b0b0b0",
+        "background_widget": "#3c3c3c",
+        "text": "#e0e0e0",
+        "text_secondary": "#a0a0a0",
+        "text_disabled": "#707070",
         "accent": "#4da6ff",
         "accent_hover": "#66b3ff",
         "input_bg": "#3c3c3c",
         "input_border": "#555555",
+        "input_border_focus": "#4da6ff",
         "border": "#555555",
         "button_bg": "#4da6ff",
         "button_text": "#ffffff",
         "button_hover": "#66b3ff",
+        "button_secondary_bg": "#505050",
+        "button_secondary_text": "#e0e0e0",
         "table_header": "#404040",
         "table_alt_row": "#353535",
+        "selection_bg": "#4da6ff",
+        "selection_text": "#ffffff",
         "error": "#ff6b6b",
         "success": "#69db7c",
         "warning": "#ffd43b",
+        "link": "#66b3ff",
     }
 
     # Light theme colors
     LIGHT_COLORS = {
         "background": "#f5f5f5",
         "background_alt": "#ffffff",
-        "text": "#333333",
-        "text_secondary": "#666666",
+        "background_widget": "#ffffff",
+        "text": "#1a1a1a",
+        "text_secondary": "#505050",
+        "text_disabled": "#909090",
         "accent": "#0078d4",
         "accent_hover": "#106ebe",
         "input_bg": "#ffffff",
-        "input_border": "#cccccc",
-        "border": "#cccccc",
+        "input_border": "#c0c0c0",
+        "input_border_focus": "#0078d4",
+        "border": "#d0d0d0",
         "button_bg": "#0078d4",
         "button_text": "#ffffff",
         "button_hover": "#106ebe",
-        "table_header": "#e0e0e0",
-        "table_alt_row": "#f9f9f9",
+        "button_secondary_bg": "#e8e8e8",
+        "button_secondary_text": "#1a1a1a",
+        "table_header": "#e8e8e8",
+        "table_alt_row": "#fafafa",
+        "selection_bg": "#0078d4",
+        "selection_text": "#ffffff",
         "error": "#dc3545",
         "success": "#28a745",
         "warning": "#ffc107",
+        "link": "#0078d4",
     }
 
     @classmethod
@@ -142,7 +158,11 @@ class ThemeManager(QObject):
         colors = self.get_colors(theme)
 
         stylesheet = f"""
-        /* Base widget styling */
+        /* ============================================== */
+        /* HFF Theme Stylesheet - Comprehensive Styling   */
+        /* ============================================== */
+
+        /* Base widget styling - IMPORTANT: explicit color for all */
         QWidget {{
             font-family: {self.FONT_FAMILY};
             font-size: {self.FONT_SIZE};
@@ -151,61 +171,117 @@ class ThemeManager(QObject):
         }}
 
         /* Dialog and main windows */
-        QDialog, QMainWindow {{
+        QDialog, QMainWindow, QDockWidget {{
             background-color: {colors['background']};
+            color: {colors['text']};
         }}
 
-        /* Labels */
+        QDockWidget::title {{
+            background-color: {colors['background_alt']};
+            color: {colors['text']};
+            padding: 6px;
+            font-weight: bold;
+        }}
+
+        /* Frame styling */
+        QFrame {{
+            background-color: {colors['background']};
+            color: {colors['text']};
+        }}
+
+        /* Labels - CRITICAL: explicit colors to fix white-on-white */
         QLabel {{
             font-size: {self.FONT_SIZE};
             color: {colors['text']};
             background-color: transparent;
+            padding: 2px;
+        }}
+
+        QLabel:disabled {{
+            color: {colors['text_disabled']};
         }}
 
         /* Input fields */
-        QLineEdit, QTextEdit, QPlainTextEdit {{
+        QLineEdit {{
             font-size: {self.FONT_SIZE};
             background-color: {colors['input_bg']};
             color: {colors['text']};
             border: 1px solid {colors['input_border']};
-            border-radius: 4px;
-            padding: 4px 8px;
+            border-radius: 3px;
+            padding: 4px 6px;
+            min-height: 20px;
         }}
 
-        QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus {{
-            border: 1px solid {colors['accent']};
+        QLineEdit:focus {{
+            border: 1px solid {colors['input_border_focus']};
         }}
 
-        QLineEdit:disabled, QTextEdit:disabled {{
+        QLineEdit:disabled {{
             background-color: {colors['background_alt']};
-            color: {colors['text_secondary']};
+            color: {colors['text_disabled']};
         }}
 
-        /* ComboBox */
+        QLineEdit:read-only {{
+            background-color: {colors['background_alt']};
+        }}
+
+        /* Text Edit */
+        QTextEdit, QPlainTextEdit {{
+            font-size: {self.FONT_SIZE};
+            background-color: {colors['input_bg']};
+            color: {colors['text']};
+            border: 1px solid {colors['input_border']};
+            border-radius: 3px;
+            padding: 4px;
+        }}
+
+        QTextEdit:focus, QPlainTextEdit:focus {{
+            border: 1px solid {colors['input_border_focus']};
+        }}
+
+        QTextEdit:disabled, QPlainTextEdit:disabled {{
+            background-color: {colors['background_alt']};
+            color: {colors['text_disabled']};
+        }}
+
+        /* ComboBox - with proper dropdown styling */
         QComboBox {{
             font-size: {self.FONT_SIZE};
             background-color: {colors['input_bg']};
             color: {colors['text']};
             border: 1px solid {colors['input_border']};
-            border-radius: 4px;
-            padding: 4px 8px;
-            min-height: 24px;
+            border-radius: 3px;
+            padding: 4px 6px;
+            min-height: 20px;
         }}
 
         QComboBox:focus {{
-            border: 1px solid {colors['accent']};
+            border: 1px solid {colors['input_border_focus']};
+        }}
+
+        QComboBox:disabled {{
+            background-color: {colors['background_alt']};
+            color: {colors['text_disabled']};
         }}
 
         QComboBox::drop-down {{
             border: none;
             width: 20px;
+            subcontrol-origin: padding;
+            subcontrol-position: right center;
         }}
 
         QComboBox QAbstractItemView {{
             background-color: {colors['input_bg']};
             color: {colors['text']};
-            selection-background-color: {colors['accent']};
-            selection-color: {colors['button_text']};
+            border: 1px solid {colors['border']};
+            selection-background-color: {colors['selection_bg']};
+            selection-color: {colors['selection_text']};
+        }}
+
+        QComboBox QAbstractItemView::item {{
+            padding: 4px 8px;
+            min-height: 24px;
         }}
 
         /* SpinBox */
@@ -214,19 +290,45 @@ class ThemeManager(QObject):
             background-color: {colors['input_bg']};
             color: {colors['text']};
             border: 1px solid {colors['input_border']};
-            border-radius: 4px;
-            padding: 4px 8px;
+            border-radius: 3px;
+            padding: 4px 6px;
+            min-height: 20px;
         }}
 
-        /* Buttons */
+        QSpinBox:focus, QDoubleSpinBox:focus {{
+            border: 1px solid {colors['input_border_focus']};
+        }}
+
+        QSpinBox:disabled, QDoubleSpinBox:disabled {{
+            background-color: {colors['background_alt']};
+            color: {colors['text_disabled']};
+        }}
+
+        /* Date/Time Edit */
+        QDateEdit, QTimeEdit, QDateTimeEdit {{
+            font-size: {self.FONT_SIZE};
+            background-color: {colors['input_bg']};
+            color: {colors['text']};
+            border: 1px solid {colors['input_border']};
+            border-radius: 3px;
+            padding: 4px 6px;
+            min-height: 20px;
+        }}
+
+        QDateEdit:focus, QTimeEdit:focus, QDateTimeEdit:focus {{
+            border: 1px solid {colors['input_border_focus']};
+        }}
+
+        /* Push Buttons - PRIMARY style */
         QPushButton {{
             font-size: {self.FONT_SIZE};
             background-color: {colors['button_bg']};
             color: {colors['button_text']};
             border: none;
-            border-radius: 4px;
-            padding: 6px 16px;
-            min-height: 28px;
+            border-radius: 3px;
+            padding: 5px 12px;
+            min-height: 24px;
+            min-width: 70px;
         }}
 
         QPushButton:hover {{
@@ -239,16 +341,26 @@ class ThemeManager(QObject):
 
         QPushButton:disabled {{
             background-color: {colors['border']};
-            color: {colors['text_secondary']};
+            color: {colors['text_disabled']};
         }}
 
-        /* Tool buttons (icon-only buttons) */
+        QPushButton:flat {{
+            background-color: transparent;
+            color: {colors['accent']};
+            border: none;
+        }}
+
+        QPushButton:flat:hover {{
+            background-color: {colors['background_alt']};
+        }}
+
+        /* Tool buttons */
         QToolButton {{
             font-size: {self.FONT_SIZE};
             background-color: transparent;
             color: {colors['text']};
             border: 1px solid transparent;
-            border-radius: 4px;
+            border-radius: 3px;
             padding: 4px;
         }}
 
@@ -257,22 +369,42 @@ class ThemeManager(QObject):
             border: 1px solid {colors['border']};
         }}
 
-        /* Tables */
+        QToolButton:pressed {{
+            background-color: {colors['border']};
+        }}
+
+        QToolButton:checked {{
+            background-color: {colors['accent']};
+            color: {colors['button_text']};
+        }}
+
+        /* Tables - with alternating rows and proper text color */
         QTableWidget, QTableView {{
             font-size: {self.FONT_SIZE};
-            background-color: {colors['input_bg']};
+            background-color: {colors['background_widget']};
             color: {colors['text']};
             gridline-color: {colors['border']};
             border: 1px solid {colors['border']};
+            alternate-background-color: {colors['table_alt_row']};
         }}
 
         QTableWidget::item, QTableView::item {{
             padding: 4px;
+            color: {colors['text']};
+            background-color: {colors['background_widget']};
+        }}
+
+        QTableWidget::item:alternate, QTableView::item:alternate {{
+            background-color: {colors['table_alt_row']};
         }}
 
         QTableWidget::item:selected, QTableView::item:selected {{
-            background-color: {colors['accent']};
-            color: {colors['button_text']};
+            background-color: {colors['selection_bg']};
+            color: {colors['selection_text']};
+        }}
+
+        QHeaderView {{
+            background-color: {colors['table_header']};
         }}
 
         QHeaderView::section {{
@@ -280,12 +412,65 @@ class ThemeManager(QObject):
             background-color: {colors['table_header']};
             color: {colors['text']};
             padding: 6px;
-            border: 1px solid {colors['border']};
+            border: none;
+            border-right: 1px solid {colors['border']};
+            border-bottom: 1px solid {colors['border']};
         }}
 
-        /* Tab Widget */
+        QHeaderView::section:hover {{
+            background-color: {colors['border']};
+        }}
+
+        /* List Widget */
+        QListWidget, QListView {{
+            font-size: {self.FONT_SIZE};
+            background-color: {colors['background_widget']};
+            color: {colors['text']};
+            border: 1px solid {colors['border']};
+            alternate-background-color: {colors['table_alt_row']};
+        }}
+
+        QListWidget::item, QListView::item {{
+            padding: 4px;
+            color: {colors['text']};
+        }}
+
+        QListWidget::item:selected, QListView::item:selected {{
+            background-color: {colors['selection_bg']};
+            color: {colors['selection_text']};
+        }}
+
+        QListWidget::item:hover, QListView::item:hover {{
+            background-color: {colors['background_alt']};
+        }}
+
+        /* Tree Widget */
+        QTreeWidget, QTreeView {{
+            font-size: {self.FONT_SIZE};
+            background-color: {colors['background_widget']};
+            color: {colors['text']};
+            border: 1px solid {colors['border']};
+            alternate-background-color: {colors['table_alt_row']};
+        }}
+
+        QTreeWidget::item, QTreeView::item {{
+            padding: 4px;
+            color: {colors['text']};
+        }}
+
+        QTreeWidget::item:selected, QTreeView::item:selected {{
+            background-color: {colors['selection_bg']};
+            color: {colors['selection_text']};
+        }}
+
+        /* Tab Widget - clean modern tabs */
         QTabWidget::pane {{
             border: 1px solid {colors['border']};
+            background-color: {colors['background']};
+            top: -1px;
+        }}
+
+        QTabBar {{
             background-color: {colors['background']};
         }}
 
@@ -293,20 +478,24 @@ class ThemeManager(QObject):
             font-size: {self.FONT_SIZE};
             background-color: {colors['background_alt']};
             color: {colors['text']};
-            padding: 8px 16px;
+            padding: 6px 14px;
             border: 1px solid {colors['border']};
             border-bottom: none;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
+            margin-right: 2px;
         }}
 
         QTabBar::tab:selected {{
             background-color: {colors['background']};
             border-bottom: 2px solid {colors['accent']};
+            color: {colors['accent']};
         }}
 
         QTabBar::tab:hover:!selected {{
             background-color: {colors['table_header']};
+        }}
+
+        QTabBar::tab:!selected {{
+            margin-top: 2px;
         }}
 
         /* Group Box */
@@ -316,27 +505,33 @@ class ThemeManager(QObject):
             color: {colors['text']};
             border: 1px solid {colors['border']};
             border-radius: 4px;
-            margin-top: 12px;
-            padding-top: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
         }}
 
         QGroupBox::title {{
             subcontrol-origin: margin;
+            subcontrol-position: top left;
             left: 10px;
             padding: 0 5px;
+            color: {colors['text']};
         }}
 
         /* Check Box */
         QCheckBox {{
             font-size: {self.FONT_SIZE};
             color: {colors['text']};
-            spacing: 8px;
+            spacing: 6px;
+        }}
+
+        QCheckBox:disabled {{
+            color: {colors['text_disabled']};
         }}
 
         QCheckBox::indicator {{
-            width: 18px;
-            height: 18px;
-            border: 1px solid {colors['border']};
+            width: 16px;
+            height: 16px;
+            border: 1px solid {colors['input_border']};
             border-radius: 3px;
             background-color: {colors['input_bg']};
         }}
@@ -346,18 +541,27 @@ class ThemeManager(QObject):
             border-color: {colors['accent']};
         }}
 
+        QCheckBox::indicator:disabled {{
+            background-color: {colors['background_alt']};
+            border-color: {colors['border']};
+        }}
+
         /* Radio Button */
         QRadioButton {{
             font-size: {self.FONT_SIZE};
             color: {colors['text']};
-            spacing: 8px;
+            spacing: 6px;
+        }}
+
+        QRadioButton:disabled {{
+            color: {colors['text_disabled']};
         }}
 
         QRadioButton::indicator {{
-            width: 18px;
-            height: 18px;
-            border: 1px solid {colors['border']};
-            border-radius: 9px;
+            width: 16px;
+            height: 16px;
+            border: 1px solid {colors['input_border']};
+            border-radius: 8px;
             background-color: {colors['input_bg']};
         }}
 
@@ -372,16 +576,20 @@ class ThemeManager(QObject):
             background-color: {colors['background']};
         }}
 
+        QScrollArea > QWidget > QWidget {{
+            background-color: {colors['background']};
+        }}
+
         /* Scroll Bar */
         QScrollBar:vertical {{
             background-color: {colors['background']};
-            width: 12px;
+            width: 10px;
             margin: 0;
         }}
 
         QScrollBar::handle:vertical {{
             background-color: {colors['border']};
-            border-radius: 6px;
+            border-radius: 5px;
             min-height: 30px;
             margin: 2px;
         }}
@@ -392,13 +600,13 @@ class ThemeManager(QObject):
 
         QScrollBar:horizontal {{
             background-color: {colors['background']};
-            height: 12px;
+            height: 10px;
             margin: 0;
         }}
 
         QScrollBar::handle:horizontal {{
             background-color: {colors['border']};
-            border-radius: 6px;
+            border-radius: 5px;
             min-width: 30px;
             margin: 2px;
         }}
@@ -408,22 +616,56 @@ class ThemeManager(QObject):
             height: 0;
         }}
 
+        QScrollBar::add-page, QScrollBar::sub-page {{
+            background: none;
+        }}
+
         /* Menu */
         QMenu {{
             font-size: {self.FONT_SIZE};
-            background-color: {colors['input_bg']};
+            background-color: {colors['background_widget']};
             color: {colors['text']};
             border: 1px solid {colors['border']};
         }}
 
+        QMenu::item {{
+            padding: 6px 20px;
+        }}
+
         QMenu::item:selected {{
-            background-color: {colors['accent']};
-            color: {colors['button_text']};
+            background-color: {colors['selection_bg']};
+            color: {colors['selection_text']};
+        }}
+
+        QMenu::separator {{
+            height: 1px;
+            background-color: {colors['border']};
+            margin: 4px 10px;
+        }}
+
+        QMenuBar {{
+            background-color: {colors['background']};
+            color: {colors['text']};
+        }}
+
+        QMenuBar::item {{
+            padding: 4px 8px;
+            background-color: transparent;
+        }}
+
+        QMenuBar::item:selected {{
+            background-color: {colors['selection_bg']};
+            color: {colors['selection_text']};
         }}
 
         /* Message Box */
         QMessageBox {{
             background-color: {colors['background']};
+            color: {colors['text']};
+        }}
+
+        QMessageBox QLabel {{
+            color: {colors['text']};
         }}
 
         /* Progress Bar */
@@ -432,13 +674,14 @@ class ThemeManager(QObject):
             background-color: {colors['input_bg']};
             color: {colors['text']};
             border: 1px solid {colors['border']};
-            border-radius: 4px;
+            border-radius: 3px;
             text-align: center;
+            min-height: 18px;
         }}
 
         QProgressBar::chunk {{
             background-color: {colors['accent']};
-            border-radius: 3px;
+            border-radius: 2px;
         }}
 
         /* Status Bar */
@@ -446,6 +689,244 @@ class ThemeManager(QObject):
             font-size: {self.FONT_SIZE_SMALL};
             background-color: {colors['background_alt']};
             color: {colors['text']};
+            border-top: 1px solid {colors['border']};
+        }}
+
+        /* Splitter */
+        QSplitter::handle {{
+            background-color: {colors['border']};
+        }}
+
+        QSplitter::handle:horizontal {{
+            width: 4px;
+        }}
+
+        QSplitter::handle:vertical {{
+            height: 4px;
+        }}
+
+        /* Slider */
+        QSlider::groove:horizontal {{
+            border: 1px solid {colors['border']};
+            height: 4px;
+            background-color: {colors['input_bg']};
+            border-radius: 2px;
+        }}
+
+        QSlider::handle:horizontal {{
+            background-color: {colors['accent']};
+            width: 14px;
+            margin: -5px 0;
+            border-radius: 7px;
+        }}
+
+        QSlider::groove:vertical {{
+            border: 1px solid {colors['border']};
+            width: 4px;
+            background-color: {colors['input_bg']};
+            border-radius: 2px;
+        }}
+
+        QSlider::handle:vertical {{
+            background-color: {colors['accent']};
+            height: 14px;
+            margin: 0 -5px;
+            border-radius: 7px;
+        }}
+
+        /* ToolTip */
+        QToolTip {{
+            font-size: {self.FONT_SIZE_SMALL};
+            background-color: {colors['background_widget']};
+            color: {colors['text']};
+            border: 1px solid {colors['border']};
+            padding: 4px 8px;
+        }}
+
+        /* Text Browser (for tutorials/docs) */
+        QTextBrowser {{
+            font-size: {self.FONT_SIZE};
+            background-color: {colors['background_widget']};
+            color: {colors['text']};
+            border: 1px solid {colors['border']};
+        }}
+
+        QTextBrowser a {{
+            color: {colors['link']};
+        }}
+
+        /* Calendar Widget */
+        QCalendarWidget {{
+            background-color: {colors['background']};
+        }}
+
+        QCalendarWidget QWidget {{
+            alternate-background-color: {colors['table_alt_row']};
+        }}
+
+        QCalendarWidget QAbstractItemView:enabled {{
+            color: {colors['text']};
+            background-color: {colors['background_widget']};
+            selection-background-color: {colors['selection_bg']};
+            selection-color: {colors['selection_text']};
+        }}
+
+        QCalendarWidget QToolButton {{
+            color: {colors['text']};
+            background-color: {colors['background']};
+            border: none;
+        }}
+
+        QCalendarWidget QSpinBox {{
+            color: {colors['text']};
+            background-color: {colors['input_bg']};
+        }}
+
+        /* ============================================== */
+        /* Icon-only Buttons (navigation, actions)        */
+        /* Standard size: 30x30 for consistency           */
+        /* ============================================== */
+
+        /* Icon buttons - detected by having max-width set */
+        QPushButton[maximumWidth="30"] {{
+            min-width: 28px;
+            max-width: 30px;
+            min-height: 28px;
+            max-height: 30px;
+            padding: 3px;
+            background-color: {colors['button_secondary_bg']};
+            color: {colors['button_secondary_text']};
+            border: 1px solid {colors['border']};
+            border-radius: 4px;
+        }}
+
+        QPushButton[maximumWidth="30"]:hover {{
+            background-color: {colors['accent']};
+            color: {colors['button_text']};
+            border-color: {colors['accent']};
+        }}
+
+        QPushButton[maximumWidth="30"]:pressed {{
+            background-color: {colors['accent_hover']};
+        }}
+
+        /* Small icon buttons (20x20) */
+        QPushButton[maximumWidth="20"] {{
+            min-width: 18px;
+            max-width: 20px;
+            min-height: 18px;
+            max-height: 20px;
+            padding: 2px;
+            background-color: {colors['button_secondary_bg']};
+            color: {colors['button_secondary_text']};
+            border: 1px solid {colors['border']};
+            border-radius: 3px;
+        }}
+
+        QPushButton[maximumWidth="20"]:hover {{
+            background-color: {colors['accent']};
+            color: {colors['button_text']};
+        }}
+
+        /* Navigation buttons - uniform styling */
+        QPushButton#pushButton_first_rec,
+        QPushButton#pushButton_prev_rec,
+        QPushButton#pushButton_next_rec,
+        QPushButton#pushButton_last_rec {{
+            min-width: 28px;
+            max-width: 30px;
+            min-height: 28px;
+            max-height: 30px;
+            background-color: {colors['button_secondary_bg']};
+            border: 1px solid {colors['border']};
+            border-radius: 4px;
+        }}
+
+        QPushButton#pushButton_first_rec:hover,
+        QPushButton#pushButton_prev_rec:hover,
+        QPushButton#pushButton_next_rec:hover,
+        QPushButton#pushButton_last_rec:hover {{
+            background-color: {colors['accent']};
+            color: {colors['button_text']};
+        }}
+
+        /* Action buttons - uniform styling */
+        QPushButton#pushButton_new_rec,
+        QPushButton#pushButton_save,
+        QPushButton#pushButton_delete {{
+            min-width: 28px;
+            max-width: 30px;
+            min-height: 28px;
+            max-height: 30px;
+            background-color: {colors['button_secondary_bg']};
+            border: 1px solid {colors['border']};
+            border-radius: 4px;
+        }}
+
+        QPushButton#pushButton_save:hover {{
+            background-color: {colors['success']};
+            color: white;
+        }}
+
+        QPushButton#pushButton_delete:hover {{
+            background-color: {colors['error']};
+            color: white;
+        }}
+
+        QPushButton#pushButton_new_rec:hover {{
+            background-color: {colors['accent']};
+            color: white;
+        }}
+
+        /* Search and filter buttons */
+        QPushButton#pushButton_new_search,
+        QPushButton#pushButton_search_go,
+        QPushButton#pushButton_view_all,
+        QPushButton#pushButton_sort {{
+            min-width: 28px;
+            max-width: 30px;
+            min-height: 28px;
+            max-height: 30px;
+            background-color: {colors['button_secondary_bg']};
+            border: 1px solid {colors['border']};
+            border-radius: 4px;
+        }}
+
+        QPushButton#pushButton_new_search:hover,
+        QPushButton#pushButton_search_go:hover,
+        QPushButton#pushButton_view_all:hover,
+        QPushButton#pushButton_sort:hover {{
+            background-color: {colors['accent']};
+            color: white;
+        }}
+
+        /* Export and tool buttons */
+        QPushButton#pushButton_form,
+        QPushButton#pushButton_list,
+        QPushButton#toolButtonGis,
+        QPushButton#pushButton_open_dir {{
+            min-width: 28px;
+            max-width: 30px;
+            min-height: 28px;
+            max-height: 30px;
+            background-color: {colors['button_secondary_bg']};
+            border: 1px solid {colors['border']};
+            border-radius: 4px;
+        }}
+
+        QPushButton#pushButton_form:hover,
+        QPushButton#pushButton_list:hover,
+        QPushButton#toolButtonGis:hover,
+        QPushButton#pushButton_open_dir:hover {{
+            background-color: {colors['accent']};
+            color: white;
+        }}
+
+        /* Dialog button box - standard sizing */
+        QDialogButtonBox QPushButton {{
+            min-width: 80px;
+            min-height: 28px;
+            padding: 5px 15px;
         }}
         """
 
@@ -476,7 +957,7 @@ class ThemeManager(QObject):
             QPushButton: The created toggle button
         """
         toggle_btn = QPushButton(parent_widget)
-        toggle_btn.setFixedSize(32, 32)
+        toggle_btn.setFixedSize(28, 28)
         toggle_btn.setToolTip("Toggle Dark/Light Mode")
 
         # Set icon based on current theme
@@ -489,17 +970,18 @@ class ThemeManager(QObject):
 
         toggle_btn.clicked.connect(on_toggle)
 
-        # Style the toggle button to be more subtle
-        toggle_btn.setStyleSheet("""
-            QPushButton {
+        # Style the toggle button
+        colors = self.get_colors()
+        toggle_btn.setStyleSheet(f"""
+            QPushButton {{
                 background-color: transparent;
-                border: none;
-                font-size: 18px;
-            }
-            QPushButton:hover {
-                background-color: rgba(128, 128, 128, 0.2);
-                border-radius: 16px;
-            }
+                border: 1px solid {colors['border']};
+                border-radius: 14px;
+                font-size: 14px;
+            }}
+            QPushButton:hover {{
+                background-color: {colors['background_alt']};
+            }}
         """)
 
         if layout is not None:

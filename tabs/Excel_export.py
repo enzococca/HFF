@@ -40,6 +40,9 @@ from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import *
 
 from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Pdf_export.ui'))
 
 
@@ -67,6 +70,8 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
         super().__init__()
         # Set up the user interface from Designer.
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
 
         self.iface = iface
 
@@ -81,7 +86,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
         # self.charge_data()
 
     def connect(self):
-        #QMessageBox.warning(self, "Alert",
+        #QMessageBox.warning(self, tr('title_alert'),
                             #"Sistema sperimentale. Esporta le schede PDF in /vostro_utente/HFF_DB_folder. Sostituisce i documenti gia' presenti. Se volete conservarli fatene una copia o rinominateli.",
                             #QMessageBox.Ok)
 
@@ -232,7 +237,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 b=a.to_excel(writer, sheet_name='Sheet1')
                 writer.close()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)
                         
             if self.checkBox_uw.isChecked():
                 divelog_= '%s' % (sito_location+'_divelog_' +  time.strftime('%Y%m%d_') + '.xlsx')
@@ -247,7 +252,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
                 writer.close()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)    
+                #QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)    
                      
             if self.checkBox_art.isChecked():
                 art_= '%s' % (sito_location+'_artefact_' +  time.strftime('%Y%m%d_') + '.xlsx')
@@ -262,7 +267,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
                 writer.close()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                
+                #QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)                
                     
             if self.checkBox_pottery.isChecked():
                 pottery_= '%s' % (sito_location+'_pottery_' +  time.strftime('%Y%m%d_') + '.xlsx')
@@ -277,7 +282,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
                 writer.close()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                      
+                #QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)                      
             
             if self.checkBox_anchor.isChecked():
                 anchor_= '%s' % (sito_location+'_anchor_' +  time.strftime('%Y%m%d_') + '.xlsx')
@@ -292,10 +297,10 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
                 writer.close()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)         
+                #QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)         
                     # for i in temp_data_list:
                     # self.DATA_LIST.append(i)
-            QMessageBox.warning(self, "Message","Exported completed" , QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"),"Exported completed" , QMessageBox.Ok)
             if self.checkBox_shipwreck.isChecked():
                 shipwreck_ = '%s' % (category + '_shipwreck_' + time.strftime('%Y%m%d_') + '.xlsx')
                 dump_dir = os.path.join(sito_path, shipwreck_)
@@ -309,10 +314,10 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1', index=True)
                 writer.close()
-                # QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
+                # QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)
                 # for i in temp_data_list:
                 # self.DATA_LIST.append(i)
-            QMessageBox.warning(self, "Message", "Exported completed", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"), "Exported completed", QMessageBox.Ok)
            
         
         elif server=='sqlite':        
@@ -462,7 +467,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
                 writer.close()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)    
+                #QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)    
                      
             if self.checkBox_art.isChecked():
                 art_= '%s' % (sito_location+'_artefact_' +  time.strftime('%Y%m%d_') + '.xlsx')
@@ -477,7 +482,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
                 writer.close()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                
+                #QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)                
                     
             if self.checkBox_pottery.isChecked():
                 pottery_= '%s' % (sito_location+'_pottery_' +  time.strftime('%Y%m%d_') + '.xlsx')
@@ -492,7 +497,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1',index=True)
                 writer.close()
-                #QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)                      
+                #QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)                      
             
             if self.checkBox_anchor.isChecked():
                 anchor_= '%s' % (sito_location+'_anchor_' +  time.strftime('%Y%m%d_') + '.xlsx')
@@ -510,7 +515,7 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                          
                     # for i in temp_data_list:
                     # self.DATA_LIST.append(i)
-            QMessageBox.warning(self, "Message","Exported completed" , QMessageBox.Ok)    
+            QMessageBox.warning(self, tr('system_message', "Message"),"Exported completed" , QMessageBox.Ok)    
             
             if self.checkBox_shipwreck.isChecked():
                 shipwreck_ = '%s' % (category + '_shipwreck_' + time.strftime('%Y%m%d_') + '.xlsx')
@@ -525,10 +530,10 @@ class hff_system__excel_export(QDialog, MAIN_DIALOG_CLASS):
                 writer = pd.ExcelWriter(dump_dir, engine='xlsxwriter')
                 a.to_excel(writer, sheet_name='Sheet1', index=True)
                 writer.close()
-                # QMessageBox.warning(self, "Message","ok" , QMessageBox.Ok)
+                # QMessageBox.warning(self, tr('system_message', "Message"),"ok" , QMessageBox.Ok)
                 # for i in temp_data_list:
                 # self.DATA_LIST.append(i)
-            QMessageBox.warning(self, "Message", "Exported completed", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"), "Exported completed", QMessageBox.Ok)
             
     
 

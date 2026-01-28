@@ -34,6 +34,11 @@ from reportlab.platypus.paragraph import Paragraph
 
 from .hff_system__OS_utility import *
 from ..db.hff_system__conn_strings import Connection
+from .hff_pdf_base import (
+    HFF_BLUE, HFF_BLUE_LIGHT, HFF_GRAY, HFF_GRAY_DARK, HFF_WHITE,
+    HffPdfStyles, HffNumberedCanvas, get_paragraph_styles,
+    FONT_HEADER, FONT_NORMAL, FONT_SIZE_HEADER, FONT_SIZE_NORMAL
+)
 
 
 class NumberedCanvas_UWsheet(canvas.Canvas):
@@ -79,7 +84,7 @@ class FOTO_index_pdf_sheet(object):
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
         styNormal.alignment = 0  # LEFT
-        styNormal.fontSize = 6
+        styNormal.fontSize = 9
 
         conn = Connection()
         thumb_path = conn.thumb_path()
@@ -130,7 +135,7 @@ class FOTO_index_pdf_sheet_2(object):
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
         styNormal.alignment = 0  # LEFT
-        styNormal.fontSize = 6
+        styNormal.fontSize = 9
 
         area = Paragraph("<b>Area</b><br/>" + str(self.area), styNormal)
         divelog_id = Paragraph("<b>Divelog ID</b><br/>" + str(self.divelog_id), styNormal)

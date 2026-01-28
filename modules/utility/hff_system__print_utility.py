@@ -326,7 +326,7 @@ class Print_utility(QObject):
         else:
             QMessageBox.warning(None, "Errore", "Non Valido", QMessageBox.Ok)
             return 0
-            # QMessageBox.warning(self, "Messaggio", "Geometria inesistente", QMessageBox.Ok)
+            # QMessageBox.warning(self, tr('title_message'), "Geometria inesistente", QMessageBox.Ok)
 
         gidstr = "sito_q = '%s' and area_q = '%s' and us_q = '%d'" % (sito, area, us)
 
