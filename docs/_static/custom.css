@@ -1,0 +1,101 @@
+/* Custom styles for HFF documentation */
+
+/* RTL support for Arabic */
+html[lang="ar"] {
+    direction: rtl;
+}
+
+html[lang="ar"] .toctree-wrapper,
+html[lang="ar"] .rst-content {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Table styling */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+html[lang="ar"] th,
+html[lang="ar"] td {
+    text-align: right;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Code blocks */
+pre {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+/* Admonition styling */
+.admonition {
+    padding: 15px;
+    margin: 1em 0;
+    border-radius: 4px;
+}
+
+.admonition.note {
+    background-color: #e7f2fa;
+    border-left: 4px solid #6ab0de;
+}
+
+.admonition.warning {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+.admonition.tip {
+    background-color: #d4edda;
+    border-left: 4px solid #28a745;
+}
+
+/* Video tutorial placeholder styling */
+blockquote {
+    background-color: #f9f9f9;
+    border-left: 4px solid #ccc;
+    padding: 10px 15px;
+    margin: 1em 0;
+}
+
+html[lang="ar"] blockquote {
+    border-left: none;
+    border-right: 4px solid #ccc;
+}
+
+/* Image captions */
+.figure p.caption {
+    font-style: italic;
+    text-align: center;
+    color: #666;
+}
+
+/* Honor Frost Foundation branding */
+.hff-header {
+    background-color: #1a5276;
+    color: white;
+    padding: 20px;
+}
+
+/* Footer */
+footer {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid #ddd;
+    font-size: 0.9em;
+    color: #666;
+}

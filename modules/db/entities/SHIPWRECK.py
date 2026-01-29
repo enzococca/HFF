@@ -87,8 +87,10 @@ class SHIPWRECK(object):
             self.description = description
             self.history = history
             self.list  = list  
-            self.name = name 
+            self.name = name
             self.status = status
+            self.biblio = biblio
+            self.storage_ = storage_
     def __repr__(self):
         return "<SHIPWRECK('%d', '%s', '%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s', '%s', '%s', '%s','%s', '%s', '%s','%s','%s','%s','%s','%f','%f','%f','%f','%f','%f','%f','%s','%s','%s','%s', '%s', '%s','%s','%s', '%s', '%s')>" % (
         self.id_shipwreck, 

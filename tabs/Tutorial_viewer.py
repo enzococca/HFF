@@ -338,6 +338,55 @@ class TutorialViewerDialog(QDialog):
         # Horizontal rules
         html = re.sub(r'^---+$', r'<hr>', html, flags=re.MULTILINE)
 
+        # Tables - convert Markdown tables to HTML tables
+        def convert_table(match):
+            table_text = match.group(0)
+            lines = table_text.strip().split('\n')
+
+            if len(lines) < 2:
+                return table_text
+
+            html_table = '<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; margin: 10px 0;">\n'
+
+            for i, line in enumerate(lines):
+                # Skip separator line (|---|---|)
+                if re.match(r'^\|[\s\-:]+\|$', line.replace('|', '|').strip()):
+                    continue
+
+                # Parse cells
+                cells = [cell.strip() for cell in line.split('|')]
+                # Remove empty first and last cells (from leading/trailing |)
+                if cells and cells[0] == '':
+                    cells = cells[1:]
+                if cells and cells[-1] == '':
+                    cells = cells[:-1]
+
+                if not cells:
+                    continue
+
+                # First row is header
+                if i == 0:
+                    html_table += '  <thead><tr>\n'
+                    for cell in cells:
+                        html_table += f'    <th style="background-color: #444; color: white; padding: 10px; text-align: left;">{cell}</th>\n'
+                    html_table += '  </tr></thead>\n<tbody>\n'
+                else:
+                    html_table += '  <tr>\n'
+                    for cell in cells:
+                        html_table += f'    <td style="padding: 8px; border: 1px solid #666;">{cell}</td>\n'
+                    html_table += '  </tr>\n'
+
+            html_table += '</tbody></table>'
+            return html_table
+
+        # Match markdown tables (lines starting and ending with |)
+        html = re.sub(
+            r'(?:^\|.+\|$\n?)+',
+            convert_table,
+            html,
+            flags=re.MULTILINE
+        )
+
         # Paragraphs (wrap non-tagged lines)
         lines = html.split('\n')
         processed_lines = []
@@ -405,6 +454,31 @@ class TutorialViewerDialog(QDialog):
                     max-width: 100%;
                     border-radius: 5px;
                     margin: 10px 0;
+                }}
+                table {{
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: 15px 0;
+                    background-color: {colors['input_bg']};
+                }}
+                th {{
+                    background-color: {colors['accent']};
+                    color: white;
+                    padding: 12px 10px;
+                    text-align: left;
+                    font-weight: bold;
+                    border: 1px solid {colors['border']};
+                }}
+                td {{
+                    padding: 10px;
+                    border: 1px solid {colors['border']};
+                    vertical-align: top;
+                }}
+                tr:nth-child(even) {{
+                    background-color: {colors['background']};
+                }}
+                tr:hover {{
+                    background-color: {colors.get('hover', colors.get('button_hover', '#555'))};
                 }}
             </style>
         </head>

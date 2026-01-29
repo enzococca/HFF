@@ -395,8 +395,9 @@ class Hff_db_management(object):
                     arg[36],
                     arg[37],
                     arg[38],
-                    arg[39]
-                    
+                    arg[39],
+                    arg[40],
+                    arg[41]
                     )
 
         return shipwreck
@@ -719,7 +720,9 @@ class Hff_db_management(object):
                     arg[57],
                     arg[58],
                     arg[59],
-                    arg[60]
+                    arg[60],
+                    arg[61],
+                    arg[62]
                     )
 
         return anc

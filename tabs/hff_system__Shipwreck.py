@@ -37,8 +37,9 @@ from collections import OrderedDict
 import numpy as np
 import re
 
-from qgis.core import Qgis
-from qgis.core import QgsSettings
+from qgis.core import (Qgis, QgsProject, QgsFeatureRequest, QgsExpression,
+                       QgsGeometry, QgsPointXY, QgsCoordinateReferenceSystem,
+                       QgsCoordinateTransform, QgsSettings)
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import QColor, QIcon
 from qgis.PyQt.QtWidgets import *
@@ -426,6 +427,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
         When a feature is selected in the GIS layer, update the form's
         latitude/longitude fields with the feature's coordinates.
+        Converts from any layer CRS to WGS84 (EPSG:4326) for display.
         """
         try:
             # Find the shipwreck layer - check all possible names
@@ -438,8 +440,8 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     break
             if not layer:
                 return
-            selected_features = layer.selectedFeatures()
 
+            selected_features = layer.selectedFeatures()
             if not selected_features:
                 return
 
@@ -453,40 +455,30 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             # Get the point coordinates
             point = geom.asPoint()
 
-            # Check the layer CRS
+            # Check the layer CRS and convert to WGS84 if needed
             layer_crs = layer.crs()
+            wgs84_crs = QgsCoordinateReferenceSystem('EPSG:4326')
 
-            # Convert to WGS84 lat/long if needed
-            if layer_crs.authid() == 'EPSG:32636':
-                # UTM Zone 36N - convert to WGS84
-                from pyproj import Proj, transform
-                utm_proj = Proj("+proj=utm +zone=36 +north +datum=WGS84 +units=m +no_defs")
-                wgs84_proj = Proj("+proj=longlat +datum=WGS84 +no_defs")
-                lon, lat = transform(utm_proj, wgs84_proj, point.x(), point.y())
-            elif layer_crs.authid() == 'EPSG:4326':
+            if layer_crs.authid() != 'EPSG:4326':
+                # Transform from layer CRS to WGS84
+                coord_transform = QgsCoordinateTransform(layer_crs, wgs84_crs, QgsProject.instance())
+                point_wgs84 = coord_transform.transform(point)
+                lon, lat = point_wgs84.x(), point_wgs84.y()
+            else:
                 # Already WGS84
                 lon, lat = point.x(), point.y()
-            else:
-                # Try to transform using QGIS
-                wgs84_crs = QgsCoordinateReferenceSystem('EPSG:4326')
-                transform = QgsCoordinateTransform(layer_crs, wgs84_crs, QgsProject.instance())
-                point_wgs84 = transform.transform(point)
-                lon, lat = point_wgs84.x(), point_wgs84.y()
 
-            # Update the form fields with the coordinates
-            # Format as decimal degrees
+            # Update the form fields with the coordinates (decimal degrees)
             self.lineEdit_latitude.setText(f"{lat:.6f}")
             self.lineEdit_longitude.setText(f"{lon:.6f}")
 
             # Also try to match the record in the database by code
-            code_field_index = feature.fieldNameIndex('code')
-            if code_field_index >= 0:
-                code = feature.attribute('code')
-                if code:
-                    # Find and navigate to the matching record
-                    idx = self.comboBox_code.findText(str(code))
-                    if idx >= 0:
-                        self.comboBox_code.setCurrentIndex(idx)
+            code = feature.attribute('code')
+            if code:
+                # Find and navigate to the matching record
+                idx = self.comboBox_code.findText(str(code))
+                if idx >= 0:
+                    self.comboBox_code.setCurrentIndex(idx)
 
         except Exception as e:
             # Silently fail - don't interrupt user workflow
@@ -499,20 +491,29 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         the corresponding point in the GIS layer.
         """
         try:
-            QMessageBox.information(self, "DEBUG", "sync_coordinates_to_gis called", QMessageBox.Ok)
-
             lat_text = self.lineEdit_latitude.text().strip()
             lon_text = self.lineEdit_longitude.text().strip()
 
             if not lat_text or not lon_text:
-                QMessageBox.warning(self, "DEBUG", "No lat/lon text, returning", QMessageBox.Ok)
                 return
 
-            # Convert to UTM for the GIS layer
-            easting, northing = self.longconvert()
-            QMessageBox.information(self, "DEBUG", f"UTM coords: E={easting}, N={northing}", QMessageBox.Ok)
+            # Parse coordinates - handle both decimal and DM format
+            def parse_coord(coord_str):
+                if re.match(r'^-?\d+\.?\d*$', coord_str):
+                    return float(coord_str)
+                return self.dm2dec(coord_str)
 
-            # Find the shipwreck layer - check all possible names
+            latitude = parse_coord(lat_text)
+            longitude = parse_coord(lon_text)
+
+            # Validate coordinates
+            if not (math.isfinite(latitude) and math.isfinite(longitude)):
+                return
+
+            # Always update database directly (handles both layer loaded and not loaded cases)
+            self.insert_or_update_point_in_db()
+
+            # Find the shipwreck layer to refresh if loaded
             layer = None
             layer_names = ['shipwreck_location', 'Shipwreck', 'Shipwreck view', 'shipwreck_view']
             for name in layer_names:
@@ -521,37 +522,15 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     layer = layers[0]
                     break
 
-            # If no layer is loaded, always insert/update in database directly
-            if not layer:
-                QMessageBox.information(self, "DEBUG", "No GIS layer found, inserting to DB directly", QMessageBox.Ok)
-                self.insert_or_update_point_in_db()
-                return
-            code = str(self.comboBox_code.currentText())
-
-            if not code:
-                return
-
-            # Check if feature with this code exists
-            expr = QgsExpression(f"\"code\" = '{code}'")
-            request = QgsFeatureRequest(expr)
-            features = list(layer.getFeatures(request))
-
-            if features:
-                # Update existing feature
-                feature = features[0]
-                layer.startEditing()
-                geom = QgsGeometry.fromPointXY(QgsPointXY(easting, northing))
-                layer.changeGeometry(feature.id(), geom)
-                layer.commitChanges()
-            else:
-                # Insert new feature using existing method
-                self.insert_point()
+            if layer:
+                # Refresh the layer to show updated geometry
+                layer.triggerRepaint()
 
             # Refresh the map canvas
             self.iface.mapCanvas().refresh()
 
         except Exception as e:
-            QMessageBox.warning(self, "DEBUG ERROR", f"sync_coordinates_to_gis error: {str(e)}", QMessageBox.Ok)
+            pass  # Silently fail - don't interrupt user workflow
 
     def update_gis_on_save(self):
         """Call this method when saving the record to sync coordinates to GIS."""
@@ -559,14 +538,10 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             lat_text = self.lineEdit_latitude.text().strip()
             lon_text = self.lineEdit_longitude.text().strip()
 
-            QMessageBox.information(self, "DEBUG", f"update_gis_on_save called. Lat: '{lat_text}', Lon: '{lon_text}'", QMessageBox.Ok)
-
             if lat_text and lon_text:
                 self.sync_coordinates_to_gis()
-            else:
-                QMessageBox.warning(self, "DEBUG", "No coordinates found!", QMessageBox.Ok)
         except Exception as e:
-            QMessageBox.warning(self, "DEBUG ERROR", f"update_gis_on_save error: {str(e)}", QMessageBox.Ok)
+            pass  # Silently fail - don't interrupt save workflow
 
     def apikey_gpt(self):
         # HOME = os.environ['PYARCHINIT_HOME']
@@ -1631,9 +1606,30 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         # return a
         
     def longconvert(self):
-        """Convert lat/long to UTM coordinates and return as tuple (easting, northing)."""
-        t = self.dm2dec(str(self.lineEdit_longitude.text()))
-        s = self.dm2dec(str(self.lineEdit_latitude.text()))
+        """Convert lat/long to UTM coordinates and return as tuple (easting, northing).
+
+        Supports both decimal degrees (e.g., 35.5123) and DM format (e.g., 35°30.75 N).
+        """
+        lon_str = str(self.lineEdit_longitude.text()).strip()
+        lat_str = str(self.lineEdit_latitude.text()).strip()
+
+        # Detect if coordinates are in decimal format (just numbers with optional minus/decimal point)
+        # or DM format (contains degree symbol or direction letters)
+        def parse_coord(coord_str):
+            """Parse coordinate - handle both decimal and DM format."""
+            # Check if it's a simple decimal number (may include minus sign and decimal point)
+            try:
+                # Try to parse as simple decimal - if it works and has no special chars, use it directly
+                if re.match(r'^-?\d+\.?\d*$', coord_str):
+                    return float(coord_str)
+            except:
+                pass
+            # Otherwise use DM parser
+            return self.dm2dec(coord_str)
+
+        t = parse_coord(lon_str)
+        s = parse_coord(lat_str)
+
         myProj = Proj("+proj=utm +zone=36 +north +datum=WGS84 +units=m +no_defs")
         easting, northing = myProj(t, s)
         return easting, northing
@@ -1648,33 +1644,67 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         return settings
 
     def insert_or_update_point_in_db(self):
-        """Insert or update shipwreck point geometry directly in database."""
+        """Insert or update shipwreck point geometry directly in database.
+
+        Handles automatic coordinate transformation:
+        - Form input is always in WGS84 (EPSG:4326) - decimal degrees, DM, or DMS
+        - Database column SRID is auto-detected
+        - Coordinates are transformed to match the column SRID
+        """
         from sqlalchemy import text
         conn = Connection()
         db_url = conn.conn_str()
         settings = self._get_db_settings()
 
         try:
-            engine = create_engine(db_url, echo=True)
+            engine = create_engine(db_url, echo=False)
 
             # Only load spatialite extension for SQLite
             if settings.SERVER == 'sqlite':
                 listen(engine, 'connect', self.load_spatialite)
 
-            # Get UTM coordinates
-            easting, northing = self.longconvert()
+            # Get lat/lon as decimal degrees (SRID 4326)
+            lat_str = self.lineEdit_latitude.text().strip()
+            lon_str = self.lineEdit_longitude.text().strip()
+
+            # Parse coordinates - handle decimal, DM and DMS formats
+            def parse_coord(coord_str):
+                if re.match(r'^-?\d+\.?\d*$', coord_str):
+                    return float(coord_str)
+                return self.dm2dec(coord_str)
+
+            latitude = parse_coord(lat_str)
+            longitude = parse_coord(lon_str)
 
             code = str(self.comboBox_code.currentText()).replace("'", "''")
             nationality = str(self.comboBox_nationality.currentText()).replace("'", "''")
             name_vessel = str(self.comboBox_name_vessel.currentText()).replace("'", "''")
 
-            # Use different geometry syntax for PostgreSQL vs SQLite
-            if settings.SERVER == 'postgres':
-                geom_func = "ST_SetSRID(ST_MakePoint(%f, %f), 32636)" % (easting, northing)
-            else:
-                geom_func = "MakePoint(%f, %f, 32636)" % (easting, northing)
+            with engine.begin() as c:
+                # Detect the SRID of the geometry column
+                if settings.SERVER == 'postgres':
+                    srid_sql = "SELECT Find_SRID('public', 'shipwreck_location', 'the_geom')"
+                else:
+                    srid_sql = "SELECT srid FROM geometry_columns WHERE f_table_name = 'shipwreck_location' AND f_geometry_column = 'the_geom'"
 
-            with engine.connect() as c:
+                srid_result = c.execute(text(srid_sql)).fetchone()
+                target_srid = srid_result[0] if srid_result else 4326
+
+                # Build geometry function with transformation if needed
+                # Input is always WGS84 (4326), transform to target SRID if different
+                if settings.SERVER == 'postgres':
+                    if target_srid == 4326:
+                        geom_func = "ST_SetSRID(ST_MakePoint(%f, %f), 4326)" % (longitude, latitude)
+                    else:
+                        # Transform from 4326 to target SRID (e.g., UTM)
+                        geom_func = "ST_Transform(ST_SetSRID(ST_MakePoint(%f, %f), 4326), %d)" % (longitude, latitude, target_srid)
+                else:
+                    # SpatiaLite
+                    if target_srid == 4326:
+                        geom_func = "MakePoint(%f, %f, 4326)" % (longitude, latitude)
+                    else:
+                        geom_func = "Transform(MakePoint(%f, %f, 4326), %d)" % (longitude, latitude, target_srid)
+
                 # Check if point with this code already exists
                 check_sql = "SELECT gid FROM shipwreck_location WHERE code = '%s'" % code
                 result = c.execute(text(check_sql)).fetchone()
@@ -1685,65 +1715,24 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                         nationality, name_vessel, geom_func, code
                     )
                     c.execute(text(update_sql))
-                    QMessageBox.information(self, "GIS Sync", "Point updated for code: %s" % code, QMessageBox.Ok)
                 else:
                     # Insert new point
                     insert_sql = "INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ('%s', '%s', '%s', %s)" % (
                         code, nationality, name_vessel, geom_func
                     )
                     c.execute(text(insert_sql))
-                    QMessageBox.information(self, "GIS Sync", "Point created for code: %s" % code, QMessageBox.Ok)
-
-                c.commit()
 
         except Exception as e:
-            QMessageBox.warning(self, "Insert/Update Point Error",
+            QMessageBox.warning(self, "GIS Sync Error",
                                "Failed to save geometry: " + str(e),
                                QMessageBox.Ok)
 
     def insert_point(self):
-        """Insert shipwreck point geometry into database."""
-        from sqlalchemy import text
-        conn = Connection()
-        db_url = conn.conn_str()
-        settings = self._get_db_settings()
+        """Insert shipwreck point geometry into database.
 
-        try:
-            engine = create_engine(db_url, echo=True)
-
-            # Only load spatialite extension for SQLite
-            if settings.SERVER == 'sqlite':
-                listen(engine, 'connect', self.load_spatialite)
-
-            # Get UTM coordinates
-            easting, northing = self.longconvert()
-
-            code = str(self.comboBox_code.currentText()).replace("'", "''")
-            nationality = str(self.comboBox_nationality.currentText()).replace("'", "''")
-            name_vessel = str(self.comboBox_name_vessel.currentText()).replace("'", "''")
-
-            # Use different geometry syntax for PostgreSQL vs SQLite
-            if settings.SERVER == 'postgres':
-                geom_func = "ST_SetSRID(ST_MakePoint(%f, %f), 32636)" % (easting, northing)
-            else:
-                geom_func = "MakePoint(%f, %f, 32636)" % (easting, northing)
-
-            site_point = "INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ('%s', '%s', '%s', %s)" % (
-                code,
-                nationality,
-                name_vessel,
-                geom_func
-            )
-
-            with engine.connect() as c:
-                c.execute(text(site_point))
-                c.commit()
-                QMessageBox.information(self, "GIS Sync", "Point created for code: %s" % code, QMessageBox.Ok)
-
-        except Exception as e:
-            QMessageBox.warning(self, "Insert Point Error",
-                               "Failed to insert geometry: " + str(e),
-                               QMessageBox.Ok)
+        Note: This method is deprecated - use insert_or_update_point_in_db() instead.
+        """
+        self.insert_or_update_point_in_db()
     
     def on_pushButtonQuant_pressed(self):
         dlg = QuantPanelMain(self)

@@ -141,10 +141,12 @@ class ANC(object):
                 bfb,
 
                 bft,
-                
-                qty
 
-                
+                qty,
+
+                biblio,
+
+                storage_
 
                 ):
 
@@ -400,8 +402,12 @@ class ANC(object):
         self.bfb,
 
         self.bft,
-        
-        self.qty
+
+        self.qty,
+
+        self.biblio,
+
+        self.storage_
 
         )
 
