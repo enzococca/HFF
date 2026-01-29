@@ -1629,14 +1629,29 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         myProj = Proj("+proj=utm +zone=36 +north +datum=WGS84 +units=m +no_defs")
         easting, northing = myProj(t, s)
         return easting, northing
+    def _get_db_settings(self):
+        """Get database settings from config."""
+        cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
+        file_path = '{}{}'.format(self.HOME, cfg_rel_path)
+        with open(file_path, "r") as conf:
+            con_sett = conf.read()
+        settings = Settings(con_sett)
+        settings.set_configuration()
+        return settings
+
     def insert_or_update_point_in_db(self):
         """Insert or update shipwreck point geometry directly in database."""
         from sqlalchemy import text
         conn = Connection()
         db_url = conn.conn_str()
+        settings = self._get_db_settings()
+
         try:
             engine = create_engine(db_url, echo=True)
-            listen(engine, 'connect', self.load_spatialite)
+
+            # Only load spatialite extension for SQLite
+            if settings.SERVER == 'sqlite':
+                listen(engine, 'connect', self.load_spatialite)
 
             # Get UTM coordinates
             easting, northing = self.longconvert()
@@ -1645,6 +1660,12 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             nationality = str(self.comboBox_nationality.currentText()).replace("'", "''")
             name_vessel = str(self.comboBox_name_vessel.currentText()).replace("'", "''")
 
+            # Use different geometry syntax for PostgreSQL vs SQLite
+            if settings.SERVER == 'postgres':
+                geom_func = "ST_SetSRID(ST_MakePoint(%f, %f), 32636)" % (easting, northing)
+            else:
+                geom_func = "MakePoint(%f, %f, 32636)" % (easting, northing)
+
             with engine.connect() as c:
                 # Check if point with this code already exists
                 check_sql = "SELECT gid FROM shipwreck_location WHERE code = '%s'" % code
@@ -1652,16 +1673,18 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
                 if result:
                     # Update existing point
-                    update_sql = "UPDATE shipwreck_location SET nationality = '%s', name_vessel = '%s', the_geom = MakePoint(%f, %f, 32636) WHERE code = '%s'" % (
-                        nationality, name_vessel, easting, northing, code
+                    update_sql = "UPDATE shipwreck_location SET nationality = '%s', name_vessel = '%s', the_geom = %s WHERE code = '%s'" % (
+                        nationality, name_vessel, geom_func, code
                     )
                     c.execute(text(update_sql))
+                    QMessageBox.information(self, "GIS Sync", "Point updated for code: %s" % code, QMessageBox.Ok)
                 else:
                     # Insert new point
-                    insert_sql = "INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ('%s', '%s', '%s', MakePoint(%f, %f, 32636))" % (
-                        code, nationality, name_vessel, easting, northing
+                    insert_sql = "INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ('%s', '%s', '%s', %s)" % (
+                        code, nationality, name_vessel, geom_func
                     )
                     c.execute(text(insert_sql))
+                    QMessageBox.information(self, "GIS Sync", "Point created for code: %s" % code, QMessageBox.Ok)
 
                 c.commit()
 
@@ -1675,9 +1698,14 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         from sqlalchemy import text
         conn = Connection()
         db_url = conn.conn_str()
+        settings = self._get_db_settings()
+
         try:
             engine = create_engine(db_url, echo=True)
-            listen(engine, 'connect', self.load_spatialite)
+
+            # Only load spatialite extension for SQLite
+            if settings.SERVER == 'sqlite':
+                listen(engine, 'connect', self.load_spatialite)
 
             # Get UTM coordinates
             easting, northing = self.longconvert()
@@ -1686,18 +1714,23 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             nationality = str(self.comboBox_nationality.currentText()).replace("'", "''")
             name_vessel = str(self.comboBox_name_vessel.currentText()).replace("'", "''")
 
-            # Correct SQL syntax for SpatiaLite MakePoint (use single quotes for strings)
-            site_point = "INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ('%s', '%s', '%s', MakePoint(%f, %f, 32636))" % (
+            # Use different geometry syntax for PostgreSQL vs SQLite
+            if settings.SERVER == 'postgres':
+                geom_func = "ST_SetSRID(ST_MakePoint(%f, %f), 32636)" % (easting, northing)
+            else:
+                geom_func = "MakePoint(%f, %f, 32636)" % (easting, northing)
+
+            site_point = "INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ('%s', '%s', '%s', %s)" % (
                 code,
                 nationality,
                 name_vessel,
-                easting,
-                northing
+                geom_func
             )
 
             with engine.connect() as c:
                 c.execute(text(site_point))
                 c.commit()
+                QMessageBox.information(self, "GIS Sync", "Point created for code: %s" % code, QMessageBox.Ok)
 
         except Exception as e:
             QMessageBox.warning(self, "Insert Point Error",
