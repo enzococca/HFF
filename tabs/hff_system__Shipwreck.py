@@ -499,14 +499,18 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         the corresponding point in the GIS layer.
         """
         try:
+            QMessageBox.information(self, "DEBUG", "sync_coordinates_to_gis called", QMessageBox.Ok)
+
             lat_text = self.lineEdit_latitude.text().strip()
             lon_text = self.lineEdit_longitude.text().strip()
 
             if not lat_text or not lon_text:
+                QMessageBox.warning(self, "DEBUG", "No lat/lon text, returning", QMessageBox.Ok)
                 return
 
             # Convert to UTM for the GIS layer
             easting, northing = self.longconvert()
+            QMessageBox.information(self, "DEBUG", f"UTM coords: E={easting}, N={northing}", QMessageBox.Ok)
 
             # Find the shipwreck layer - check all possible names
             layer = None
@@ -519,6 +523,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
             # If no layer is loaded, always insert/update in database directly
             if not layer:
+                QMessageBox.information(self, "DEBUG", "No GIS layer found, inserting to DB directly", QMessageBox.Ok)
                 self.insert_or_update_point_in_db()
                 return
             code = str(self.comboBox_code.currentText())
@@ -546,8 +551,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             self.iface.mapCanvas().refresh()
 
         except Exception as e:
-            # Silently fail - don't interrupt user workflow
-            pass
+            QMessageBox.warning(self, "DEBUG ERROR", f"sync_coordinates_to_gis error: {str(e)}", QMessageBox.Ok)
 
     def update_gis_on_save(self):
         """Call this method when saving the record to sync coordinates to GIS."""
@@ -555,10 +559,14 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             lat_text = self.lineEdit_latitude.text().strip()
             lon_text = self.lineEdit_longitude.text().strip()
 
+            QMessageBox.information(self, "DEBUG", f"update_gis_on_save called. Lat: '{lat_text}', Lon: '{lon_text}'", QMessageBox.Ok)
+
             if lat_text and lon_text:
                 self.sync_coordinates_to_gis()
-        except Exception:
-            pass
+            else:
+                QMessageBox.warning(self, "DEBUG", "No coordinates found!", QMessageBox.Ok)
+        except Exception as e:
+            QMessageBox.warning(self, "DEBUG ERROR", f"update_gis_on_save error: {str(e)}", QMessageBox.Ok)
 
     def apikey_gpt(self):
         # HOME = os.environ['PYARCHINIT_HOME']
