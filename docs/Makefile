@@ -91,7 +91,14 @@ check-tools:
 	@which latexmk > /dev/null || (echo "ERROR: latexmk not found" && exit 1)
 	@echo "All required tools found"
 
+# Build Arabic PDF with Pandoc (recommended - better RTL support)
+.PHONY: pdf-ar-pandoc
+pdf-ar-pandoc:
+	@echo "Building Arabic PDF with Pandoc..."
+	bash build_ar_pandoc.sh
+	@echo "Arabic PDF created at _build/pandoc-ar/HFF_Documentation_AR.pdf"
+
 # Build everything
 .PHONY: all
-all: check-tools html html-ar pdf-all
+all: check-tools html html-ar pdf pdf-ar-pandoc
 	@echo "All documentation built successfully"

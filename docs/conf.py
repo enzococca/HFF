@@ -96,13 +96,93 @@ gettext_compact = False
 def setup(app):
     app.add_css_file('custom.css')
 
-    # Dynamically update latex_documents based on master_doc
+    # Dynamically update configuration based on master_doc
     # This runs after Sphinx processes -D options
-    def update_latex_docs(app, config):
+    def update_config_for_language(app, config):
         if config.master_doc == 'index_ar':
+            # Update latex_documents for Arabic
             config.latex_documents = [
                 ('index_ar', 'HFF_Documentation_AR.tex', 'وثائق HFF Survey Plugin',
                  'Enzo Cocca', 'manual'),
             ]
 
-    app.connect('config-inited', update_latex_docs)
+            # Update language
+            config.language = 'ar'
+
+            # Update latex_elements for Arabic with RTL support
+            config.latex_elements = {
+                'papersize': 'a4paper',
+                'pointsize': '12pt',
+                'babel': '',  # Disable babel, use polyglossia instead
+                'fontpkg': r'''
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage[numerals=maghrib]{arabic}
+\setotherlanguage{english}
+% Use Amiri for Arabic text
+\newfontfamily\arabicfont[Path=/usr/local/texlive/2024basic/texmf-dist/fonts/truetype/public/amiri/,
+    UprightFont=Amiri-Regular.ttf,
+    BoldFont=Amiri-Bold.ttf,
+    ItalicFont=Amiri-Italic.ttf,
+    BoldItalicFont=Amiri-BoldItalic.ttf,
+    Script=Arabic,
+    Scale=1.2]{Amiri}
+% Use system fonts for Latin text
+\newfontfamily\englishfont{Helvetica}
+\setmainfont[Path=/usr/local/texlive/2024basic/texmf-dist/fonts/truetype/public/amiri/,
+    UprightFont=Amiri-Regular.ttf,
+    BoldFont=Amiri-Bold.ttf,
+    ItalicFont=Amiri-Italic.ttf,
+    BoldItalicFont=Amiri-BoldItalic.ttf,
+    Script=Arabic]{Amiri}
+\setsansfont{Helvetica}
+\setmonofont{Menlo}
+''',
+                'preamble': r'''
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{array}
+\setcounter{tocdepth}{2}
+% Set text color to black
+\color{black}
+% RTL support
+\usepackage{bidi}
+% COMPLETELY disable Sphinx table styling
+\sphinxsetup{
+  verbatimwithframe=false,
+  VerbatimColor={named}{white},
+  VerbatimBorderColor={named}{white},
+  noteBorderColor={named}{white},
+  warningBorderColor={named}{white},
+}
+% Override ALL table-related macros
+\let\sphinxstyletheadfamily\relax
+\let\sphinxtableatstartofbodyhook\relax
+\let\sphinxtablestrut\relax
+\let\sphinxcolorgroupedrow\relax
+\makeatletter
+\renewcommand{\sphinxstyletheadfamily}{\normalfont\bfseries}
+\let\sphinxcolorlatentable\@empty
+\let\sphinxcolortabletoggle\@empty
+\makeatother
+% Ensure black text
+\AtBeginDocument{\color{black}}
+''',
+                'figure_align': 'htbp',
+                'extraclassoptions': 'openany,oneside',
+                'maketitle': r'''
+\begin{titlepage}
+\begin{center}
+\vspace*{3cm}
+{\Huge\bfseries HFF Survey Plugin\\[1cm]}
+{\Large وثائق البرنامج المساعد\\[2cm]}
+{\large مؤسسة هونور فروست\\[0.5cm]}
+{\large الإصدار 4.1.x\\[3cm]}
+\today
+\end{center}
+\end{titlepage}
+''',
+            }
+
+    app.connect('config-inited', update_config_for_language)
