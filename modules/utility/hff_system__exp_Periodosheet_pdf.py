@@ -34,6 +34,9 @@ from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer, Tabl
 from reportlab.platypus.paragraph import Paragraph
 
 from .hff_system__OS_utility import *
+from .hff_pdf_base import (
+    safe_eval_list, HFF_BLUE, HFF_BLUE_LIGHT, HFF_GRAY, HFF_GRAY_DARK, HFF_WHITE
+)
 
 
 class NumberedCanvas_USsheet(canvas.Canvas):
@@ -137,7 +140,7 @@ class single_US_pdf_sheet(object):
         self.documentazione = data[28]
 
     def unzip_rapporti_stratigrafici(self):
-        rapporti = eval(self.rapporti)
+        rapporti = safe_eval_list(self.rapporti)
         for rapporto in rapporti:
             if len(rapporto) == 2:
                 if rapporto[0] == 'Si lega a' or rapporto[0] == 'si lega a':
@@ -203,7 +206,7 @@ class single_US_pdf_sheet(object):
         if self.documentazione == '':
             pass
         else:
-            for string_doc in eval(self.documentazione):
+            for string_doc in safe_eval_list(self.documentazione):
                 if len(string_doc) == 2:
                     self.documentazione_print += str(string_doc[0]) + ": " + str(string_doc[1]) + "<br/>"
                 if len(string_doc) == 1:
@@ -218,6 +221,7 @@ class single_US_pdf_sheet(object):
         self.unzip_rapporti_stratigrafici()
         self.unzip_documentazione()
 
+        # Use improved font sizes for better readability
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
@@ -229,6 +233,14 @@ class single_US_pdf_sheet(object):
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
         styDescrizione.alignment = 4  # Justified
+
+        styleSheet = getSampleStyleSheet()
+        styInt = styleSheet['Normal']
+        styInt.spaceBefore = 20
+        styInt.spaceAfter = 20
+        styInt.fontSize = 12
+        styInt.alignment = 1  # CENTER
+        styInt.textColor = HFF_BLUE  # Professional blue color
 
         # format labels
 
@@ -263,9 +275,9 @@ class single_US_pdf_sheet(object):
         colore = Paragraph("<b>Colore</b><br/>" + self.colore, styNormal)
 
         # 4 row
-        inclusi_list = eval(self.inclusi)
+        inclusi_list = safe_eval_list(self.inclusi)
         inclusi = ''
-        for i in eval(self.inclusi):
+        for i in safe_eval_list(self.inclusi):
             if inclusi == '':
                 try:
                     inclusi += str(i[0])
@@ -277,9 +289,9 @@ class single_US_pdf_sheet(object):
                 except:
                     pass
         inclusi = Paragraph("<b>Inclusi</b><br/>" + inclusi, styNormal)
-        campioni_list = eval(self.campioni)
+        campioni_list = safe_eval_list(self.campioni)
         campioni = ''
-        for i in eval(self.campioni):
+        for i in safe_eval_list(self.campioni):
             if campioni == '':
                 try:
                     campioni += str(i[0])
@@ -383,9 +395,19 @@ class single_US_pdf_sheet(object):
             # 17 row
         ]
 
-        # table style
+        # table style - Professional styling with blue header
         table_style = [
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+            ('GRID', (0, 0), (-1, -1), 0.5, HFF_GRAY_DARK),
+            # Header row styling
+            ('BACKGROUND', (0,0), (-1,0), HFF_BLUE),
+            ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+            # Alternating row backgrounds
+            ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, HFF_GRAY]),
+            # Cell padding
+            ('TOPPADDING', (0,0), (-1,-1), 6),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 6),
+            ('LEFTPADDING', (0,0), (-1,-1), 4),
+            ('RIGHTPADDING', (0,0), (-1,-1), 4),
             # 0 row
             ('SPAN', (0, 0), (6, 0)),  # intestazione
             ('SPAN', (7, 0), (9, 0)),  # intestazione
@@ -493,7 +515,7 @@ class US_index_pdf_sheet(object):
         self.rapporti = data[17]
 
     def unzip_rapporti_stratigrafici(self):
-        rapporti = eval(self.rapporti)
+        rapporti = safe_eval_list(self.rapporti)
 
         rapporti.sort()
 

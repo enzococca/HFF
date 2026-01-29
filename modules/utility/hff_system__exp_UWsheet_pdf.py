@@ -113,8 +113,9 @@ class FOTO_index_pdf_sheet(object):
 
     def makeStyles(self):
         styles = TableStyle([
-            ('GRID', (0, 0), (-1, -1), 0.0, colors.black),
-            ('VALIGN', (0, 0), (-1, -1), 'TOP')
+            ('GRID', (0, 0), (-1, -1), 0.5, HFF_GRAY_DARK),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HFF_GRAY]),
         ])
         return styles
 
@@ -153,8 +154,9 @@ class FOTO_index_pdf_sheet_2(object):
 
     def makeStyles(self):
         styles = TableStyle([
-            ('GRID', (0, 0), (-1, -1), 0.0, colors.black),
-            ('VALIGN', (0, 0), (-1, -1), 'TOP')
+            ('GRID', (0, 0), (-1, -1), 0.5, HFF_GRAY_DARK),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HFF_GRAY]),
         ])
         return styles
 

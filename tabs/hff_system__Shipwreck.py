@@ -375,7 +375,6 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.empty_fields()
         self.fill_fields()
         self.customize_GUI()
-        self.show()
         self.pushButton_report_generator.clicked.connect(self.generate_and_display_report)
         # Imposta la finestra principale per rimanere sempre in primo piano
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
@@ -3705,13 +3704,32 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             except Exception as e :
                 QMessageBox.warning(self, tr('warning', "Warning"),str(e),QMessageBox.Ok)
     def on_pushButton_exppdf_pressed(self):
-        SHIPWRECK_pdf_sheet = generate_SHIPWRECK_pdf()
-        data_list = self.generate_list_pdf()
-        SHIPWRECK_pdf_sheet.build_SHIPWRECK_sheets(data_list)
+        try:
+            if not self.DATA_LIST:
+                QMessageBox.warning(self, tr('warning', "Warning"),
+                    tr('msg_no_records', "No records to export"), QMessageBox.Ok)
+                return
+            SHIPWRECK_pdf_sheet = generate_SHIPWRECK_pdf()
+            data_list = self.generate_list_pdf()
+            SHIPWRECK_pdf_sheet.build_SHIPWRECK_sheets(data_list)
+            QMessageBox.information(self, tr('success', "Success"),
+                tr('msg_export_completed', "PDF export completed successfully"), QMessageBox.Ok)
+        except Exception as e:
+            QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
+
     def on_pushButton_explist_pressed(self):
-        SHIPWRECK_index_pdf = generate_SHIPWRECK_pdf()
-        data_list = self.generate_list_pdf2()
-        SHIPWRECK_index_pdf.build_index_SHIPWRECK(data_list, data_list[0][0])
+        try:
+            if not self.DATA_LIST:
+                QMessageBox.warning(self, tr('warning', "Warning"),
+                    tr('msg_no_records', "No records to export"), QMessageBox.Ok)
+                return
+            SHIPWRECK_index_pdf = generate_SHIPWRECK_pdf()
+            data_list = self.generate_list_pdf2()
+            SHIPWRECK_index_pdf.build_index_SHIPWRECK(data_list, data_list[0][0])
+            QMessageBox.information(self, tr('success', "Success"),
+                tr('msg_export_completed', "PDF export completed successfully"), QMessageBox.Ok)
+        except Exception as e:
+            QMessageBox.warning(self, tr('warning', "Warning"), str(e), QMessageBox.Ok)
     def set_rec_counter(self, t, c):
         self.rec_tot = t
         self.rec_corr = c

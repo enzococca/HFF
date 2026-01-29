@@ -12,6 +12,9 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer, TableStyle, Image
 from reportlab.platypus.paragraph import Paragraph
 from .hff_system__OS_utility import *
+from .hff_pdf_base import (
+    safe_eval_list, HFF_BLUE, HFF_BLUE_LIGHT, HFF_GRAY, HFF_GRAY_DARK, HFF_WHITE
+)
 class NumberedCanvas_USsheet(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
@@ -95,40 +98,48 @@ class single_US_pdf_sheet:
         today = now.strftime("%d-%m-%Y")
         return today
     def create_sheet(self):
+        # Use improved font sizes for better readability
         styleSheet = getSampleStyleSheet()
         stylogo = styleSheet['Normal']
         stylogo.spaceBefore = 20
         stylogo.spaceAfter = 20
-        stylogo.alignment = 1  # LEFT    
+        stylogo.alignment = 1  # CENTER
+
         styleSheet = getSampleStyleSheet()
         styInt = styleSheet['Normal']
         styInt.spaceBefore = 20
         styInt.spaceAfter = 20
-        styInt.fontSize = 8
-        styInt.alignment = 1  # LEFT    
+        styInt.fontSize = 12  # Increased from 8
+        styInt.alignment = 1  # CENTER
+        styInt.textColor = HFF_BLUE  # Professional blue color
+
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
-        styNormal.fontSize = 6
+        styNormal.fontSize = 9  # Increased from 6
         styNormal.alignment = 0  # LEFT
+
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
-        styDescrizione.fontSize = 6
+        styDescrizione.fontSize = 9  # Increased from 6
         styDescrizione.alignment = 4  # Justified
+
         styleSheet = getSampleStyleSheet()
         styUnitaTipo = styleSheet['Normal']
         styUnitaTipo.spaceBefore = 20
         styUnitaTipo.spaceAfter = 20
         styUnitaTipo.fontSize = 14
         styUnitaTipo.alignment = 1  # CENTER
+        styUnitaTipo.textColor = HFF_BLUE
+
         styleSheet = getSampleStyleSheet()
         styTitoloComponenti = styleSheet['Normal']
         styTitoloComponenti.spaceBefore = 20
         styTitoloComponenti.spaceAfter = 20
-        styTitoloComponenti.fontSize = 6
+        styTitoloComponenti.fontSize = 9  # Increased from 6
         styTitoloComponenti.alignment = 1  # CENTER
         intestazione = Paragraph("<b>Archaeological Underwater Survey - DIVELOG FORM<br/>" + "</b>", styInt)
         home = os.environ['HFF_HOME']
@@ -213,9 +224,19 @@ class single_US_pdf_sheet:
                         
                         # [photo_id,'01', '02', '03', '04','05', video_id, '07', '08', '09','10','11',current,'13', '14','15','16','17'], #13
                         ]
-        #table style
+        #table style - Professional styling with blue header
         table_style=[
-                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                    ('GRID',(0,0),(-1,-1),0.5,HFF_GRAY_DARK),
+                    # Header row styling
+                    ('BACKGROUND', (0,0), (-1,0), HFF_BLUE),
+                    ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+                    # Alternating row backgrounds
+                    ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, HFF_GRAY]),
+                    # Cell padding
+                    ('TOPPADDING', (0,0), (-1,-1), 6),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 6),
+                    ('LEFTPADDING', (0,0), (-1,-1), 4),
+                    ('RIGHTPADDING', (0,0), (-1,-1), 4),
                     #0 row
                     ('SPAN', (0,0),(1,0)),  #logo2
                     ('SPAN', (2,0),(15,0)),  #intestazione
@@ -326,7 +347,7 @@ class Photo_index_pdf(object):
         sito = Paragraph( str(self.sito), styNormal)
         
         
-        photos = eval(self.photo_id)
+        photos = safe_eval_list(self.photo_id)
         photo_id = ''
         description_p = ''
         
@@ -346,7 +367,7 @@ class Photo_index_pdf(object):
         photo_id = Paragraph("<b>PhotoID</b><br/>"+ photo_id, styNormal)
         description_p = Paragraph( "<b>Description</b><br/>"+ description_p, styNormal)
         
-        videos = eval(self.video_id)
+        videos = safe_eval_list(self.video_id)
         video_id = ''
         description_v= ''
         

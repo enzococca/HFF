@@ -424,7 +424,6 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.empty_fields()
         self.fill_fields()
         self.customize_GUI()
-        self.show()
         self.search_1.textChanged.connect(self.update_filter)
         self.checkBox_query.update()
         self.checkBox_query.stateChanged.connect(self.listview_us)###anche questo

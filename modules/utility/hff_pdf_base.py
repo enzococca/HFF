@@ -539,6 +539,60 @@ def add_image_to_elements(elements, image_path, max_width=160*mm, max_height=100
 # UTILITY FUNCTIONS
 # =============================================================================
 
+def safe_eval_list(value, default=None):
+    """Safely evaluate a string as a Python list.
+
+    This function replaces the unsafe eval() usage for parsing list data
+    stored as strings in the database.
+
+    Args:
+        value: String representation of a list, or the list itself, or plain text
+        default: Default value if parsing fails (None returns empty list)
+
+    Returns:
+        Parsed list, or empty list if parsing fails
+
+    Examples:
+        >>> safe_eval_list("[['item1', 'desc1'], ['item2', 'desc2']]")
+        [['item1', 'desc1'], ['item2', 'desc2']]
+        >>> safe_eval_list("Plain text that is not a list")
+        []
+        >>> safe_eval_list(None)
+        []
+        >>> safe_eval_list("")
+        []
+    """
+    import ast
+
+    if default is None:
+        default = []
+
+    # Handle None or empty string
+    if value is None or value == '' or value == 'None':
+        return default
+
+    # If already a list, return it
+    if isinstance(value, list):
+        return value
+
+    # Convert to string if needed
+    value_str = str(value).strip()
+
+    # Check if it looks like a list (starts with '[')
+    if not value_str.startswith('['):
+        return default
+
+    try:
+        # Use ast.literal_eval for safe parsing
+        result = ast.literal_eval(value_str)
+        if isinstance(result, list):
+            return result
+        return default
+    except (ValueError, SyntaxError, TypeError):
+        # Not a valid Python literal
+        return default
+
+
 def safe_str(value, default=''):
     """Safely convert value to string.
 

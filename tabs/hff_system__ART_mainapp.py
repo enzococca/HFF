@@ -309,7 +309,6 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.empty_fields()
         self.fill_fields()
         self.customize_GUI()
-        self.show()
         self.pushButton_report_generator.clicked.connect(self.generate_and_display_report)
         # Imposta la finestra principale per rimanere sempre in primo piano
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)

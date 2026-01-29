@@ -34,6 +34,7 @@ import requests
 import urllib
 from socket import timeout
 from ..utility.settings import Settings
+from ..utility.hff_i18n import tr
 class Hff_pyqgis(QDialog):
     
     HOME = os.environ['HFF_HOME']
@@ -2255,7 +2256,7 @@ class Hff_pyqgis(QDialog):
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
             layer_label_conv = "'"+layer_label+"'"
-            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'postgres')" % (layer_label_conv)
+            cmq_set_vector_layer = "QgsVectorLayer(uri.uri(), %s, 'spatialite')" % (layer_label_conv)
             layer= eval(cmq_set_vector_layer)
 
             if  layer.isValid() == True:
@@ -2266,7 +2267,7 @@ class Hff_pyqgis(QDialog):
                 QgsProject.instance().addMapLayers([layer], False)
             else:
                 QMessageBox.warning(self, tr('title_tester'), tr('msg_layer_error'),QMessageBox.Ok)
-        
+
         if settings.SERVER == 'postgres':
 
             uri = QgsDataSourceUri()

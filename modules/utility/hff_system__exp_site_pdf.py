@@ -12,6 +12,9 @@ from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer, Tabl
 from reportlab.platypus.paragraph import Paragraph
 import numpy as np
 from .hff_system__OS_utility import *
+from .hff_pdf_base import (
+    safe_eval_list, HFF_BLUE, HFF_BLUE_LIGHT, HFF_GRAY, HFF_GRAY_DARK, HFF_WHITE
+)
 
 class NumberedCanvas_sitesheet(canvas.Canvas):
     def __init__(self, *args, **kwargs):
@@ -161,35 +164,43 @@ class Single_site_pdf_sheet:
         return today
 
     def create_sheet(self):
+        # Use improved font sizes for better readability
         styleSheet = getSampleStyleSheet()
         stylogo = styleSheet['Normal']
         stylogo.spaceBefore = 20
         stylogo.spaceAfter = 20
-        stylogo.alignment = 1  # LEFT    
+        stylogo.alignment = 1  # CENTER
+
         styleSheet = getSampleStyleSheet()
         styInt = styleSheet['Normal']
         styInt.spaceBefore = 20
         styInt.spaceAfter = 20
-        styInt.fontSize = 8
-        styInt.alignment = 1  # LEFT    
+        styInt.fontSize = 12  # Increased from 8
+        styInt.alignment = 1  # CENTER
+        styInt.textColor = HFF_BLUE  # Professional blue color
+
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
         styNormal.fontSize = 9
         styNormal.alignment = 0  # LEFT
+
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
         styDescrizione.fontSize = 9
         styDescrizione.alignment = 4  # Justified
+
         styleSheet = getSampleStyleSheet()
         styUnitaTipo = styleSheet['Normal']
         styUnitaTipo.spaceBefore = 20
         styUnitaTipo.spaceAfter = 20
         styUnitaTipo.fontSize = 14
         styUnitaTipo.alignment = 1  # CENTER
+        styUnitaTipo.textColor = HFF_BLUE
+
         styleSheet = getSampleStyleSheet()
         styTitoloComponenti = styleSheet['Normal']
         styTitoloComponenti.spaceBefore = 20
@@ -286,7 +297,7 @@ class Single_site_pdf_sheet:
         
         
         features = Paragraph("<b>Features</b><br/>"  , styInt)
-        f = eval(self.features)
+        f = safe_eval_list(self.features)
         ft='' 
         st=''
         at=''
@@ -325,7 +336,7 @@ class Single_site_pdf_sheet:
         
         disturbance = Paragraph("<b>Feature interpretation</b><br/>"  , styInt)
         
-        d = eval(self.disturbance)
+        d = safe_eval_list(self.disturbance)
         fi='' 
         ce=''
         
@@ -357,7 +368,7 @@ class Single_site_pdf_sheet:
         
         documentation = Paragraph("<b>Documentation</b><br/>"  , styInt)
         
-        docu = eval(self.documentation)
+        docu = safe_eval_list(self.documentation)
         doc1='' 
         doc2=''
         
@@ -405,7 +416,7 @@ class Single_site_pdf_sheet:
         est = Paragraph("<b>Extent of transect surveyed</b><br/>"  + self.est, styNormal)
         
         
-        material_c = eval(self.material_c)
+        material_c = safe_eval_list(self.material_c)
         mat_c='' 
 
         for i in material_c:
@@ -425,7 +436,7 @@ class Single_site_pdf_sheet:
         
         
         
-        morphology_c = eval(self.morphology_c)
+        morphology_c = safe_eval_list(self.morphology_c)
         moph_c='' 
 
         for i in morphology_c:
@@ -446,7 +457,7 @@ class Single_site_pdf_sheet:
         
         
         
-        collection_c = eval(self.collection_c)
+        collection_c = safe_eval_list(self.collection_c)
         col_c='' 
 
         for i in collection_c:
@@ -498,9 +509,19 @@ class Single_site_pdf_sheet:
                         
                         ]
 
-        #table style
+        #table style - Professional styling with blue header
         table_style=[
                     ('GRID',(0,0),(-1,-1),0.5,HFF_GRAY_DARK),
+                    # Header row styling
+                    ('BACKGROUND', (0,0), (-1,0), HFF_BLUE),
+                    ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+                    # Alternating row backgrounds
+                    ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, HFF_GRAY]),
+                    # Cell padding
+                    ('TOPPADDING', (0,0), (-1,-1), 6),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 6),
+                    ('LEFTPADDING', (0,0), (-1,-1), 4),
+                    ('RIGHTPADDING', (0,0), (-1,-1), 4),
                     #0 row
                     ('SPAN', (0,0),(1,0)),  #logo2
                     ('SPAN', (2,0),(15,0)),  #intestazione
@@ -763,7 +784,7 @@ class photolog_index_pdf_2(object):
         #photolog2 = Paragraph("<b>Photolog</b><br/>", styInt)
         
         #pp= range(len(self.photolog)))
-        photologs2 = eval(self.photo_material)
+        photologs2 = safe_eval_list(self.photo_material)
         camera_id='' 
         material=''
         quantity=''
@@ -853,7 +874,7 @@ class Photolog_index_pdf(object):
         #photolog2 = Paragraph("<b>Photolog</b><br/>", styInt)
         
         #pp= range(len(self.photolog)))
-        photologs2 = eval(self.photolog)
+        photologs2 = safe_eval_list(self.photolog)
         camera_id='' 
         orientation=''
         dec=''
