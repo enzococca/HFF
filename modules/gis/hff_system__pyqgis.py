@@ -172,7 +172,7 @@ class Hff_pyqgis(QDialog):
                 QMessageBox.warning(self, tr('title_tester'), "OK Layer Anchor not available",QMessageBox.Ok)
             
     def charge_shipwreck_layers(self, data):
-        
+
         cfg_rel_path = os.path.join(os.sep, 'HFF_DB_folder', 'config.cfg')
         file_path = '{}{}'.format(self.HOME, cfg_rel_path)
         conf = open(file_path, "r")
@@ -183,6 +183,12 @@ class Hff_pyqgis(QDialog):
         settings.set_configuration()
         groupName="View Shipwreck"
         root = QgsProject.instance().layerTreeRoot()
+
+        # Remove existing group if present to avoid duplicates
+        existing_group = root.findGroup(groupName)
+        if existing_group:
+            root.removeChildNode(existing_group)
+
         group = root.addGroup(groupName)
         group.setExpanded(False)
         if settings.SERVER == 'sqlite':

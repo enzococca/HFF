@@ -405,13 +405,19 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     def connect_layer_selection_signal(self):
         """Connect to shipwreck layer selection changed signal."""
         try:
-            # Find the shipwreck_location layer
-            layers = QgsProject.instance().mapLayersByName('shipwreck_location')
-            if not layers:
-                layers = QgsProject.instance().mapLayersByName('Shipwreck')
-            if layers:
-                layer = layers[0]
-                layer.selectionChanged.connect(self.on_gis_feature_selected)
+            # Find the shipwreck layer - check all possible names
+            layer_names = ['shipwreck_location', 'Shipwreck', 'Shipwreck view', 'shipwreck_view']
+            for name in layer_names:
+                layers = QgsProject.instance().mapLayersByName(name)
+                if layers:
+                    layer = layers[0]
+                    # Disconnect first to avoid multiple connections
+                    try:
+                        layer.selectionChanged.disconnect(self.on_gis_feature_selected)
+                    except:
+                        pass
+                    layer.selectionChanged.connect(self.on_gis_feature_selected)
+                    break
         except Exception as e:
             pass
 
@@ -422,14 +428,16 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         latitude/longitude fields with the feature's coordinates.
         """
         try:
-            # Find the shipwreck layer
-            layers = QgsProject.instance().mapLayersByName('shipwreck_location')
-            if not layers:
-                layers = QgsProject.instance().mapLayersByName('Shipwreck')
-            if not layers:
+            # Find the shipwreck layer - check all possible names
+            layer = None
+            layer_names = ['shipwreck_location', 'Shipwreck', 'Shipwreck view', 'shipwreck_view']
+            for name in layer_names:
+                layers = QgsProject.instance().mapLayersByName(name)
+                if layers:
+                    layer = layers[0]
+                    break
+            if not layer:
                 return
-
-            layer = layers[0]
             selected_features = layer.selectedFeatures()
 
             if not selected_features:
@@ -500,12 +508,16 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             # Convert to UTM for the GIS layer
             easting, northing = self.longconvert()
 
-            # Find the shipwreck layer
-            layers = QgsProject.instance().mapLayersByName('shipwreck_location')
-            if not layers:
+            # Find the shipwreck layer - check all possible names
+            layer = None
+            layer_names = ['shipwreck_location', 'Shipwreck', 'Shipwreck view', 'shipwreck_view']
+            for name in layer_names:
+                layers = QgsProject.instance().mapLayersByName(name)
+                if layers:
+                    layer = layers[0]
+                    break
+            if not layer:
                 return
-
-            layer = layers[0]
             code = str(self.comboBox_code.currentText())
 
             if not code:
@@ -987,7 +999,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         # Crea una "intestazione" come primo elemento
         header_item = QListWidgetItem("Site - CODE_ID")
         # Puoi utilizzare il seguente codice per cambiare l'aspetto dell'header
-        header_item.setBackground(QColor('lightgrey'))
+        header_item.setBackground(ThemeManager.instance().get_table_header_color())
         header_item.setFlags(header_item.flags() & ~Qt.ItemIsSelectable)  # rendi l'item non selezionabile
         self.us_listwidget.addItem(header_item)
         # Aggiungi tutte le US al QListWidget
@@ -1273,7 +1285,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             # Aggiungi l'intestazione alla QListWidget
             header_item = QListWidgetItem(
                 "Yellow selected rows indicate untagged images\n From this tool only yellow selected rows can be tagged")
-            header_item.setBackground(QColor('lightgrey'))
+            header_item.setBackground(ThemeManager.instance().get_table_header_color())
             header_item.setFlags(header_item.flags() & ~Qt.ItemIsSelectable)  # rendi l'item non selezionabile
             self.new_list_widget.addItem(header_item)
             # Aggiungi le immagini alla QListWidget
@@ -1306,7 +1318,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 icon = QIcon(thumb_path_str + thumb_path)
                 item.setIcon(icon)
 
-                item.setBackground(QColor("yellow"))
+                item.setBackground(ThemeManager.instance().get_table_highlight_color())
 
                 self.new_list_widget.addItem(item)
 
@@ -1340,7 +1352,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             # Aggiungi l'intestazione alla QListWidget
             header_item = QListWidgetItem(
                 "Yellow selected rows indicate untagged images\n From this tool only yellow selected rows can be tagged ")
-            header_item.setBackground(QColor('lightgrey'))
+            header_item.setBackground(ThemeManager.instance().get_table_header_color())
             header_item.setFlags(header_item.flags() & ~Qt.ItemIsSelectable)  # rendi l'item non selezionabile
             self.new_list_widget.addItem(header_item)
             # Aggiungi le immagini alla QListWidget
@@ -1385,7 +1397,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 item.setIcon(icon)
                 if us_list:
 
-                    item.setBackground(QColor("white"))
+                    item.setBackground(ThemeManager.instance().get_table_cell_color())
 
                     # Inizializza una lista vuota per i nomi delle US
                     us_names = []
@@ -1409,7 +1421,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                         pass  # oppure: item.setText(item.text() + " - US: Non trovato")
                 else:
 
-                    item.setBackground(QColor("yellow"))
+                    item.setBackground(ThemeManager.instance().get_table_highlight_color())
 
                 # Aggiungi l'elemento alla QListWidget
                 # self.new_list_widget.clear()
@@ -1513,7 +1525,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
         # Update the QListWidgetItem based on whether it matches
         if mediatoentity_data:
-            item.setBackground(QColor("white"))
+            item.setBackground(ThemeManager.instance().get_table_cell_color())
 
             # Create a new search dictionary for the US
             search_dict_us = {'id_shipwreck': "'" + str(mediatoentity_data[0].id_entity) + "'"}
@@ -1529,7 +1541,7 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 item.setText(item.text() + " - SHIPWRECK: Not found")
 
         else:
-            item.setBackground(QColor("yellow"))
+            item.setBackground(ThemeManager.instance().get_table_highlight_color())
 
     def fill_iconListWidget(self):
         # self.iconListWidget.clear()  # pulisci prima il widget

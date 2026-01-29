@@ -69,6 +69,8 @@ class ThemeManager(QObject):
         "button_secondary_text": "#e0e0e0",
         "table_header": "#404040",
         "table_alt_row": "#353535",
+        "table_cell_bg": "#3c3c3c",
+        "table_highlight": "#5c5c00",
         "selection_bg": "#4da6ff",
         "selection_text": "#ffffff",
         "error": "#ff6b6b",
@@ -98,6 +100,8 @@ class ThemeManager(QObject):
         "button_secondary_text": "#1a1a1a",
         "table_header": "#e8e8e8",
         "table_alt_row": "#fafafa",
+        "table_cell_bg": "#ffffff",
+        "table_highlight": "#ffff99",
         "selection_bg": "#0078d4",
         "selection_text": "#ffffff",
         "error": "#dc3545",
@@ -138,6 +142,26 @@ class ThemeManager(QObject):
         if theme is None:
             theme = self._current_theme
         return self.DARK_COLORS if theme == self.DARK else self.LIGHT_COLORS
+
+    def get_table_header_color(self):
+        """Get QColor for table header background."""
+        from qgis.PyQt.QtGui import QColor
+        return QColor(self.get_colors()["table_header"])
+
+    def get_table_cell_color(self):
+        """Get QColor for table cell background."""
+        from qgis.PyQt.QtGui import QColor
+        return QColor(self.get_colors()["table_cell_bg"])
+
+    def get_table_highlight_color(self):
+        """Get QColor for highlighted table cell (e.g., yellow)."""
+        from qgis.PyQt.QtGui import QColor
+        return QColor(self.get_colors()["table_highlight"])
+
+    def get_table_alt_row_color(self):
+        """Get QColor for alternate row background."""
+        from qgis.PyQt.QtGui import QColor
+        return QColor(self.get_colors()["table_alt_row"])
 
     def toggle_theme(self):
         """Toggle between dark and light themes."""
