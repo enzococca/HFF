@@ -2950,8 +2950,8 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.remove_row('self.tableWidget_rif_biblio')
 
     def on_pushButton_save_pressed(self):
-        
-        
+
+
         if self.BROWSE_STATUS == "b":
             if self.data_error_check() == 0:
                 if self.records_equal_check() == 1:
@@ -2967,9 +2967,10 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     self.label_sort.setText(self.SORTED_ITEMS[self.SORT_STATUS])
                     self.enable_button(1)
                     self.fill_fields(self.REC_CORR)
-                    
-                else:
 
+                else:
+                    # Even if no changes, sync GIS point if coordinates exist but point might be missing
+                    self.update_gis_on_save()
                     QMessageBox.warning(self, tr('warning', "Warning"), "No changes have been made", QMessageBox.Ok)
         else:
             if self.data_error_check() == 0:
