@@ -516,7 +516,10 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 if layers:
                     layer = layers[0]
                     break
+
+            # If no layer is loaded, always insert/update in database directly
             if not layer:
+                self.insert_or_update_point_in_db()
                 return
             code = str(self.comboBox_code.currentText())
 
@@ -1626,33 +1629,80 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         myProj = Proj("+proj=utm +zone=36 +north +datum=WGS84 +units=m +no_defs")
         easting, northing = myProj(t, s)
         return easting, northing
-    def insert_point(self):
-        """Insert shipwreck point geometry into database."""
+    def insert_or_update_point_in_db(self):
+        """Insert or update shipwreck point geometry directly in database."""
+        from sqlalchemy import text
         conn = Connection()
         db_url = conn.conn_str()
         try:
             engine = create_engine(db_url, echo=True)
             listen(engine, 'connect', self.load_spatialite)
-            c = engine.connect()
-            
+
             # Get UTM coordinates
             easting, northing = self.longconvert()
-            
-            # Correct SQL syntax for SpatiaLite MakePoint
-            site_point = 'INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ("%s", "%s", "%s", MakePoint(%f, %f, 32636))' % (
-                str(self.comboBox_code.currentText()),
-                str(self.comboBox_nationality.currentText()),
-                str(self.comboBox_name_vessel.currentText()),
+
+            code = str(self.comboBox_code.currentText()).replace("'", "''")
+            nationality = str(self.comboBox_nationality.currentText()).replace("'", "''")
+            name_vessel = str(self.comboBox_name_vessel.currentText()).replace("'", "''")
+
+            with engine.connect() as c:
+                # Check if point with this code already exists
+                check_sql = "SELECT gid FROM shipwreck_location WHERE code = '%s'" % code
+                result = c.execute(text(check_sql)).fetchone()
+
+                if result:
+                    # Update existing point
+                    update_sql = "UPDATE shipwreck_location SET nationality = '%s', name_vessel = '%s', the_geom = MakePoint(%f, %f, 32636) WHERE code = '%s'" % (
+                        nationality, name_vessel, easting, northing, code
+                    )
+                    c.execute(text(update_sql))
+                else:
+                    # Insert new point
+                    insert_sql = "INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ('%s', '%s', '%s', MakePoint(%f, %f, 32636))" % (
+                        code, nationality, name_vessel, easting, northing
+                    )
+                    c.execute(text(insert_sql))
+
+                c.commit()
+
+        except Exception as e:
+            QMessageBox.warning(self, "Insert/Update Point Error",
+                               "Failed to save geometry: " + str(e),
+                               QMessageBox.Ok)
+
+    def insert_point(self):
+        """Insert shipwreck point geometry into database."""
+        from sqlalchemy import text
+        conn = Connection()
+        db_url = conn.conn_str()
+        try:
+            engine = create_engine(db_url, echo=True)
+            listen(engine, 'connect', self.load_spatialite)
+
+            # Get UTM coordinates
+            easting, northing = self.longconvert()
+
+            code = str(self.comboBox_code.currentText()).replace("'", "''")
+            nationality = str(self.comboBox_nationality.currentText()).replace("'", "''")
+            name_vessel = str(self.comboBox_name_vessel.currentText()).replace("'", "''")
+
+            # Correct SQL syntax for SpatiaLite MakePoint (use single quotes for strings)
+            site_point = "INSERT INTO shipwreck_location (code, nationality, name_vessel, the_geom) VALUES ('%s', '%s', '%s', MakePoint(%f, %f, 32636))" % (
+                code,
+                nationality,
+                name_vessel,
                 easting,
                 northing
             )
-            c.execute(site_point)
-            c.close()
-            
+
+            with engine.connect() as c:
+                c.execute(text(site_point))
+                c.commit()
+
         except Exception as e:
-            QMessageBox.warning(self, "Insert Point Error", 
-                               "Failed to insert geometry: " + str(e), 
-                               QMessageBox.Ok)#QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, "Insert Point Error",
+                               "Failed to insert geometry: " + str(e),
+                               QMessageBox.Ok)
     
     def on_pushButtonQuant_pressed(self):
         dlg = QuantPanelMain(self)
