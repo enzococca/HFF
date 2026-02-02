@@ -51,6 +51,9 @@ from ..modules.db.hff_db_manager import *
 from ..modules.db.hff_system__utility import *
 from ..modules.utility.delegateComboBox import *
 from ..modules.utility.hff_system__media_utility import *
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'hff_system__image_viewer_dialog.ui'))
@@ -128,6 +131,8 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         QDialog.__init__(self)
         self.connection()
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
         self.customize_gui()
         self.mDockWidget.setHidden(True)  
         self.iconListWidget.SelectionMode()
@@ -198,7 +203,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                             self.tableWidgetTags_MAT_3.setItem(row,1,QTableWidgetItem(str(i[1])))
                            
                     except Exception as e:
-                        QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                        QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                     self.remove_row('self.tableWidgetTags_MAT_3')
                 
                 elif self.tabWidget.currentIndex()==1:
@@ -209,7 +214,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                             self.tableWidgetTags_MAT_2.setItem(row,1,QTableWidgetItem(str(i[1])))
                            
                     except Exception as e:
-                        QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                        QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                     self.remove_row('self.tableWidgetTags_MAT_2')    
                 else:
                     pass
@@ -242,7 +247,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                         
                        
                 except Exception as e:
-                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_4')
             elif self.tabWidget.currentIndex()==3:
                 try:
@@ -252,7 +257,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                        
                        
                 except Exception as e:
-                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_9')    
 
             elif self.tabWidget.currentIndex()==4:
@@ -263,7 +268,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                        
                        
                 except Exception as e:
-                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_10')
 
             elif self.tabWidget.currentIndex() == 5:
@@ -274,7 +279,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
 
                 except Exception as e:
-                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_13')
 
             elif self.tabWidget.currentIndex() == 6:
@@ -285,7 +290,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
 
                 except Exception as e:
-                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_14')
 
             elif self.tabWidget.currentIndex() == 7:
@@ -296,7 +301,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
 
                 except Exception as e:
-                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_15')
 
 
@@ -310,7 +315,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                        
                        
                 except Exception as e:
-                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_11') 
 
             elif self.tabWidget.currentIndex()==9:
@@ -321,7 +326,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                        
                        
                 except Exception as e:
-                    QMessageBox.warning(self, "Alert", "Error: " + str(e), QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_alert'), "Error: " + str(e), QMessageBox.Ok)
                 self.remove_row('self.tableWidgetTags_MAT_12')    
     
     def charge_list(self):
@@ -333,7 +338,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             if str(e) == "list.remove(x): x not in list":
                 pass
             else:
-                QMessageBox.warning(self, "Messaggio", "update list: " + str(e), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_message'), "update list: " + str(e), QMessageBox.Ok)
         self.comboBox_sito.clear()
         sito_vl.sort()
         self.comboBox_sito.addItems(sito_vl)
@@ -661,7 +666,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']      
         if thumb_path_str=='':
-            QMessageBox.information(self, "Message", "you must first set the path to save the thumbnails and resampled images. Go to system/path setting ")
+            QMessageBox.information(self, tr('title_message'), "you must first set the path to save the thumbnails and resampled images. Go to system/path setting ")
         else:    
             image_list=[]
             directory = QFileDialog.getExistingDirectory(self, "Directory", "Choose a directory:",
@@ -751,9 +756,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                             except:
                                 pass
                 if bool(idunique_video_check):
-                    QMessageBox.information(self, "Message", "The videos are already loaded into the database")
+                    QMessageBox.information(self, tr('title_message'), "The videos are already loaded into the database")
                 elif not bool(idunique_video_check):
-                    QMessageBox.information(self, "Message", "Videos loaded! You can tag them")
+                    QMessageBox.information(self, tr('title_message'), "Videos loaded! You can tag them")
             except:
                 QMessageBox.warning(self, "WARNING", "Check that the file name is not named with special characters",
                                     QMessageBox.Ok)
@@ -767,7 +772,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         thumb_path = conn.thumb_path()
         thumb_path_str = thumb_path['thumb_path']      
         if thumb_path_str=='':
-            QMessageBox.information(self, "Message", "you must first set the path to save the thumbnails and resampled images. Go to system/path setting ")
+            QMessageBox.information(self, tr('title_message'), "you must first set the path to save the thumbnails and resampled images. Go to system/path setting ")
         else:    
             image_list=[]
             directory = QFileDialog.getExistingDirectory(self, "Directory", "Choose a directory:",
@@ -845,9 +850,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                         except:
                             pass
                 if bool(idunique_image_check):
-                    QMessageBox.information(self, "Message", "The images are already loaded into the database")
+                    QMessageBox.information(self, tr('title_message'), "The images are already loaded into the database")
                 elif not bool(idunique_image_check):
-                    QMessageBox.information(self, "Message", "Images loaded! You can tag them")
+                    QMessageBox.information(self, tr('title_message'), "Images loaded! You can tag them")
             
             except:
                 QMessageBox.warning(self, "WARNING", "Check that the file name is not named with special characters",
@@ -892,7 +897,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         thumb_resize_str = conn.thumb_resize()['thumb_resize']
 
         if thumb_path_str == '':
-            QMessageBox.information(self, "Message",
+            QMessageBox.information(self, tr('title_message'),
                                     "you must first set the path to save the thumbnails and resampled images. Go to system/path setting ")
         else:
             directory = QFileDialog.getExistingDirectory(self, "Directory", "Choose a directory:",
@@ -946,9 +951,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 pass
 
                 if bool(idunique_model_check):
-                    QMessageBox.information(self, "Message", "The 3D models are already loaded into the database")
+                    QMessageBox.information(self, tr('title_message'), "The 3D models are already loaded into the database")
                 elif not bool(idunique_model_check):
-                    QMessageBox.information(self, "Message", "3D models loaded! You can tag them")
+                    QMessageBox.information(self, tr('title_message'), "3D models loaded! You can tag them")
 
             except:
                 QMessageBox.warning(self, "WARNING", "Check that the file name is not named with special characters",
@@ -979,11 +984,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.filename + ": Image already in the database"
                 else:
                     msg = e
-                #QMessageBox.warning(self, "Error", "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('error', "Error"), "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
 
         except Exception as  e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
 
     def insert_record_mediathumb(self, media_max_num_id, mediatype, filename, filename_thumb, filetype, filepath_thumb, filepath_resize):
@@ -1013,11 +1018,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.filename + ": thumb already present into the database"
                 else:
                     msg = e
-                #QMessageBox.warning(self, "Error", "warming 1 ! \n"+ str(msg),  QMessageBox.Ok)
+                #QMessageBox.warning(self, tr('error', "Error"), "warming 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
 
         except Exception as  e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
 
     def insert_mediaToEntity_rec(self, id_entity, entity_type, table_name, id_media, filepath, media_name):
@@ -1054,10 +1059,10 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     msg = self.ID_TABLE + " already present into the database"
                 else:
                     msg = e
-                QMessageBox.warning(self, "Error", "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('error', "Error"), "Warning 1 ! \n"+ str(msg),  QMessageBox.Ok)
                 return 0
         except Exception as  e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
     
     
@@ -1088,7 +1093,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             str(self.media_name))   
 
         except Exception as  e:
-            QMessageBox.warning(self, "Error", "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
+            QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
     
     
@@ -1221,13 +1226,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 record_spm_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
 
         if not record_spm_list[0]:
-            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            result=QMessageBox.warning(self, tr('warning', "Warning"), "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
             if result==QMessageBox.Ok:
                 rs= self.DB_MANAGER.insert_spm_records(str(sing_tags[0]), str(sing_tags[1]))
-                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"),  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
                 return  rs  
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
         spm_list = []
         for r in record_spm_list:
@@ -1255,13 +1260,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                                 'years': "'"+str(sing_tags[1])+"'"}
                 record_doc_list.append(self.DB_MANAGER.query_bool(search_dict, 'UW'))
         if not record_doc_list[0]:
-            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            result=QMessageBox.warning(self, tr('warning', "Warning"), "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
             if result==QMessageBox.Ok:
                 rs= self.DB_MANAGER.insert_doc_records(str(sing_tags[0]),str(sing_tags[1]),str(sing_tags[2]))
-                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"),  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
                 return  rs  
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
         doc_list = []
         for r in record_doc_list:
@@ -1291,13 +1296,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 record_pe_list.append(self.DB_MANAGER.query_bool(search_dict, 'UW'))
 
         if not record_pe_list[0]:
-            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            result=QMessageBox.warning(self, tr('warning', "Warning"), "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
             if result==QMessageBox.Ok:
                 rs= self.DB_MANAGER.insert_doc_records(str(sing_tags[0]),str(sing_tags[1]),str(sing_tags[2]))
-                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"),  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
                 return  rs  
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
         
         pe_list = []
@@ -1328,13 +1333,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 record_ship_list.append(self.DB_MANAGER.query_bool(search_dict, 'SHIPWRECK'))
 
         if not record_ship_list[0]:
-            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            result=QMessageBox.warning(self, tr('warning', "Warning"), "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
             if result==QMessageBox.Ok:
                 rs= self.DB_MANAGER.insert_ship_records(str(sing_tags[0]))
-                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"),  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
                 return  rs  
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
         
         ship_list = []
@@ -1365,13 +1370,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 record_art_list.append(self.DB_MANAGER.query_bool(search_dict, 'ART'))
 
         if not record_art_list[0]:
-            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            result=QMessageBox.warning(self, tr('warning', "Warning"), "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
             if result==QMessageBox.Ok:
                 rs= self.DB_MANAGER.insert_art_records(str(sing_tags[0]),str(sing_tags[1]))
-                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"),  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
                 return  rs  
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
         
         art_list = []
@@ -1402,13 +1407,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 record_anc_list.append(self.DB_MANAGER.query_bool(search_dict, 'ANC'))
 
         if not record_anc_list[0]:
-            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            result=QMessageBox.warning(self, tr('warning', "Warning"), "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
             if result==QMessageBox.Ok:
                 rs= self.DB_MANAGER.insert_anc_records(str(sing_tags[0]),str(sing_tags[1]))
-                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"),  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
                 return  rs  
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
         
         anc_list = []
@@ -1438,13 +1443,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 record_pottery_list.append(self.DB_MANAGER.query_bool(search_dict, 'POTTERY'))
 
         if not record_pottery_list[0]:
-            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            result=QMessageBox.warning(self, tr('warning', "Warning"), "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
             if result==QMessageBox.Ok:
                 rs= self.DB_MANAGER.insert_pottery_records(str(sing_tags[0]),str(sing_tags[1]))
-                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"),  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
                 return  rs  
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
         
         pottery_list = []
@@ -1474,16 +1479,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             record_art_list.append(self.DB_MANAGER.query_bool(search_dict, 'ART_c'))
 
         if not record_art_list[0]:
-            result = QMessageBox.warning(self, "Warning",
+            result = QMessageBox.warning(self, tr('warning', "Warning"),
                                          "Form not present. Do you want to generate it? Click OK or Cancel to abort",
                                          QMessageBox.Ok | QMessageBox.Cancel)
             if result == QMessageBox.Ok:
                 rs = self.DB_MANAGER.insert_art_records(str(sing_tags[0]), str(sing_tags[1]))
-                QMessageBox.information(self, "Info", "Form created\n Now click again Tag button to tag the image",
+                QMessageBox.information(self, tr('info', "Info"), "Form created\n Now click again Tag button to tag the image",
                                         QMessageBox.Ok)
                 return rs
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
 
         art_list = []
@@ -1512,16 +1517,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             record_anc_list.append(self.DB_MANAGER.query_bool(search_dict, 'ANC_c'))
 
         if not record_anc_list[0]:
-            result = QMessageBox.warning(self, "Warning",
+            result = QMessageBox.warning(self, tr('warning', "Warning"),
                                          "Form not present. Do you want to generate it? Click OK or Cancel to abort",
                                          QMessageBox.Ok | QMessageBox.Cancel)
             if result == QMessageBox.Ok:
                 rs = self.DB_MANAGER.insert_anc_records(str(sing_tags[0]), str(sing_tags[1]))
-                QMessageBox.information(self, "Info", "Form created\n Now click again Tag button to tag the image",
+                QMessageBox.information(self, tr('info', "Info"), "Form created\n Now click again Tag button to tag the image",
                                         QMessageBox.Ok)
                 return rs
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
 
         anc_list = []
@@ -1549,16 +1554,16 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             record_pottery_list.append(self.DB_MANAGER.query_bool(search_dict, 'POT_c'))
 
         if not record_pottery_list[0]:
-            result = QMessageBox.warning(self, "Warning",
+            result = QMessageBox.warning(self, tr('warning', "Warning"),
                                          "Form not present. Do you want to generate it? Click OK or Cancel to abort",
                                          QMessageBox.Ok | QMessageBox.Cancel)
             if result == QMessageBox.Ok:
                 rs = self.DB_MANAGER.insert_pottery_records(str(sing_tags[0]), str(sing_tags[1]))
-                QMessageBox.information(self, "Info", "Form created\n Now click again Tag button to tag the image",
+                QMessageBox.information(self, tr('info', "Info"), "Form created\n Now click again Tag button to tag the image",
                                         QMessageBox.Ok)
                 return rs
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
 
         pottery_list = []
@@ -1587,13 +1592,13 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 record_survey_list.append(self.DB_MANAGER.query_bool(search_dict, 'SITE'))
 
         if not record_survey_list[0]:
-            result=QMessageBox.warning(self, "Warning", "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
+            result=QMessageBox.warning(self, tr('warning', "Warning"), "Form not present. Do you want to generate it? Click OK or Cancel to abort", QMessageBox.Ok|QMessageBox.Cancel)  
             if result==QMessageBox.Ok:
                 rs= self.DB_MANAGER.insert_spm_records(str(sing_tags[0]),str(sing_tags[1]))
-                QMessageBox.information(self, "Info",  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"),  "Form created\n Now click again Tag button to tag the image", QMessageBox.Ok)
                 return  rs  
             else:
-                QMessageBox.information(self, "Info", "Action cancelled", QMessageBox.Ok)
+                QMessageBox.information(self, tr('info', "Info"), "Action cancelled", QMessageBox.Ok)
                 return
         
         survey_list = []
@@ -2091,11 +2096,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_1_from_db_sql(sito,year,id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_1_from_db_sql(sito,year,id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2123,7 +2128,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2156,11 +2161,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_2_from_db_sql(sito,year,id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_2_from_db_sql(sito,year,id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2188,7 +2193,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2221,11 +2226,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_anc_from_db_sql(id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_ship_from_db_sql(id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2253,7 +2258,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2287,11 +2292,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_anc_from_db_sql(id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_anc_from_db_sql(id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2319,7 +2324,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2352,11 +2357,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_art_from_db_sql(id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_art_from_db_sql(id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2384,7 +2389,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2417,11 +2422,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_pot_from_db_sql(id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_pot_from_db_sql(id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2449,7 +2454,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2490,11 +2495,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_anc_c_from_db_sql(id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_anc_c_from_db_sql(id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2522,7 +2527,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2555,11 +2560,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_art_c_from_db_sql(id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_art_c_from_db_sql(id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2587,7 +2592,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2620,11 +2625,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_pot_c_from_db_sql(id)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_pot_c_from_db_sql(id)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2652,7 +2657,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2702,11 +2707,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_ss_from_db_sql(sito)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_ss_from_db_sql(sito)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2734,7 +2739,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     #self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2767,11 +2772,11 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             us_vl = self.DB_MANAGER.select_medianame_spm_from_db_sql(sito)
             if not bool(search_dict):
-                QMessageBox.warning(self, "Warning", "Insert Value!!!",  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('warning', "Warning"), "Insert Value!!!",  QMessageBox.Ok)
             else:
                 res = self.DB_MANAGER.select_medianame_spm_from_db_sql(sito)
                 if not bool(res):
-                    QMessageBox.warning(self, "Warning", "No records have been found!",  QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('warning', "Warning"), "No records have been found!",  QMessageBox.Ok)
                     self.set_rec_counter(len(self.DATA_LIST), self.REC_CORR+1)
                     self.DATA_LIST_REC_TEMP = self.DATA_LIST_REC_CORR = self.DATA_LIST[0]
                     self.fill_fields(self.REC_CORR)
@@ -2799,7 +2804,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                     # self.setComboBoxEnable(["self.comboBox_year"],"True")
                     #self.setComboBoxEnable(["self.comboBox_id"],"True")
                     #check_for_buttons = 1
-                    QMessageBox.warning(self, "Messaggio", "%s %d %s" % strings, QMessageBox.Ok)
+                    QMessageBox.warning(self, tr('title_message'), "%s %d %s" % strings, QMessageBox.Ok)
             self.NUM_DATA_BEGIN =  1
             self.NUM_DATA_END = len(self.DATA_LIST)
             self.view_num_rec()
@@ -2888,7 +2893,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                         self.rec_toupdate())
             return 1
         except Exception as  e:
-            QMessageBox.warning(self, "Message", "Encoding problem: accents or characters that are not accepted by the database have been inserted. If you close the window without correcting the errors the data will be lost. Create a copy of everything on a seperate word document. Error :" + str(e), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('system_message', "Message"), "Encoding problem: accents or characters that are not accepted by the database have been inserted. If you close the window without correcting the errors the data will be lost. Create a copy of everything on a seperate word document. Error :" + str(e), QMessageBox.Ok)
             return 0
             
     def rec_toupdate(self):

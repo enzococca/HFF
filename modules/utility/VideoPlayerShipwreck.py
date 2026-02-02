@@ -11,6 +11,7 @@ import pygame
 
 from modules.db.hff_system__conn_strings import Connection
 from modules.db.hff_system__utility import Utility
+from modules.utility.hff_i18n import tr
 
 
 class VideoPlayerWindow(QMainWindow):
@@ -176,7 +177,7 @@ class VideoPlayerWindow(QMainWindow):
         #years = self.mainclass.comboBox_years.currentText()
 
         if not sito or not artefact :
-            QMessageBox.warning(self, "Warning",
+            QMessageBox.warning(self, tr('title_warning'),
                                 "Please ensure that Site, Divelog ID, and Year are set before saving the frame.")
             return
 
@@ -195,7 +196,7 @@ class VideoPlayerWindow(QMainWindow):
         thumb_resize_str = thumb_resize['thumb_resize']
 
         if thumb_path_str == '':
-            QMessageBox.information(self, "Info",
+            QMessageBox.information(self, tr('title_info'),
                                     "You must first set the path to save the thumbnails and videos. Go to system/path setting")
             return
 
@@ -286,7 +287,7 @@ class VideoPlayerWindow(QMainWindow):
                 else:
                     print("No tags generated for this item")
         else:
-            QMessageBox.warning(self, "Error", "Failed to insert media record")
+            QMessageBox.warning(self, tr('title_error'), tr('msg_media_insert_failed'))
             return
 
         # Create and save thumbnail
@@ -317,7 +318,7 @@ class VideoPlayerWindow(QMainWindow):
         else:
             print("Warning: iconListWidget not available. Item not added to the list.")
 
-        QMessageBox.information(self, "Success", "Frame saved to database")
+        QMessageBox.information(self, tr('title_success'), tr('msg_frame_saved'))
         self.iconListWidget.update()
     def generate_US(self):
 
@@ -400,10 +401,10 @@ class VideoPlayerWindow(QMainWindow):
                     msg = self.filename + ": Image already in the database"
                 else:
                     msg = e
-                QMessageBox.warning(self, "Error", f"Warning 1! \n{str(msg)}", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_error'), f"Warning 1! \n{str(msg)}", QMessageBox.Ok)
                 return None
         except Exception as e:
-            QMessageBox.warning(self, "Error", f"Warning 2! \n{str(e)}", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_error'), f"Warning 2! \n{str(e)}", QMessageBox.Ok)
             return None
 
     def insert_record_mediathumb(self, media_id, mediatype, filename, filename_thumb, filetype, filepath_thumb,
@@ -497,7 +498,7 @@ class VideoPlayerWindow(QMainWindow):
 
     def save_image_to_db(self, file_path, format):
         if self.db_manager is None:
-            QMessageBox.warning(self, "Error", "Database manager not available")
+            QMessageBox.warning(self, tr('title_error'), tr('msg_db_manager_not_available'))
             return
 
         # Leggi l'immagine
@@ -530,9 +531,9 @@ class VideoPlayerWindow(QMainWindow):
         # Inserisci nel database
         try:
             self.db_manager.insert_media_values(media_data)
-            QMessageBox.information(self, "Success", "Image saved to database")
+            QMessageBox.information(self, tr('title_success'), tr('msg_image_saved_db'))
         except Exception as e:
-            QMessageBox.warning(self, "Error", f"Failed to save to database: {str(e)}")
+            QMessageBox.warning(self, tr('title_error'), f"Failed to save to database: {str(e)}")
 
     def closeEvent(self, event):
         if self.cap is not None:

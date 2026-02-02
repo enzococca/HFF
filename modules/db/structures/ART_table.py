@@ -18,7 +18,7 @@ class ART_table(object):
 	# create engine and metadata
 
 	engine = create_engine(internal_connection.conn_str(), echo=False, convert_unicode = True)
-	metadata = MetaData(engine)
+	metadata = MetaData()
 
 	# define tables
 	artefact_log = Table('artefact_log', metadata,	

@@ -35,6 +35,9 @@ from qgis.core import Qgis, QgsMessageLog, QgsSettings
 from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 from .US_USM import hff_system__US
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
@@ -53,6 +56,8 @@ class hff_system__Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
         self.iface = iface
         self.pyQGIS = Hff_pyqgis(iface)
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
 
         self.currentLayerId = None
         try:
@@ -128,17 +133,8 @@ class hff_system__Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
             ], 'PERIODIZZAZIONE')
 
         if not bool(per_res):
-            
-            if self.L=='it': 
-                QMessageBox.warning(self, "Alert", "Non vi sono Periodizzazioni in questo intervallo di tempo",
-                                    QMessageBox.Ok)
-        
-            elif self.L=='de': 
-                QMessageBox.warning(self, "Alert", "Es gibt keine Perioden in diesem Zeitintervall.",
-                                    QMessageBox.Ok)
-            else: 
-                QMessageBox.warning(self, "Alert", "There are no Periods in this time interval",
-                                    QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_alert'), tr('msg_no_periods_interval'),
+                                QMessageBox.Ok)
             
         else:
             us_res = []
@@ -155,14 +151,7 @@ class hff_system__Gis_Time_Controller(QDialog, MAIN_DIALOG_CLASS):
                     us_res_dep.append(n)
 
             if not bool(us_res_dep):
-                
-                if self.L=='it':
-                    QMessageBox.warning(self, "Alert", "Non ci sono geometrie da visualizzare", QMessageBox.Ok)
-
-                elif self.L=='de':
-                    QMessageBox.warning(self, "Alert", "es gibt keine Geometrien, die angezeigt werden können", QMessageBox.Ok) 
-                else:
-                    QMessageBox.warning(self, "Alert", "There are no geometries to display", QMessageBox.Ok)    
+                QMessageBox.warning(self, tr('title_alert'), tr('msg_no_geometries_display'), QMessageBox.Ok)    
             else:
                 self.pyQGIS.charge_vector_layers(us_res_dep)
 

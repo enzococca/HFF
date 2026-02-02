@@ -33,6 +33,7 @@ from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer
 from reportlab.platypus.paragraph import Paragraph
 
 from ..pyarchinit_OS_utility import *
+from ..hff_pdf_base import safe_eval_list
 
 
 class NumberedCanvas_Findssheet(canvas.Canvas):
@@ -158,8 +159,9 @@ class single_Finds_pdf_sheet(object):
 
             # 5 row
         elementi_reperto = ''
-        if ast.literal_eval(self.elementi_reperto) > 0:
-            for i in ast.literal_eval(self.elementi_reperto):
+        elementi_list = safe_eval_list(self.elementi_reperto)
+        if elementi_list:
+            for i in elementi_list:
                 if elementi_reperto == '':
                     try:
                         elementi_reperto += ("%s: %s %s") % (str(i[0]), str(i[2]), str(i[1]))
@@ -175,8 +177,9 @@ class single_Finds_pdf_sheet(object):
 
         # 6 row
         misurazioni = ''
-        if eval(self.misurazioni) > 0:
-            for i in eval(self.misurazioni):
+        misurazioni_list = safe_eval_list(self.misurazioni)
+        if misurazioni_list:
+            for i in misurazioni_list:
                 if misurazioni == '':
                     try:
                         misurazioni += ("%s: %s %s") % (str(i[0]), str(i[1]), str(i[2]))
@@ -191,8 +194,9 @@ class single_Finds_pdf_sheet(object):
 
         # 7 row
         tecnologie = ''
-        if eval(self.tecnologie) > 0:
-            for i in eval(self.tecnologie):
+        tecnologie_list = safe_eval_list(self.tecnologie)
+        if tecnologie_list:
+            for i in tecnologie_list:
                 if tecnologie == '':
                     try:
                         tecnologie += ("%s %s: %s %s") % (str(i[0]), str(i[1]), str(i[4]), str(i[3]))
@@ -207,8 +211,9 @@ class single_Finds_pdf_sheet(object):
 
         # 8 row
         rif_biblio = ''
-        if eval(self.rif_biblio) > 0:
-            for i in eval(self.rif_biblio):  # gigi
+        rif_biblio_list = safe_eval_list(self.rif_biblio)
+        if rif_biblio_list:
+            for i in rif_biblio_list:
                 if rif_biblio == '':
                     try:
                         rif_biblio += ("<b>Autore: %s, Anno: %s, Titolo: %s, Pag.: %s, Fig.: %s") % (

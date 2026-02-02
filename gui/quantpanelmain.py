@@ -50,7 +50,7 @@ class QuantPanelMain(QDialog, MAIN_DIALOG_CLASS):
 
         if not bool(self.ITEMS):
             ttl = "No settigs. Exit?"
-            msg = QMessageBox.warning(self, 'Warning', ttl, QMessageBox.Ok | QMessageBox.Cancel)
+            msg = QMessageBox.warning(self, tr('title_warning'), ttl, QMessageBox.Ok | QMessageBox.Cancel)
             if msg == QMessageBox.Ok:
                 self.close()
             else:

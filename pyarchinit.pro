@@ -1,104 +1,100 @@
 SOURCES = 	 tabs/__init__.py\
-			 tabs/Archeozoology.py\
-			 tabs/Campioni.py\
-			 tabs/Deteta.py\
-			 tabs/Detsesso.py\
-			 tabs/Documentazione.py\
-			 tabs/Documentazione_preview.py\
+			 tabs/Eamena.py\
+			 tabs/Excel_export.py\
 			 tabs/Gis_Time_controller.py\
 			 tabs/Image_viewer.py\
 			 tabs/Images_comparison.py\
 			 tabs/Images_directory_export.py\
-			 tabs/Interactive_matrix.py\
-			 tabs/Inv_Lapidei.py\
-			 tabs/Inv_Materiali.py\
+			 tabs/PRINTMAP.py\
 			 tabs/Pdf_administrator.py\
-			 tabs/Pdf_export.py\
-			 tabs/Periodizzazione.py\
-			 tabs/Schedaind.py\
 			 tabs/Site.py\
-			 tabs/Struttura.py\
-			 tabs/Tafonomia.py\
-			 tabs/Thesaurus.py\
+			 tabs/Tutorial_viewer.py\
 			 tabs/Upd.py\
-			 tabs/US_USM.py\
-			 tabs/UT.py\
+			 tabs/hff_system_ANC_CON.py\
+			 tabs/hff_system_ART_CON.py\
+			 tabs/hff_system_Pottery_CON.py\
+			 tabs/hff_system__ANC_mainapp.py\
+			 tabs/hff_system__ART_mainapp.py\
+			 tabs/hff_system__Pottery_mainapp.py\
+			 tabs/hff_system__Shipwreck.py\
+			 tabs/hff_system__UW_mainapp.py\
 			 gui/__init__.py\
 			 gui/dbmanagment.py\
 			 gui/imageViewer.py\
-			 gui/pyarchinitConfigDialog.py\
-			 gui/pyarchinitInfoDialog.py\
+			 gui/hff_system_ConfigDialog.py\
+			 gui/hff_system_InfoDialog.py\
+			 gui/hff_connection_settings_dialog.py\
+			 gui/hff_remote_storage_dialog.py\
+			 gui/hff_user_management_dialog.py\
 			 gui/quantpanelmain.py\
 			 gui/sortpanelmain.py\
 			 gui/ui/mplwidget.py\
 			 gui/ui/mplwidgetmatrix.py\
+			 modules/db/__init__.py\
+			 modules/db/hff_db_manager.py\
+			 modules/db/hff_db_mapper.py\
+			 modules/db/hff_db_structure.py\
+			 modules/db/hff_system__conn_strings.py\
+			 modules/db/hff_system__db_update.py\
+			 modules/db/hff_system__utility.py\
+			 modules/db/hff_concurrency_manager.py\
+			 modules/db/hff_permissions_manager.py\
 			 modules/utility/__init__.py\
 			 modules/utility/csv_writer.py\
 			 modules/utility/delegateComboBox.py\
-			 modules/utility/githubtest.py\
-			 modules/utility/media_poderata_sperimentale.py\
-			 modules/utility/media_ponderata_sperimentale.py\
-			 modules/utility/mplwidget.py\
-			 modules/utility/print_relazione_pdf.py\
-			 modules/utility/pyarchinit_backup_dir.py\
-			 modules/utility/pyarchinit_error_check.py\
-			 modules/utility/pyarchinit_exp_Campsheet_pdf.py\
-			 modules/utility/pyarchinit_exp_Documentazionesheet_pdf.py\
-			 modules/utility/pyarchinit_exp_Findssheet_pdf.py\
-			 modules/utility/pyarchinit_exp_Individui_pdf.py\
-			 modules/utility/pyarchinit_exp_Invlapsheet_pdf.py\
-			 modules/utility/pyarchinit_exp_pdf_experimental.py\
-			 modules/utility/pyarchinit_exp_pdf_utility.py\
-			 modules/utility/pyarchinit_exp_Periodizzazionesheet_pdf.py\
-			 modules/utility/pyarchinit_exp_Periodosheet_pdf.py\
-			 modules/utility/pyarchinit_exp_Strutturasheet_pdf.py\
-			 modules/utility/pyarchinit_exp_Tafonomiasheet_pdf.py\
-			 modules/utility/pyarchinit_exp_USsheet_pdf.py\
-			 modules/utility/pyarchinit_exp_UTsheet_pdf.py\
-			 modules/utility/pyarchinit_folder_installation.py\
-			 modules/utility/pyarchinit_matrix_exp.py\
-			 modules/utility/pyarchinit_media_utility.py\
-			 modules/utility/pyarchinit_OS_utility.py\
-			 modules/utility/pyarchinit_print_utility.py\
+			 modules/utility/hff_form_base.py\
+			 modules/utility/hff_i18n.py\
+			 modules/utility/hff_theme_manager.py\
+			 modules/utility/hff_system__OS_utility.py\
+			 modules/utility/hff_system__backup_dir.py\
+			 modules/utility/hff_system__error_check.py\
+			 modules/utility/hff_system__exp_ANCsheet_pdf.py\
+			 modules/utility/hff_system__exp_ARsheet_pdf.py\
+			 modules/utility/hff_system__exp_POTTERYsheet_pdf.py\
+			 modules/utility/hff_system__exp_POTTERYCONsheet_pdf.py\
+			 modules/utility/hff_system__exp_UWsheet_pdf.py\
+			 modules/utility/hff_system__exp_shipwrecksheet_pdf.py\
+			 modules/utility/hff_system__exp_site_pdf.py\
+			 modules/utility/hff_system__exp_pdf_experimental.py\
+			 modules/utility/hff_system__exp_pdf_utility.py\
+			 modules/utility/hff_system__folder_installation.py\
+			 modules/utility/hff_system__media_utility.py\
+			 modules/utility/hff_system__print_utility.py\
 			 modules/utility/settings.py\
-			 modules/utility/test_dirname.py\
-			 modules/utility/testtable_checkbox.py			
+			 modules/utility/VideoPlayer.py\
+			 modules/utility/VideoPlayerAnchor.py\
+			 modules/utility/VideoPlayerArtefact.py\
+			 modules/utility/VideoPlayerPottery.py\
+			 modules/utility/VideoPlayerShipwreck.py
 
-FORMS =   	gui/ui/Archeozoology.ui\
-			gui/ui/Campioni.ui\
-			gui/ui/dbmanagment.ui\
-			gui/ui/Deteta.ui\
-			gui/ui/Detsesso.ui\
-			gui/ui/Documentazione.ui\
-			gui/ui/Documentazione_preview.ui\
+FORMS =   	gui/ui/Eamena.ui\
+			gui/ui/Excel_export.ui\
 			gui/ui/Gis_Time_controller.ui\
 			gui/ui/Image_Viewer.ui\
 			gui/ui/Images_comparison.ui\
 			gui/ui/Images_directory_export.ui\
-			gui/ui/Interactive_matrix.ui\
-			gui/ui/Inv_Lapidei.ui\
-			gui/ui/Inv_Materiali.ui\
+			gui/ui/PRINTMAP.ui\
 			gui/ui/Pdf_administrator.ui\
-			gui/ui/Pdf_export.ui\
-			gui/ui/Periodizzazione.ui\
-			gui/ui/pyarchinit_directory_creator_ui.ui\
-			gui/ui/pyarchinit_image_viewer_dialog.ui\
-			gui/ui/pyarchinit_images_export_ui.ui\
-			gui/ui/pyarchinit_plugin.ui\
-			gui/ui/pyarchinit_rel_check_ui.ui\
-			gui/ui/pyarchinitConfigDialog.ui\
-			gui/ui/pyarchinitInfoDialog.ui\
-			gui/ui/quantpanelmain.ui\
-			gui/ui/Schedaind.ui\
 			gui/ui/Site.ui\
-			gui/ui/sortpanelmain.ui\
-			gui/ui/Struttura.ui\
-			gui/ui/Tafonomia.ui\
-			gui/ui/Thesaurus.ui\
 			gui/ui/Upd.ui\
-			gui/ui/US_USM.ui\
-			gui/ui/UT_ui.ui
+			gui/ui/dbmanagment.ui\
+			gui/ui/hff_system_ANC_CON_ui.ui\
+			gui/ui/hff_system_ART_CON_ui.ui\
+			gui/ui/hff_system_Pottery_CON_ui.ui\
+			gui/ui/hff_system__ANC_ui.ui\
+			gui/ui/hff_system__ARTLOG_ui.ui\
+			gui/ui/hff_system__Pottery_ui.ui\
+			gui/ui/hff_system__Shipwreck_ui.ui\
+			gui/ui/hff_system__UW_ui.ui\
+			gui/ui/hff_system__plugin.ui\
+			gui/ui/hff_system_ConfigDialog.ui\
+			gui/ui/hff_system_InfoDialog.ui\
+			gui/ui/quantpanelmain.ui\
+			gui/ui/sortpanelmain.ui
 
-TRANSLATIONS = i18n/pyarchinit_plugin_it_IT.ts \
-               i18n/pyarchinit_plugin_de_DE.ts \
-               i18n/pyarchinit_plugin_en_US.ts 
+TRANSLATIONS = i18n/hff_plugin_it_IT.ts \
+               i18n/hff_plugin_de_DE.ts \
+               i18n/hff_plugin_en_US.ts \
+               i18n/hff_plugin_ar_LB.ts
+
+RESOURCES = resources/resources.qrc

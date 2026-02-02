@@ -1,37 +1,54 @@
-# This file contains metadata for your plugin. Beginning
-# with version 3 this is the preferred way to supply information about a
-# plugin. The current method of embedding metadata in __init__.py will
-# be supported until version 3.99
-
-# This file should be included when you package your plugin.
-
-# Mandatory items:
-
-
 [general]
 name=HFF
-qgisMinimumVersion=3.0
-description=HFF-survey a tool for underwater and terrestrial archaeological survey.
-version=9.9
+qgisMinimumVersion=3.22
+qgisMaximumVersion=4.99
+supportsQt6=True
+description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
+
+version=10.0
+
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
 
-# end of mandatory metadata
-# Optional items:
-# Uncomment the following line and add your changelog entries:
-changelog=
-   
-  
-# tags are comma separated with spaces allowed
-tags=archaeology, analysis, database, digitizing, postgres, postgis, spatialite, sqlite, UderWater survey, Terrestrial survey, pottery, bones, excavations,  preistoria, roman, medieval, prehistoric
+about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for archaeological survey data management within QGIS.
+    It provides tools for managing underwater and terrestrial survey data, including:
+    - Dive log management and recording
+    - Anchor, shipwreck, and artefact cataloging
+    - Pottery analysis and inventory
+    - EAMENA heritage site documentation
+    - PDF report generation
+    - Image and media management with tagging
+    - PostgreSQL/PostGIS and SQLite/Spatialite database support
+    - GIS integration for spatial analysis
+
+    Developed with support from the Honor Frost Foundation.
+    Documentation: https://github.com/enzococca/HFF
+    GitHub: https://github.com/enzococca/HFF
+
+tracker=https://github.com/enzococca/HFF/issues
+repository=https://github.com/enzococca/HFF
+
+changelog=10.0:
+    - Add internationalization (i18n) support with Arabic Lebanese
+    - Add User Management system for PostgreSQL multi-user
+    - Add Connection Settings manager with password storage
+    - Add Remote Storage support (Cloudinary, S3, WebDAV, Google Drive, Dropbox)
+    - Add Tutorial Viewer with markdown support
+    - Add dark/light theme toggle in toolbar
+    - Improve all dialog layouts and button spacing
+    - Add RTL (Right-to-Left) support for Arabic languages
+    9.9:
+    - Upgrade to SQLAlchemy 2.x compatibility
+    - Add Qt5/Qt6 compatibility via qgis.PyQt
+    - Add theme manager for dark/light mode
+    - Fix shipwreck coordinate handling
+    - Add Bibliography and Storage tabs to forms
+    - Improve package installation reliability
+
+tags=archaeology, analysis, database, digitizing, postgres, postgis, spatialite, sqlite, underwater survey, terrestrial survey, pottery, anchors, shipwrecks, artefacts, diving, maritime archaeology
 
 homepage=https://honorfrostfoundation.org/
-tracker=https://github.com/enzococca/HFF/iusse
-repository=https://github.com/enzococca/HFF
+category=Plugins
 icon=icon.png
-# experimental flag
 experimental=False
-
-# deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
-

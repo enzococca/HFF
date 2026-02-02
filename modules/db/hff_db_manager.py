@@ -28,7 +28,7 @@ from builtins import str
 from builtins import zip
 import sqlalchemy as db
 
-from sqlalchemy import and_, or_, Table, select, func, asc,UniqueConstraint
+from sqlalchemy import and_, or_, Table, select, func, asc, UniqueConstraint, text
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.schema import MetaData
@@ -87,7 +87,7 @@ class Hff_db_management(object):
             else:
                 self.engine = create_engine(self.conn_str, max_overflow=-1, echo=eval(self.boolean))
 
-            self.metadata = MetaData(self.engine)
+            self.metadata = MetaData()
             conn = self.engine.connect()
 
         except Exception as e:
@@ -103,6 +103,36 @@ class Hff_db_management(object):
             QMessageBox.warning(None, "Message", "Error: " + str(e), QMessageBox.Ok)
             test = False
         return test
+
+    def _execute_sql(self, sql, is_select=False, params=None):
+        """SQLAlchemy 2.0 compatible execute wrapper.
+
+        Args:
+            sql: SQL string or SQLAlchemy expression
+            is_select: If True, returns fetchall() results
+            params: Optional parameters for parameterized queries
+        """
+        # Convert string to text if needed
+        if isinstance(sql, str):
+            sql = text(sql)
+
+        sql_str = str(sql).strip().upper()
+        is_write = sql_str.startswith(('INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE', 'ALTER', 'TRUNCATE'))
+
+        try:
+            if is_write:
+                with self.engine.begin() as conn:
+                    result = conn.execute(sql, params) if params else conn.execute(sql)
+                    return result
+            else:
+                with self.engine.connect() as conn:
+                    result = conn.execute(sql, params) if params else conn.execute(sql)
+                    if is_select:
+                        return result.fetchall()
+                    return result
+        except Exception as e:
+            QgsMessageLog.logMessage(f"SQL error: {e}", "HFF", Qgis.Warning)
+            raise
     
     def insert_grabsopt_point_values(self, *arg):
         """Istanzia la classe US da hff_system__db_mapper"""
@@ -365,8 +395,9 @@ class Hff_db_management(object):
                     arg[36],
                     arg[37],
                     arg[38],
-                    arg[39]
-                    
+                    arg[39],
+                    arg[40],
+                    arg[41]
                     )
 
         return shipwreck
@@ -689,7 +720,9 @@ class Hff_db_management(object):
                     arg[57],
                     arg[58],
                     arg[59],
-                    arg[60]
+                    arg[60],
+                    arg[61],
+                    arg[62]
                     )
 
         return anc
@@ -903,7 +936,8 @@ class Hff_db_management(object):
         stringa = create.read()
         create.close()
         self.engine.raw_connection().set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
-        self.engine.text(stringa).execute()
+        with self.engine.begin() as conn:
+            conn.execute(text(stringa))
 
     def execute_sql_create_spatialite_db(self):
         path = os.path.dirname(__file__)
@@ -916,7 +950,7 @@ class Hff_db_management(object):
         Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
         session = Session()
         session.begin()
-        session.execute(stringa)
+        session.execute(text(stringa))
         session.commit()
         session.close()
 
@@ -931,7 +965,7 @@ class Hff_db_management(object):
         Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
         session = Session()
         session.begin()
-        session.execute(stringa)
+        session.execute(text(stringa))
         session.commit()
         session.close()
 
@@ -1058,7 +1092,7 @@ class Hff_db_management(object):
 
         query_cmd = "SELECT DISTINCT " + distinct_string + " FROM " + table + ' WHERE ' + query_string
         # self.connection()
-        res = self.engine.execute(query_cmd)
+        res = self._execute_sql(query_cmd)
         return res
 
     # count distinct "name" values
@@ -1079,7 +1113,7 @@ class Hff_db_management(object):
         ('site_table', 'id_sito', [1], ['sito', 'nazione', 'regione', 'comune', 'descrizione', 'provincia'], ['Sito archeologico 1', 'Italiauiodsds', 'Emilia-Romagna', 'Riminijk', 'Sito di epoca altomedievale....23', 'Riminikljlks'])
         self.set_update = arg
         #self.connection()
-        table = Table(self.set_update[0], self.metadata, autoload=True)
+        table = Table(self.set_update[0], self.metadata, autoload_with=self.engine)
         changes_dict= {}
         u = Utility()
         set_update_4 = u.deunicode_list(self.set_update[4])
@@ -1161,7 +1195,7 @@ class Hff_db_management(object):
         self.id_column = id_col
         self.id_rec = id_rec
         # self.connection()
-        table = Table(self.table_name, self.metadata, autoload=True)
+        table = Table(self.table_name, self.metadata, autoload_with=self.engine)
         exec_str = ('%s%s%s%d%s') % ('table.delete(table.c.', self.id_column, ' == ', self.id_rec, ').execute()')
 
         eval(exec_str)
@@ -1199,7 +1233,7 @@ class Hff_db_management(object):
         return only one column"""
         self.table_name = t
         self.sing_column = s
-        table = Table(self.table_name, self.metadata, autoload=True)
+        table = Table(self.table_name, self.metadata, autoload_with=self.engine)
 
         if not str(s):
             return [c.name for c in table.columns]
@@ -1251,7 +1285,7 @@ class Hff_db_management(object):
 
     # def update_for(self):
         # """
-        # table = Table('us_table_toimp', self.metadata, autoload=True)
+        # table = Table('us_table_toimp', self.metadata, autoload_with=self.engine)
         # s = table.select(table.c.id_us > 0)
         # res_list = self.run(s)
         # cont = 11900
@@ -1259,7 +1293,7 @@ class Hff_db_management(object):
             # self.update('US_toimp', 'id_us', [i], ['id_us'], [cont])
             # cont = cont+1
         # """
-        # table = Table('inventario_materiali_table_toimp', self.metadata, autoload=True)
+        # table = Table('inventario_materiali_table_toimp', self.metadata, autoload_with=self.engine)
         # s = table.select(table.c.id_invmat > 0)
         # res_list = self.run(s)
         # cont = 900
@@ -1277,7 +1311,8 @@ class Hff_db_management(object):
         session = Session()
         s = eval('select([{0}.{1}]).group_by({0}.{1})'.format(self.table_class, self.field_name))
         session.close()
-        return self.engine.execute(s).fetchall()
+        with self.engine.connect() as conn:
+            return conn.execute(s).fetchall()
 
     def query_where_text(self, c, v):
         self.c = c
@@ -1295,71 +1330,60 @@ class Hff_db_management(object):
     def remove_alltags_from_db_sql(self,s):
         sql_query_string = ("DELETE FROM media_to_entity_table WHERE media_name  = '%s'") % (s)
     
-        res = self.engine.execute(sql_query_string)
-        # rows= res.fetchall()
+        res = self._execute_sql(sql_query_string)
         return res    
     
     def remove_tags_from_db_sql(self,s):
         sql_query_string = ("DELETE FROM media_to_entity_table WHERE id_entity  = '%s'") % (s)
     
-        res = self.engine.execute(sql_query_string)
-        # rows= res.fetchall()
+        res = self._execute_sql(sql_query_string)
         return res    
 
     def remove_tags_from_db_sql_scheda(self, s,n):
         sql_query_string = ("DELETE FROM media_to_entity_table WHERE id_entity  = '%s' and media_name= '%s' ") % (s,n)
 
-        res = self.engine.execute(sql_query_string)
-        # rows= res.fetchall()
+        res = self._execute_sql(sql_query_string)
         return res
     def delete_thumb_from_db_sql(self,s):
         sql_query_string = ("DELETE FROM media_thumb_table WHERE media_filename  = '%s'") % (s)
     
-        res = self.engine.execute(sql_query_string)
-        # rows= res.fetchall()
+        res = self._execute_sql(sql_query_string)
         return res    
     def select_medianame_from_db_sql(self,sito,area):
         sql_query_string = ("SELECT c.filepath, b.us,a.media_name FROM media_to_entity_table as a,  us_table as b, media_thumb_table as c WHERE b.id_us=a.id_entity and c.id_media=a.id_media  and b.sito= '%s' and b.area='%s'")%(sito,area) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     def select_medianame_1_from_db_sql(self,sito,year,id):
         sql_query_string = ("SELECT c.filepath, b.divelog_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  dive_log as b, media_thumb_table as c WHERE b.id_dive=a.id_entity and c.id_media=a.id_media and a.entity_type='DOC'  and b.site= '%s' and b.years='%s' and divelog_id = '%s'")%(sito,year,id) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     
     def select_medianame_2_from_db_sql(self,sito,year,id):
         sql_query_string = ("SELECT c.filepath, b.divelog_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  dive_log as b, media_thumb_table as c WHERE b.id_dive=a.id_entity and c.id_media=a.id_media and a.entity_type='PE'  and b.site= '%s' and b.years='%s' and divelog_id = '%s'")%(sito,year,id) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     def select_medianame_ship_from_db_sql(self,id):
         sql_query_string = ("SELECT c.filepath, b.code_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  shipwreck_table as b, media_thumb_table as c WHERE b.id_shipwreck=a.id_entity and c.id_media=a.id_media and a.entity_type='SHIPWRECK'  and code_id = '%s'")%(id) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     def select_medianame_anc_from_db_sql(self,id):
         sql_query_string = ("SELECT c.filepath, b.anchors_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  anchor_table as b, media_thumb_table as c WHERE b.id_anc=a.id_entity and c.id_media=a.id_media and a.entity_type='ANCHORS'  and anchors_id = '%s'")%(id) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     def select_medianame_art_from_db_sql(self,id):
         sql_query_string = ("SELECT c.filepath, b.artefact_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and a.entity_type='ARTEFACT'  and artefact_id = '%s'")%(id) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     def select_medianame_pot_from_db_sql(self,id):
         sql_query_string = ("SELECT c.filepath, b.artefact_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  pottery_table as b, media_thumb_table as c WHERE b.id_rep=a.id_entity and c.id_media=a.id_media and a.entity_type='POTTERY'  and artefact_id = '%s'")%(id) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
 
     def select_medianame_anc_c_from_db_sql(self, id):
@@ -1367,24 +1391,23 @@ class Hff_db_management(object):
                                "SELECT c.filepath, b.anchor_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  anchor_table as b, media_thumb_table as c WHERE b.id_anc=a.id_entity and c.id_media=a.id_media and a.entity_type='ANC_CON'  and anchors_id = '%s'") % (
                                id)
 
-        res = self.engine.execute(sql_query_string)
-        rows = res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     def select_desalination(self, artefact, table, sito):
         sql_query_string = (
                                "SELECT %s, desalination_date FROM %s where site ='%s'") % (artefact,table,sito)
 
-        res = self.engine.execute(sql_query_string)
-        rows = res.fetchall()
-        key=res.keys()
-        return rows, key
+        with self.engine.connect() as conn:
+            res = conn.execute(text(sql_query_string))
+            rows = res.fetchall()
+            key = res.keys()
+            return rows, key
     def select_medianame_art_c_from_db_sql(self, id):
         sql_query_string = (
                                "SELECT c.filepath, b.artefact_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and a.entity_type='ART_CON'  and artefact_id = '%s'") % (
                                id)
 
-        res = self.engine.execute(sql_query_string)
-        rows = res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
 
     def select_medianame_pot_c_from_db_sql(self, id):
@@ -1392,8 +1415,7 @@ class Hff_db_management(object):
                                "SELECT c.filepath, b.pottery_id,a.media_name,a.entity_type FROM media_to_entity_table as a,  pottery_table as b, media_thumb_table as c WHERE b.id_rep=a.id_entity and c.id_media=a.id_media and a.entity_type='POT_CON'  and artefact_id = '%s'") % (
                                id)
 
-        res = self.engine.execute(sql_query_string)
-        rows = res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
 
 
@@ -1401,75 +1423,81 @@ class Hff_db_management(object):
     def select_medianame_ss_from_db_sql(self,sito):
         sql_query_string = ("SELECT c.filepath, b.name_site,a.media_name,a.entity_type FROM media_to_entity_table as a,  site_table as b, media_thumb_table as c WHERE b.id_sito=a.id_entity and c.id_media=a.id_media and a.entity_type='SITE'  and name_site = '%s'")%(sito) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     def select_medianame_spm_from_db_sql(self,sito):
         sql_query_string = ("SELECT c.filepath, b.name_site,a.media_name,a.entity_type FROM media_to_entity_table as a,  site_table as b, media_thumb_table as c WHERE b.id_sito=a.id_entity and c.id_media=a.id_media and a.entity_type='SPM'  and name_site = '%s'")%(sito) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     def select_medianame_3_from_db_sql(self,sito,area,us):
         sql_query_string = ("SELECT c.filepath, b.us,a.media_name FROM media_to_entity_table as a,  inventario_materiali_table as b, media_thumb_table as c WHERE b.id_invmat=a.id_entity and c.id_media=a.id_media  and b.sito= '%s' and b.area='%s' and us = '%s'")%(sito,area,us) 
         
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     
     def select_thumbnail_from_db_sql(self,sito,etype):
         sql_query_string = ("SELECT c.filepath, b.artefact_id,a.media_name,b.area,b.description FROM media_to_entity_table as a,  pottery_table as b, media_thumb_table as c WHERE b.id_rep=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.artefact_id")%(sito,etype)
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     
     def select_thumbnail_art_from_db_sql(self,sito,etype):
         sql_query_string = ("SELECT c.filepath, b.material,b.obj,b.artefact_id,a.media_name,b.area,b.description FROM media_to_entity_table as a,  artefact_log as b, media_thumb_table as c WHERE b.id_art=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.artefact_id")%(sito,etype)
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
     
     def select_thumbnail_anc_from_db_sql(self,sito,etype):
         sql_query_string = ("SELECT c.filepath, b.anchors_id,a.media_name,b.area,b.anchor_type FROM media_to_entity_table as a,  anchor_table as b, media_thumb_table as c WHERE b.id_anc=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.anchors_id")%(sito,etype)
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchall()
+        rows = self._execute_sql(sql_query_string, is_select=True)
         return rows
+    def select_medianame_uw_from_db_sql(self, divelog_id):
+        """Query media for UW/Divelog records."""
+        sql_query_string = ("SELECT c.filepath, b.divelog_id, a.media_name, a.entity_type FROM media_to_entity_table as a, dive_log as b, media_thumb_table as c WHERE b.id_dive=a.id_entity and c.id_media=a.id_media and a.entity_type='DIVELOG' and divelog_id = '%s'") % (divelog_id)
+        rows = self._execute_sql(sql_query_string, is_select=True)
+        return rows
+
+    def select_thumbnail_uw_from_db_sql(self, sito, etype):
+        """Query thumbnails for UW/Divelog records."""
+        sql_query_string = ("SELECT c.filepath, b.area_id, b.divelog_id, b.task, a.media_name, c.filepath FROM media_to_entity_table as a, dive_log as b, media_thumb_table as c WHERE b.id_dive=a.id_entity and c.id_media=a.id_media and site='%s' and a.entity_type='%s' order by b.divelog_id") % (sito, etype)
+        rows = self._execute_sql(sql_query_string, is_select=True)
+        return rows
+
     
     def select_quote_from_db_sql(self, sito, area, us):
         sql_query_string = ("SELECT * FROM hff_system__quote WHERE sito_q = '%s' AND area_q = '%s' AND us_q = '%s'") % (
         sito, area, us)
-        res = self.engine.execute(sql_query_string)
+        res = self._execute_sql(sql_query_string)
         return res
 
     def select_us_from_db_sql(self, sito, area, us, stratigraph_index_us):
         sql_query_string = (
                            "SELECT * FROM pyunitastratigrafiche WHERE scavo_s = '%s' AND area_s = '%s' AND us_s = '%s' AND stratigraph_index_us = '%s'") % (
                            sito, area, us, stratigraph_index_us)
-        res = self.engine.execute(sql_query_string)
+        res = self._execute_sql(sql_query_string)
         return res
 
     def select_us_doc_from_db_sql(self, sito, tipo_doc, nome_doc):
         sql_query_string = (
                            "SELECT * FROM pyunitastratigrafiche WHERE scavo_s = '%s' AND tipo_doc = '%s' AND nome_doc = '%s'") % (
                            sito, tipo_doc, nome_doc)
-        res = self.engine.execute(sql_query_string)
+        res = self._execute_sql(sql_query_string)
         return res
 
     def select_usneg_doc_from_db_sql(self, sito, tipo_doc, nome_doc):
         sql_query_string = (
                            "SELECT * FROM hff_system__us_negative_doc WHERE sito_n = '%s' AND  tipo_doc_n = '%s' AND nome_doc_n = '%s'") % (
                            sito, tipo_doc, nome_doc)
-        res = self.engine.execute(sql_query_string)
+        res = self._execute_sql(sql_query_string)
         return res
 
     def select_db_sql(self, table):
         sql_query_string = ("SELECT * FROM %s") % table
-        res = self.engine.execute(sql_query_string)
+        res = self._execute_sql(sql_query_string)
         return res
     
     def test_ut_sql(self,unita_tipo):
         sql_query_string = ("SELECT %s FROM us_table")% (unita_tipo)
-        res = self.engine.execute(sql_query_string)
+        res = self._execute_sql(sql_query_string)
         return res
     
     

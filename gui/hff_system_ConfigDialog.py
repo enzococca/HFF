@@ -48,6 +48,7 @@ from ..modules.db.hff_system__utility import Utility
 from ..modules.db.db_createdump import CreateDatabase, RestoreSchema, DropDatabase, SchemaDump
 from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
 from ..modules.utility.hff_system__print_utility import Print_utility
+from ..modules.utility.hff_i18n import tr
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), 'ui', 'hff_system_ConfigDialog.ui'))
 
 class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
@@ -957,16 +958,16 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
     def message(self):
         if self.checkBox_abort.isChecked():
             
-            QMessageBox.warning(self, "Warning", "If there are duplicates the import will be aborted.\n If you want to ignore the duplicates or update with new data check one of the options ignore or replace", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_warning'), "If there are duplicates the import will be aborted.\n If you want to ignore the duplicates or update with new data check one of the options ignore or replace", QMessageBox.Ok)
     
         elif self.checkBox_ignore.isChecked():
             
-            QMessageBox.warning(self, "Warning", 'Only new data will be copied', QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_warning'), 'Only new data will be copied', QMessageBox.Ok)
         
         elif self.checkBox_replace.isChecked():
             
             
-            QMessageBox.warning(self, "Warning", 'New data will be copied and existing data will be updated', QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_warning'), 'New data will be copied and existing data will be updated', QMessageBox.Ok)
         
     
     def check(self):
@@ -1086,7 +1087,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                                       
                     # self.model_a.setQuery(query)
                 # except Exception as e:
-                    # QMessageBox.information(self, "INFO", str(e),QMessageBox.Ok)
+                    # QMessageBox.information(self, tr('title_info'), str(e),QMessageBox.Ok)
             # else:
                             
             query1 = QSqlQuery("select s.site as 'Location',s.years as 'Years',(select count(distinct anchors_id) from anchor_table m "
@@ -1143,7 +1144,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         res = self.engine.execute(sql_query_string)
         rows= res.fetchone()
         vers = ''.join(rows)
-        res.close()#QMessageBox.information(self, "INFO", str(vers),QMessageBox.Ok)
+        res.close()#QMessageBox.information(self, tr('title_info'), str(vers),QMessageBox.Ok)
         return vers    
     def on_toolButton_active_toggled(self):
         
@@ -1218,7 +1219,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         if os.path.exists(dir):
             QDesktopServices.openUrl(QUrl.fromLocalFile(dir))
         else:
-            QMessageBox.warning(self, "INFO", "Directory not found",
+            QMessageBox.warning(self, tr('title_info'), tr('msg_directory_not_found'),
                                 QMessageBox.Ok)
     def openresizeDir(self):
         s = QgsSettings()
@@ -1226,7 +1227,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         if os.path.exists(dir):
             QDesktopServices.openUrl(QUrl.fromLocalFile(dir))
         else:
-            QMessageBox.warning(self, "INFO", "Directory not found",
+            QMessageBox.warning(self, tr('title_info'), tr('msg_directory_not_found'),
                                 QMessageBox.Ok)
     
     def setPathDB(self):
@@ -1304,10 +1305,10 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             s.setValue('HFF_system/rBinPath', self.r_bin)
     def setEnvironPath(self):
         os.environ['PATH'] += os.pathsep + os.path.normpath(self.graphviz_bin)
-        QMessageBox.warning(self, "Set Environmental Variable", "The path has been set successful", QMessageBox.Ok)
+        QMessageBox.warning(self, tr('set_env_variable'), tr('msg_path_set_success'), QMessageBox.Ok)
     def setEnvironPathR(self):
         os.environ['PATH'] += os.pathsep + os.path.normpath(self.r_bin)
-        QMessageBox.warning(self, "Set Environmental Variable", "The path has been set successful", QMessageBox.Ok)
+        QMessageBox.warning(self, tr('set_env_variable'), tr('msg_path_set_success'), QMessageBox.Ok)
     def set_db_parameter(self):
         if self.comboBox_Database.currentText() == 'postgres':
             self.lineEdit_DBname.setText("hff_system_")
@@ -1339,7 +1340,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         #QMessageBox.warning(self, "ok", "entered in write", QMessageBox.Ok)
         #self.comboBox_server_wt.clear()
         if self.comboBox_server_wt.currentText() == 'postgres' and not self.comboBox_Database.currentText()=='postgres':
-            QMessageBox.warning(self, "Attenzione", "You need connect to postgres before", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('attention'), tr('msg_connect_postgres_first'), QMessageBox.Ok)
             #self.comboBox_server_wt.clear()
         if self.comboBox_server_wt.currentText() == 'postgres' and self.comboBox_Database.currentText()=='postgres':   
             
@@ -1378,7 +1379,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.comboBox_Database.update()
         try:
             if not bool(self.lineEdit_Password.text()) and str(self.comboBox_Database.currentText())=='postgres':
-                QMessageBox.warning(self, "INFO", "don't forget to insert the password",QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_info'), tr('msg_insert_password'),QMessageBox.Ok)
             else:
                 self.PARAMS_DICT['SERVER'] = str(self.comboBox_Database.currentText())
                 self.PARAMS_DICT['HOST'] = str(self.lineEdit_Host.text())
@@ -1403,7 +1404,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         link = 'https://www.postgresql.org/download/'
                         
                         msg = "You are using the Postgres version: " + str(b)+". This version has become obsolete and you may find some errors. Update PostgreSQL to a newer version. <br><a href='%s'>PostgreSQL</a>" %link
-                        QMessageBox.information(self, "INFO", msg,QMessageBox.Ok)
+                        QMessageBox.information(self, tr('title_info'), msg,QMessageBox.Ok)
                     else:
                         pass
                 else:
@@ -1415,7 +1416,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:
             
             
-            QMessageBox.warning(self, "INFO", "Db connection problem. Check the parameters inserted", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_info'), tr('msg_db_connection_problem'), QMessageBox.Ok)
         # QMessageBox.warning(self, "ok", "Per rendere effettive le modifiche e' necessario riavviare Qgis. Grazie.",
         #                     QMessageBox.Ok)
     def on_pushButton_crea_database_pressed(self,):
@@ -1455,7 +1456,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 self.lineEdit_Password.setText(self.lineEdit_db_passwd.text())
                 self.on_pushButton_save_pressed()
         else:
-            QMessageBox.warning(self, "INFO", "The DB exist already", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_info'), tr('msg_db_exists'), QMessageBox.Ok)
     def on_pushButton_upd_postgres_pressed(self):
         conn = Connection()
         db_url = conn.conn_str()
@@ -1468,12 +1469,12 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         
            
         if a == b:
-            QMessageBox.information(self, "INFO", " You cannot update the db postgres because your version is lower than 9.4 "
+            QMessageBox.information(self, tr('title_info'), " You cannot update the db postgres because your version is lower than 9.4 "
                                                                             "Upgrade to a newer version",QMessageBox.Ok)
         else:
             RestoreSchema(db_url,view_file).restore_schema()
 
-            QMessageBox.information(self, "INFO", "the db has been updated", QMessageBox.Ok)
+            QMessageBox.information(self, tr('title_info'), tr('msg_db_updated'), QMessageBox.Ok)
     def load_spatialite(self,conn, connection_record):
         conn.enable_load_extension(True)
         if Hff_OS_Utility.isWindows()== True:
@@ -2041,7 +2042,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             
             RestoreSchema(db_url,None).update_geom_srid_sl('%d' % int(self.lineEdit_crs.text()))
             c.close()
-            QMessageBox.warning(self, "Message", "Update Done", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_message'), tr('msg_update_done'), QMessageBox.Ok)
         except Exception as e:
             QMessageBox.warning(self, "Update error", str(e), QMessageBox.Ok)
     def on_pushButton_crea_database_sl_pressed(self):
@@ -2066,7 +2067,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 self.lineEdit_DBname.setText(sl_name)
                 self.on_pushButton_save_pressed()   
         else:
-            QMessageBox.warning(self, "INFO", "The Database exsist already", QMessageBox.Ok)   
+            QMessageBox.warning(self, tr('title_info'), tr('msg_db_exists'), QMessageBox.Ok)   
     def try_connection(self):
         try:
             self.summary()
@@ -2078,7 +2079,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
             
             if test:
-                QMessageBox.information(self, "Message", "Successfully connected", QMessageBox.Ok)
+                QMessageBox.information(self, tr('title_message'), tr('msg_successfully_connected'), QMessageBox.Ok)
                 self.pushButton_upd_postgres.setEnabled(False)
                 self.pushButton_upd_sqlite.setEnabled(True)
             else:
@@ -2096,11 +2097,11 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     self.pushButton_upd_postgres.setEnabled(True)
                 self.comboBox_sito.clear()
 
-                QMessageBox.warning(self, "Alert", "Connection error: <br>" +
+                QMessageBox.warning(self, tr('title_alert'), tr('msg_connection_error') + ": <br>" +
                     "Change the parameters and try to connect again. If you change servers (Postgres or Sqlite) remember to click on connect and REVIEW Qgis",
                                     QMessageBox.Ok)    
         except Exception as e:
-            QMessageBox.warning(self, "Alert", str(e), QMessageBox.Ok)   
+            QMessageBox.warning(self, tr('title_alert'), str(e), QMessageBox.Ok)   
     def charge_data(self):
         # load data from config.cfg file
         # print self.PARAMS_DICT
@@ -2132,11 +2133,11 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
         elif self.L=='de':
 
-            msg = QMessageBox.warning(self, "Warning", "Das System wird die Geometrien mit den importierten Daten aktualisieren. Drücken Sie Abbrechen, um abzubrechen, oder drücken Sie Ok, um fortzufahren." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+            msg = QMessageBox.warning(self, tr('title_warning'), "Das System wird die Geometrien mit den importierten Daten aktualisieren. Drücken Sie Abbrechen, um abzubrechen, oder drücken Sie Ok, um fortzufahren." ,  QMessageBox.Ok  | QMessageBox.Cancel)
 
         else:
 
-            msg = QMessageBox.warning(self, "Warning", "The system will update the geometries with the imported data. Press Cancel to abort otherwise press Ok to contiunue." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+            msg = QMessageBox.warning(self, tr('title_warning'), "The system will update the geometries with the imported data. Press Cancel to abort otherwise press Ok to contiunue." ,  QMessageBox.Ok  | QMessageBox.Cancel)
 
         if msg == QMessageBox.Cancel:
             if self.L=='it':
@@ -2145,7 +2146,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 QMessageBox.warning(self, "Warnung", "Aktion abgebrochen" ,  QMessageBox.Ok)
 
             else:
-                QMessageBox.warning(self, "Warning", "Action aborted" ,  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_warning'), "Action aborted" ,  QMessageBox.Ok)
         else:
             
             id_table_class_mapper_conv_dict = {
@@ -2193,14 +2194,14 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                                                  "HFF_DB_folder")
                 dbname_abs = sqlite_DB_path + os.sep + conn_str_dict_read["db_name"]
                 conn_str_read = "%s:///%s" % (conn_str_dict_read["server"], dbname_abs)
-                QMessageBox.warning(self, "Alert", str(conn_str_dict_read["db_name"]), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_alert'), str(conn_str_dict_read["db_name"]), QMessageBox.Ok)
             ####SI CONNETTE AL DATABASE
             self.DB_MANAGER_read = Hff_db_management(conn_str_read)
             test = self.DB_MANAGER_read.connection()
             if test:
-                QMessageBox.warning(self, "Message", "Connection ok", QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_message'), tr('msg_connection_ok'), QMessageBox.Ok)
             else:
-                QMessageBox.warning(self, "Alert", "Connection error: <br>", QMessageBox.Cancel)
+                QMessageBox.warning(self, tr('title_alert'), tr('msg_connection_error') + ": <br>", QMessageBox.Cancel)
 
             ####LEGGE I RECORD IN BASE AL PARAMETRO CAMPO=VALORE
             search_dict = {
@@ -2246,7 +2247,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                                                  "HFF_DB_folder")  # "C:\\Users\\Windows\\Dropbox\\pyarchinit_san_marco\\" fare modifiche anche in pyarchinit_pyqgis
                 dbname_abs = sqlite_DB_path + os.sep + conn_str_dict_write["db_name"]
                 conn_str_write = "%s:///%s" % (conn_str_dict_write["server"], dbname_abs)
-                QMessageBox.warning(self, "Alert", str(conn_str_dict_write["db_name"]), QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_alert'), str(conn_str_dict_write["db_name"]), QMessageBox.Ok)
             ####SI CONNETTE AL DATABASE IN SCRITTURA
             self.DB_MANAGER_write = Hff_db_management(conn_str_write)
             test = self.DB_MANAGER_write.connection()
@@ -2283,7 +2284,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'SITE_POINT' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2314,7 +2315,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'SITE_POLYGON' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2343,7 +2344,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'ANCHOR_POINT':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2371,7 +2372,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'ARTEFACT_POINT' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2394,7 +2395,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'POTTERY_POINT' :
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2417,7 +2418,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'SHIPWRECK_POINT':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2440,7 +2441,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'FEATURES_LINE':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2462,7 +2463,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'FEATURES_POINT':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2484,7 +2485,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'FEATURES_POLYGON':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2506,7 +2507,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'TRANSECT_POLYGON':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2529,7 +2530,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             elif mapper_class_write == 'GRABSPOT_POINT':
                 for sing_rec in range(len(data_list_toimp)):
                     try:
@@ -2551,7 +2552,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
-                QMessageBox.information(self, "Message", "Data Loaded")
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
             
     
     def on_pushButton_import_pressed(self):
@@ -2562,11 +2563,11 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
         elif self.L=='de':
 
-            msg = QMessageBox.warning(self, "Warning", "Das System wird die tabellarisch mit den importierten Daten aktualisieren. Drücken Sie Abbrechen, um abzubrechen, oder drücken Sie Ok, um fortzufahren." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+            msg = QMessageBox.warning(self, tr('title_warning'), "Das System wird die tabellarisch mit den importierten Daten aktualisieren. Drücken Sie Abbrechen, um abzubrechen, oder drücken Sie Ok, um fortzufahren." ,  QMessageBox.Ok  | QMessageBox.Cancel)
 
         else:
 
-            msg = QMessageBox.warning(self, "Warning", "The system will update the tables with the imported data. Press Cancel to abort otherwise press Ok to contiunue." ,  QMessageBox.Ok  | QMessageBox.Cancel)
+            msg = QMessageBox.warning(self, tr('title_warning'), "The system will update the tables with the imported data. Press Cancel to abort otherwise press Ok to contiunue." ,  QMessageBox.Ok  | QMessageBox.Cancel)
 
         if msg == QMessageBox.Cancel:
             if self.L=='it':
@@ -2575,7 +2576,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 QMessageBox.warning(self, "Warnung", "Aktion abgebrochen" ,  QMessageBox.Ok)
 
             else:
-                QMessageBox.warning(self, "Warning", "Action aborted" ,  QMessageBox.Ok)
+                QMessageBox.warning(self, tr('title_warning'), "Action aborted" ,  QMessageBox.Ok)
 
         else:
         
@@ -2622,18 +2623,18 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                                              "HFF_DB_folder")  # "C:\\Users\\Windows\\Dropbox\\hff_system__san_marco\\" fare modifiche anche in hff_system__pyqgis
             dbname_abs = sqlite_DB_path + os.sep + conn_str_dict_read["db_name"]
             conn_str_read = "%s:///%s" % (conn_str_dict_read["server"], dbname_abs)
-            QMessageBox.warning(self, "Alert", str(conn_str_dict_read["db_name"]), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_alert'), str(conn_str_dict_read["db_name"]), QMessageBox.Ok)
         ####SI CONNETTE AL DATABASE
         self.DB_MANAGER_read = Hff_db_management(conn_str_read)
         test = self.DB_MANAGER_read.connection()
         if test:
-            QMessageBox.warning(self, "Message", "Connection ok", QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_message'), tr('msg_connection_ok'), QMessageBox.Ok)
         elif test.find("create_engine") != -1:
-            QMessageBox.warning(self, "Alert",
+            QMessageBox.warning(self, tr('title_alert'),
                                 "Try connection parameter. <br> If they are correct restart QGIS",
                                 QMessageBox.Ok)
         else:
-            QMessageBox.warning(self, "Alert", "Connection error: <br>" + test, QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_alert'), tr('msg_connection_error') + ": <br>" + test, QMessageBox.Ok)
         ####LEGGE I RECORD IN BASE AL PARAMETRO CAMPO=VALORE
         search_dict = {
             self.lineEdit_field_rd.text(): "'" + str(self.lineEdit_value_rd.text()) + "'"
@@ -2673,19 +2674,19 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                                              "HFF_DB_folder")  # "C:\\Users\\Windows\\Dropbox\\hff_system__san_marco\\" fare modifiche anche in hff_system__pyqgis
             dbname_abs = sqlite_DB_path + os.sep + conn_str_dict_write["db_name"]
             conn_str_write = "%s:///%s" % (conn_str_dict_write["server"], dbname_abs)
-            QMessageBox.warning(self, "Alert", str(conn_str_dict_write["db_name"]), QMessageBox.Ok)
+            QMessageBox.warning(self, tr('title_alert'), str(conn_str_dict_write["db_name"]), QMessageBox.Ok)
         ####SI CONNETTE AL DATABASE IN SCRITTURA
         self.DB_MANAGER_write = Hff_db_management(conn_str_write)
         test = self.DB_MANAGER_write.connection()
         test = str(test)
         # if test:
-            # QMessageBox.warning(self, "Message", "Connection ok", QMessageBox.Ok)
+            # QMessageBox.warning(self, tr('title_message'), tr('msg_connection_ok'), QMessageBox.Ok)
         # elif test.find("create_engine") != -1:
-            # QMessageBox.warning(self, "Alert",
+            # QMessageBox.warning(self, tr('title_alert'),
                                 # "Try connection parameter. <br> If they are correct restart QGIS",
                                 # QMessageBox.Ok)
         # else:
-            # QMessageBox.warning(self, "Alert", "Connection error: <br>" + test, QMessageBox.Ok)
+            # QMessageBox.warning(self, tr('title_alert'), tr('msg_connection_error') + ": <br>" + test, QMessageBox.Ok)
         mapper_class_write = str(self.comboBox_mapper_read.currentText())
         ####eamena table
         if mapper_class_write == 'EAMENA' :
@@ -2805,7 +2806,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
         
         ####SITE TABLE
         if mapper_class_write == 'SITE':
@@ -2877,7 +2878,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
         elif mapper_class_write == 'ART' :
             for sing_rec in range(len(data_list_toimp)):
                 try:
@@ -2924,7 +2925,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
         
         elif mapper_class_write == 'ANC' :
             for sing_rec in range(len(data_list_toimp)):
@@ -3005,7 +3006,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")       
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))       
     
     
         elif mapper_class_write == 'POTTERY' :
@@ -3065,7 +3066,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
     
     
     
@@ -3124,7 +3125,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
     
     
         elif mapper_class_write == 'MEDIA' :
@@ -3152,7 +3153,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
     
         elif mapper_class_write == 'MEDIA_THUMB' :
             for sing_rec in range(len(data_list_toimp)):
@@ -3180,7 +3181,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
     
     
         elif mapper_class_write == 'MEDIATOENTITY' :
@@ -3208,7 +3209,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
         elif mapper_class_write == 'SHIPWRECK' :
             for sing_rec in range(len(data_list_toimp)):
                 try:
@@ -3267,7 +3268,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, "Message", "Data Loaded")
+            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
     
     # def on_pushButton_connect_pressed(self):
         # # Defines parameter

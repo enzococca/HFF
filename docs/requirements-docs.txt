@@ -1,0 +1,24 @@
+# Requirements for building HFF documentation
+# Install with: pip install -r requirements-docs.txt
+
+# Sphinx documentation generator
+sphinx>=7.0.0
+
+# MyST parser for Markdown support
+myst-parser>=2.0.0
+
+# Theme
+alabaster>=0.7.16
+
+# For PDF generation (LaTeX support)
+# Note: You also need to install texlive-xetex for Arabic support
+# On macOS: brew install --cask mactex
+# On Ubuntu: sudo apt-get install texlive-xetex texlive-fonts-extra latexmk
+
+# Arabic text support
+python-bidi>=0.4.2
+arabic-reshaper>=3.0.0
+
+# Additional useful extensions
+sphinx-copybutton>=0.5.2
+sphinx-autodoc-typehints>=1.25.0

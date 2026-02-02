@@ -30,6 +30,9 @@ from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 
 MAIN_DIALOG_CLASS, _ = loadUiType(os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Upd.ui'))
 
@@ -61,11 +64,13 @@ class hff_system__Upd_Values(QDialog, MAIN_DIALOG_CLASS):
 
         QDialog.__init__(self)
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
         self.currentLayerId = None
         self.load_connection()
 
     def load_connection(self):
-        QMessageBox.warning(self, "Alert", "Sistema in corso di abbandono. A breve verra' eliminato.", QMessageBox.Ok)
+        QMessageBox.warning(self, tr('title_alert'), "Sistema in corso di abbandono. A breve verra' eliminato.", QMessageBox.Ok)
 
         conn = Connection()
         conn_str = conn.conn_str()

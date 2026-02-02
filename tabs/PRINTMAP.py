@@ -35,8 +35,7 @@ from datetime import date
 
 from distutils.dir_util import copy_tree
 from random import randrange as rand
-from PyQt5 import QtCore, QtGui, QtWidgets
-#from PyQt5.QtXml import QDomDocument
+# Qt5/Qt6 compatible imports via qgis.PyQt
 from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtGui import QColor, QIcon
 from qgis.PyQt.QtWidgets import *
@@ -46,6 +45,9 @@ from qgis.gui import QgsMapCanvas, QgsMapToolPan
 from qgis.PyQt.QtSql import QSqlDatabase, QSqlTableModel
 from ..gui.imageViewer import ImageViewer
 from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
+from ..modules.utility.hff_theme_manager import ThemeManager
+from ..modules.utility.hff_i18n import HffI18n, tr
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 
 from ..resources.resources_rc import *
 
@@ -61,6 +63,8 @@ class hff_PRINTMAP(QDialog, MAIN_DIALOG_CLASS):
         super().__init__()
         self.iface = iface
         self.setupUi(self)
+        apply_i18n_to_form(self)
+        self.i18n = HffI18n.instance()
         self.mDockWidget.setHidden(True)
         self.plugin_dir = os.path.dirname(__file__)
         self.listWidget.itemClicked.connect(self.suggestLayoutName)

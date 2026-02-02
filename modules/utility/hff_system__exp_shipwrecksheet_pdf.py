@@ -12,6 +12,11 @@ from reportlab.platypus import Table, PageBreak, SimpleDocTemplate, Spacer, Tabl
 from reportlab.platypus.paragraph import Paragraph
 from .hff_system__OS_utility import *
 from ..db.hff_system__conn_strings import Connection
+from .hff_pdf_base import (
+    HFF_BLUE, HFF_BLUE_LIGHT, HFF_GRAY, HFF_GRAY_DARK, HFF_WHITE,
+    HffPdfStyles, HffNumberedCanvas, get_paragraph_styles,
+    FONT_HEADER, FONT_NORMAL, FONT_SIZE_HEADER, FONT_SIZE_NORMAL
+)
 class NumberedCanvas_USsheet(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
@@ -105,49 +110,52 @@ class single_SHIPWRECK_pdf_sheet:
         today = now.strftime("%d-%m-%Y")
         return today
     def create_sheet(self):
-        
+
+        # Use improved font sizes for better readability
         styleSheet = getSampleStyleSheet()
         styNum= styleSheet['Normal']
         styNum.spaceBefore = 20
         styNum.spaceAfter = 20
-        styNum.fontSize = 4
+        styNum.fontSize = 8  # Increased from 4
         styNum.alignment = 0  # LEFT
-        
-        
+
+
         styleSheet = getSampleStyleSheet()
         styInt = styleSheet['Normal']
         styInt.spaceBefore = 20
         styInt.spaceAfter = 20
-        styInt.fontSize = 8
-        styInt.alignment = 1  # LEFT    
-        
-        
+        styInt.fontSize = 12  # Increased from 8
+        styInt.alignment = 1  # CENTER
+        styInt.textColor = HFF_BLUE  # Professional blue color
+
+
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
         styNormal.spaceAfter = 20
-        styNormal.fontSize = 6
+        styNormal.fontSize = 9  # Increased from 6
         styNormal.alignment = 0  # LEFT
-        
+
         styleSheet = getSampleStyleSheet()
         styDescrizione = styleSheet['Normal']
         styDescrizione.spaceBefore = 20
         styDescrizione.spaceAfter = 20
-        styDescrizione.fontSize = 6
+        styDescrizione.fontSize = 9  # Increased from 6
         styDescrizione.alignment = 4  # Justified
-        
+
         styleSheet = getSampleStyleSheet()
         styUnitaTipo = styleSheet['Normal']
         styUnitaTipo.spaceBefore = 20
         styUnitaTipo.spaceAfter = 20
         styUnitaTipo.fontSize = 14
         styUnitaTipo.alignment = 1  # CENTER
-        
+        styUnitaTipo.textColor = HFF_BLUE
+
         styleSheet = getSampleStyleSheet()
         styTitoloComponenti = styleSheet['Normal']
         styTitoloComponenti.spaceBefore = 20
         styTitoloComponenti.spaceAfter = 20
-        styTitoloComponenti.fontSize = 6
+        styTitoloComponenti.fontSize = 9  # Increased from 6
         styTitoloComponenti.alignment = 1  # CENTER
         
         # styleSheet = getSampleStyleSheet()
@@ -258,9 +266,19 @@ class single_SHIPWRECK_pdf_sheet:
                         [history, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #12row ok
                         [list, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12',status, '14','15','16','17'], #13row ok
                         ]
-        #table style
+        #table style - Professional styling with blue header
         table_style=[
-                    ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                    ('GRID',(0,0),(-1,-1),0.5,HFF_GRAY_DARK),
+                    # Header row styling
+                    ('BACKGROUND', (0,0), (-1,0), HFF_BLUE),
+                    ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+                    # Alternating row backgrounds
+                    ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, HFF_GRAY]),
+                    # Cell padding
+                    ('TOPPADDING', (0,0), (-1,-1), 6),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 6),
+                    ('LEFTPADDING', (0,0), (-1,-1), 4),
+                    ('RIGHTPADDING', (0,0), (-1,-1), 4),
                     #0 row
                     ('SPAN', (0,0),(1,0)),  #logo2
                     ('SPAN', (2,0),(15,0)),  #intestazione
