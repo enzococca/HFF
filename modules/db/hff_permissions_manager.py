@@ -484,10 +484,119 @@ class HffPermissionsManager:
     # User Management (Admin / PG Superuser only)
     # =========================================================================
 
+    def _get_db_name(self):
+        """Get current database name from engine URL."""
+        try:
+            return self.engine.url.database
+        except Exception:
+            return None
+
+    def _create_pg_role(self, conn, username: str, password: str, role: str):
+        """Create a PostgreSQL role with LOGIN and grant permissions.
+
+        Args:
+            conn: Active SQLAlchemy connection (inside transaction)
+            username: PG role name
+            password: PG login password
+            role: HFF role for determining grant level
+        """
+        from sqlalchemy import text as sa_text
+
+        # Check if PG role already exists
+        result = conn.execute(sa_text(
+            "SELECT 1 FROM pg_roles WHERE rolname = :username"
+        ), {"username": username})
+        if result.fetchone():
+            # Role exists, just update password
+            conn.execute(sa_text(
+                f'ALTER ROLE "{username}" WITH LOGIN PASSWORD :password'
+            ), {"password": password})
+        else:
+            # Create new role
+            conn.execute(sa_text(
+                f'CREATE ROLE "{username}" WITH LOGIN PASSWORD :password'
+            ), {"password": password})
+
+        # Grant CONNECT on current database
+        db_name = self._get_db_name()
+        if db_name:
+            conn.execute(sa_text(f'GRANT CONNECT ON DATABASE "{db_name}" TO "{username}"'))
+
+        # Grant USAGE on public schema
+        conn.execute(sa_text(f'GRANT USAGE ON SCHEMA public TO "{username}"'))
+
+        # Grant table permissions based on role
+        self._grant_pg_permissions(conn, username, role)
+
+    def _grant_pg_permissions(self, conn, username: str, role: str):
+        """Grant PostgreSQL table-level permissions based on HFF role."""
+        from sqlalchemy import text as sa_text
+
+        # Get all public tables
+        result = conn.execute(sa_text(
+            "SELECT table_name FROM information_schema.tables "
+            "WHERE table_schema = 'public' AND table_type = 'BASE TABLE'"
+        ))
+        all_tables = [row[0] for row in result]
+
+        # Also include views
+        result = conn.execute(sa_text(
+            "SELECT table_name FROM information_schema.views "
+            "WHERE table_schema = 'public'"
+        ))
+        all_views = [row[0] for row in result]
+
+        # Revoke existing grants first
+        for table in all_tables + all_views:
+            try:
+                conn.execute(sa_text(
+                    f'REVOKE ALL PRIVILEGES ON TABLE public."{table}" FROM "{username}"'
+                ))
+            except Exception:
+                pass
+
+        # Grant based on role
+        role_grants = {
+            'admin': 'ALL PRIVILEGES',
+            'archaeologist': 'SELECT, INSERT, UPDATE',
+            'student': 'SELECT, INSERT',
+            'guest': 'SELECT'
+        }
+        grant = role_grants.get(role, 'SELECT')
+
+        for table in all_tables:
+            conn.execute(sa_text(
+                f'GRANT {grant} ON TABLE public."{table}" TO "{username}"'
+            ))
+
+        # Views: always SELECT
+        for view in all_views:
+            try:
+                conn.execute(sa_text(
+                    f'GRANT SELECT ON TABLE public."{view}" TO "{username}"'
+                ))
+            except Exception:
+                pass
+
+        # Grant USAGE on sequences for roles that can INSERT
+        if role in ('admin', 'archaeologist', 'student'):
+            result = conn.execute(sa_text(
+                "SELECT sequence_name FROM information_schema.sequences "
+                "WHERE sequence_schema = 'public'"
+            ))
+            for row in result:
+                try:
+                    conn.execute(sa_text(
+                        f'GRANT USAGE, SELECT ON SEQUENCE public."{row[0]}" TO "{username}"'
+                    ))
+                except Exception:
+                    pass
+
     def create_user(self, username: str, password: str, full_name: str = None,
                    email: str = None, role: str = 'guest') -> bool:
         """Create a new user.
 
+        Creates both an HFF application user and a PostgreSQL login role.
         Requires admin role or PostgreSQL superuser privileges.
 
         Args:
@@ -516,6 +625,7 @@ class HffPermissionsManager:
         password_hash = self.hash_password(password)
 
         with self.engine.begin() as conn:
+            # Create HFF application user
             result = conn.execute(text("""
                 INSERT INTO hff_users (username, password_hash, full_name, email, role)
                 VALUES (:username, :password_hash, :full_name, :email, :role)
@@ -530,8 +640,11 @@ class HffPermissionsManager:
 
             user_id = result.fetchone()[0]
 
-            # Create default permissions
+            # Create default HFF permissions
             self._create_default_permissions(conn, user_id, role)
+
+            # Create PostgreSQL role with LOGIN
+            self._create_pg_role(conn, username, password, role)
 
         self._log_access(
             self.current_user or 'superuser', 'CREATE_USER',
@@ -595,7 +708,7 @@ class HffPermissionsManager:
                 f"UPDATE hff_users SET {', '.join(updates)} WHERE username = :username"
             ), params)
 
-            # If role changed, update default permissions
+            # If role changed, update default permissions and PG grants
             if role is not None:
                 result = conn.execute(text(
                     "SELECT id FROM hff_users WHERE username = :username"
@@ -603,6 +716,26 @@ class HffPermissionsManager:
                 row = result.fetchone()
                 if row:
                     self._create_default_permissions(conn, row[0], role)
+                self._grant_pg_permissions(conn, username, role)
+
+            # If password changed, update PG role password
+            if password:
+                try:
+                    conn.execute(text(
+                        f'ALTER ROLE "{username}" WITH PASSWORD :password'
+                    ), {"password": password})
+                except Exception:
+                    pass  # PG role might not exist for legacy users
+
+            # If deactivated, revoke PG LOGIN
+            if is_active is not None:
+                try:
+                    if is_active:
+                        conn.execute(text(f'ALTER ROLE "{username}" WITH LOGIN'))
+                    else:
+                        conn.execute(text(f'ALTER ROLE "{username}" WITH NOLOGIN'))
+                except Exception:
+                    pass
 
         self._log_access(
             self.current_user or 'superuser', 'UPDATE_USER',
@@ -675,6 +808,28 @@ class HffPermissionsManager:
                     "can_update": can_update,
                     "can_delete": can_delete
                 })
+
+                # Sync PostgreSQL GRANT for this table
+                try:
+                    conn.execute(text(
+                        f'REVOKE ALL PRIVILEGES ON TABLE public."{table_name}" FROM "{username}"'
+                    ))
+                    grants = []
+                    if can_view:
+                        grants.append('SELECT')
+                    if can_insert:
+                        grants.append('INSERT')
+                    if can_update:
+                        grants.append('UPDATE')
+                    if can_delete:
+                        grants.append('DELETE')
+                    if grants:
+                        conn.execute(text(
+                            f'GRANT {", ".join(grants)} ON TABLE public."{table_name}" TO "{username}"'
+                        ))
+                except Exception:
+                    pass  # PG role might not exist for legacy users
+
             return True
         except Exception:
             return False
@@ -743,6 +898,12 @@ class HffPermissionsManager:
                 SET is_active = false
                 WHERE username = :username
             """), {"username": username})
+
+            # Revoke LOGIN from PG role
+            try:
+                conn.execute(text(f'ALTER ROLE "{username}" WITH NOLOGIN'))
+            except Exception:
+                pass  # PG role might not exist for legacy users
 
         self._log_access(
             self.current_user or 'superuser', 'DEACTIVATE_USER',
