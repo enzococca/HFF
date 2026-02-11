@@ -1441,6 +1441,14 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             res = RestoreSchema(db_url).update_geom_srid('public', srid)
             # create views
             RestoreSchema(db_url, view_file).restore_schema()
+            # create user management tables
+            user_tables_file = os.path.join(os.path.dirname(__file__), os.pardir, 'resources', 'dbfiles',
+                                            'hff_create_user_tables.sql')
+            if os.path.exists(user_tables_file):
+                try:
+                    RestoreSchema(db_url, user_tables_file).restore_schema()
+                except Exception:
+                    pass  # Non-critical, tables can be created later via User Management dialog
             #set owner
             if self.lineEdit_db_user.text() != 'postgres':
                 RestoreSchema(db_url).set_owner(self.lineEdit_db_user.text())

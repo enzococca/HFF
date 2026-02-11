@@ -89,6 +89,138 @@ class HffPermissionsManager:
         self._current_user = None
         self._current_role = None
         self._permissions_cache = {}
+        self._is_pg_superuser = None
+
+    def is_pg_superuser(self) -> bool:
+        """Check if the connected PostgreSQL user has superuser privileges."""
+        if self._is_pg_superuser is not None:
+            return self._is_pg_superuser
+
+        try:
+            with self.engine.connect() as conn:
+                result = conn.execute(text(
+                    "SELECT usesuper, current_user FROM pg_user WHERE usename = current_user"
+                ))
+                row = result.fetchone()
+                self._is_pg_superuser = bool(row and row[0])
+                from qgis.core import QgsMessageLog, Qgis
+                QgsMessageLog.logMessage(
+                    f"HFF User Management: PG user='{row[1] if row else '?'}', "
+                    f"superuser={self._is_pg_superuser}",
+                    'HFF', Qgis.Info
+                )
+        except Exception as e:
+            self._is_pg_superuser = False
+            from qgis.core import QgsMessageLog, Qgis
+            QgsMessageLog.logMessage(
+                f"HFF User Management: superuser check failed: {e}",
+                'HFF', Qgis.Warning
+            )
+
+        return self._is_pg_superuser
+
+    def _is_admin(self) -> bool:
+        """Check if current session has admin privileges.
+
+        Returns True if logged in as admin OR if connected as PG superuser.
+        """
+        return self._current_role == 'admin' or self.is_pg_superuser()
+
+    def ensure_tables_exist(self) -> bool:
+        """Create user management tables if they don't exist.
+
+        Returns:
+            True if tables exist (or were created), False on error.
+        """
+        try:
+            with self.engine.connect() as conn:
+                result = conn.execute(text(
+                    "SELECT EXISTS (SELECT 1 FROM information_schema.tables "
+                    "WHERE table_name = 'hff_users')"
+                ))
+                if result.fetchone()[0]:
+                    return True
+        except Exception:
+            return False
+
+        # Tables don't exist, create them
+        create_sql = [
+            """CREATE TABLE IF NOT EXISTS hff_users (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(50) UNIQUE NOT NULL,
+                password_hash VARCHAR(255) NOT NULL,
+                full_name VARCHAR(100),
+                email VARCHAR(100),
+                role VARCHAR(20) NOT NULL DEFAULT 'guest',
+                is_active BOOLEAN DEFAULT true,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_login TIMESTAMP,
+                notes TEXT,
+                CONSTRAINT chk_role CHECK (role IN ('admin', 'archaeologist', 'student', 'guest'))
+            )""",
+            """CREATE TABLE IF NOT EXISTS hff_permissions (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES hff_users(id) ON DELETE CASCADE,
+                table_name VARCHAR(100) NOT NULL,
+                can_view BOOLEAN DEFAULT true,
+                can_insert BOOLEAN DEFAULT false,
+                can_update BOOLEAN DEFAULT false,
+                can_delete BOOLEAN DEFAULT false,
+                UNIQUE(user_id, table_name)
+            )""",
+            """CREATE TABLE IF NOT EXISTS hff_access_log (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(100),
+                action VARCHAR(20),
+                table_name VARCHAR(100),
+                record_id TEXT,
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                success BOOLEAN,
+                details TEXT
+            )""",
+            "CREATE INDEX IF NOT EXISTS idx_hff_users_username ON hff_users(username)",
+            "CREATE INDEX IF NOT EXISTS idx_hff_users_role ON hff_users(role)",
+            "CREATE INDEX IF NOT EXISTS idx_hff_permissions_user_id ON hff_permissions(user_id)",
+            "CREATE INDEX IF NOT EXISTS idx_hff_permissions_table ON hff_permissions(table_name)",
+            "CREATE INDEX IF NOT EXISTS idx_hff_access_log_username ON hff_access_log(username)",
+            "CREATE INDEX IF NOT EXISTS idx_hff_access_log_timestamp ON hff_access_log(timestamp)",
+        ]
+
+        try:
+            with self.engine.begin() as conn:
+                for stmt in create_sql:
+                    conn.execute(text(stmt))
+
+            # Create default admin user
+            self._create_initial_admin()
+            return True
+        except Exception:
+            return False
+
+    def _create_initial_admin(self):
+        """Create the default admin user if no users exist."""
+        try:
+            with self.engine.connect() as conn:
+                result = conn.execute(text("SELECT COUNT(*) FROM hff_users"))
+                if result.fetchone()[0] > 0:
+                    return
+
+            password_hash = self.hash_password('admin')
+            with self.engine.begin() as conn:
+                result = conn.execute(text("""
+                    INSERT INTO hff_users (username, password_hash, full_name, role, is_active)
+                    VALUES (:username, :password_hash, :full_name, :role, true)
+                    RETURNING id
+                """), {
+                    "username": "admin",
+                    "password_hash": password_hash,
+                    "full_name": "Administrator",
+                    "role": "admin"
+                })
+                user_id = result.fetchone()[0]
+                self._create_default_permissions(conn, user_id, 'admin')
+        except Exception:
+            pass
 
     @property
     def current_user(self) -> Optional[str]:
@@ -349,12 +481,14 @@ class HffPermissionsManager:
             pass  # Don't fail if logging fails
 
     # =========================================================================
-    # User Management (Admin only)
+    # User Management (Admin / PG Superuser only)
     # =========================================================================
 
     def create_user(self, username: str, password: str, full_name: str = None,
                    email: str = None, role: str = 'guest') -> bool:
-        """Create a new user (admin only).
+        """Create a new user.
+
+        Requires admin role or PostgreSQL superuser privileges.
 
         Args:
             username: Username (must be unique)
@@ -365,37 +499,117 @@ class HffPermissionsManager:
 
         Returns:
             True if user created successfully
+
+        Raises:
+            PermissionDeniedError: If not admin/superuser
+            Exception: On database errors
         """
-        if self._current_role != 'admin':
-            return False
+        if not self._is_admin():
+            raise PermissionDeniedError(
+                self.current_user or 'anonymous', 'create_user',
+                'hff_users'
+            )
 
         if role not in self.ROLES:
             role = 'guest'
 
         password_hash = self.hash_password(password)
 
-        try:
-            with self.engine.begin() as conn:
-                result = conn.execute(text("""
-                    INSERT INTO hff_users (username, password_hash, full_name, email, role)
-                    VALUES (:username, :password_hash, :full_name, :email, :role)
-                    RETURNING id
-                """), {
-                    "username": username,
-                    "password_hash": password_hash,
-                    "full_name": full_name,
-                    "email": email,
-                    "role": role
-                })
+        with self.engine.begin() as conn:
+            result = conn.execute(text("""
+                INSERT INTO hff_users (username, password_hash, full_name, email, role)
+                VALUES (:username, :password_hash, :full_name, :email, :role)
+                RETURNING id
+            """), {
+                "username": username,
+                "password_hash": password_hash,
+                "full_name": full_name,
+                "email": email,
+                "role": role
+            })
 
-                user_id = result.fetchone()[0]
+            user_id = result.fetchone()[0]
 
-                # Create default permissions
-                self._create_default_permissions(conn, user_id, role)
+            # Create default permissions
+            self._create_default_permissions(conn, user_id, role)
 
+        self._log_access(
+            self.current_user or 'superuser', 'CREATE_USER',
+            'hff_users', username, True,
+            f"Created user '{username}' with role '{role}'"
+        )
+        return True
+
+    def update_user(self, username: str, full_name: str = None,
+                   email: str = None, role: str = None,
+                   password: str = None, is_active: bool = None) -> bool:
+        """Update an existing user.
+
+        Requires admin role or PostgreSQL superuser privileges.
+
+        Args:
+            username: Username to update
+            full_name: New full name (None to keep current)
+            email: New email (None to keep current)
+            role: New role (None to keep current)
+            password: New password (None to keep current)
+            is_active: Active status (None to keep current)
+
+        Returns:
+            True if updated successfully
+
+        Raises:
+            PermissionDeniedError: If not admin/superuser
+            Exception: On database errors
+        """
+        if not self._is_admin():
+            raise PermissionDeniedError(
+                self.current_user or 'anonymous', 'update_user',
+                'hff_users'
+            )
+
+        updates = []
+        params = {"username": username}
+
+        if full_name is not None:
+            updates.append("full_name = :full_name")
+            params["full_name"] = full_name
+        if email is not None:
+            updates.append("email = :email")
+            params["email"] = email
+        if role is not None and role in self.ROLES:
+            updates.append("role = :role")
+            params["role"] = role
+        if password:
+            updates.append("password_hash = :password_hash")
+            params["password_hash"] = self.hash_password(password)
+        if is_active is not None:
+            updates.append("is_active = :is_active")
+            params["is_active"] = is_active
+
+        if not updates:
             return True
-        except Exception:
-            return False
+
+        with self.engine.begin() as conn:
+            conn.execute(text(
+                f"UPDATE hff_users SET {', '.join(updates)} WHERE username = :username"
+            ), params)
+
+            # If role changed, update default permissions
+            if role is not None:
+                result = conn.execute(text(
+                    "SELECT id FROM hff_users WHERE username = :username"
+                ), {"username": username})
+                row = result.fetchone()
+                if row:
+                    self._create_default_permissions(conn, row[0], role)
+
+        self._log_access(
+            self.current_user or 'superuser', 'UPDATE_USER',
+            'hff_users', username, True,
+            f"Updated user '{username}': {', '.join(updates)}"
+        )
+        return True
 
     def _create_default_permissions(self, conn, user_id: int, role: str):
         """Create default permissions for a new user."""
@@ -427,7 +641,9 @@ class HffPermissionsManager:
     def update_user_permissions(self, username: str, table_name: str,
                                can_view: bool = True, can_insert: bool = False,
                                can_update: bool = False, can_delete: bool = False) -> bool:
-        """Update permissions for a user on a specific table (admin only).
+        """Update permissions for a user on a specific table.
+
+        Requires admin role or PostgreSQL superuser privileges.
 
         Args:
             username: Username to update
@@ -440,7 +656,7 @@ class HffPermissionsManager:
         Returns:
             True if updated successfully
         """
-        if self._current_role != 'admin':
+        if not self._is_admin():
             return False
 
         try:
@@ -464,12 +680,14 @@ class HffPermissionsManager:
             return False
 
     def list_users(self) -> List[Dict[str, Any]]:
-        """List all users (admin only).
+        """List all users.
+
+        Requires admin role or PostgreSQL superuser privileges.
 
         Returns:
             List of user dictionaries
         """
-        if self._current_role != 'admin':
+        if not self._is_admin():
             return []
 
         users = []
@@ -495,33 +713,48 @@ class HffPermissionsManager:
         return users
 
     def deactivate_user(self, username: str) -> bool:
-        """Deactivate a user account (admin only).
+        """Deactivate a user account.
+
+        Requires admin role or PostgreSQL superuser privileges.
 
         Args:
             username: Username to deactivate
 
         Returns:
             True if deactivated successfully
+
+        Raises:
+            PermissionDeniedError: If not admin/superuser
+            ValueError: If trying to deactivate yourself
+            Exception: On database errors
         """
-        if self._current_role != 'admin':
-            return False
+        if not self._is_admin():
+            raise PermissionDeniedError(
+                self.current_user or 'anonymous', 'deactivate_user',
+                'hff_users'
+            )
 
         if username == self.current_user:
-            return False  # Can't deactivate yourself
+            raise ValueError("Cannot deactivate your own account")
 
-        try:
-            with self.engine.begin() as conn:
-                conn.execute(text("""
-                    UPDATE hff_users
-                    SET is_active = false
-                    WHERE username = :username
-                """), {"username": username})
-            return True
-        except Exception:
-            return False
+        with self.engine.begin() as conn:
+            conn.execute(text("""
+                UPDATE hff_users
+                SET is_active = false
+                WHERE username = :username
+            """), {"username": username})
+
+        self._log_access(
+            self.current_user or 'superuser', 'DEACTIVATE_USER',
+            'hff_users', username, True,
+            f"Deactivated user '{username}'"
+        )
+        return True
 
     def get_access_log(self, username: Optional[str] = None, limit: int = 100) -> List[Dict[str, Any]]:
-        """Get access log entries (admin only).
+        """Get access log entries.
+
+        Requires admin role or PostgreSQL superuser privileges.
 
         Args:
             username: Filter by username (all users if None)
@@ -530,7 +763,7 @@ class HffPermissionsManager:
         Returns:
             List of log entry dictionaries
         """
-        if self._current_role != 'admin':
+        if not self._is_admin():
             return []
 
         logs = []

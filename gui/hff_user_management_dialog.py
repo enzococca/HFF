@@ -29,11 +29,12 @@ from qgis.PyQt.QtWidgets import (
 )
 from qgis.core import QgsSettings
 
+from sqlalchemy.engine import create_engine
+
 from ..modules.utility.hff_theme_manager import ThemeManager
 from ..modules.utility.hff_i18n import HffI18n, tr
 from ..modules.db.hff_permissions_manager import HffPermissionsManager
 from ..modules.db.hff_system__conn_strings import Connection
-from ..modules.db.hff_db_manager import Hff_db_management
 
 
 class LoginDialog(QDialog):
@@ -210,7 +211,10 @@ class UserEditDialog(QDialog):
 
 
 class UserManagementDialog(QDialog):
-    """Main dialog for user and permission management."""
+    """Main dialog for user and permission management.
+
+    Only accessible to PostgreSQL superusers.
+    """
 
     def __init__(self, permissions_manager=None, parent=None):
         super().__init__(parent)
@@ -224,7 +228,7 @@ class UserManagementDialog(QDialog):
                 conn = Connection()
                 conn_str = conn.conn_str()
 
-                if 'postgresql' not in conn_str:
+                if not conn_str or 'postgresql' not in conn_str:
                     QMessageBox.warning(
                         parent,
                         tr('warning', 'Database Type'),
@@ -233,14 +237,40 @@ class UserManagementDialog(QDialog):
                     )
                     self.permissions_manager = None
                 else:
-                    self.db_manager = Hff_db_management(conn_str)
-                    self.permissions_manager = HffPermissionsManager(self.db_manager.engine)
+                    from sqlalchemy import text
+                    engine = create_engine(conn_str, max_overflow=-1)
+                    # Test connection
+                    with engine.connect() as test_conn:
+                        test_conn.execute(text("SELECT 1"))
+                    self.permissions_manager = HffPermissionsManager(engine)
             except Exception as e:
                 QMessageBox.warning(
                     parent,
                     tr('error', 'Database Connection Error'),
                     tr('connection_failed', 'Could not connect to database for user management:') + f"\n{str(e)}\n\n" +
                     tr('user_management', 'Please ensure you are connected to a PostgreSQL database.')
+                )
+                self.permissions_manager = None
+
+        # Check superuser privilege
+        if self.permissions_manager and not self.permissions_manager.is_pg_superuser():
+            QMessageBox.warning(
+                parent,
+                tr('warning', 'Insufficient Privileges'),
+                tr('user_management',
+                   'User Management requires PostgreSQL superuser privileges.') + "\n\n" +
+                tr('user_management',
+                   'Please connect with a superuser account to manage users and permissions.')
+            )
+            self.permissions_manager = None
+
+        # Ensure tables exist
+        if self.permissions_manager:
+            if not self.permissions_manager.ensure_tables_exist():
+                QMessageBox.warning(
+                    parent,
+                    tr('error', 'Error'),
+                    tr('user_management', 'Failed to initialize user management tables.')
                 )
                 self.permissions_manager = None
 
@@ -263,6 +293,23 @@ class UserManagementDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.setSpacing(10)
         layout.setContentsMargins(15, 15, 15, 15)
+
+        # Status bar showing connected PG user
+        if self.permissions_manager:
+            try:
+                from sqlalchemy import text
+                with self.permissions_manager.engine.connect() as conn:
+                    result = conn.execute(text("SELECT current_user"))
+                    pg_user = result.fetchone()[0]
+                status_label = QLabel(
+                    tr('user_management', 'Connected as PostgreSQL superuser:') + f" {pg_user}"
+                )
+            except Exception:
+                status_label = QLabel(tr('user_management', 'Connected as PostgreSQL superuser'))
+            status_label.setStyleSheet(
+                "padding: 5px; font-weight: bold; color: #2e7d32; border-bottom: 1px solid #ccc;"
+            )
+            layout.addWidget(status_label)
 
         # Tab widget
         self.tab_widget = QTabWidget()
@@ -372,7 +419,7 @@ class UserManagementDialog(QDialog):
         self.perm_user_combo = QComboBox()
         self.perm_user_combo.setMinimumHeight(30)
         self.perm_user_combo.setMinimumWidth(200)
-        self.perm_user_combo.currentTextChanged.connect(self.load_user_permissions)
+        self.perm_user_combo.currentIndexChanged.connect(self.load_user_permissions)
         selector_layout.addWidget(self.perm_user_combo)
 
         selector_layout.addStretch()
@@ -461,129 +508,32 @@ class UserManagementDialog(QDialog):
             self.load_users()
             self.load_access_log()
         except Exception as e:
-            error_msg = str(e)
-            if 'hff_users' in error_msg.lower() or 'does not exist' in error_msg.lower():
-                reply = QMessageBox.question(
-                    self,
-                    tr('warning', 'User Tables Not Found'),
-                    tr('user_management', 'The user management tables do not exist in the database.') + "\n\n" +
-                    tr('confirm', 'Would you like to create them now?'),
-                    QMessageBox.Yes | QMessageBox.No
-                )
-                if reply == QMessageBox.Yes:
-                    self.create_user_tables()
-                    try:
-                        self.load_users()
-                        self.load_access_log()
-                    except Exception as e2:
-                        QMessageBox.warning(
-                            self,
-                            tr('error', 'Error'),
-                            tr('error', 'Failed to load data after creating tables:') + f"\n{str(e2)}"
-                        )
-            else:
-                QMessageBox.warning(
-                    self,
-                    tr('error', 'Error Loading Data'),
-                    tr('error', 'Could not load user data:') + f"\n{error_msg}"
-                )
-
-    def create_user_tables(self):
-        """Create the user management tables in the database."""
-        if not self.db_manager:
-            QMessageBox.warning(self, tr('error', 'Error'), tr('error', 'No database connection available.'))
-            return
-
-        from sqlalchemy import text
-
-        create_sql = """
-        CREATE TABLE IF NOT EXISTS hff_users (
-            id SERIAL PRIMARY KEY,
-            username VARCHAR(50) UNIQUE NOT NULL,
-            password_hash VARCHAR(255) NOT NULL,
-            full_name VARCHAR(100),
-            email VARCHAR(100),
-            role VARCHAR(20) NOT NULL DEFAULT 'guest',
-            is_active BOOLEAN DEFAULT true,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            last_login TIMESTAMP,
-            notes TEXT
-        );
-
-        CREATE TABLE IF NOT EXISTS hff_permissions (
-            id SERIAL PRIMARY KEY,
-            user_id INTEGER REFERENCES hff_users(id) ON DELETE CASCADE,
-            table_name VARCHAR(100) NOT NULL,
-            can_view BOOLEAN DEFAULT true,
-            can_insert BOOLEAN DEFAULT false,
-            can_update BOOLEAN DEFAULT false,
-            can_delete BOOLEAN DEFAULT false,
-            UNIQUE(user_id, table_name)
-        );
-
-        CREATE TABLE IF NOT EXISTS hff_access_log (
-            id SERIAL PRIMARY KEY,
-            username VARCHAR(100),
-            action VARCHAR(20),
-            table_name VARCHAR(100),
-            record_id TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            success BOOLEAN,
-            details TEXT
-        );
-
-        CREATE INDEX IF NOT EXISTS idx_hff_access_log_username ON hff_access_log(username);
-        CREATE INDEX IF NOT EXISTS idx_hff_access_log_timestamp ON hff_access_log(timestamp);
-        CREATE INDEX IF NOT EXISTS idx_hff_permissions_user_id ON hff_permissions(user_id);
-        """
-
-        try:
-            with self.db_manager.engine.begin() as conn:
-                for statement in create_sql.split(';'):
-                    statement = statement.strip()
-                    if statement:
-                        conn.execute(text(statement))
-
-            self.create_default_admin()
-
-            QMessageBox.information(
+            QMessageBox.warning(
                 self,
-                tr('success', 'Success'),
-                tr('user_management', 'User management tables created successfully.') + "\n\n" +
-                tr('user_management', 'A default admin user has been created:') + "\n" +
-                tr('username', 'Username') + ": admin\n" +
-                tr('password', 'Password') + ": admin\n\n" +
-                tr('warning', 'Please change this password immediately!')
+                tr('error', 'Error Loading Data'),
+                tr('error', 'Could not load user data:') + f"\n{str(e)}"
             )
-        except Exception as e:
-            QMessageBox.critical(
-                self,
-                tr('error', 'Error'),
-                tr('error', 'Failed to create user tables:') + f"\n{str(e)}"
-            )
-
-    def create_default_admin(self):
-        """Create default admin user."""
-        if self.permissions_manager:
-            try:
-                self.permissions_manager.create_user(
-                    username='admin',
-                    password='admin',
-                    full_name='Administrator',
-                    email='',
-                    role='admin'
-                )
-            except Exception:
-                pass
 
     def load_users(self):
         """Load users into the table."""
         if not self.permissions_manager:
             return
 
-        users = self.permissions_manager.list_users()
+        try:
+            users = self.permissions_manager.list_users()
+        except Exception as e:
+            QMessageBox.warning(self, tr('error', 'Error'), str(e))
+            return
 
         self.users_table.setRowCount(len(users))
+
+        # Save current selection in permission combo
+        current_perm_user = self.perm_user_combo.currentData()
+        current_log_user = self.log_user_combo.currentData()
+
+        self.perm_user_combo.blockSignals(True)
+        self.log_user_combo.blockSignals(True)
+
         self.perm_user_combo.clear()
         self.log_user_combo.clear()
         self.log_user_combo.addItem(tr('all_users', 'All Users'), None)
@@ -593,17 +543,41 @@ class UserManagementDialog(QDialog):
             self.users_table.setItem(i, 1, QTableWidgetItem(user['full_name'] or ''))
             self.users_table.setItem(i, 2, QTableWidgetItem(user['email'] or ''))
             self.users_table.setItem(i, 3, QTableWidgetItem(user['role']))
-            self.users_table.setItem(i, 4, QTableWidgetItem(tr('yes', 'Yes') if user['is_active'] else tr('no', 'No')))
+
+            active_text = tr('yes', 'Yes') if user['is_active'] else tr('no', 'No')
+            active_item = QTableWidgetItem(active_text)
+            if not user['is_active']:
+                active_item.setForeground(Qt.red)
+            self.users_table.setItem(i, 4, active_item)
+
             self.users_table.setItem(i, 5, QTableWidgetItem(
-                str(user['created_at']) if user['created_at'] else ''
+                str(user['created_at']).split('.')[0] if user['created_at'] else ''
             ))
             self.users_table.setItem(i, 6, QTableWidgetItem(
-                str(user['last_login']) if user['last_login'] else tr('no_data', 'Never')
+                str(user['last_login']).split('.')[0] if user['last_login'] else tr('no_data', 'Never')
             ))
 
+            # Store full user data in first column item
             self.users_table.item(i, 0).setData(Qt.UserRole, user)
+
             self.perm_user_combo.addItem(user['username'], user)
             self.log_user_combo.addItem(user['username'], user['username'])
+
+        # Restore selections
+        if current_perm_user:
+            idx = self.perm_user_combo.findText(current_perm_user.get('username', ''))
+            if idx >= 0:
+                self.perm_user_combo.setCurrentIndex(idx)
+        if current_log_user:
+            idx = self.log_user_combo.findData(current_log_user)
+            if idx >= 0:
+                self.log_user_combo.setCurrentIndex(idx)
+
+        self.perm_user_combo.blockSignals(False)
+        self.log_user_combo.blockSignals(False)
+
+        # Load permissions for current user
+        self.load_user_permissions()
 
     def load_user_permissions(self):
         """Load permissions for selected user."""
@@ -612,73 +586,243 @@ class UserManagementDialog(QDialog):
 
         user_data = self.perm_user_combo.currentData()
         if not user_data:
+            self.permissions_table.setRowCount(0)
             return
 
+        username = user_data.get('username', '')
         tables = HffPermissionsManager.MANAGED_TABLES
+
+        # Get actual permissions from database
+        try:
+            user_perms = self.permissions_manager.get_user_permissions(username)
+        except Exception:
+            user_perms = {}
+
         self.permissions_table.setRowCount(len(tables))
 
         for i, table in enumerate(tables):
-            self.permissions_table.setItem(i, 0, QTableWidgetItem(table))
+            table_item = QTableWidgetItem(table)
+            table_item.setFlags(table_item.flags() & ~Qt.ItemIsEditable)
+            self.permissions_table.setItem(i, 0, table_item)
 
-            for j, perm in enumerate(['can_view', 'can_insert', 'can_update', 'can_delete']):
+            perms = user_perms.get(table, {})
+            perm_keys = ['view', 'insert', 'update', 'delete']
+
+            for j, perm_key in enumerate(perm_keys):
+                widget = QWidget()
+                layout = QHBoxLayout(widget)
+                layout.setAlignment(Qt.AlignCenter)
+                layout.setContentsMargins(0, 0, 0, 0)
+
                 check = QCheckBox()
-                check.setStyleSheet("margin-left: 40%;")
-                self.permissions_table.setCellWidget(i, j + 1, check)
+                check.setChecked(bool(perms.get(perm_key, False)))
+                check.setProperty('table_name', table)
+                check.setProperty('perm_key', perm_key)
+                layout.addWidget(check)
+
+                self.permissions_table.setCellWidget(i, j + 1, widget)
 
     def save_permissions(self):
         """Save permissions for selected user."""
-        QMessageBox.information(self, tr('info', 'Info'), tr('saved_successfully', 'Permissions saved successfully'))
+        if not self.permissions_manager:
+            return
+
+        user_data = self.perm_user_combo.currentData()
+        if not user_data:
+            QMessageBox.warning(self, tr('warning', 'Warning'),
+                                tr('please_select', 'Please select a user'))
+            return
+
+        username = user_data.get('username', '')
+        tables = HffPermissionsManager.MANAGED_TABLES
+        success_count = 0
+
+        for i, table in enumerate(tables):
+            perms = {}
+            for j, perm_key in enumerate(['view', 'insert', 'update', 'delete']):
+                widget = self.permissions_table.cellWidget(i, j + 1)
+                if widget:
+                    check = widget.findChild(QCheckBox)
+                    if check:
+                        perms[f'can_{perm_key}'] = check.isChecked()
+
+            if perms:
+                ok = self.permissions_manager.update_user_permissions(
+                    username, table,
+                    can_view=perms.get('can_view', True),
+                    can_insert=perms.get('can_insert', False),
+                    can_update=perms.get('can_update', False),
+                    can_delete=perms.get('can_delete', False)
+                )
+                if ok:
+                    success_count += 1
+
+        if success_count == len(tables):
+            QMessageBox.information(
+                self, tr('success', 'Success'),
+                tr('saved_successfully', 'Permissions saved successfully for user:') + f" {username}"
+            )
+        else:
+            QMessageBox.warning(
+                self, tr('warning', 'Warning'),
+                tr('error', 'Some permissions could not be saved.') +
+                f" ({success_count}/{len(tables)})"
+            )
 
     def load_access_log(self):
         """Load access log entries."""
         if not self.permissions_manager:
             return
 
-        self.log_table.setRowCount(0)
+        username_filter = self.log_user_combo.currentData()
+        limit = self.log_limit_spin.value()
+
+        try:
+            logs = self.permissions_manager.get_access_log(
+                username=username_filter,
+                limit=limit
+            )
+        except Exception as e:
+            QMessageBox.warning(self, tr('error', 'Error'),
+                                tr('error', 'Failed to load access log:') + f"\n{str(e)}")
+            return
+
+        self.log_table.setRowCount(len(logs))
+
+        for i, log_entry in enumerate(logs):
+            self.log_table.setItem(i, 0, QTableWidgetItem(log_entry.get('username', '')))
+            self.log_table.setItem(i, 1, QTableWidgetItem(log_entry.get('action', '')))
+            self.log_table.setItem(i, 2, QTableWidgetItem(log_entry.get('table_name', '') or ''))
+            self.log_table.setItem(i, 3, QTableWidgetItem(log_entry.get('record_id', '') or ''))
+            self.log_table.setItem(i, 4, QTableWidgetItem(
+                str(log_entry.get('timestamp', '')).split('.')[0] if log_entry.get('timestamp') else ''
+            ))
+
+            success = log_entry.get('success', False)
+            success_item = QTableWidgetItem(tr('yes', 'Yes') if success else tr('no', 'No'))
+            if not success:
+                success_item.setForeground(Qt.red)
+            self.log_table.setItem(i, 5, success_item)
+
+            self.log_table.setItem(i, 6, QTableWidgetItem(log_entry.get('details', '') or ''))
 
     def add_user(self):
         """Add a new user."""
+        if not self.permissions_manager:
+            QMessageBox.warning(self, tr('warning', 'Warning'),
+                                tr('error', 'No database connection available.'))
+            return
+
         dialog = UserEditDialog(parent=self)
         if dialog.exec_() == QDialog.Accepted:
             user_data = dialog.get_user_data()
-            if self.permissions_manager:
-                try:
-                    self.permissions_manager.create_user(
-                        username=user_data['username'],
-                        password=user_data['password'],
-                        full_name=user_data['full_name'],
-                        email=user_data['email'],
-                        role=user_data['role']
-                    )
+
+            if not user_data['username']:
+                QMessageBox.warning(self, tr('warning', 'Warning'),
+                                    tr('error', 'Username is required.'))
+                return
+
+            if not user_data['password']:
+                QMessageBox.warning(self, tr('warning', 'Warning'),
+                                    tr('error', 'Password is required for new users.'))
+                return
+
+            try:
+                ok = self.permissions_manager.create_user(
+                    username=user_data['username'],
+                    password=user_data['password'],
+                    full_name=user_data['full_name'],
+                    email=user_data['email'],
+                    role=user_data['role']
+                )
+                if ok:
                     self.load_users()
-                    QMessageBox.information(self, tr('success', 'Success'), tr('saved_successfully', 'User created successfully'))
-                except Exception as e:
-                    QMessageBox.warning(self, tr('error', 'Error'), str(e))
+                    QMessageBox.information(
+                        self, tr('success', 'Success'),
+                        tr('saved_successfully', 'User created successfully:') + f" {user_data['username']}"
+                    )
+                else:
+                    QMessageBox.warning(
+                        self, tr('error', 'Error'),
+                        tr('error', 'Failed to create user. The username may already exist.')
+                    )
+            except Exception as e:
+                QMessageBox.warning(self, tr('error', 'Error'), str(e))
 
     def edit_user(self):
         """Edit selected user."""
+        if not self.permissions_manager:
+            return
+
         row = self.users_table.currentRow()
         if row < 0:
-            QMessageBox.warning(self, tr('warning', 'Warning'), tr('please_select', 'Please select a user to edit'))
+            QMessageBox.warning(self, tr('warning', 'Warning'),
+                                tr('please_select', 'Please select a user to edit'))
             return
 
         user_data = self.users_table.item(row, 0).data(Qt.UserRole)
         dialog = UserEditDialog(user_data=user_data, parent=self)
+
         if dialog.exec_() == QDialog.Accepted:
-            self.load_users()
+            new_data = dialog.get_user_data()
+            username = user_data['username']
+
+            try:
+                ok = self.permissions_manager.update_user(
+                    username=username,
+                    full_name=new_data['full_name'],
+                    email=new_data['email'],
+                    role=new_data['role'],
+                    password=new_data['password'] if new_data['password'] else None,
+                    is_active=new_data['is_active']
+                )
+                if ok:
+                    self.load_users()
+                    QMessageBox.information(
+                        self, tr('success', 'Success'),
+                        tr('saved_successfully', 'User updated successfully:') + f" {username}"
+                    )
+                else:
+                    QMessageBox.warning(
+                        self, tr('error', 'Error'),
+                        tr('error', 'Failed to update user.')
+                    )
+            except Exception as e:
+                QMessageBox.warning(self, tr('error', 'Error'), str(e))
 
     def deactivate_user(self):
         """Deactivate selected user."""
+        if not self.permissions_manager:
+            return
+
         row = self.users_table.currentRow()
         if row < 0:
-            QMessageBox.warning(self, tr('warning', 'Warning'), tr('please_select', 'Please select a user to deactivate'))
+            QMessageBox.warning(self, tr('warning', 'Warning'),
+                                tr('please_select', 'Please select a user to deactivate'))
             return
+
+        user_data = self.users_table.item(row, 0).data(Qt.UserRole)
+        username = user_data['username']
 
         reply = QMessageBox.question(
             self,
             tr('confirm', 'Confirm'),
-            tr('confirm_delete', 'Are you sure you want to deactivate this user?'),
+            tr('confirm_delete', 'Are you sure you want to deactivate user') + f" '{username}'?",
             QMessageBox.Yes | QMessageBox.No
         )
         if reply == QMessageBox.Yes:
-            self.load_users()
+            try:
+                ok = self.permissions_manager.deactivate_user(username)
+                if ok:
+                    self.load_users()
+                    QMessageBox.information(
+                        self, tr('success', 'Success'),
+                        tr('saved_successfully', 'User deactivated:') + f" {username}"
+                    )
+                else:
+                    QMessageBox.warning(
+                        self, tr('error', 'Error'),
+                        tr('error', 'Failed to deactivate user. You cannot deactivate yourself.')
+                    )
+            except Exception as e:
+                QMessageBox.warning(self, tr('error', 'Error'), str(e))

@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=10.0
+version=10.1
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,16 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=10.0:
+changelog=10.1:
+    - Fix User Management: auto-create tables on existing databases
+    - Fix User Management: PostgreSQL superuser privilege check
+    - Fix User Management: proper SQLAlchemy engine creation
+    - Fix permissions tab: load/save actual permission values
+    - Fix access log tab: display audit log entries
+    - Fix edit/deactivate user: persist changes to database
+    - Add user management tables to new database creation flow
+    - Show detailed error messages on user operations
+    10.0:
     - Add internationalization (i18n) support with Arabic Lebanese
     - Add User Management system for PostgreSQL multi-user
     - Add Connection Settings manager with password storage
