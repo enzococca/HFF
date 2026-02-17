@@ -617,7 +617,9 @@ class Hff_db_management(object):
                     arg[32],
                     arg[33],
                     arg[34],
-                    arg[35]
+                    arg[35],
+                    arg[36],
+                    arg[37]
                     )
 
         return uw
@@ -1101,9 +1103,14 @@ class Hff_db_management(object):
     def insert_data_session(self, data):
         Session = sessionmaker(bind=self.engine, autoflush=False)
         session = Session()
-        session.add(data)
-        session.commit()
-        session.close()
+        try:
+            session.add(data)
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
     def update(self, table_class_str, id_table_str, value_id_list, columns_name_list, values_update_list):
         """
@@ -1190,15 +1197,15 @@ class Hff_db_management(object):
         eval(session_exec_str)
         session.close()
     def delete_one_record(self, tn, id_col, id_rec):
-        
+
         self.table_name = tn
         self.id_column = id_col
         self.id_rec = id_rec
-        # self.connection()
         table = Table(self.table_name, self.metadata, autoload_with=self.engine)
-        exec_str = ('%s%s%s%d%s') % ('table.delete(table.c.', self.id_column, ' == ', self.id_rec, ').execute()')
-
-        eval(exec_str)
+        del_stmt = table.delete().where(table.c[self.id_column] == self.id_rec)
+        with self.engine.connect() as conn:
+            conn.execute(del_stmt)
+            conn.commit()
         
     def max_num_id(self, tc, f):
         self.table_class = tc
@@ -1206,13 +1213,16 @@ class Hff_db_management(object):
 
         Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
         session = Session()
-        exec_str = "session.query(func.max({}.{}))".format(self.table_class, self.field_id)
-        
-        max_id_func = eval(exec_str)
-        res_all = max_id_func.all()
-        res_max_num_id = res_all[0][0]
-        
-        session.close()
+        try:
+            exec_str = "session.query(func.max({}.{}))".format(self.table_class, self.field_id)
+
+            max_id_func = eval(exec_str)
+            res_all = max_id_func.all()
+            res_max_num_id = res_all[0][0]
+        except Exception:
+            res_max_num_id = None
+        finally:
+            session.close()
         if not res_max_num_id:
             return 0
         else:
@@ -1524,7 +1534,7 @@ class Hff_db_management(object):
         
         id_doc += 1
 
-        data_ins = self.insert_uw_values(id_doc,divelog_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','','','','','','','',years,'','','',sito,'','','','')
+        data_ins = self.insert_uw_values(id_doc,divelog_id, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','','','','','','','',years,'','','',sito,'','','','','','')
                                            
         self.insert_data_session(data_ins)
         

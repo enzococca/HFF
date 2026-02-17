@@ -40,58 +40,67 @@ class DB_update(object):
             conn.execute(text(sql))
 
     def _get_table_columns(self, table_name):
-        """Get column names from a table using SQLAlchemy 2.x reflection."""
-        self.metadata.reflect(bind=self.engine, only=[table_name], extend_existing=True)
-        table = Table(table_name, self.metadata, autoload_with=self.engine)
-        return [str(col.name) for col in table.columns]
+        """Get column names from a table using SQLAlchemy 2.x reflection.
+        Returns None if the table does not exist."""
+        try:
+            self.metadata.reflect(bind=self.engine, only=[table_name], extend_existing=True)
+            table = Table(table_name, self.metadata, autoload_with=self.engine)
+            return [str(col.name) for col in table.columns]
+        except Exception:
+            return None
 
     def update_table(self):
         ####site_table
         table_column_names_list = self._get_table_columns("site_table")
 
-        if 'sito_path' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE site_table ADD COLUMN sito_path varchar DEFAULT 'inserisci path' ")
+        if table_column_names_list is not None:
+            if 'sito_path' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE site_table ADD COLUMN sito_path varchar DEFAULT 'inserisci path' ")
 
-        if 'find_check' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE site_table ADD COLUMN find_check INTEGER DEFAULT 0")
+            if 'find_check' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE site_table ADD COLUMN find_check INTEGER DEFAULT 0")
 
-        if 'photo_material' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE site_table ADD COLUMN photo_material text DEFAULT '[[]]' ")
-        if 'damage' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE site_table ADD COLUMN damage varchar DEFAULT '' ")
-        if 'country' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE site_table ADD COLUMN country varchar DEFAULT '' ")
+            if 'photo_material' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE site_table ADD COLUMN photo_material text DEFAULT '[[]]' ")
+            if 'damage' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE site_table ADD COLUMN damage varchar DEFAULT '' ")
+            if 'country' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE site_table ADD COLUMN country varchar DEFAULT '' ")
 
         # ####pottery table_table
         table_column_names_list = self._get_table_columns("pottery_table")
 
-        if 'qty' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE pottery_table ADD COLUMN qty INTEGER not null DEFAULT 1")
+        if table_column_names_list is not None:
+            if 'qty' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE pottery_table ADD COLUMN qty INTEGER not null DEFAULT 1")
 
         # ####anchor table_table
         table_column_names_list = self._get_table_columns("anchor_table")
 
-        if 'qty' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE anchor_table ADD COLUMN qty INTEGER not null DEFAULT 1")
-
+        if table_column_names_list is not None:
+            if 'qty' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE anchor_table ADD COLUMN qty INTEGER not null DEFAULT 1")
 
         # ####shipwreck table
         table_column_names_list = self._get_table_columns("shipwreck_table")
 
-        if 'status' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE shipwreck_table ADD COLUMN status varchar DEFAULT ''")
+        if table_column_names_list is not None:
+            if 'status' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE shipwreck_table ADD COLUMN status varchar DEFAULT ''")
 
         # ####site_point table
         table_column_names_list = self._get_table_columns("site_point")
 
-        if 'coord' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE site_point ADD COLUMN coord TEXT DEFAULT ''")
+        if table_column_names_list is not None:
+            if 'coord' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE site_point ADD COLUMN coord TEXT DEFAULT ''")
 
         # ####site_poligon table
         table_column_names_list = self._get_table_columns("site_poligon")
 
-        if 'coord' not in table_column_names_list:
-            self._execute_sql("ALTER TABLE site_poligon ADD COLUMN coord TEXT DEFAULT ''")
+        if table_column_names_list is not None:
+            if 'coord' not in table_column_names_list:
+                self._execute_sql("ALTER TABLE site_poligon ADD COLUMN coord TEXT DEFAULT ''")
 
         # ####anchor_table - add biblio and storage columns (silent migration)
         self._safe_add_column("anchor_table", "biblio", "TEXT DEFAULT ''")

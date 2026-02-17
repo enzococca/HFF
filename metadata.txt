@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=10.1
+version=10.2
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,15 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=10.1:
+changelog=10.2:
+    - Fix import: skip duplicate records instead of stopping (UniqueViolation)
+    - Fix import: show summary of imported vs skipped records
+    - Fix Dive log (UW) import: add missing biblio and storage_ fields
+    - Fix insert_data_session: proper rollback on error
+    - Fix delete_one_record: SQLAlchemy 2.x compatibility (shipwreck delete)
+    - Fix DB update: handle missing tables gracefully during reflection
+    - Fix max_num_id: handle missing tables in source database during import
+    10.1:
     - Fix User Management: auto-create tables on existing databases
     - Fix User Management: PostgreSQL superuser privilege check
     - Fix User Management: proper SQLAlchemy engine creation

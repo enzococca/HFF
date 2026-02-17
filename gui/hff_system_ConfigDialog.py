@@ -31,6 +31,7 @@ from builtins import range
 from builtins import str
 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.compiler import compiles
@@ -2698,6 +2699,8 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         mapper_class_write = str(self.comboBox_mapper_read.currentText())
         ####eamena table
         if mapper_class_write == 'EAMENA' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_eamena_values(
@@ -2804,6 +2807,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].restricted_access_record_designation)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -2811,13 +2815,23 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
         
         ####SITE TABLE
         if mapper_class_write == 'SITE':
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_site_values(
@@ -2875,7 +2889,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].country )
 
                     self.DB_MANAGER_write.insert_data_session(data)
-
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -2883,11 +2897,21 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
         elif mapper_class_write == 'ART' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_art_values(
@@ -2923,6 +2947,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].area)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -2930,12 +2955,22 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
         
         elif mapper_class_write == 'ANC' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_anc_values(
@@ -3004,6 +3039,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].qty)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -3011,13 +3047,22 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))       
-    
-    
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+
         elif mapper_class_write == 'POTTERY' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_pottery_values(
@@ -3064,6 +3109,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].qty)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -3071,16 +3117,23 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
-    
-    
-    
-    
-    
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+
+
         elif mapper_class_write == 'UW' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_uw_values(
@@ -3120,9 +3173,12 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].layer,
                         data_list_toimp[sing_rec].bar_start_diver2,
                         data_list_toimp[sing_rec].bar_end_diver2,
-                        data_list_toimp[sing_rec].dp_diver2)
+                        data_list_toimp[sing_rec].dp_diver2,
+                        data_list_toimp[sing_rec].biblio,
+                        data_list_toimp[sing_rec].storage_)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -3130,13 +3186,23 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
-    
-    
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+
+
         elif mapper_class_write == 'MEDIA' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_media_values(
@@ -3151,6 +3217,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].tags)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -3158,12 +3225,22 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
-    
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+
         elif mapper_class_write == 'MEDIA_THUMB' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_mediathumb_values(
@@ -3179,6 +3256,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].path_resize)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -3186,13 +3264,23 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
-    
-    
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+
+
         elif mapper_class_write == 'MEDIATOENTITY' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_media2entity_values(
@@ -3207,6 +3295,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].media_name)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -3214,11 +3303,21 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
         elif mapper_class_write == 'SHIPWRECK' :
+            skipped = 0
+            imported = 0
             for sing_rec in range(len(data_list_toimp)):
                 try:
                     data = self.DB_MANAGER_write.insert_shipwreck_values(
@@ -3245,7 +3344,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].inclination,
                         data_list_toimp[sing_rec].depth_max_min,
                         data_list_toimp[sing_rec].depth_quality,
-                        data_list_toimp[sing_rec].latitude,                        
+                        data_list_toimp[sing_rec].latitude,
                         data_list_toimp[sing_rec].position_quality_1,
                         data_list_toimp[sing_rec].longitude,
                         data_list_toimp[sing_rec].consulties,
@@ -3266,6 +3365,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].status)
 
                     self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
                     # Calculate the progress as a percentage
                     value = (float(sing_rec) / float(len(data_list_toimp))) * 100
                     # Convert the progress value to an integer
@@ -3273,10 +3373,18 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     # Update the progress bar with the integer value
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
     
     # def on_pushButton_connect_pressed(self):
         # # Defines parameter
