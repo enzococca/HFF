@@ -112,3 +112,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# JetBrains local state
+.idea/dataSources.local.xml
+.idea/dataSources/
+.idea/swift-toolchain.xml
+.idea/workspace.xml
+.idea/shelf/
