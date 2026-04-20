@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=10.2
+version=10.3
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,20 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=10.2:
+changelog=10.3:
+    - SQLAlchemy 2.0 compatibility: remove convert_unicode, autocommit, session.begin(), select([...]) list form, MetaData(bind=), engine.execute(), Query.update(values=)
+    - Replace orm.mapper() with registry.map_imperatively() (SQLAlchemy 2.0)
+    - Harmonize fonts across all .ui forms (widgets inherit QGIS app font)
+    - Harmonize icon sizes: 24x24 on all QToolButton/QPushButton with an icon (273 buttons normalized)
+    - HFF toolbar: uniform setIconSize(24,24) on toolbar and all QToolButton children
+    - Tutorial browser embedded in HFF Data Management dockwidget "Tutorials" tab (replaces static YouTube link)
+    - Refactor Tutorial_viewer: extract reusable TutorialBrowserWidget used by both the dockwidget tab and the standalone dialog
+    - HFF.org tab: replace QWebView with external-browser launcher (QtWebKit cannot handle modern TLS)
+    - Fix relative import of HffPluginDialog in hff_system_Plugin.py
+    - Add scripts/harmonize_ui.py (reusable XML-safe font/icon normalizer)
+    - modules_installer.py now reads from requirements.txt (uses sys.executable -m pip)
+    - Move unrelated standalone scripts to scripts/standalone/
+    10.2:
     - Fix import: skip duplicate records instead of stopping (UniqueViolation)
     - Fix import: show summary of imported vs skipped records
     - Fix Dive log (UW) import: add missing biblio and storage_ fields

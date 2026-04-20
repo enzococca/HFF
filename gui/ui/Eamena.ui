@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <ui version="4.0">
  <class>DialogSite</class>
  <widget class="QDialog" name="DialogSite">
@@ -72,7 +72,7 @@
           </sizepolicy>
          </property>
          <property name="whatsThis">
-          <string extracomment="Export excel"/>
+          <string extracomment="Export excel" />
          </property>
          <property name="tabPosition">
           <enum>QTabWidget::North</enum>
@@ -176,20 +176,12 @@
              <item row="0" column="2">
               <widget class="QLabel" name="label_11">
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;GE assessment&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-weight:400;"&gt;GE assessment&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
              <item row="0" column="3">
               <widget class="QComboBox" name="comboBox_ge_assessment">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -212,7 +204,7 @@
              <item row="0" column="2">
               <widget class="QLabel" name="label_15">
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Information resource acquisition date&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-weight:400;"&gt;Information resource acquisition date&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
@@ -232,7 +224,7 @@
              <item row="0" column="1">
               <widget class="QLabel" name="label_14">
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Information resource used&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-weight:400;"&gt;Information resource used&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
@@ -240,14 +232,6 @@
               <widget class="QComboBox" name="comboBox_information_resource_used">
                <property name="enabled">
                 <bool>false</bool>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
                </property>
                <property name="editable">
                 <bool>true</bool>
@@ -458,16 +442,8 @@
           <layout class="QGridLayout" name="gridLayout_6">
            <item row="0" column="0" colspan="2">
             <widget class="QToolBox" name="toolBox_2">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>13</pointsize>
-               <weight>50</weight>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="styleSheet">
-              <string notr="true"/>
+              <string notr="true" />
              </property>
              <property name="inputMethodHints">
               <set>Qt::ImhNone</set>
@@ -990,14 +966,6 @@
             <layout class="QGridLayout" name="gridLayout_22">
              <item row="0" column="7">
               <widget class="QLabel" name="label_22">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Administrative subvision type</string>
                </property>
@@ -1005,20 +973,12 @@
              </item>
              <item row="0" column="8">
               <widget class="QComboBox" name="comboBox_administrative_subvision_type">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
                <item>
                 <property name="text">
-                 <string/>
+                 <string />
                 </property>
                </item>
                <item>
@@ -1060,14 +1020,6 @@
              </item>
              <item row="0" column="1" colspan="6">
               <widget class="QComboBox" name="comboBox_administrative_subvision">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -1075,14 +1027,6 @@
              </item>
              <item row="0" column="0">
               <widget class="QLabel" name="label_23">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Administrative subvision</string>
                </property>
@@ -1090,14 +1034,6 @@
              </item>
              <item row="1" column="0">
               <widget class="QLabel" name="label_21">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Site overall shape type</string>
                </property>
@@ -1105,20 +1041,12 @@
              </item>
              <item row="1" column="1" colspan="2">
               <widget class="QComboBox" name="comboBox_site_overall_shape_type">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
                <item>
                 <property name="text">
-                 <string/>
+                 <string />
                 </property>
                </item>
                <item>
@@ -1205,14 +1133,6 @@
              </item>
              <item row="1" column="3">
               <widget class="QLabel" name="label_36">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Resource orientation</string>
                </property>
@@ -1220,20 +1140,12 @@
              </item>
              <item row="1" column="4">
               <widget class="QComboBox" name="comboBox_resource_orientation">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
                <item>
                 <property name="text">
-                 <string/>
+                 <string />
                 </property>
                </item>
                <item>
@@ -1305,14 +1217,6 @@
              </item>
              <item row="1" column="5">
               <widget class="QLabel" name="label_24">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Cadastral reference</string>
                </property>
@@ -1320,14 +1224,6 @@
              </item>
              <item row="1" column="6" colspan="3">
               <widget class="QComboBox" name="comboBox_cadastral_reference">
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>13</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -1383,14 +1279,6 @@
                  </item>
                  <item row="0" column="2">
                   <widget class="QLabel" name="label_17">
-                   <property name="font">
-                    <font>
-                     <family>Times New Roman</family>
-                     <pointsize>13</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
                    <property name="text">
                     <string>Geometry qualifier</string>
                    </property>
@@ -1398,20 +1286,12 @@
                  </item>
                  <item row="0" column="3" colspan="2">
                   <widget class="QComboBox" name="comboBox_geometry_qualifier">
-                   <property name="font">
-                    <font>
-                     <family>Times New Roman</family>
-                     <pointsize>13</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
                    <property name="editable">
                     <bool>true</bool>
                    </property>
                    <item>
                     <property name="text">
-                     <string/>
+                     <string />
                     </property>
                    </item>
                    <item>
@@ -1662,16 +1542,8 @@
            </item>
            <item row="2" column="0" colspan="2">
             <widget class="QToolBox" name="toolBox">
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>13</pointsize>
-               <weight>50</weight>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="styleSheet">
-              <string notr="true"/>
+              <string notr="true" />
              </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2456,7 +2328,7 @@
                   </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QLineEdit" name="mDateEdit_14"/>
+                  <widget class="QLineEdit" name="mDateEdit_14" />
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_37">
@@ -2466,7 +2338,7 @@
                   </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QLineEdit" name="mDateEdit_9"/>
+                  <widget class="QLineEdit" name="mDateEdit_9" />
                  </item>
                  <item row="1" column="0">
                   <widget class="QComboBox" name="comboBox_date_inference">
@@ -2476,7 +2348,7 @@
                   </widget>
                  </item>
                  <item row="3" column="3">
-                  <widget class="QLineEdit" name="mDateEdit_11"/>
+                  <widget class="QLineEdit" name="mDateEdit_11" />
                  </item>
                  <item row="2" column="1">
                   <widget class="QLabel" name="label_38">
@@ -2493,7 +2365,7 @@
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QLineEdit" name="mDateEdit_10"/>
+                  <widget class="QLineEdit" name="mDateEdit_10" />
                  </item>
                  <item row="8" column="0">
                   <widget class="QComboBox" name="comboBox_related_geoarch">
@@ -2538,18 +2410,18 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="lineEdit_arch_date_to"/>
+                  <widget class="QLineEdit" name="lineEdit_arch_date_to" />
                  </item>
                  <item row="8" column="2">
-                  <widget class="QLineEdit" name="mDateEdit_13"/>
+                  <widget class="QLineEdit" name="mDateEdit_13" />
                  </item>
                  <item row="1" column="2">
-                  <widget class="QLineEdit" name="lineEdit_arch_date"/>
+                  <widget class="QLineEdit" name="lineEdit_arch_date" />
                  </item>
                  <item row="5" column="0">
                   <widget class="QLabel" name="label_47">
                    <property name="text">
-                    <string/>
+                    <string />
                    </property>
                   </widget>
                  </item>
@@ -2561,7 +2433,7 @@
                   </widget>
                  </item>
                  <item row="8" column="1">
-                  <widget class="QLineEdit" name="mDateEdit_12"/>
+                  <widget class="QLineEdit" name="mDateEdit_12" />
                  </item>
                 </layout>
                </item>
@@ -3375,7 +3247,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_land_cover_assessment"/>
+             <widget class="QLineEdit" name="lineEdit_land_cover_assessment" />
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_70">
@@ -3420,10 +3292,10 @@
              </widget>
             </item>
             <item row="5" column="0">
-             <widget class="QLineEdit" name="lineEdit_depth_max"/>
+             <widget class="QLineEdit" name="lineEdit_depth_max" />
             </item>
             <item row="5" column="1">
-             <widget class="QLineEdit" name="lineEdit_depth_min"/>
+             <widget class="QLineEdit" name="lineEdit_depth_min" />
             </item>
             <item row="6" column="0">
              <widget class="QLabel" name="label_76">
@@ -3534,14 +3406,6 @@
          <height>30</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>8</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="mouseTracking">
         <bool>true</bool>
        </property>
@@ -3549,13 +3413,13 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s"&gt;&lt;span style=" text-decoration: underline; color:#0000ff;"&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="editable">
         <bool>true</bool>
        </property>
        <property name="currentText">
-        <string/>
+        <string />
        </property>
        <property name="maxVisibleItems">
         <number>99999</number>
@@ -3572,7 +3436,7 @@
        </property>
        <item>
         <property name="text">
-         <string/>
+         <string />
         </property>
        </item>
        <item>
@@ -3617,7 +3481,7 @@
        </property>
        <item>
         <property name="text">
-         <string/>
+         <string />
         </property>
        </item>
        <item>
@@ -3821,14 +3685,6 @@
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_25">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Address</string>
        </property>
@@ -3836,14 +3692,6 @@
      </item>
      <item row="2" column="1">
       <widget class="QComboBox" name="comboBox_Address">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -3851,14 +3699,6 @@
      </item>
      <item row="2" column="2">
       <widget class="QLabel" name="label_20">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Adress type</string>
        </property>
@@ -3866,20 +3706,12 @@
      </item>
      <item row="2" column="3" colspan="3">
       <widget class="QComboBox" name="comboBox_address_type">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
        <item>
         <property name="text">
-         <string/>
+         <string />
         </property>
        </item>
        <item>
@@ -3906,14 +3738,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>DBMS Toolbar</string>
        </property>
@@ -3929,27 +3753,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>Order by</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="0">
       <widget class="QPushButton" name="pushButton_save">
@@ -3961,21 +3779,15 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>Save</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
@@ -3984,7 +3796,7 @@
        <property name="autoDefault">
         <bool>false</bool>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="1" column="0">
       <widget class="QPushButton" name="pushButton_export_excel">
@@ -3996,15 +3808,15 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Export Excel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
@@ -4012,11 +3824,11 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>24</width>
+         <height>24</height>
         </size>
        </property>
-      </widget>
+      <property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="1" column="4">
       <widget class="QPushButton" name="pushButton_view_all">
@@ -4028,27 +3840,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>View alls records</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="0" column="0">
       <widget class="QPushButton" name="pushButton_prev_rec">
@@ -4060,21 +3866,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
         <string>Prev rec</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="1" column="2">
       <widget class="QPushButton" name="pushButton_open_dir">
@@ -4089,18 +3895,18 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/directoryExp.png</normaloff>:/icons/directoryExp.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="1" column="3">
       <widget class="QPushButton" name="pushButton_new_rec">
@@ -4112,27 +3918,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>New record</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="pushButton_import_excel">
@@ -4147,15 +3947,15 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/import-excel.png</normaloff>:/icons/import-excel.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="0" column="1">
       <widget class="QPushButton" name="pushButton_first_rec">
@@ -4167,21 +3967,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
         <string>First rec</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="0" column="2">
       <widget class="QPushButton" name="pushButton_last_rec">
@@ -4193,21 +3993,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
         <string>Last rec</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="0" column="3">
       <widget class="QPushButton" name="pushButton_next_rec">
@@ -4219,21 +4019,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
         <string>Next rec</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="0" column="4">
       <widget class="QPushButton" name="pushButton_connect">
@@ -4270,27 +4070,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>Delete record</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="2">
       <widget class="QPushButton" name="pushButton_new_search">
@@ -4302,27 +4096,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>new search</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="3">
       <widget class="QPushButton" name="pushButton_search_go">
@@ -4334,27 +4122,21 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>search !!!</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="4">
       <widget class="QPushButton" name="pushButton_eamena_geometry">
@@ -4366,29 +4148,29 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/layers-icon.png</normaloff>:/icons/layers-icon.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="6">
       <widget class="QToolButton" name="toolButton_draw_siti">
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
@@ -4397,7 +4179,7 @@
        <property name="checkable">
         <bool>true</bool>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
     </layout>
    </item>
@@ -4410,14 +4192,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="cursor">
         <cursorShape>ForbiddenCursor</cursorShape>
@@ -4435,7 +4209,7 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -4453,14 +4227,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
@@ -4476,14 +4242,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="text">
         <string>Order</string>
@@ -4507,14 +4265,6 @@
          <height>0</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="cursor">
         <cursorShape>ForbiddenCursor</cursorShape>
        </property>
@@ -4531,7 +4281,7 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -4549,14 +4299,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Status</string>
        </property>
@@ -4573,14 +4315,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Total record.</string>
        </property>
@@ -4596,12 +4330,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Microsoft Sans Serif</family>
-         <pointsize>12</pointsize>
-        </font>
        </property>
        <property name="cursor">
         <cursorShape>ForbiddenCursor</cursorShape>
@@ -4631,14 +4359,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Record number</string>
        </property>
@@ -4654,12 +4374,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Microsoft Sans Serif</family>
-         <pointsize>12</pointsize>
-        </font>
        </property>
        <property name="cursor">
         <cursorShape>ForbiddenCursor</cursorShape>
@@ -4723,15 +4437,15 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/import-excel.png</normaloff>:/icons/import-excel.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
       </layout>
      </widget>
@@ -4740,7 +4454,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../resources/resources.qrc"/>
+  <include location="../../resources/resources.qrc" />
  </resources>
  <connections>
   <connection>

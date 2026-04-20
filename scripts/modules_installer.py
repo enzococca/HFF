@@ -14,50 +14,39 @@
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *                                                                        *
+ *   (at your option) any later version.                                   *
  ***************************************************************************/
 """
 
+import os
 import subprocess
 import sys
-import platform
-#from .. modules.utility.hff_OS_utility import Hff_OS_Utility
-
-packages = sys.argv[1].split(',') if len(sys.argv) >= 2 else []
-
-# Adding the dependencies python modules in
-# package list in order to install via pip module
 
 
-if not packages:
-    packages = [
-        'SQLAlchemy==1.3.23',
-        'SQLAlchemy-Utils',
-        'geoalchemy2',
-        'reportlab',
-        'pdf2docx==0.4.6',
-        'networkx',
-        'matplotlib',
-        'elasticsearch',
-        'pysftp',
-        'xlsxwriter',
-        'opencv-python',
-        'openpyxl',
-        'pyproj'
-    ]
-python_path = sys.exec_prefix
-python_version = sys.version[:3]
-
-if platform.system()=='Windows':
-    cmd = '{}\python'.format(python_path)
-elif platform.system()=='Darwin':
-    cmd = '{}/bin/python{}'.format(python_path, python_version)
-else:
-    cmd = '{}/bin/python{}'.format(python_path, python_version)
+REQUIREMENTS_FILE = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), os.pardir, 'requirements.txt'
+)
 
 
+def _packages_from_cli():
+    return sys.argv[1].split(',') if len(sys.argv) >= 2 else []
 
-for p in packages:
-    subprocess.check_call(['python','pip', 'install',  p], shell=False)
+
+def _packages_from_requirements(path):
+    packages = []
+    with open(path, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.split('#', 1)[0].strip()
+            if line:
+                packages.append(line)
+    return packages
 
 
+def install(packages):
+    for p in packages:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', p])
+
+
+if __name__ == '__main__':
+    pkgs = _packages_from_cli() or _packages_from_requirements(REQUIREMENTS_FILE)
+    install(pkgs)

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <ui version="4.0">
  <author>Enzo Cocca</author>
  <class>DialogUW</class>
@@ -46,7 +46,7 @@
     <normaloff>:/icons/hfflogo.png</normaloff>:/icons/hfflogo.png</iconset>
   </property>
   <property name="locale">
-   <locale language="English" country="UnitedKingdom"/>
+   <locale language="English" country="UnitedKingdom" />
   </property>
   <property name="inputMethodHints">
    <set>Qt::ImhNone</set>
@@ -89,14 +89,6 @@
         </property>
         <item row="0" column="0">
          <widget class="QLabel" name="label_42">
-          <property name="font">
-           <font>
-            <family>Calibri</family>
-            <pointsize>12</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
           <property name="autoFillBackground">
            <bool>true</bool>
           </property>
@@ -115,14 +107,6 @@
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="1">
           <widget class="QLabel" name="label_43">
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Panel</enum>
            </property>
@@ -142,14 +126,6 @@
              <height>0</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="cursor">
             <cursorShape>ForbiddenCursor</cursorShape>
            </property>
@@ -166,7 +142,7 @@
             <enum>QFrame::Sunken</enum>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -178,14 +154,6 @@
          </item>
          <item row="1" column="1">
           <widget class="QLabel" name="label_sort">
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="cursor">
             <cursorShape>ForbiddenCursor</cursorShape>
            </property>
@@ -202,7 +170,7 @@
             <enum>QFrame::Sunken</enum>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -214,14 +182,6 @@
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_34">
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Panel</enum>
            </property>
@@ -239,14 +199,6 @@
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">
           <widget class="QLabel" name="label_27">
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Panel</enum>
            </property>
@@ -260,12 +212,6 @@
          </item>
          <item row="0" column="1">
           <widget class="QLabel" name="label_rec_corrente">
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
            <property name="cursor">
             <cursorShape>ForbiddenCursor</cursorShape>
            </property>
@@ -288,14 +234,6 @@
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_28">
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Panel</enum>
            </property>
@@ -309,12 +247,6 @@
          </item>
          <item row="1" column="1">
           <widget class="QLabel" name="label_rec_tot">
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
            <property name="cursor">
             <cursorShape>ForbiddenCursor</cursorShape>
            </property>
@@ -349,15 +281,9 @@
         <widget class="QPushButton" name="pushButton_search_go">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>search !!!</string>
@@ -366,21 +292,15 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="9">
         <widget class="QPushButton" name="pushButton_new_rec">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>New record</string>
@@ -389,21 +309,15 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="6">
         <widget class="QPushButton" name="pushButton_last_rec">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Last rec</string>
@@ -412,14 +326,14 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="5">
         <widget class="QPushButton" name="pushButton_track">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="whatsThis">
@@ -429,21 +343,15 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/tracking-icon.png</normaloff>:/icons/tracking-icon.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="5">
         <widget class="QPushButton" name="pushButton_next_rec">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Next rec</string>
@@ -452,35 +360,29 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="9">
         <widget class="QPushButton" name="pushButton_word">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/word.png</normaloff>:/icons/word.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="8">
         <widget class="QPushButton" name="pushButton_delete">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Delete record</string>
@@ -495,41 +397,29 @@
          <property name="flat">
           <bool>false</bool>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="6">
         <widget class="QPushButton" name="pushButton_exppdf">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>MS Shell Dlg 2</family>
-           <pointsize>8</pointsize>
-          </font>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="2">
         <widget class="QPushButton" name="pushButton_new_search">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>new search</string>
@@ -538,21 +428,15 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="5">
         <widget class="QPushButton" name="pushButton_sort">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Order by</string>
@@ -561,14 +445,14 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="3">
         <widget class="QPushButton" name="pushButton_uw_geometry">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="whatsThis">
@@ -578,21 +462,15 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/layers-icon.png</normaloff>:/icons/layers-icon.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="6">
         <widget class="QPushButton" name="pushButton_view_all">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>View alls records</string>
@@ -601,7 +479,7 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="pushButton_first_rec">
@@ -613,15 +491,9 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>First rec</string>
@@ -630,35 +502,29 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="2">
         <widget class="QPushButton" name="pushbutton_list">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="3">
         <widget class="QPushButton" name="pushButton_prev_rec">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Prev rec</string>
@@ -667,21 +533,15 @@
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="8">
         <widget class="QPushButton" name="pushButton_save">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Save</string>
@@ -693,7 +553,7 @@
          <property name="autoDefault">
           <bool>false</bool>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="9">
         <widget class="QPushButton" name="pushButton_connect">
@@ -712,12 +572,6 @@
            <height>30</height>
           </size>
          </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
          <property name="text">
           <string>C</string>
          </property>
@@ -727,33 +581,25 @@
         <widget class="QPushButton" name="pushButton_open_dir">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
       </layout>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_29">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;DBMS Toolbar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-size:18pt; font-weight:600;"&gt;DBMS Toolbar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -763,14 +609,6 @@
     <layout class="QGridLayout" name="gridLayout_10">
      <item row="3" column="2">
       <widget class="QLabel" name="label_21">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -784,14 +622,6 @@
      </item>
      <item row="3" column="6">
       <widget class="QLabel" name="label_9">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -805,12 +635,6 @@
      </item>
      <item row="3" column="7">
       <widget class="QComboBox" name="comboBox_area_reference">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -818,27 +642,13 @@
      </item>
      <item row="3" column="3">
       <widget class="QLineEdit" name="lineEdit_divelog_id">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-      </widget>
+       </widget>
      </item>
      <item row="3" column="11">
-      <widget class="QLineEdit" name="lineEdit_layers"/>
+      <widget class="QLineEdit" name="lineEdit_layers" />
      </item>
      <item row="3" column="8">
       <widget class="QLabel" name="label_6">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -852,14 +662,6 @@
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_26">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -873,13 +675,7 @@
      </item>
      <item row="3" column="9">
       <widget class="QLineEdit" name="lineEdit_date">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-      </widget>
+       </widget>
      </item>
      <item row="2" column="2">
       <widget class="QPushButton" name="pushButton_filter_uw">
@@ -895,14 +691,6 @@
          <height>16777215</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Filter</string>
        </property>
@@ -910,14 +698,6 @@
      </item>
      <item row="3" column="10">
       <widget class="QLabel" name="label_25">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -931,12 +711,6 @@
      </item>
      <item row="3" column="5">
       <widget class="QComboBox" name="comboBox_years">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -944,14 +718,6 @@
      </item>
      <item row="3" column="4">
       <widget class="QLabel" name="label_10">
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -977,12 +743,6 @@
          <height>0</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -990,14 +750,6 @@
      </item>
      <item row="2" column="3">
       <widget class="QPushButton" name="pushButton_report_generator">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Report</string>
        </property>
@@ -1007,19 +759,11 @@
    </item>
    <item row="4" column="0">
     <widget class="QTabWidget" name="tabWidget">
-     <property name="font">
-      <font>
-       <family>Calibri</family>
-       <pointsize>12</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="toolTip">
-      <string/>
+      <string />
      </property>
      <property name="locale">
-      <locale language="English" country="UnitedKingdom"/>
+      <locale language="English" country="UnitedKingdom" />
      </property>
      <property name="inputMethodHints">
       <set>Qt::ImhNone</set>
@@ -1046,14 +790,6 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -1067,15 +803,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLineEdit" name="lineEdit_bar_start1">
        <property name="geometry">
         <rect>
@@ -1085,15 +813,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLineEdit" name="lineEdit_max_depth">
        <property name="geometry">
         <rect>
@@ -1103,15 +823,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLineEdit" name="lineEdit_bar_end1">
        <property name="geometry">
         <rect>
@@ -1121,15 +833,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLineEdit" name="lineEdit_breathing_mix">
        <property name="geometry">
         <rect>
@@ -1139,15 +843,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLineEdit" name="lineEdit_uwvisibility">
        <property name="geometry">
         <rect>
@@ -1157,15 +853,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLineEdit" name="lineEdit_uwtemperature">
        <property name="geometry">
         <rect>
@@ -1175,15 +863,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLabel" name="label">
        <property name="geometry">
         <rect>
@@ -1192,14 +872,6 @@
          <width>181</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1217,14 +889,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1240,14 +904,6 @@
          <width>181</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1265,14 +921,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1288,14 +936,6 @@
          <width>181</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1313,14 +953,6 @@
          <height>21</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1336,14 +968,6 @@
          <width>151</width>
          <height>21</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1361,15 +985,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLabel" name="label_12">
        <property name="geometry">
         <rect>
@@ -1378,14 +994,6 @@
          <width>141</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1403,14 +1011,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1426,14 +1026,6 @@
          <width>151</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1451,14 +1043,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1474,14 +1058,6 @@
          <width>151</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1499,14 +1075,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1522,14 +1090,6 @@
          <width>181</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1547,14 +1107,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1570,14 +1122,6 @@
          <width>151</width>
          <height>31</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1595,14 +1139,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1618,14 +1154,6 @@
          <width>151</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1643,14 +1171,6 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>0</string>
        </property>
@@ -1664,14 +1184,6 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>0</string>
        </property>
@@ -1684,14 +1196,6 @@
          <width>151</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -1709,15 +1213,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QTableWidget" name="tableWidget_photo">
        <property name="geometry">
         <rect>
@@ -1738,17 +1234,6 @@
          <width>1</width>
          <height>0</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <italic>false</italic>
-         <bold>true</bold>
-         <underline>false</underline>
-         <strikeout>false</strikeout>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
@@ -1808,14 +1293,6 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -1831,14 +1308,6 @@
          <width>1051</width>
          <height>251</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
@@ -1881,7 +1350,7 @@
        </column>
        <item row="0" column="0">
         <property name="text">
-         <string/>
+         <string />
         </property>
         <property name="foreground">
          <brush brushstyle="Dense6Pattern">
@@ -1903,15 +1372,6 @@
          <height>30</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Insert row</string>
        </property>
@@ -1924,15 +1384,6 @@
          <width>121</width>
          <height>30</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
        </property>
        <property name="text">
         <string>Removed row</string>
@@ -1947,15 +1398,6 @@
          <height>30</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Removed row</string>
        </property>
@@ -1968,15 +1410,6 @@
          <width>91</width>
          <height>30</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
        </property>
        <property name="text">
         <string>Insert row</string>
@@ -1991,15 +1424,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLineEdit" name="lineEdit_time_out">
        <property name="geometry">
         <rect>
@@ -2009,15 +1434,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QComboBox" name="comboBox_buddy">
        <property name="geometry">
         <rect>
@@ -2026,14 +1443,6 @@
          <width>181</width>
          <height>31</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="editable">
         <bool>true</bool>
@@ -2048,14 +1457,6 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -2068,14 +1469,6 @@
          <width>181</width>
          <height>31</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="editable">
         <bool>true</bool>
@@ -2090,14 +1483,6 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -2111,14 +1496,6 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -2127,7 +1504,7 @@
        </property>
        <item>
         <property name="text">
-         <string/>
+         <string />
         </property>
        </item>
        <item>
@@ -2155,14 +1532,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -2179,15 +1548,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QComboBox" name="comboBox_wind">
        <property name="geometry">
         <rect>
@@ -2196,14 +1557,6 @@
          <width>151</width>
          <height>31</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="editable">
         <bool>true</bool>
@@ -2218,15 +1571,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLabel" name="label_30">
        <property name="geometry">
         <rect>
@@ -2235,14 +1580,6 @@
          <width>151</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -2260,14 +1597,6 @@
          <height>20</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -2284,15 +1613,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLineEdit" name="lineEdit_dp_2">
        <property name="geometry">
         <rect>
@@ -2302,15 +1623,7 @@
          <height>31</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-      </widget>
+       </widget>
       <widget class="QLabel" name="label_32">
        <property name="geometry">
         <rect>
@@ -2319,14 +1632,6 @@
          <width>151</width>
          <height>20</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
@@ -2347,14 +1652,6 @@
           <layout class="QGridLayout" name="gridLayout_6">
            <item row="0" column="0">
             <widget class="QLabel" name="label_23">
-             <property name="font">
-              <font>
-               <family>Calibri</family>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
              <property name="frameShape">
               <enum>QFrame::Panel</enum>
              </property>
@@ -2373,15 +1670,15 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
-               <height>20</height>
+               <width>32</width>
+               <height>32</height>
               </size>
              </property>
              <property name="icon">
               <iconset resource="../../resources/resources.qrc">
                <normaloff>:/icons/photo2.png</normaloff>:/icons/photo2.png</iconset>
              </property>
-            </widget>
+            <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
            </item>
            <item row="0" column="2">
             <widget class="QPushButton" name="pushButton_assigntags">
@@ -2393,18 +1690,18 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
-               <height>20</height>
+               <width>32</width>
+               <height>32</height>
               </size>
              </property>
              <property name="text">
-              <string/>
+              <string />
              </property>
              <property name="icon">
               <iconset resource="../../resources/resources.qrc">
                <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
              </property>
-            </widget>
+            <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
            </item>
            <item row="0" column="3">
             <widget class="QPushButton" name="pushButton_removetags">
@@ -2416,26 +1713,18 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
-               <height>20</height>
+               <width>32</width>
+               <height>32</height>
               </size>
              </property>
              <property name="icon">
               <iconset resource="../../resources/resources.qrc">
                <normaloff>:/icons/remove_tag.png</normaloff>:/icons/remove_tag.png</iconset>
              </property>
-            </widget>
+            <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
            </item>
            <item row="1" column="0" colspan="4">
             <widget class="QListWidget" name="iconListWidget">
-             <property name="font">
-              <font>
-               <family>Calibri</family>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
              <property name="frameShape">
               <enum>QFrame::WinPanel</enum>
              </property>
@@ -2502,14 +1791,6 @@
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="0" column="0">
             <widget class="QLabel" name="label_24">
-             <property name="font">
-              <font>
-               <family>Calibri</family>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
              <property name="frameShape">
               <enum>QFrame::Panel</enum>
              </property>
@@ -2528,15 +1809,15 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
-               <height>20</height>
+               <width>32</width>
+               <height>32</height>
               </size>
              </property>
              <property name="icon">
               <iconset resource="../../resources/resources.qrc">
                <normaloff>:/icons/photo2.png</normaloff>:/icons/photo2.png</iconset>
              </property>
-            </widget>
+            <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
            </item>
            <item row="0" column="2">
             <widget class="QPushButton" name="pushButton_assigntags_2">
@@ -2548,18 +1829,18 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
-               <height>20</height>
+               <width>32</width>
+               <height>32</height>
               </size>
              </property>
              <property name="text">
-              <string/>
+              <string />
              </property>
              <property name="icon">
               <iconset resource="../../resources/resources.qrc">
                <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
              </property>
-            </widget>
+            <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
            </item>
            <item row="0" column="3">
             <widget class="QPushButton" name="pushButton_removetags_2">
@@ -2571,26 +1852,18 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>20</width>
-               <height>20</height>
+               <width>32</width>
+               <height>32</height>
               </size>
              </property>
              <property name="icon">
               <iconset resource="../../resources/resources.qrc">
                <normaloff>:/icons/remove_tag.png</normaloff>:/icons/remove_tag.png</iconset>
              </property>
-            </widget>
+            <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
            </item>
            <item row="1" column="0" colspan="4">
             <widget class="QListWidget" name="icongigi">
-             <property name="font">
-              <font>
-               <family>Calibri</family>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
              <property name="frameShape">
               <enum>QFrame::WinPanel</enum>
              </property>
@@ -2658,14 +1931,6 @@
        </item>
        <item row="1" column="0">
         <widget class="QTextEdit" name="textEdit_task">
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
          <property name="frameShape">
           <enum>QFrame::WinPanel</enum>
          </property>
@@ -2686,14 +1951,6 @@
        </item>
        <item row="3" column="0">
         <widget class="QTextEdit" name="textEdit_result">
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
          <property name="frameShape">
           <enum>QFrame::WinPanel</enum>
          </property>
@@ -2714,14 +1971,6 @@
        </item>
        <item row="5" column="0">
         <widget class="QTextEdit" name="textEdit_comments">
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>12</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
          <property name="frameShape">
           <enum>QFrame::WinPanel</enum>
          </property>
@@ -2779,7 +2028,7 @@
              <property name="columnCount">
               <number>5</number>
              </property>
-             <row/>
+             <row />
              <column>
               <property name="text">
                <string>Author</string>
@@ -2851,14 +2100,6 @@
          <height>28</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Export TAB</string>
        </property>
@@ -2875,14 +2116,6 @@
          <height>28</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Export List</string>
        </property>
@@ -2890,7 +2123,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
      <widget class="QPushButton" name="pushButton_pdf_foto">
        <property name="geometry">
         <rect>
@@ -2899,14 +2132,6 @@
          <width>181</width>
          <height>28</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="text">
         <string>Export Photo List (with thumbnails)</string>
@@ -2921,14 +2146,6 @@
          <height>28</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Export Photo List (no thumbnails)</string>
        </property>
@@ -2942,15 +2159,6 @@
          <width>1071</width>
          <height>581</height>
         </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
        </property>
        <property name="currentIndex">
         <number>0</number>
@@ -3010,14 +2218,6 @@
          <height>28</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>GIS View</string>
        </property>
@@ -3031,16 +2231,8 @@
          <height>22</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="toolTip">
-        <string/>
+        <string />
        </property>
        <property name="text">
         <string>Preview </string>
@@ -3064,7 +2256,7 @@
        <property name="arrowType">
         <enum>Qt::NoArrow</enum>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
       <widget class="QgsDockWidget" name="mDockWidget_3">
        <property name="geometry">
         <rect>
@@ -3172,14 +2364,6 @@
              <height>16777215</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;save record after chanched&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -3217,14 +2401,6 @@
              <width>100</width>
              <height>16777215</height>
             </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Calibri</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
            </property>
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;rollback the changed&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -3317,7 +2493,7 @@
           <bool>true</bool>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="placeholderText">
           <string>choose the pdf convert to word</string>
@@ -3346,13 +2522,13 @@
           </rect>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
         <widget class="QLabel" name="label_53">
          <property name="geometry">
           <rect>
@@ -3404,7 +2580,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &amp;quot;0&amp;quot; is the first page to convert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="inputMask">
-          <string extracomment="Lo&quot;0&quot; indica la prima pagina"/>
+          <string extracomment="Lo&quot;0&quot; indica la prima pagina" />
          </property>
          <property name="text">
           <string>0</string>
@@ -3582,8 +2758,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../resources/resources.qrc"/>
-  <include location="../../../pyarchinit/resources/resources.qrc"/>
+  <include location="../../resources/resources.qrc" />
+  <include location="../../../pyarchinit/resources/resources.qrc" />
  </resources>
- <connections/>
+ <connections />
 </ui>

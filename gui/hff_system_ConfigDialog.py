@@ -1141,12 +1141,13 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         conn = Connection()
         db_url = conn.conn_str()
         sql_query_string = "SELECT current_setting('server_version_num')"
-        self.engine= create_engine(db_url)
-        res = self.engine.execute(sql_query_string)
-        rows= res.fetchone()
+        self.engine = create_engine(db_url)
+        with self.engine.connect() as eng_conn:
+            res = eng_conn.execute(text(sql_query_string))
+            rows = res.fetchone()
         vers = ''.join(rows)
-        res.close()#QMessageBox.information(self, tr('title_info'), str(vers),QMessageBox.Ok)
-        return vers    
+        return vers
+
     def on_toolButton_active_toggled(self):
         
         try:    

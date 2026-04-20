@@ -1,1 +1,44 @@
-'''Created on 22/06/2023@author: Enzo Cocca'''from builtins import objectfrom sqlalchemy import Table, Column, Integer,  Text,  MetaData, create_engine, UniqueConstraintfrom ..hff_system__conn_strings import Connectionclass ANC_con(object):	internal_connection = Connection()	engine = create_engine(internal_connection.conn_str(), echo=False, convert_unicode = True)	metadata = MetaData()	anchor_con = Table('anchor_con', metadata,					   Column('id_anc', Integer, primary_key=True),					   Column('site', Text),					   Column('anchor_id', Text),					   Column('obj_partial', Text),					   Column('author', Text),					   Column('star_date', Text),					   Column('end_date', Text),					   Column('state_conservation', Text),					   Column('observation', Text),					   Column('measure', Text),					   Column('damage', Text),					   Column('concretion', Text),					   Column('bio', Text),					   Column('procedure', Text),					   Column('desalination_date', Text),					   UniqueConstraint('anchor_id', name='anchor_id_unico')					   )	metadata.create_all(engine)
+'''
+
+Created on 22/06/2023
+
+
+
+@author: Enzo Cocca
+
+'''
+
+from builtins import object
+
+from sqlalchemy import Table, Column, Integer,  Text,  MetaData, create_engine, UniqueConstraint
+
+from ..hff_system__conn_strings import Connection
+class ANC_con(object):
+
+	internal_connection = Connection()
+	engine = create_engine(internal_connection.conn_str(), echo=False)
+
+	metadata = MetaData()
+	anchor_con = Table('anchor_con', metadata,
+					   Column('id_anc', Integer, primary_key=True),
+					   Column('site', Text),
+					   Column('anchor_id', Text),
+					   Column('obj_partial', Text),
+					   Column('author', Text),
+					   Column('star_date', Text),
+					   Column('end_date', Text),
+					   Column('state_conservation', Text),
+					   Column('observation', Text),
+					   Column('measure', Text),
+					   Column('damage', Text),
+					   Column('concretion', Text),
+					   Column('bio', Text),
+					   Column('procedure', Text),
+					   Column('desalination_date', Text),
+					   UniqueConstraint('anchor_id', name='anchor_id_unico')
+					   )
+
+
+
+	metadata.create_all(engine)
+

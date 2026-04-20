@@ -18,7 +18,10 @@
  *                                                                         *
  ***************************************************************************/
 """
-from sqlalchemy.orm import mapper
+from sqlalchemy.orm import registry
+
+mapper_registry = registry()
+mapper = mapper_registry.map_imperatively
 
 
 from .entities.MEDIA import MEDIA

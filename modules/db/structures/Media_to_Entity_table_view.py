@@ -14,7 +14,7 @@ class Media_to_Entity_table_view:
 
     # create engine and metadata
 
-    engine = create_engine(internal_connection.conn_str(), echo=False, convert_unicode=True)
+    engine = create_engine(internal_connection.conn_str(), echo=False)
     metadata = MetaData()
 
     # define tables

@@ -2,7 +2,7 @@
 #numpy==1.26.4
 SQLAlchemy==2.0.45
 SQLAlchemy-Utils==0.42.1
-GeoAlchemy2==0.18.1
+GeoAlchemy2==0.17.1
 reportlab==4.4.7
 XlsxWriter==3.2.9
 opencv-python==4.12.0.88  # Optional - may already be installed or cause issues on Windows

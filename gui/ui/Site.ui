@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <ui version="4.0">
  <class>DialogSite</class>
  <widget class="QDialog" name="DialogSite">
@@ -40,13 +40,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Order</string>
        </property>
@@ -63,12 +56,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>DBMS Toolbar</string>
        </property>
@@ -81,13 +68,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="cursor">
         <cursorShape>ForbiddenCursor</cursorShape>
@@ -105,7 +85,7 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -133,7 +113,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/IconPAI.png</normaloff>:/icons/IconPAI.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="3" column="2">
       <widget class="QPushButton" name="pushButton_search_go">
@@ -145,14 +125,9 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>search !!!</string>
@@ -164,7 +139,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="3" column="4">
       <widget class="QPushButton" name="pushButton_view_all">
@@ -176,14 +151,9 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>View alls records</string>
@@ -195,7 +165,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="3" column="8">
       <widget class="QLabel" name="label_rec_corrente">
@@ -204,12 +174,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Microsoft Sans Serif</family>
-         <pointsize>12</pointsize>
-        </font>
        </property>
        <property name="cursor">
         <cursorShape>ForbiddenCursor</cursorShape>
@@ -241,8 +205,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="whatsThis">
@@ -258,7 +222,7 @@
        <property name="checked">
         <bool>false</bool>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="5">
       <widget class="QPushButton" name="pushButton_save">
@@ -270,14 +234,9 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>Save</string>
@@ -292,7 +251,7 @@
        <property name="autoDefault">
         <bool>false</bool>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="0" column="8">
       <widget class="QLabel" name="label_42">
@@ -301,12 +260,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="autoFillBackground">
         <bool>true</bool>
@@ -326,14 +279,9 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>New record</string>
@@ -345,7 +293,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="3" column="3">
       <widget class="QPushButton" name="pushButton_sort">
@@ -357,14 +305,9 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>Order by</string>
@@ -376,7 +319,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="3" column="1">
       <widget class="QPushButton" name="pushButton_new_search">
@@ -388,14 +331,9 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>new search</string>
@@ -407,7 +345,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="1">
       <widget class="QPushButton" name="pushButton_prev_rec">
@@ -419,8 +357,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -433,14 +371,14 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="5" column="0">
       <widget class="QToolButton" name="toolButton_draw_siti">
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -456,7 +394,7 @@
        <property name="checkable">
         <bool>true</bool>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="3">
       <widget class="QPushButton" name="pushButton_last_rec">
@@ -468,8 +406,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -482,7 +420,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="0">
       <widget class="QPushButton" name="pushButton_first_rec">
@@ -494,8 +432,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -508,7 +446,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="5" column="1">
       <widget class="QPushButton" name="pushButton_draw">
@@ -528,7 +466,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/layers-icon.png</normaloff>:/icons/layers-icon.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="3" column="0">
       <widget class="QPushButton" name="pushButton_delete">
@@ -543,14 +481,9 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
        </property>
        <property name="toolTip">
         <string>Delete record</string>
@@ -562,7 +495,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="2" column="2">
       <widget class="QPushButton" name="pushButton_next_rec">
@@ -574,8 +507,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -588,7 +521,7 @@
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="4" column="2">
       <widget class="QPushButton" name="pushButton_export_excel">
@@ -600,8 +533,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -616,11 +549,11 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>24</width>
+         <height>24</height>
         </size>
        </property>
-      </widget>
+      <property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="4" column="8">
       <widget class="QLabel" name="label_rec_tot">
@@ -629,12 +562,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Microsoft Sans Serif</family>
-         <pointsize>12</pointsize>
-        </font>
        </property>
        <property name="cursor">
         <cursorShape>ForbiddenCursor</cursorShape>
@@ -692,7 +619,7 @@
             </size>
            </property>
            <property name="whatsThis">
-            <string extracomment="Export excel"/>
+            <string extracomment="Export excel" />
            </property>
            <property name="currentIndex">
             <number>0</number>
@@ -758,28 +685,21 @@
                    <height>30</height>
                   </size>
                  </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                  </font>
-                 </property>
                  <property name="mouseTracking">
                   <bool>true</bool>
                  </property>
                  <property name="whatsThis">
-                  <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+                  <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;style type="text/css"&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;amp;t=50s&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Insert name site location&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:normal;"&gt;
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;a href="https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;amp;t=50s"&gt;&lt;span style=" color:#000000;"&gt;Insert name site location&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="editable">
                   <bool>true</bool>
                  </property>
                  <property name="currentText">
-                  <string/>
+                  <string />
                  </property>
                  <property name="maxVisibleItems">
                   <number>99999</number>
@@ -844,24 +764,17 @@ p, li { white-space: pre-wrap; }
                    <height>30</height>
                   </size>
                  </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                  </font>
-                 </property>
                  <property name="mouseTracking">
                   <bool>true</bool>
                  </property>
                  <property name="whatsThis">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;amp;t=50s&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Insert name ID loocation&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;amp;t=50s"&gt;&lt;span style=" color:#000000;"&gt;Insert name ID loocation&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="editable">
                   <bool>true</bool>
                  </property>
                  <property name="currentText">
-                  <string/>
+                  <string />
                  </property>
                  <property name="maxVisibleItems">
                   <number>99999</number>
@@ -907,24 +820,17 @@ p, li { white-space: pre-wrap; }
                    <height>25</height>
                   </size>
                  </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
-                  </font>
-                 </property>
                  <property name="mouseTracking">
                   <bool>true</bool>
                  </property>
                  <property name="whatsThis">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;amp;t=50s&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Area (integer value)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;amp;t=50s"&gt;&lt;span style=" color:#000000;"&gt;Area (integer value)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="editable">
                   <bool>true</bool>
                  </property>
                  <property name="currentText">
-                  <string/>
+                  <string />
                  </property>
                  <property name="maxVisibleItems">
                   <number>99999</number>
@@ -978,7 +884,7 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <item>
                   <property name="text">
-                   <string/>
+                   <string />
                   </property>
                  </item>
                  <item>
@@ -1156,7 +1062,7 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <item>
                   <property name="text">
-                   <string/>
+                   <string />
                   </property>
                  </item>
                  <item>
@@ -1288,7 +1194,7 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <item>
                   <property name="text">
-                   <string/>
+                   <string />
                   </property>
                  </item>
                  <item>
@@ -1393,7 +1299,7 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <item>
                   <property name="text">
-                   <string/>
+                   <string />
                   </property>
                  </item>
                  <item>
@@ -1448,12 +1354,6 @@ p, li { white-space: pre-wrap; }
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
                  <property name="text">
                   <string>Interpretation</string>
                  </property>
@@ -1479,12 +1379,7 @@ p, li { white-space: pre-wrap; }
                    <height>16000000</height>
                   </size>
                  </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                </widget>
+                 </widget>
                </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_13">
@@ -1493,12 +1388,6 @@ p, li { white-space: pre-wrap; }
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
                  </property>
                  <property name="text">
                   <string>Descritpion</string>
@@ -1534,15 +1423,6 @@ p, li { white-space: pre-wrap; }
                <width>20</width>
                <height>26</height>
               </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>8</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
              </property>
              <property name="text">
               <string>+</string>
@@ -1608,7 +1488,7 @@ p, li { white-space: pre-wrap; }
              <attribute name="verticalHeaderDefaultSectionSize">
               <number>30</number>
              </attribute>
-             <row/>
+             <row />
              <column>
               <property name="text">
                <string>Camera ID</string>
@@ -1626,7 +1506,7 @@ p, li { white-space: pre-wrap; }
              </column>
              <item row="0" column="0">
               <property name="text">
-               <string/>
+               <string />
               </property>
              </item>
             </widget>
@@ -1656,15 +1536,6 @@ p, li { white-space: pre-wrap; }
                <width>20</width>
                <height>26</height>
               </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Times New Roman</family>
-               <pointsize>8</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
              </property>
              <property name="text">
               <string>-</string>
@@ -1711,7 +1582,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <item>
                  <property name="text">
-                  <string/>
+                  <string />
                  </property>
                 </item>
                 <item>
@@ -1731,7 +1602,7 @@ p, li { white-space: pre-wrap; }
                 </item>
                 <item>
                  <property name="text">
-                  <string/>
+                  <string />
                  </property>
                 </item>
                </widget>
@@ -1756,7 +1627,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <item>
                  <property name="text">
-                  <string/>
+                  <string />
                  </property>
                 </item>
                 <item>
@@ -1788,7 +1659,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <item>
                  <property name="text">
-                  <string/>
+                  <string />
                  </property>
                 </item>
                 <item>
@@ -1843,15 +1714,6 @@ p, li { white-space: pre-wrap; }
                   <height>16777215</height>
                  </size>
                 </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
                 <property name="text">
                  <string>-</string>
                 </property>
@@ -1876,15 +1738,6 @@ p, li { white-space: pre-wrap; }
                   <width>30</width>
                   <height>16777215</height>
                  </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
                 </property>
                 <property name="text">
                  <string>+</string>
@@ -1911,15 +1764,6 @@ p, li { white-space: pre-wrap; }
                   <height>16777215</height>
                  </size>
                 </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
                 <property name="text">
                  <string>-</string>
                 </property>
@@ -1945,15 +1789,6 @@ p, li { white-space: pre-wrap; }
                   <height>16777215</height>
                  </size>
                 </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
                 <property name="text">
                  <string>+</string>
                 </property>
@@ -1978,15 +1813,6 @@ p, li { white-space: pre-wrap; }
                   <width>30</width>
                   <height>16777215</height>
                  </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
                 </property>
                 <property name="text">
                  <string>-</string>
@@ -2059,15 +1885,6 @@ p, li { white-space: pre-wrap; }
                   <height>16777215</height>
                  </size>
                 </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
                 <property name="text">
                  <string>+</string>
                 </property>
@@ -2122,7 +1939,7 @@ p, li { white-space: pre-wrap; }
                 <attribute name="verticalHeaderDefaultSectionSize">
                  <number>30</number>
                 </attribute>
-                <row/>
+                <row />
                 <column>
                  <property name="text">
                   <string>Overall Site Morphology </string>
@@ -2174,7 +1991,7 @@ p, li { white-space: pre-wrap; }
                 <attribute name="verticalHeaderDefaultSectionSize">
                  <number>30</number>
                 </attribute>
-                <row/>
+                <row />
                 <column>
                  <property name="text">
                   <string>Collection/Survey Type </string>
@@ -2182,7 +1999,7 @@ p, li { white-space: pre-wrap; }
                 </column>
                 <item row="0" column="0">
                  <property name="text">
-                  <string/>
+                  <string />
                  </property>
                 </item>
                </widget>
@@ -2207,15 +2024,6 @@ p, li { white-space: pre-wrap; }
                   <height>16777215</height>
                  </size>
                 </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
                 <property name="text">
                  <string>-</string>
                 </property>
@@ -2235,7 +2043,7 @@ p, li { white-space: pre-wrap; }
                 <attribute name="verticalHeaderDefaultSectionSize">
                  <number>30</number>
                 </attribute>
-                <row/>
+                <row />
                 <column>
                  <property name="text">
                   <string>Material</string>
@@ -2262,15 +2070,6 @@ p, li { white-space: pre-wrap; }
                   <width>30</width>
                   <height>16777215</height>
                  </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
                 </property>
                 <property name="text">
                  <string>+</string>
@@ -2321,7 +2120,7 @@ p, li { white-space: pre-wrap; }
                 <attribute name="verticalHeaderDefaultSectionSize">
                  <number>30</number>
                 </attribute>
-                <row/>
+                <row />
                 <column>
                  <property name="text">
                   <string>Features morphology type</string>
@@ -2329,7 +2128,7 @@ p, li { white-space: pre-wrap; }
                 </column>
                 <item row="0" column="0">
                  <property name="text">
-                  <string/>
+                  <string />
                  </property>
                 </item>
                </widget>
@@ -2342,7 +2141,7 @@ p, li { white-space: pre-wrap; }
                 <attribute name="horizontalHeaderDefaultSectionSize">
                  <number>280</number>
                 </attribute>
-                <row/>
+                <row />
                 <column>
                  <property name="text">
                   <string>Site overall shape type</string>
@@ -2479,7 +2278,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_length"/>
+               <widget class="QLineEdit" name="lineEdit_length" />
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_50">
@@ -2489,7 +2288,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLineEdit" name="lineEdit_width"/>
+               <widget class="QLineEdit" name="lineEdit_width" />
               </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_51">
@@ -2499,7 +2298,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLineEdit" name="lineEdit_depth"/>
+               <widget class="QLineEdit" name="lineEdit_depth" />
               </item>
               <item row="4" column="0">
                <widget class="QLabel" name="label_52">
@@ -2509,7 +2308,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="4" column="1">
-               <widget class="QLineEdit" name="lineEdit_height"/>
+               <widget class="QLineEdit" name="lineEdit_height" />
               </item>
              </layout>
             </widget>
@@ -2614,7 +2413,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <item>
                  <property name="text">
-                  <string/>
+                  <string />
                  </property>
                 </item>
                 <item>
@@ -2775,15 +2574,6 @@ p, li { white-space: pre-wrap; }
                  <height>20</height>
                 </size>
                </property>
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>8</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>insert row</string>
                </property>
@@ -2796,15 +2586,6 @@ p, li { white-space: pre-wrap; }
                  <width>0</width>
                  <height>20</height>
                 </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>8</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
                </property>
                <property name="text">
                 <string>remove row</string>
@@ -2868,7 +2649,7 @@ p, li { white-space: pre-wrap; }
                <attribute name="verticalHeaderDefaultSectionSize">
                 <number>30</number>
                </attribute>
-               <row/>
+               <row />
                <column>
                 <property name="text">
                  <string>Documentation type</string>
@@ -2881,7 +2662,7 @@ p, li { white-space: pre-wrap; }
                </column>
                <item row="0" column="0">
                 <property name="text">
-                 <string/>
+                 <string />
                 </property>
                </item>
               </widget>
@@ -2958,7 +2739,7 @@ p, li { white-space: pre-wrap; }
                 <attribute name="verticalHeaderDefaultSectionSize">
                  <number>30</number>
                 </attribute>
-                <row/>
+                <row />
                 <column>
                  <property name="text">
                   <string>Camera ID</string>
@@ -2981,7 +2762,7 @@ p, li { white-space: pre-wrap; }
                 </column>
                 <item row="0" column="0">
                  <property name="text">
-                  <string/>
+                  <string />
                  </property>
                 </item>
                </widget>
@@ -3049,15 +2830,6 @@ p, li { white-space: pre-wrap; }
                   <height>16777215</height>
                  </size>
                 </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
-                </property>
                 <property name="text">
                  <string>+</string>
                 </property>
@@ -3082,15 +2854,6 @@ p, li { white-space: pre-wrap; }
                   <width>100</width>
                   <height>16777215</height>
                  </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>8</pointsize>
-                  <weight>50</weight>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
                 </property>
                 <property name="text">
                  <string>-</string>
@@ -3126,15 +2889,6 @@ p, li { white-space: pre-wrap; }
                <height>23</height>
               </rect>
              </property>
-             <property name="font">
-              <font>
-               <family>MS Shell Dlg 2</family>
-               <pointsize>8</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="text">
               <string>Delete row</string>
              </property>
@@ -3147,15 +2901,6 @@ p, li { white-space: pre-wrap; }
                <width>75</width>
                <height>23</height>
               </rect>
-             </property>
-             <property name="font">
-              <font>
-               <family>MS Shell Dlg 2</family>
-               <pointsize>8</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
              </property>
              <property name="text">
               <string>Insert row</string>
@@ -3172,15 +2917,6 @@ p, li { white-space: pre-wrap; }
                <width>831</width>
                <height>571</height>
               </rect>
-             </property>
-             <property name="font">
-              <font>
-               <family>MS Shell Dlg 2</family>
-               <pointsize>10</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255);</string>
@@ -3221,7 +2957,7 @@ p, li { white-space: pre-wrap; }
              <attribute name="verticalHeaderDefaultSectionSize">
               <number>30</number>
              </attribute>
-             <row/>
+             <row />
              <column>
               <property name="text">
                <string>Author</string>
@@ -3292,7 +3028,7 @@ p, li { white-space: pre-wrap; }
               <item row="0" column="0" colspan="4">
                <widget class="QLabel" name="label_10">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;GIS Tools&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;GIS Tools&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
@@ -3379,7 +3115,7 @@ p, li { white-space: pre-wrap; }
               <item row="3" column="12">
                <widget class="QLabel" name="label_9">
                 <property name="text">
-                 <string/>
+                 <string />
                 </property>
                </widget>
               </item>
@@ -3411,7 +3147,7 @@ p, li { white-space: pre-wrap; }
                  <string extracomment="Import Excel">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Import excel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
-                 <string/>
+                 <string />
                 </property>
                 <property name="icon">
                  <iconset resource="../../resources/resources.qrc">
@@ -3419,11 +3155,11 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="iconSize">
                  <size>
-                  <width>25</width>
-                  <height>25</height>
+                  <width>24</width>
+                  <height>24</height>
                  </size>
                 </property>
-               </widget>
+               <property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
               </item>
              </layout>
             </widget>
@@ -3468,7 +3204,7 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
                <property name="text">
-                <string/>
+                <string />
                </property>
                <property name="placeholderText">
                 <string>choose the pdf convert to word</string>
@@ -3497,13 +3233,13 @@ p, li { white-space: pre-wrap; }
                 </rect>
                </property>
                <property name="text">
-                <string/>
+                <string />
                </property>
                <property name="icon">
                 <iconset resource="../../resources/resources.qrc">
                  <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
                </property>
-              </widget>
+              <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
               <widget class="QLabel" name="label_54">
                <property name="geometry">
                 <rect>
@@ -3555,7 +3291,7 @@ p, li { white-space: pre-wrap; }
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &amp;quot;0&amp;quot; is the first page to convert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="inputMask">
-                <string extracomment="Lo&quot;0&quot; indica la prima pagina"/>
+                <string extracomment="Lo&quot;0&quot; indica la prima pagina" />
                </property>
                <property name="text">
                 <string>0</string>
@@ -3677,24 +3413,17 @@ p, li { white-space: pre-wrap; }
                      <height>30</height>
                     </size>
                    </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>8</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
                    <property name="mouseTracking">
                     <bool>true</bool>
                    </property>
                    <property name="whatsThis">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s"&gt;&lt;span style=" text-decoration: underline; color:#0000ff;"&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="editable">
                     <bool>true</bool>
                    </property>
                    <property name="currentText">
-                    <string/>
+                    <string />
                    </property>
                    <property name="maxVisibleItems">
                     <number>99999</number>
@@ -3854,24 +3583,17 @@ p, li { white-space: pre-wrap; }
                      <height>30</height>
                     </size>
                    </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>8</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
                    <property name="mouseTracking">
                     <bool>true</bool>
                    </property>
                    <property name="whatsThis">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t=50s"&gt;&lt;span style=" text-decoration: underline; color:#0000ff;"&gt;Doc&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="editable">
                     <bool>true</bool>
                    </property>
                    <property name="currentText">
-                    <string/>
+                    <string />
                    </property>
                    <property name="maxVisibleItems">
                     <number>99999</number>
@@ -3892,11 +3614,6 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Mouhafasat</string>
                 </property>
@@ -3910,11 +3627,6 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Casa</string>
                 </property>
@@ -3927,13 +3639,6 @@ p, li { white-space: pre-wrap; }
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
                 </property>
                 <property name="editable">
                  <bool>true</bool>
@@ -3983,13 +3688,6 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
                 <property name="editable">
                  <bool>true</bool>
                 </property>
@@ -4002,11 +3700,6 @@ p, li { white-space: pre-wrap; }
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
                 </property>
                 <property name="text">
                  <string>Village</string>
@@ -4021,11 +3714,6 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Antique name</string>
                 </property>
@@ -4038,13 +3726,6 @@ p, li { white-space: pre-wrap; }
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
                 </property>
                 <property name="editable">
                  <bool>true</bool>
@@ -4059,13 +3740,6 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="font">
-                 <font>
-                  <pointsize>12</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
                 <property name="editable">
                  <bool>true</bool>
                 </property>
@@ -4079,12 +3753,6 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Supervisor</string>
                 </property>
@@ -4097,12 +3765,6 @@ p, li { white-space: pre-wrap; }
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
                 </property>
                 <property name="text">
                  <string>Date</string>
@@ -4126,7 +3788,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="6" column="1">
-               <widget class="QLineEdit" name="lineEdit_date_fill"/>
+               <widget class="QLineEdit" name="lineEdit_date_fill" />
               </item>
              </layout>
             </widget>
@@ -4192,15 +3854,6 @@ p, li { white-space: pre-wrap; }
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                 <kerning>true</kerning>
-                </font>
-               </property>
                <property name="layoutDirection">
                 <enum>Qt::LeftToRight</enum>
                </property>
@@ -4239,17 +3892,8 @@ p, li { white-space: pre-wrap; }
                          <height>20</height>
                         </size>
                        </property>
-                       <property name="font">
-                        <font>
-                         <pointsize>10</pointsize>
-                         <weight>50</weight>
-                         <italic>false</italic>
-                         <bold>false</bold>
-                         <underline>true</underline>
-                        </font>
-                       </property>
                        <property name="text">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Video Tutorial&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=l1nVPHf_1wI&amp;t"&gt;&lt;span style=" text-decoration: underline; color:#0000ff;"&gt;Video Tutorial&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="openExternalLinks">
                         <bool>true</bool>
@@ -4270,17 +3914,8 @@ p, li { white-space: pre-wrap; }
                          <height>20</height>
                         </size>
                        </property>
-                       <property name="font">
-                        <font>
-                         <family>MS Shell Dlg 2</family>
-                         <pointsize>10</pointsize>
-                         <weight>50</weight>
-                         <bold>false</bold>
-                         <underline>true</underline>
-                        </font>
-                       </property>
                        <property name="text">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;a href=&quot;https://www.facebook.com/UnaQuantumInc&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;unaquantum&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="right"&gt;&lt;a href="https://www.facebook.com/UnaQuantumInc"&gt;&lt;span style=" text-decoration: underline; color:#0000ff;"&gt;unaquantum&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="margin">
                         <number>0</number>
@@ -4302,11 +3937,6 @@ p, li { white-space: pre-wrap; }
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>8514oem</family>
-                      </font>
                      </property>
                      <property name="url" stdset="0">
                       <url>
@@ -4338,13 +3968,6 @@ p, li { white-space: pre-wrap; }
                        <height>5</height>
                       </size>
                      </property>
-                     <property name="font">
-                      <font>
-                       <pointsize>17</pointsize>
-                       <weight>75</weight>
-                       <bold>true</bold>
-                      </font>
-                     </property>
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
                      </property>
@@ -4374,8 +3997,8 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -4388,14 +4011,14 @@ p, li { white-space: pre-wrap; }
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="4" column="3">
       <widget class="QPushButton" name="pushButton_word">
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -4408,7 +4031,7 @@ p, li { white-space: pre-wrap; }
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/word.png</normaloff>:/icons/word.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="5" column="3">
       <widget class="QPushButton" name="pushButton_connect">
@@ -4436,8 +4059,8 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="pushButton_open_dir">
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="toolTip">
@@ -4447,13 +4070,13 @@ p, li { white-space: pre-wrap; }
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Open path HFF PDF Folder&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
        <property name="icon">
         <iconset resource="../../resources/resources.qrc">
          <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
        </property>
-      </widget>
+      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
      </item>
      <item row="4" column="7">
       <widget class="QLabel" name="label_28">
@@ -4462,13 +4085,6 @@ p, li { white-space: pre-wrap; }
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="text">
         <string>Total record.</string>
@@ -4486,13 +4102,6 @@ p, li { white-space: pre-wrap; }
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Status</string>
        </property>
@@ -4508,13 +4117,6 @@ p, li { white-space: pre-wrap; }
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="text">
         <string>Record number</string>
@@ -4546,7 +4148,7 @@ p, li { white-space: pre-wrap; }
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string/>
+        <string />
        </property>
       </widget>
      </item>
@@ -4574,7 +4176,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../resources/resources.qrc"/>
+  <include location="../../resources/resources.qrc" />
  </resources>
  <connections>
   <connection>

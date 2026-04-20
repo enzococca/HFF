@@ -16,7 +16,7 @@ from ..hff_system__conn_strings import Connection
 class ANC_table(object):
 
 	internal_connection = Connection()
-	engine = create_engine(internal_connection.conn_str(), echo=False, convert_unicode = True)
+	engine = create_engine(internal_connection.conn_str(), echo=False)
 
 	metadata = MetaData()
 	anchor_table = Table('anchor_table', metadata,	

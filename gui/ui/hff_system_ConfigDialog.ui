@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <ui version="4.0">
  <class>Dialog_Config</class>
  <widget class="QDialog" name="Dialog_Config">
@@ -93,7 +93,7 @@
       <bool>true</bool>
      </property>
      <property name="resize" stdset="0">
-      <string/>
+      <string />
      </property>
      <widget class="QWidget" name="tab">
       <property name="sizePolicy">
@@ -173,7 +173,7 @@
             <item row="2" column="2">
              <widget class="QLineEdit" name="lineEdit_Port">
               <property name="text">
-               <string/>
+               <string />
               </property>
               <property name="placeholderText">
                <string>port</string>
@@ -193,7 +193,7 @@
                <set>Qt::ImhNone</set>
               </property>
               <property name="text">
-               <string/>
+               <string />
               </property>
               <property name="placeholderText">
                <string>dbuser</string>
@@ -230,7 +230,7 @@
                </size>
               </property>
               <property name="text">
-               <string/>
+               <string />
               </property>
               <property name="placeholderText">
                <string>dbname</string>
@@ -240,7 +240,7 @@
             <item row="1" column="2">
              <widget class="QLineEdit" name="lineEdit_Host">
               <property name="text">
-               <string/>
+               <string />
               </property>
               <property name="placeholderText">
                <string>host</string>
@@ -276,7 +276,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;path where you want save the thumbnails&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string/>
+               <string />
               </property>
              </widget>
             </item>
@@ -293,7 +293,7 @@
                <iconset resource="../../resources/resources.qrc">
                 <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
               </property>
-             </widget>
+             <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_40">
@@ -308,10 +308,10 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;path where you want save the image hight quality&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string/>
+               <string />
               </property>
               <property name="placeholderText">
-               <string/>
+               <string />
               </property>
              </widget>
             </item>
@@ -328,7 +328,7 @@
                <iconset resource="../../resources/resources.qrc">
                 <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
               </property>
-             </widget>
+             <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_16">
@@ -349,7 +349,7 @@
                <bool>true</bool>
               </property>
               <property name="text">
-               <string/>
+               <string />
               </property>
              </widget>
             </item>
@@ -367,8 +367,8 @@
           <widget class="QPushButton" name="pushButton_save">
            <property name="maximumSize">
             <size>
-             <width>100</width>
-             <height>16777215</height>
+             <width>32</width>
+             <height>32</height>
             </size>
            </property>
            <property name="focusPolicy">
@@ -387,7 +387,7 @@
            <property name="autoDefault">
             <bool>true</bool>
            </property>
-          </widget>
+          <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
          </item>
         </layout>
        </item>
@@ -422,7 +422,7 @@
          <property name="arrowType">
           <enum>Qt::NoArrow</enum>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="1">
         <widget class="QComboBox" name="comboBox_sito">
@@ -475,14 +475,14 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>32</width>
+             <height>32</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>32</width>
+             <height>32</height>
             </size>
            </property>
            <property name="icon">
@@ -491,8 +491,8 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
           </widget>
@@ -510,18 +510,18 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>32</width>
+             <height>32</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>50</width>
-             <height>50</height>
+             <width>32</width>
+             <height>32</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="icon">
             <iconset resource="../../resources/resources.qrc">
@@ -529,8 +529,8 @@
            </property>
            <property name="iconSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
           </widget>
@@ -547,7 +547,7 @@
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="placeholderText">
             <string>insert epsg code</string>
@@ -586,7 +586,7 @@
             <item row="4" column="0">
              <widget class="QLabel" name="label_32">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-size:10pt;"&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>password</string>
@@ -615,7 +615,7 @@
                <iconset resource="../../resources/resources.qrc">
                 <normaloff>:/icons/install_db.png</normaloff>:/icons/install_db.png</iconset>
               </property>
-             </widget>
+             <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
             </item>
             <item row="5" column="0">
              <widget class="QLabel" name="label_8">
@@ -627,7 +627,7 @@
             <item row="3" column="0">
              <widget class="QLabel" name="label_31">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-size:10pt;"&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>user</string>
@@ -635,12 +635,12 @@
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QgsProjectionSelectionWidget" name="selectorCrsWidget"/>
+             <widget class="QgsProjectionSelectionWidget" name="selectorCrsWidget" />
             </item>
             <item row="4" column="1">
              <widget class="QLineEdit" name="lineEdit_db_passwd">
               <property name="text">
-               <string/>
+               <string />
               </property>
               <property name="echoMode">
                <enum>QLineEdit::Password</enum>
@@ -653,7 +653,7 @@
             <item row="2" column="0">
              <widget class="QLabel" name="label_15">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-size:10pt;"&gt;puoi inserire il numero di porta differente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>port</string>
@@ -692,7 +692,7 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label_12">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Puoi inserire un nome differente da quello presente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-size:10pt;"&gt;Puoi inserire un nome differente da quello presente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>db name</string>
@@ -742,7 +742,7 @@
           <item row="0" column="0">
            <layout class="QGridLayout" name="gridLayout_5">
             <item row="1" column="1">
-             <widget class="QgsProjectionSelectionWidget" name="selectorCrsWidget_sl"/>
+             <widget class="QgsProjectionSelectionWidget" name="selectorCrsWidget_sl" />
             </item>
             <item row="0" column="3">
              <widget class="QPushButton" name="pushButton_crea_database_sl">
@@ -756,7 +756,7 @@
                <iconset resource="../../resources/resources.qrc">
                 <normaloff>:/icons/install_db.png</normaloff>:/icons/install_db.png</iconset>
               </property>
-             </widget>
+             <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
             </item>
             <item row="0" column="1">
              <widget class="QLineEdit" name="lineEdit_dbname_sl">
@@ -780,7 +780,7 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label_14">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Puoi inserire un nome differente da quello presente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-size:10pt;"&gt;Puoi inserire un nome differente da quello presente&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>name db</string>
@@ -1007,13 +1007,6 @@
            <property name="enabled">
             <bool>true</bool>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="text">
             <string>Import Geometry</string>
            </property>
@@ -1021,7 +1014,7 @@
             <iconset resource="../../resources/resources.qrc">
              <normaloff>:/icons/insert_geometry.png</normaloff>:/icons/insert_geometry.png</iconset>
            </property>
-          </widget>
+          <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
          </item>
          <item row="21" column="2">
           <spacer name="verticalSpacer">
@@ -1038,13 +1031,6 @@
          </item>
          <item row="19" column="8">
           <widget class="QPushButton" name="pushButton_import">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="text">
             <string>Import Table</string>
            </property>
@@ -1052,18 +1038,10 @@
             <iconset resource="../../resources/resources.qrc">
              <normaloff>:/icons/GIS.png</normaloff>:/icons/GIS.png</iconset>
            </property>
-          </widget>
+          <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
          </item>
          <item row="12" column="0" colspan="3">
           <widget class="QLabel" name="label_61">
-           <property name="font">
-            <font>
-             <pointsize>15</pointsize>
-             <weight>75</weight>
-             <italic>true</italic>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="text">
             <string>TO</string>
            </property>
@@ -1071,13 +1049,6 @@
          </item>
          <item row="0" column="0" colspan="3">
           <widget class="QLabel" name="label_59">
-           <property name="font">
-            <font>
-             <pointsize>14</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="text">
             <string>Data import</string>
            </property>
@@ -1091,18 +1062,10 @@
           </widget>
          </item>
          <item row="4" column="8">
-          <widget class="QLineEdit" name="lineEdit_field_rd"/>
+          <widget class="QLineEdit" name="lineEdit_field_rd" />
          </item>
          <item row="1" column="0" colspan="3">
           <widget class="QLabel" name="label_60">
-           <property name="font">
-            <font>
-             <pointsize>15</pointsize>
-             <weight>75</weight>
-             <italic>true</italic>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="text">
             <string>FROM</string>
            </property>
@@ -1136,7 +1099,7 @@
           </widget>
          </item>
          <item row="5" column="8">
-          <widget class="QLineEdit" name="lineEdit_value_rd"/>
+          <widget class="QLineEdit" name="lineEdit_value_rd" />
          </item>
          <item row="2" column="1">
           <widget class="QCheckBox" name="checkBox_replace">
@@ -1190,34 +1153,34 @@
          <item row="15" column="1" colspan="2">
           <widget class="QLineEdit" name="lineEdit_database_wt">
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="placeholderText">
-            <string/>
+            <string />
            </property>
           </widget>
          </item>
          <item row="5" column="1" colspan="2">
           <widget class="QLineEdit" name="lineEdit_database_rd">
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="placeholderText">
-            <string/>
+            <string />
            </property>
           </widget>
          </item>
          <item row="4" column="1" colspan="2">
           <widget class="QLineEdit" name="lineEdit_host_rd">
            <property name="text">
-            <string/>
+            <string />
            </property>
           </widget>
          </item>
          <item row="6" column="1" colspan="2">
           <widget class="QLineEdit" name="lineEdit_port_rd">
            <property name="text">
-            <string/>
+            <string />
            </property>
           </widget>
          </item>
@@ -1231,18 +1194,18 @@
          <item row="10" column="1" colspan="2">
           <widget class="QLineEdit" name="lineEdit_username_rd">
            <property name="text">
-            <string/>
+            <string />
            </property>
           </widget>
          </item>
          <item row="14" column="1" colspan="2">
-          <widget class="QLineEdit" name="lineEdit_host_wt"/>
+          <widget class="QLineEdit" name="lineEdit_host_wt" />
          </item>
          <item row="16" column="1" colspan="2">
-          <widget class="QLineEdit" name="lineEdit_port_wt"/>
+          <widget class="QLineEdit" name="lineEdit_port_wt" />
          </item>
          <item row="17" column="1" colspan="2">
-          <widget class="QLineEdit" name="lineEdit_username_wt"/>
+          <widget class="QLineEdit" name="lineEdit_username_wt" />
          </item>
          <item row="18" column="1" colspan="2">
           <widget class="QgsPasswordLineEdit" name="lineEdit_pass_wt">
@@ -1457,15 +1420,6 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="font">
-          <font>
-           <family>MS Shell Dlg 2</family>
-           <weight>50</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-           <kerning>true</kerning>
-          </font>
-         </property>
          <property name="layoutDirection">
           <enum>Qt::LeftToRight</enum>
          </property>
@@ -1504,19 +1458,8 @@
                    <height>20</height>
                   </size>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>MS Shell Dlg 2</family>
-                   <pointsize>10</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                   <underline>true</underline>
-                   <kerning>true</kerning>
-                  </font>
-                 </property>
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=n1725UcbFWQ&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Video Tutorial&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=n1725UcbFWQ"&gt;&lt;span style=" text-decoration: underline; color:#0000ff;"&gt;Video Tutorial&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="openExternalLinks">
                   <bool>true</bool>
@@ -1537,19 +1480,8 @@
                    <height>20</height>
                   </size>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>MS Shell Dlg 2</family>
-                   <pointsize>10</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                   <underline>true</underline>
-                   <kerning>true</kerning>
-                  </font>
-                 </property>
                  <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;a href=&quot;https://www.facebook.com/UnaQuantumInc&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;unaquantum&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="right"&gt;&lt;a href="https://www.facebook.com/UnaQuantumInc"&gt;&lt;span style=" text-decoration: underline; color:#0000ff;"&gt;unaquantum&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="margin">
                   <number>0</number>
@@ -1571,15 +1503,6 @@
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>8514oem</family>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                 <kerning>true</kerning>
-                </font>
                </property>
                <property name="url" stdset="0">
                 <url>
@@ -1610,16 +1533,6 @@
                  <width>16777215</width>
                  <height>5</height>
                 </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>17</pointsize>
-                 <weight>75</weight>
-                 <italic>false</italic>
-                 <bold>true</bold>
-                 <kerning>true</kerning>
-                </font>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -1706,7 +1619,7 @@
           </widget>
          </item>
          <item row="7" column="2" colspan="2">
-          <widget class="QListWidget" name="listWidget"/>
+          <widget class="QListWidget" name="listWidget" />
          </item>
          <item row="8" column="2">
           <widget class="QLabel" name="label_39">
@@ -1735,7 +1648,7 @@
           </widget>
          </item>
          <item row="1" column="2">
-          <widget class="QLineEdit" name="lineEdit_user"/>
+          <widget class="QLineEdit" name="lineEdit_user" />
          </item>
          <item row="2" column="1">
           <widget class="QLabel" name="label_34">
@@ -1869,7 +1782,7 @@
   <tabstop>lineEdit_User</tabstop>
  </tabstops>
  <resources>
-  <include location="../../resources/resources.qrc"/>
+  <include location="../../resources/resources.qrc" />
  </resources>
  <connections>
   <connection>

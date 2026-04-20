@@ -51,7 +51,7 @@ class ReportGenerator(QWidget):
     @staticmethod
     def read_data_from_db(db_url, table_name):
         engine = create_engine(db_url)
-        metadata = MetaData(bind=engine)
+        metadata = MetaData()
         table = Table(table_name, metadata, autoload_with=engine)
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -64,13 +64,13 @@ class ReportGenerator(QWidget):
     @staticmethod
     def read_data_from_db_description_only(db_url, table_name):
         engine = create_engine(db_url)
-        metadata = MetaData(bind=engine)
+        metadata = MetaData()
         table = Table(table_name, metadata, autoload_with=engine)
         Session = sessionmaker(bind=engine)
         session = Session()
 
         # Adjust the query to only select the 'description' column
-        query = select([table.c.description_i])
+        query = select(table.c.description_i)
         result_proxy = session.execute(query)
         records = result_proxy.fetchall()  # This will be a list of tuples with one element each
 

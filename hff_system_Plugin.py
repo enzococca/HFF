@@ -29,7 +29,7 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu, QComboBox, QLabel
 from qgis.core import QgsApplication, QgsSettings
 
-from hff_system_DockWidget import HffPluginDialog
+from .hff_system_DockWidget import HffPluginDialog
 from .tabs.Eamena import Eamena
 
 from .tabs.hff_system__Shipwreck import hff_system__Shipwreck
@@ -133,6 +133,7 @@ class HffPlugin_s(object):
         # TOOLBAR
         self.toolBar = self.iface.addToolBar("HFF")
         self.toolBar.setObjectName("HFF")
+        self.toolBar.setIconSize(QSize(24, 24))
         self.toolBar.addAction(self.action)
 
         self.dataToolButton = QToolButton(self.toolBar)
@@ -411,7 +412,11 @@ class HffPlugin_s(object):
                               self.actionRemoteStorage, self.actionUserManagement, self.actionTutorial, self.actionInfo])
         menuBar = self.iface.mainWindow().menuBar()
         menuBar.addMenu(self.menu)
-    
+
+        # Force uniform icon size on every QToolButton in the HFF toolbar
+        for btn in self.toolBar.findChildren(QToolButton):
+            btn.setIconSize(QSize(24, 24))
+
     ##
     def runSite(self):
         pluginGui = hff_system__Site(self.iface)

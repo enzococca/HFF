@@ -949,9 +949,8 @@ class Hff_db_management(object):
         stringa = create.read()
         create.close()
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
-        session.begin()
         session.execute(text(stringa))
         session.commit()
         session.close()
@@ -964,9 +963,8 @@ class Hff_db_management(object):
         stringa = create.read()
         create.close()
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
-        session.begin()
         session.execute(text(stringa))
         session.commit()
         session.close()
@@ -977,7 +975,7 @@ class Hff_db_management(object):
     def query(self, n):
         class_name = eval(n)
         # engine = self.connection()
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
         query = session.query(class_name)
         res = query.all()
@@ -1016,7 +1014,7 @@ class Hff_db_management(object):
         #field_value_string = ", ".join([table + ".%s.like(%s)" % (k, v) for k, v in params.items()])
         """
         # self.connection()
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
         query_str = "session.query(" + table + ").filter(and_(" + field_value_string + ")).all()"
         res = eval(query_str)
@@ -1042,7 +1040,7 @@ class Hff_db_management(object):
         query_str = "session.query(" + table + ").filter(and_(" + field_value_string + ")).all()"
 
         # self.connection()
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
         session.close()
         return eval(query_str)
@@ -1068,7 +1066,7 @@ class Hff_db_management(object):
 
         query_cmd = "session.query(" + distinct_string + ").filter(and_(" + query_string + ")).distinct().order_by(" + distinct_string + ")"
         # self.connection()
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
         session.close()
         return eval(query_cmd)
@@ -1158,7 +1156,7 @@ class Hff_db_management(object):
 
         u.add_item_to_dict(changes_dict, list(zip(self.columns_name_list, update_value_list)))
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
         # session.query(SITE).filter(and_(SITE.id_sito == '1')).update(values = {SITE.sito:"updatetest"})
 
@@ -1177,7 +1175,7 @@ class Hff_db_management(object):
         self.value_id = value_id
         self.find_check_value = find_check_value
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
 
         session_exec_str = 'session.query(%s).filter(%s.%s == %s)).update(values = {"find_check": %d})' % (
@@ -1189,12 +1187,13 @@ class Hff_db_management(object):
         self.table_class_str = table_class_str
         self.find_check_value = find_check_value
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
 
-        session_exec_str = 'session.query(%s).update(values = {"find_check": %d})' % (self.table_class_str, 0)
+        session_exec_str = 'session.query(%s).update({"find_check": %d})' % (self.table_class_str, 0)
 
         eval(session_exec_str)
+        session.commit()
         session.close()
     def delete_one_record(self, tn, id_col, id_rec):
 
@@ -1211,7 +1210,7 @@ class Hff_db_management(object):
         self.table_class = tc
         self.field_id = f
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
         try:
             exec_str = "session.query(func.max({}.{}))".format(self.table_class, self.field_id)
@@ -1229,7 +1228,7 @@ class Hff_db_management(object):
             return int(res_max_num_id)
         
     def dir_query(self):
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
 
         # session.query(SITE).filter(SITE.id_sito == '1').update(values = {SITE.sito:"updatetest"})
@@ -1251,7 +1250,7 @@ class Hff_db_management(object):
             return [c.name for c in table.columns][int(s)]
 
     # def query_in_idus(self, id_list):
-        # Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        # Session = sessionmaker(bind=self.engine, autoflush=True)
         # session = Session()
         # res = session.query(US).filter(US.id_us.in_(id_list)).all()
 
@@ -1275,7 +1274,7 @@ class Hff_db_management(object):
 
             filter_params = filter_params + ", " + filter_temp
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
 
         cmd_str = "session.query({0}).filter({0}.{1}.in_(id_list)).order_by({2}).all()".format(self.table_class,
@@ -1317,9 +1316,9 @@ class Hff_db_management(object):
         self.field_name = fn
         self.table_class = CD
 
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
-        s = eval('select([{0}.{1}]).group_by({0}.{1})'.format(self.table_class, self.field_name))
+        s = eval('select({0}.{1}).group_by({0}.{1})'.format(self.table_class, self.field_name))
         session.close()
         with self.engine.connect() as conn:
             return conn.execute(s).fetchall()
@@ -1328,7 +1327,7 @@ class Hff_db_management(object):
         self.c = c
         self.v = v
         # self.connection()
-        Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
 
         string = ('%s%s%s%s%s') % ('session.query(PERIODIZZAZIONE).filter_by(', self.c, "='", self.v, "')")
@@ -1615,7 +1614,7 @@ class Hff_db_management(object):
     # def query_in_contains(self, value_list, sitof, areaf):
         # self.value_list = value_list
 
-        # Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        # Session = sessionmaker(bind=self.engine, autoflush=True)
         # session = Session()
 
         # res_list = []
@@ -1652,7 +1651,7 @@ class Hff_db_management(object):
     # def select_not_like_from_db_sql(self, sitof, areaf):
         # # NB per funzionare con postgres è necessario che al posto di " ci sia '
         # l=QgsSettings().value("locale/userLocale")[0:2]
-        # Session = sessionmaker(bind=self.engine, autoflush=True, autocommit=True)
+        # Session = sessionmaker(bind=self.engine, autoflush=True)
         # session = Session()
         
         # if l=='it':

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <ui version="4.0">
  <author>Enzo Cocca</author>
  <class>DialogART</class>
@@ -34,7 +34,7 @@
     <normaloff>:/icons/radar.png</normaloff>:/icons/radar.png</iconset>
   </property>
   <property name="locale">
-   <locale language="English" country="UnitedKingdom"/>
+   <locale language="English" country="UnitedKingdom" />
   </property>
   <property name="inputMethodHints">
    <set>Qt::ImhNone</set>
@@ -50,19 +50,11 @@
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="0">
       <widget class="QLabel" name="label_29">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;DBMS Toolbar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-size:18pt; font-weight:600;"&gt;DBMS Toolbar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -95,14 +87,6 @@
         </property>
         <item row="0" column="0">
          <widget class="QLabel" name="label_42">
-          <property name="font">
-           <font>
-            <family>Times New Roman</family>
-            <pointsize>13</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
           <property name="autoFillBackground">
            <bool>true</bool>
           </property>
@@ -121,14 +105,6 @@
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="1">
           <widget class="QLabel" name="label_43">
-           <property name="font">
-            <font>
-             <family>Times New Roman</family>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Panel</enum>
            </property>
@@ -142,14 +118,6 @@
          </item>
          <item row="1" column="1">
           <widget class="QLabel" name="label_sort">
-           <property name="font">
-            <font>
-             <family>Times New Roman</family>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="cursor">
             <cursorShape>ForbiddenCursor</cursorShape>
            </property>
@@ -166,7 +134,7 @@
             <enum>QFrame::Sunken</enum>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -178,14 +146,6 @@
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_34">
-           <property name="font">
-            <font>
-             <family>Times New Roman</family>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Panel</enum>
            </property>
@@ -205,14 +165,6 @@
              <height>0</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <family>Times New Roman</family>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="cursor">
             <cursorShape>ForbiddenCursor</cursorShape>
            </property>
@@ -229,7 +181,7 @@
             <enum>QFrame::Sunken</enum>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -245,12 +197,6 @@
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="1">
           <widget class="QLabel" name="label_rec_corrente">
-           <property name="font">
-            <font>
-             <family>Microsoft Sans Serif</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
            <property name="cursor">
             <cursorShape>ForbiddenCursor</cursorShape>
            </property>
@@ -273,14 +219,6 @@
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_27">
-           <property name="font">
-            <font>
-             <family>Times New Roman</family>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Panel</enum>
            </property>
@@ -294,12 +232,6 @@
          </item>
          <item row="1" column="1">
           <widget class="QLabel" name="label_rec_tot">
-           <property name="font">
-            <font>
-             <family>Microsoft Sans Serif</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
            <property name="cursor">
             <cursorShape>ForbiddenCursor</cursorShape>
            </property>
@@ -322,14 +254,6 @@
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_28">
-           <property name="font">
-            <font>
-             <family>Times New Roman</family>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Panel</enum>
            </property>
@@ -355,27 +279,21 @@
         <widget class="QPushButton" name="pushButton_sort">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Order by</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="3">
         <widget class="QToolButton" name="toolButtonGis_2">
@@ -387,12 +305,12 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="toolTip">
-          <string/>
+          <string />
          </property>
          <property name="text">
           <string>GIS View </string>
@@ -416,99 +334,81 @@
          <property name="arrowType">
           <enum>Qt::NoArrow</enum>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="6">
         <widget class="QPushButton" name="pushButton_new_rec">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>New record</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="5">
         <widget class="QPushButton" name="pushButton_search_go">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>search !!!</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="5">
         <widget class="QPushButton" name="pushButton_last_rec">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="toolTip">
           <string>Last rec</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="7">
         <widget class="QPushButton" name="pushButton_save">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Save</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
@@ -517,53 +417,41 @@
          <property name="autoDefault">
           <bool>false</bool>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="4">
         <widget class="QPushButton" name="pushButton_new_search">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>new search</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="2">
         <widget class="QPushButton" name="pushButton_delete">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>Delete record</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
@@ -572,73 +460,67 @@
          <property name="flat">
           <bool>false</bool>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="3">
         <widget class="QPushButton" name="pushButton_prev_rec">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="toolTip">
           <string>Prev rec</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="4">
         <widget class="QPushButton" name="pushButton_next_rec">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="toolTip">
           <string>Next rec</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="7">
         <widget class="QPushButton" name="pushButton_view_all">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string>View alls records</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="pushButton_first_rec">
@@ -650,61 +532,49 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="toolTip">
           <string>First rec</string>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="2">
         <widget class="QPushButton" name="pushButton_form">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>8</pointsize>
-          </font>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="4">
         <widget class="QToolButton" name="toolButtonPreviewMedia">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
          <property name="toolTip">
-          <string/>
+          <string />
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
@@ -725,58 +595,52 @@
          <property name="arrowType">
           <enum>Qt::NoArrow</enum>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="6">
         <widget class="QPushButton" name="pushButton_word">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/word.png</normaloff>:/icons/word.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="3">
         <widget class="QPushButton" name="pushButton_open_dir">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="5">
         <widget class="QPushButton" name="pushButton_list">
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/sheet.png</normaloff>:/icons/sheet.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="2" column="7">
         <widget class="QPushButton" name="pushButton_connect">
@@ -801,18 +665,10 @@
    <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout_6">
      <item row="1" column="11">
-      <widget class="QLineEdit" name="lineEdit_date"/>
+      <widget class="QLineEdit" name="lineEdit_date" />
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_39">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -826,14 +682,6 @@
      </item>
      <item row="1" column="6">
       <widget class="QLabel" name="label_10">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -847,14 +695,6 @@
      </item>
      <item row="1" column="2">
       <widget class="QLabel" name="label_40">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -868,14 +708,6 @@
      </item>
      <item row="1" column="4">
       <widget class="QLabel" name="label_21">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -900,7 +732,7 @@
        </property>
        <item>
         <property name="text">
-         <string/>
+         <string />
         </property>
        </item>
        <item>
@@ -937,14 +769,6 @@
      </item>
      <item row="1" column="10">
       <widget class="QLabel" name="label_6">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -958,14 +782,6 @@
      </item>
      <item row="1" column="8">
       <widget class="QLabel" name="label_9">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="frameShape">
         <enum>QFrame::WinPanel</enum>
        </property>
@@ -1025,14 +841,6 @@
      </item>
      <item row="0" column="8">
       <widget class="QPushButton" name="pushButton_filter_uw">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Filter</string>
        </property>
@@ -1040,14 +848,6 @@
      </item>
      <item row="0" column="9">
       <widget class="QPushButton" name="pushButton_report_generator">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>13</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>Report</string>
        </property>
@@ -1057,19 +857,11 @@
    </item>
    <item row="2" column="0">
     <widget class="QTabWidget" name="tabWidget">
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>10</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="toolTip">
-      <string/>
+      <string />
      </property>
      <property name="locale">
-      <locale language="English" country="UnitedKingdom"/>
+      <locale language="English" country="UnitedKingdom" />
      </property>
      <property name="inputMethodHints">
       <set>Qt::ImhNone</set>
@@ -1130,14 +922,6 @@
        </item>
        <item row="12" column="0" colspan="6">
         <widget class="QTextEdit" name="textEdit_description">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>12</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
          <property name="frameShape">
           <enum>QFrame::WinPanel</enum>
          </property>
@@ -1174,7 +958,7 @@
         </widget>
        </item>
        <item row="8" column="1" colspan="2">
-        <widget class="QLineEdit" name="lineEdit_lmax"/>
+        <widget class="QLineEdit" name="lineEdit_lmax" />
        </item>
        <item row="0" column="6">
         <widget class="QPushButton" name="pushButton_all_images">
@@ -1186,15 +970,15 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>20</width>
-           <height>20</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/photo2.png</normaloff>:/icons/photo2.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="1" column="0" colspan="2">
         <widget class="QComboBox" name="comboBox_material">
@@ -1242,20 +1026,20 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>20</width>
-           <height>20</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/remove_tag.png</normaloff>:/icons/remove_tag.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="10" column="1" colspan="3">
         <widget class="QLineEdit" name="lineEdit_depth">
          <property name="text">
-          <string/>
+          <string />
          </property>
         </widget>
        </item>
@@ -1283,7 +1067,7 @@
         </widget>
        </item>
        <item row="7" column="3" colspan="2">
-        <widget class="QLineEdit" name="lineEdit_wmin"/>
+        <widget class="QLineEdit" name="lineEdit_wmin" />
        </item>
        <item row="0" column="5">
         <widget class="QLabel" name="label_12">
@@ -1322,21 +1106,21 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>20</width>
-           <height>20</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="text">
-          <string/>
+          <string />
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
            <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
          </property>
-        </widget>
+        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
        </item>
        <item row="7" column="5">
-        <widget class="QLineEdit" name="lineEdit_tmin"/>
+        <widget class="QLineEdit" name="lineEdit_tmin" />
        </item>
        <item row="3" column="0" colspan="2">
         <widget class="QComboBox" name="comboBox_obj">
@@ -1353,7 +1137,7 @@
         </widget>
        </item>
        <item row="8" column="3" colspan="2">
-        <widget class="QLineEdit" name="lineEdit_wmax"/>
+        <widget class="QLineEdit" name="lineEdit_wmax" />
        </item>
        <item row="0" column="2" colspan="3">
         <widget class="QLabel" name="label_13">
@@ -1368,7 +1152,7 @@
        <item row="10" column="4" colspan="2">
         <widget class="QLineEdit" name="lineEdit_tool_markings">
          <property name="text">
-          <string/>
+          <string />
          </property>
         </widget>
        </item>
@@ -1448,10 +1232,10 @@
         </widget>
        </item>
        <item row="7" column="1" colspan="2">
-        <widget class="QLineEdit" name="lineEdit_lmin"/>
+        <widget class="QLineEdit" name="lineEdit_lmin" />
        </item>
        <item row="8" column="5">
-        <widget class="QLineEdit" name="lineEdit_tmax"/>
+        <widget class="QLineEdit" name="lineEdit_tmax" />
        </item>
        <item row="1" column="6" rowspan="12" colspan="4">
         <widget class="QListWidget" name="iconListWidget">
@@ -1554,15 +1338,6 @@
          <height>782</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="currentIndex">
         <number>1</number>
        </property>
@@ -1582,15 +1357,6 @@
            </item>
            <item row="0" column="1">
             <widget class="QPushButton" name="pushButton_insert_row_rif_biblio">
-             <property name="font">
-              <font>
-               <family>MS Shell Dlg 2</family>
-               <pointsize>10</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="text">
               <string>Insert row</string>
              </property>
@@ -1598,15 +1364,6 @@
            </item>
            <item row="0" column="2">
             <widget class="QPushButton" name="pushButton_remove_row_rif_biblio">
-             <property name="font">
-              <font>
-               <family>MS Shell Dlg 2</family>
-               <pointsize>10</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="text">
               <string>Delete row</string>
              </property>
@@ -1614,15 +1371,6 @@
            </item>
            <item row="1" column="0" colspan="3">
             <widget class="QTableWidget" name="tableWidget_rif_biblio">
-             <property name="font">
-              <font>
-               <family>MS Shell Dlg 2</family>
-               <pointsize>10</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255);</string>
              </property>
@@ -1653,7 +1401,7 @@
              <property name="columnCount">
               <number>5</number>
              </property>
-             <row/>
+             <row />
              <column>
               <property name="text">
                <string>Author</string>
@@ -1696,15 +1444,6 @@
             <layout class="QGridLayout" name="gridLayout_31">
              <item row="1" column="0">
               <widget class="QLabel" name="label_55">
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Store</string>
                </property>
@@ -1712,20 +1451,11 @@
              </item>
              <item row="1" column="1">
               <widget class="QLineEdit" name="lineEdit_storage_">
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(255, 255, 255);</string>
                </property>
                <property name="text">
-                <string/>
+                <string />
                </property>
               </widget>
              </item>
@@ -1735,15 +1465,6 @@
             <layout class="QGridLayout" name="gridLayout_30">
              <item row="2" column="1">
               <widget class="QLabel" name="label_54">
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Nr. Box</string>
                </property>
@@ -1751,20 +1472,11 @@
              </item>
              <item row="2" column="2">
               <widget class="QLineEdit" name="lineEdit_box">
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(255, 255, 255);</string>
                </property>
                <property name="text">
-                <string/>
+                <string />
                </property>
               </widget>
              </item>
@@ -1801,22 +1513,13 @@
                </item>
                <item>
                 <property name="text">
-                 <string/>
+                 <string />
                 </property>
                </item>
               </widget>
              </item>
              <item row="1" column="1">
               <widget class="QLabel" name="label_56">
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Washed</string>
                </property>
@@ -1828,15 +1531,6 @@
             <layout class="QGridLayout" name="gridLayout_29">
              <item row="0" column="0">
               <widget class="QLabel" name="label_57">
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Storage</string>
                </property>
@@ -1893,7 +1587,7 @@
               <bool>true</bool>
              </property>
              <property name="text">
-              <string/>
+              <string />
              </property>
              <property name="placeholderText">
               <string>choose the pdf convert to word</string>
@@ -1922,13 +1616,13 @@
               </rect>
              </property>
              <property name="text">
-              <string/>
+              <string />
              </property>
              <property name="icon">
               <iconset resource="../../resources/resources.qrc">
                <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
              </property>
-            </widget>
+            <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
             <widget class="QLabel" name="label_58">
              <property name="geometry">
               <rect>
@@ -1980,7 +1674,7 @@
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &amp;quot;0&amp;quot; is the first page to convert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="inputMask">
-              <string extracomment="Lo&quot;0&quot; indica la prima pagina"/>
+              <string extracomment="Lo&quot;0&quot; indica la prima pagina" />
              </property>
              <property name="text">
               <string>0</string>
@@ -2074,14 +1768,14 @@
                 <widget class="QPushButton" name="pushButton_print">
                  <property name="minimumSize">
                   <size>
-                   <width>0</width>
-                   <height>0</height>
+                   <width>32</width>
+                   <height>32</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>120</width>
-                   <height>20</height>
+                   <width>32</width>
+                   <height>32</height>
                   </size>
                  </property>
                  <property name="text">
@@ -2093,8 +1787,8 @@
                  </property>
                  <property name="iconSize">
                   <size>
-                   <width>10</width>
-                   <height>10</height>
+                   <width>24</width>
+                   <height>24</height>
                   </size>
                  </property>
                 </widget>
@@ -2209,15 +1903,6 @@
                    <height>16777215</height>
                   </size>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>MS Shell Dlg 2</family>
-                   <pointsize>10</pointsize>
-                   <weight>75</weight>
-                   <italic>false</italic>
-                   <bold>true</bold>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;save record after chanched&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
@@ -2255,15 +1940,6 @@
                    <width>100</width>
                    <height>16777215</height>
                   </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>MS Shell Dlg 2</family>
-                   <pointsize>10</pointsize>
-                   <weight>75</weight>
-                   <italic>false</italic>
-                   <bold>true</bold>
-                  </font>
                  </property>
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;rollback the changed&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2351,15 +2027,6 @@
          <height>581</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
        <property name="currentIndex">
         <number>0</number>
        </property>
@@ -2414,14 +2081,6 @@
       <layout class="QGridLayout" name="gridLayout_stats">
        <item row="0" column="0">
         <widget class="QLabel" name="label_stats_field">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
          <property name="text">
           <string>Field</string>
          </property>
@@ -2442,14 +2101,6 @@
        </item>
        <item row="0" column="2">
         <widget class="QLabel" name="label_stats_type">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
          <property name="text">
           <string>Chart Type</string>
          </property>
@@ -2486,14 +2137,6 @@
            <height>0</height>
           </size>
          </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
          <property name="text">
           <string>Generate</string>
          </property>
@@ -2506,14 +2149,6 @@
            <width>100</width>
            <height>0</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
          </property>
          <property name="text">
           <string>Export CSV</string>
@@ -2573,7 +2208,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../resources/resources.qrc"/>
+  <include location="../../resources/resources.qrc" />
  </resources>
  <connections>
   <connection>

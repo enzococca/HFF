@@ -32,7 +32,7 @@ class Shipwreck_table(object):
 
 
 
-    engine = create_engine(internal_connection.conn_str(), echo=True, convert_unicode=True)
+    engine = create_engine(internal_connection.conn_str(), echo=True)
 
     metadata = MetaData()
 
