@@ -65,6 +65,8 @@ class VideoPlayerWindow(QMainWindow):
         main_layout.addLayout(button_layout)
 
         self.cap = None
+        self.fps = 0
+        self.total_frames = 0
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
         self.is_playing = False
@@ -77,13 +79,17 @@ class VideoPlayerWindow(QMainWindow):
 
 
     def set_video(self, file_path):
-        self.cap = cv2.VideoCapture(file_path)
-        if not self.cap.isOpened():
+        cap = cv2.VideoCapture(file_path)
+        if not cap.isOpened():
             print(f"Error: Could not open video file {file_path}")
+            cap.release()
+            self.cap = None
             return
 
+        self.cap = cap
         self.total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        self.fps = self.cap.get(cv2.CAP_PROP_FPS)
+        fps = self.cap.get(cv2.CAP_PROP_FPS)
+        self.fps = fps if fps and fps > 0 else 25.0
         self.slider.setRange(0, self.total_frames - 1)
         self.update_time_label()
 
@@ -97,7 +103,7 @@ class VideoPlayerWindow(QMainWindow):
         self.display_frame(self.get_frame(0))
 
     def play_pause(self):
-        if self.cap is None:
+        if self.cap is None or not self.fps:
             return
 
         if self.is_playing:

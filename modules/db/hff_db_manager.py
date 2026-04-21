@@ -1167,8 +1167,14 @@ class Hff_db_management(object):
         # f.write(str(session_exec_str))
         # f.close()
 
-        eval(session_exec_str)
-        session.close()
+        try:
+            eval(session_exec_str)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()
     def update_find_check(self, table_class_str, id_table_str, value_id, find_check_value):
         self.table_class_str = table_class_str
         self.id_table_str = id_table_str
@@ -1181,8 +1187,14 @@ class Hff_db_management(object):
         session_exec_str = 'session.query(%s).filter(%s.%s == %s)).update(values = {"find_check": %d})' % (
         self.table_class_str, self.table_class_str, self.id_table_str, self.value_id, find_check_value)
 
-        eval(session_exec_str)
-        session.close()
+        try:
+            eval(session_exec_str)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()
     def empty_find_check(self, table_class_str, find_check_value):
         self.table_class_str = table_class_str
         self.find_check_value = find_check_value

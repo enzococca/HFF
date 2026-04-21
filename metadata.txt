@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=10.3
+version=10.4
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,12 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=10.3:
+changelog=10.4:
+    - Fix UPDATE not persisting: add session.commit() in Hff_db_management.update() and update_find_check() (SQLAlchemy 2.0 regression from 10.3)
+    - Fix media preview empty in Dive log tab: add biblio/storage_ columns to UW_table, ANC_table, Shipwreck_table mappers (were missing after silent ALTER TABLE migration) and guard tableInsertData against eval('') on empty biblio
+    - Fix VideoPlayer AttributeError 'fps': initialize fps/total_frames in __init__, reset self.cap on failed open, fallback to 25 fps when OpenCV can't read FPS; applied to all 8 VideoPlayer variants
+    - Remove dead self.loadMedialist() call in UW fill_fields (method commented since initial commit) and surface fill_fields errors via print instead of silent pass
+    10.3:
     - SQLAlchemy 2.0 compatibility: remove convert_unicode, autocommit, session.begin(), select([...]) list form, MetaData(bind=), engine.execute(), Query.update(values=)
     - Replace orm.mapper() with registry.map_imperatively() (SQLAlchemy 2.0)
     - Harmonize fonts across all .ui forms (widgets inherit QGIS app font)

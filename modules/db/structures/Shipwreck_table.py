@@ -81,9 +81,11 @@ class Shipwreck_table(object):
                         Column('description', Text), 
                         Column('history', Text), 
                         Column('list', Text), 
-                        Column('name', String(10)), 
+                        Column('name', String(10)),
                         Column('status', String(255)),
-                        
+                        Column('biblio', Text, default=''),
+                        Column('storage_', Text, default=''),
+
                        # explicit/composite unique constraint.  'name' is optional.
 
                        UniqueConstraint('code_id', name='ID_code_id_unico')

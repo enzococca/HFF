@@ -3582,17 +3582,17 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             str(self.lineEdit_dp_2.setText(self.DATA_LIST[self.rec_num].dp_diver2))
             
             # Fill bibliography table
-            self.tableInsertData("self.tableWidget_rif_biblio", self.DATA_LIST[self.rec_num].biblio)
-            
+            if self.DATA_LIST[self.rec_num].biblio:
+                self.tableInsertData("self.tableWidget_rif_biblio", self.DATA_LIST[self.rec_num].biblio)
+
             # Fill storage field
             if self.DATA_LIST[self.rec_num].storage_:
                 self.lineEdit_storage_.setText(str(self.DATA_LIST[self.rec_num].storage_))
             if self.toolButtonPreviewMedia.isChecked() == True:
                 self.loadMediaPreview()
                 self.loadMediaPreview_2()
-                self.loadMedialist()
-        except :
-            pass
+        except Exception as e:
+            print("fill_fields error:", e)
             
     def generate_list_pdf(self):
         data_list = []

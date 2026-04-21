@@ -145,7 +145,11 @@ class ANC_table(object):
     
     Column('qty', Integer),
 
-    UniqueConstraint('anchors_id', name='ANCHORS_id_unico')	
+	Column('biblio', Text, default=''),
+
+	Column('storage_', Text, default=''),
+
+    UniqueConstraint('anchors_id', name='ANCHORS_id_unico')
 
 	)
 	metadata.create_all(engine)

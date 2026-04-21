@@ -114,9 +114,13 @@ class UW_table(object):
                
                 Column('dp_diver2', String(255)),
 
+                Column('biblio', Text, default=''),
+
+                Column('storage_', Text, default=''),
+
                 # explicit/composite unique constraint.  'name' is optional.
 
-                UniqueConstraint('divelog_id', 'years','site', name='DIVELOG_id_unico')  
+                UniqueConstraint('divelog_id', 'years','site', name='DIVELOG_id_unico')
 
                 )
 
