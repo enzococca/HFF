@@ -29,7 +29,7 @@ from qgis.PyQt.QtCore import QObject, QThread, pyqtSignal
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import (QCheckBox, QDialog, QHeaderView, QLabel,
                                  QProgressBar, QPushButton, QTableWidget,
-                                 QTableWidgetItem, QVBoxLayout)
+                                 QTableWidgetItem, QTextEdit, QVBoxLayout)
 from qgis.core import QgsSettings
 
 from .modules.utility.hff_system__folder_installation import hff_system__Folder_installation
@@ -164,7 +164,7 @@ class PackageManager:
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, shell=True)
 
         elif platform.system() == 'Darwin':
-            # On macOS, install to QGIS site-packages using --target
+            # On macOS, install to QGIS site-packages using --target.
             installed = False
             last_error = None
             python_version = f"{sys.version_info.major}.{sys.version_info.minor}"
@@ -172,24 +172,32 @@ class PackageManager:
             for qgis_type in ['standard', 'ltr']:
                 qgis_base = QGIS_PATHS[qgis_type]
                 qgis_python = os.path.join(qgis_base, 'bin', 'python3')
-                qgis_site_packages = os.path.join(qgis_base, 'lib', f'python{python_version}', 'site-packages')
+                qgis_site_packages = os.path.join(
+                    qgis_base, 'lib', f'python{python_version}', 'site-packages'
+                )
 
                 if not os.path.exists(qgis_python) or not os.path.exists(qgis_site_packages):
                     continue
 
                 try:
-                    result = subprocess.run(
+                    subprocess.run(
                         [qgis_python, "-m", "pip", "install", "--upgrade",
                          "--target", qgis_site_packages, package],
-                        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True
+                        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
                     )
                     installed = True
                     break
                 except subprocess.CalledProcessError as e:
                     last_error = e.stderr.decode() if e.stderr else str(e)
 
-            if not installed and last_error:
-                print(f"Error installing {package} on macOS: {last_error}")
+            if not installed:
+                # Raise so the caller (Worker) can colour the row red and
+                # surface the real pip error to the user. Previously the
+                # failure was only printed, which made the dialog appear
+                # successful while packages stayed out of date.
+                raise RuntimeError(
+                    last_error or f'No QGIS python found to install {package}'
+                )
 
         else:
             # Linux
@@ -397,10 +405,16 @@ class InstallDialog(QDialog):
         self.progress = QProgressBar()
         layout.addWidget(self.progress)
 
+        self.log = QTextEdit()
+        self.log.setReadOnly(True)
+        self.log.setMaximumHeight(160)
+        self.log.setPlaceholderText("pip output will appear here once installation starts…")
+        layout.addWidget(self.log)
+
         self.setLayout(layout)
         self.setWindowTitle("HFF - Package Installation")
         self.set_icon(os.path.abspath(os.path.join(os.path.dirname(__file__), "icon.png")))
-        self.setGeometry(300, 300, 400, 300)
+        self.setGeometry(300, 300, 520, 520)
 
     def set_icon(self, icon_path: str) -> None:
         if os.path.exists(icon_path):
@@ -454,23 +468,51 @@ class InstallDialog(QDialog):
     def _on_package_started(self, row: int, package: str):
         # Amber while installation is in-flight
         self._colour_row(row, '#d79400', bold=True)
+        total = len(self._row_index) or 1
+        done = sum(1 for i in range(self.table.rowCount())
+                   if self.table.item(i, 0).font().bold() and
+                   self.table.item(i, 0).foreground().color().name() in ('#0a8a0a', '#aa0000'))
+        self.label.setText(f"({done + 1}/{total}) Installing {package}…")
+        self.log.append(f"▶ {package}")
 
     def _on_package_finished(self, row: int, package: str, success: bool, err: str):
         if success:
             self._colour_row(row, '#0a8a0a', bold=True)   # green
+            self.log.append(f"    ✓ {package} — installed")
         else:
             self._colour_row(row, '#aa0000', bold=True)   # red
-            if err:
-                tooltip_item = self.table.item(row, 0)
-                if tooltip_item is not None:
-                    tooltip_item.setToolTip(err)
+            tooltip_item = self.table.item(row, 0)
+            if tooltip_item is not None:
+                tooltip_item.setToolTip(err or 'pip failed')
+            first_line = (err or 'pip failed').splitlines()[0] if err else 'pip failed'
+            self.log.append(f"    ✗ {package} — FAILED: {first_line}")
+        # Keep log scrolled to bottom
+        cursor = self.log.textCursor()
+        cursor.movePosition(cursor.End)
+        self.log.setTextCursor(cursor)
 
     def update_progress(self, value: int) -> None:
         self.progress.setValue(value)
 
     def finish_install(self) -> None:
         self.progress.setValue(100)
-        self.label.setText("Installation complete")
+        # Count green / red rows for the final summary
+        ok = fail = 0
+        for i in range(self.table.rowCount()):
+            it = self.table.item(i, 0)
+            if it is None or not it.font().bold():
+                continue
+            col = it.foreground().color().name()
+            if col == '#0a8a0a':
+                ok += 1
+            elif col == '#aa0000':
+                fail += 1
+        if fail:
+            self.label.setText(f"Done. {ok} installed, {fail} FAILED (see log).")
+        else:
+            self.label.setText(f"Done. {ok} packages installed successfully.")
+        self.log.append("")
+        self.log.append(f"— Summary: {ok} ok, {fail} failed —")
         self.install_button.setEnabled(True)
         self.install_button.setText("Close")
         try:
