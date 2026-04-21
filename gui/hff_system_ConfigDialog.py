@@ -38,7 +38,11 @@ from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql.expression import *
 from qgis.PyQt.QtGui import QDesktopServices
 from qgis.PyQt.QtCore import  pyqtSlot, pyqtSignal,QThread,QUrl
-from qgis.PyQt.QtWidgets import QApplication, QDialog, QMessageBox, QFileDialog,QLineEdit,QWidget,QCheckBox
+from qgis.PyQt.QtWidgets import (
+    QApplication, QDialog, QMessageBox, QFileDialog, QLineEdit, QWidget,
+    QCheckBox, QGroupBox, QFormLayout, QHBoxLayout, QPushButton, QComboBox,
+    QVBoxLayout, QLabel,
+)
 from qgis.PyQt.QtSql import *
 from qgis.PyQt.uic import loadUiType
 from qgis.core import QgsApplication, QgsSettings, QgsProject
@@ -76,7 +80,9 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.setupUi(self)
 
         s = QgsSettings()
-        
+
+        self._install_openai_group()
+
         self.load_dict()
         self.charge_data()
         self.db_active()
@@ -149,7 +155,75 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         
         self.check()
         self.test()
-        
+
+    def _install_openai_group(self):
+        """Inject an OpenAI API key / model QGroupBox at the top of the dialog."""
+        from ..modules.utility.hff_openai import (
+            get_api_key, set_api_key, get_model, set_model, SUPPORTED_MODELS,
+        )
+
+        group = QGroupBox('OpenAI (AI Report)', self)
+        form = QFormLayout(group)
+
+        key_row = QHBoxLayout()
+        self.lineEdit_openai_api_key = QLineEdit(get_api_key(), group)
+        self.lineEdit_openai_api_key.setEchoMode(QLineEdit.Password)
+        self.lineEdit_openai_api_key.setPlaceholderText('sk-...')
+        self.lineEdit_openai_api_key.setMinimumWidth(320)
+        key_row.addWidget(self.lineEdit_openai_api_key)
+
+        self.pushButton_show_openai_key = QPushButton('Show', group)
+        self.pushButton_show_openai_key.setCheckable(True)
+        self.pushButton_show_openai_key.setMaximumWidth(80)
+
+        def _toggle_echo(checked):
+            self.lineEdit_openai_api_key.setEchoMode(
+                QLineEdit.Normal if checked else QLineEdit.Password
+            )
+            self.pushButton_show_openai_key.setText('Hide' if checked else 'Show')
+
+        self.pushButton_show_openai_key.toggled.connect(_toggle_echo)
+        key_row.addWidget(self.pushButton_show_openai_key)
+
+        self.pushButton_save_openai_key = QPushButton('Save', group)
+        self.pushButton_save_openai_key.setMaximumWidth(80)
+
+        def _save():
+            set_api_key(self.lineEdit_openai_api_key.text().strip())
+            set_model(self.comboBox_openai_model.currentText())
+            QMessageBox.information(
+                self, 'OpenAI',
+                'API key and model saved.\n\n'
+                'All HFF tabs that call GPT (statistics AI report, record '
+                'descriptions) will use this configuration.'
+            )
+
+        self.pushButton_save_openai_key.clicked.connect(_save)
+        key_row.addWidget(self.pushButton_save_openai_key)
+
+        form.addRow(QLabel('API key:'), key_row)
+
+        self.comboBox_openai_model = QComboBox(group)
+        self.comboBox_openai_model.setEditable(True)
+        for m in SUPPORTED_MODELS:
+            self.comboBox_openai_model.addItem(m)
+        current = get_model()
+        idx = self.comboBox_openai_model.findText(current)
+        if idx >= 0:
+            self.comboBox_openai_model.setCurrentIndex(idx)
+        else:
+            self.comboBox_openai_model.setEditText(current)
+        form.addRow(QLabel('Model:'), self.comboBox_openai_model)
+
+        # Slot the group box at the very top of the dialog's main layout so it
+        # is visible no matter which tab is open.
+        layout = self.layout()
+        if layout is not None:
+            layout.insertWidget(0, group)
+        else:
+            v = QVBoxLayout(self)
+            v.addWidget(group)
+
     def test(self):
         try:
             

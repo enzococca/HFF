@@ -334,50 +334,9 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         return self.DATA_LIST if hasattr(self, 'DATA_LIST') else []
 
     def apikey_gpt(self):
-        # HOME = os.environ['PYARCHINIT_HOME']
-        BIN = '{}{}{}'.format(self.HOME, os.sep, "bin")
-        api_key = ""
-        # Verifica se il file gpt_api_key.txt esiste
-        path_key = os.path.join(BIN, 'gpt_api_key.txt')
-        if os.path.exists(path_key):
-
-            # Leggi l'API Key dal file
-            with open(path_key, 'r') as f:
-                api_key = f.read().strip()
-                try:
-
-                    return api_key
-
-                except:
-                    reply = QMessageBox.question(None, 'Warning', 'Apikey noy valid' + '\n'
-                                                 + 'Click ok to insert the key again or cancel to exit',
-                                                 QMessageBox.Ok | QMessageBox.Cancel)
-                    if reply == QMessageBox.Ok:
-
-                        api_key, ok = QInputDialog.getText(None, 'Apikey gpt', 'Insert a valid apikey:')
-                        if ok:
-                            # Salva la nuova API Key nel file
-                            with open(path_key, 'w') as f:
-                                f.write(api_key)
-                                f.close()
-                            with open(path_key, 'r') as f:
-                                api_key = f.read().strip()
-                    else:
-                        return api_key
-
-
-        else:
-            # Chiedi all'utente di inserire una nuova API Key
-            api_key, ok = QInputDialog.getText(None, 'Apikey gpt', 'Insert apikey:')
-            if ok:
-                # Salva la nuova API Key nel file
-                with open(path_key, 'w') as f:
-                    f.write(api_key)
-                    f.close()
-                with open(path_key, 'r') as f:
-                    api_key = f.read().strip()
-
-        return api_key
+        # Unified OpenAI API key management via modules/utility/hff_openai.
+        from ..modules.utility.hff_openai import prompt_and_get_api_key
+        return prompt_and_get_api_key(parent=self)
 
     def generate_and_display_report(self):
         conn = Connection()

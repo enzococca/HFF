@@ -462,11 +462,8 @@ class StatisticsMixin:
         return "\n".join(lines)
 
     def _get_openai_api_key(self):
-        settings = QgsSettings()
-        return (
-            settings.value('HFF/openai_api_key', '', type=str)
-            or os.environ.get('OPENAI_API_KEY', '')
-        )
+        from .hff_openai import get_api_key
+        return get_api_key()
 
     def generate_ai_report(self):
         if not self.stats_summary_data and not self.stats_measures_data:
@@ -498,7 +495,8 @@ class StatisticsMixin:
         self.textEdit_ai_report.setPlainText(tr('generating', 'Generating…'))
         try:
             client = openai.OpenAI(api_key=api_key)
-            model = QgsSettings().value('HFF/openai_model', 'gpt-5.4', type=str)
+            from .hff_openai import get_model
+            model = get_model()
             # Newer OpenAI models (gpt-5.x / o-series) use max_completion_tokens
             response = client.chat.completions.create(
                 model=model,
