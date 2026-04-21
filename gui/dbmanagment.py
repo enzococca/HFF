@@ -155,8 +155,10 @@ class BackupThread(QThread):
         try:
             self.progress_updated.emit(0, tr('msg_backup_starting', 'Starting PostgreSQL backup...'))
 
-            # Build pg_dump command
-            dumper = 'pg_dump -U {} -Z 9 -f "{}" -F c -d {}'.format(
+            # Build pg_dump command. Custom format ("-F c") already compresses
+            # by default — explicit "-Z 9" was dropped because pg_dump 16+
+            # reinterprets "-Z <level>" as "-Z <method>" and rejects the level.
+            dumper = 'pg_dump -U {} -f "{}" -F c -d {}'.format(
                 self.settings.USER,
                 self.dest_path,
                 self.settings.DATABASE
