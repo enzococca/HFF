@@ -215,11 +215,22 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_openai_model.setEditText(current)
         form.addRow(QLabel('Model:'), self.comboBox_openai_model)
 
-        # Slot the group box at the very top of the dialog's main layout so it
-        # is visible no matter which tab is open.
+        # Add as a new tab in the existing QTabWidget so we don't fight the
+        # main QGridLayout. Fallback: append to whatever layout the dialog has.
+        tab_host = self.findChild(QWidget, 'tabWidget')
+        from qgis.PyQt.QtWidgets import QTabWidget
+        if isinstance(tab_host, QTabWidget):
+            page = QWidget()
+            page_layout = QVBoxLayout(page)
+            page_layout.addWidget(group)
+            page_layout.addStretch()
+            tab_host.addTab(page, 'OpenAI')
+            return
+
         layout = self.layout()
         if layout is not None:
-            layout.insertWidget(0, group)
+            # QGridLayout / QBoxLayout both expose addWidget — append at end
+            layout.addWidget(group)
         else:
             v = QVBoxLayout(self)
             v.addWidget(group)
