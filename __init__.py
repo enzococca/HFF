@@ -151,16 +151,16 @@ class PackageManager:
 
         if platform.system() == 'Windows' and PackageManager.is_osgeo4w():
             python_executable = PackageManager.get_osgeo4w_python()
-            subprocess.run([python_executable, "-m", "pip", "install", package],
+            subprocess.run([python_executable, "-m", "pip", "install", "--upgrade", package],
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, shell=True)
 
         elif platform.system() == 'Windows':
             python_executable = PackageManager.get_windows_qgis_python()
             try:
-                subprocess.run([python_executable, "-m", "pip", "install", package],
+                subprocess.run([python_executable, "-m", "pip", "install", "--upgrade", package],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, shell=True)
             except subprocess.CalledProcessError:
-                subprocess.run([python_executable, "-m", "pip", "install", package, "--user"],
+                subprocess.run([python_executable, "-m", "pip", "install", "--upgrade", package, "--user"],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, shell=True)
 
         elif platform.system() == 'Darwin':
@@ -193,40 +193,140 @@ class PackageManager:
 
         else:
             # Linux
-            subprocess.run(['python3', "-m", "pip", "install", package],
+            subprocess.run(['python3', "-m", "pip", "install", "--upgrade", package],
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
     @staticmethod
-    def check_required_packages(requirements_path: str) -> List[str]:
-        """Check which required packages are missing."""
-        # Get installed package names (normalized to lowercase)
-        # Only check if package is installed, not the version
-        installed_package_names = set()
+    def _parse_requirement(spec: str):
+        """Split a requirement line into (name, operator, version)."""
+        for op in ('==', '>=', '<=', '~=', '!='):
+            if op in spec:
+                name, _, ver = spec.partition(op)
+                return name.strip(), op, ver.strip()
+        return spec.strip(), '', ''
+
+    @staticmethod
+    def _installed_versions():
+        """Return {lower_name: (installed_version, canonical_name)} for every distribution."""
+        out = {}
         for pkg in distributions():
             try:
                 name = pkg.metadata.get('Name')
                 if name:
-                    installed_package_names.add(name.lower())
+                    out[name.lower()] = (pkg.version, name)
             except Exception:
                 continue
+        return out
 
-        missing_packages = []
+    @staticmethod
+    def check_required_packages(requirements_path: str) -> List[str]:
+        """Return a list of requirement strings that are missing or version-mismatched.
+
+        A requirement is considered satisfied when the installed version matches
+        the pin in requirements.txt (``name==version``). Any mismatch (older or
+        newer) is flagged so pip can re-align the environment.
+        """
+        installed = PackageManager._installed_versions()
+        to_install: List[str] = []
         with open(requirements_path, 'r') as f:
-            for line in f:
-                line = line.strip()
-                # Skip comment lines and empty lines
-                if not line or line.startswith('#'):
+            for raw in f:
+                line = raw.split('#', 1)[0].strip()
+                if not line:
                     continue
+                name, op, want = PackageManager._parse_requirement(line)
+                cur = installed.get(name.lower())
+                if cur is None:
+                    to_install.append(line)
+                    continue
+                cur_ver, _ = cur
+                if op == '==' and want and cur_ver != want:
+                    to_install.append(line)
+        return to_install
 
-                # Extract package name
-                package_spec = line
-                package_name = line.split('==')[0].split('>=')[0].split('<=')[0].split('~=')[0].split('!=')[0].strip()
+    @staticmethod
+    def find_orphan_dist_info() -> List[str]:
+        """Return absolute paths of stale ``*.dist-info`` directories.
 
-                # Check if package is installed (case-insensitive)
-                if package_name.lower() not in installed_package_names:
-                    missing_packages.append(package_spec)
+        An entry is flagged when two (or more) dist-info directories exist for
+        the same distribution name and the one that does not match the version
+        reported by importlib.metadata is the leftover. This catches cases like
+        ``SQLAlchemy-1.4.27.dist-info`` lingering next to ``sqlalchemy-2.0.45.dist-info``.
+        """
+        import re
+        try:
+            import site
+        except Exception:
+            return []
 
-        return missing_packages
+        search_dirs: List[str] = []
+        for attr in ('getsitepackages', 'getusersitepackages'):
+            try:
+                val = getattr(site, attr)()
+                if isinstance(val, str):
+                    search_dirs.append(val)
+                else:
+                    search_dirs.extend(val)
+            except Exception:
+                pass
+        # include QGIS python site-packages too (macOS)
+        python_version = f"{sys.version_info.major}.{sys.version_info.minor}"
+        for qgis_type in ('standard', 'ltr'):
+            p = os.path.join(
+                QGIS_PATHS[qgis_type], 'lib',
+                f'python{python_version}', 'site-packages',
+            )
+            if p not in search_dirs and os.path.isdir(p):
+                search_dirs.append(p)
+
+        installed = PackageManager._installed_versions()
+        pattern = re.compile(r'^(?P<name>.+?)-(?P<ver>[^-]+)\.dist-info$')
+        orphans = []
+        seen = set()
+        for d in search_dirs:
+            if not os.path.isdir(d):
+                continue
+            try:
+                entries = os.listdir(d)
+            except OSError:
+                continue
+            for entry in entries:
+                if not entry.endswith('.dist-info'):
+                    continue
+                m = pattern.match(entry)
+                if not m:
+                    continue
+                name = m.group('name').replace('_', '-')
+                version_in_dir = m.group('ver')
+                lookup = name.lower().replace('-', '_')
+                # resolve installed version for this name (match by normalized)
+                cur = installed.get(name.lower()) or installed.get(lookup)
+                if cur is None:
+                    continue
+                installed_ver, _ = cur
+                if installed_ver != version_in_dir:
+                    full = os.path.join(d, entry)
+                    if full not in seen:
+                        seen.add(full)
+                        orphans.append(full)
+        return orphans
+
+    @staticmethod
+    def remove_orphan_dist_info(paths: Optional[List[str]] = None) -> List[str]:
+        """Delete stale dist-info directories. Returns the paths that were removed."""
+        if paths is None:
+            paths = PackageManager.find_orphan_dist_info()
+        removed = []
+        for p in paths:
+            try:
+                shutil.rmtree(p)
+                removed.append(p)
+            except OSError:
+                try:
+                    subprocess.run(['sudo', 'rm', '-rf', p], check=True)
+                    removed.append(p)
+                except Exception:
+                    pass
+        return removed
 
 
 class Worker(QObject):
@@ -370,11 +470,23 @@ def show_install_dialog(packages: List[str]) -> None:
 
 def classFactory(iface):
     """Load the HffPlugin class."""
-    # Check for missing packages first
-    missing_packages = get_missing_packages()
+    # Remove stale *.dist-info directories left over from previous upgrades
+    # (e.g. SQLAlchemy-1.4.27.dist-info next to sqlalchemy-2.0.45.dist-info).
+    try:
+        orphans = PackageManager.find_orphan_dist_info()
+        if orphans:
+            removed = PackageManager.remove_orphan_dist_info(orphans)
+            if removed:
+                print(f"HFF: cleaned {len(removed)} orphan dist-info dirs:")
+                for r in removed:
+                    print(f"  - {r}")
+    except Exception as e:
+        print(f"HFF: orphan cleanup skipped: {e}")
 
+    # Check for missing or version-mismatched packages, then upgrade
+    missing_packages = get_missing_packages()
     if missing_packages:
-        print(f"HFF: {len(missing_packages)} packages need to be installed...")
+        print(f"HFF: {len(missing_packages)} packages need install/upgrade…")
         show_install_dialog(missing_packages)
         s = QgsSettings()
         s.setValue('hff/dependenciesInstalled', True)
