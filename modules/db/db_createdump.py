@@ -136,7 +136,7 @@ class RestoreSchema(object):
 
         try:
 
-            conn.execute(text(raw_schema))
+            conn.exec_driver_sql(raw_schema)
 
             transaction.commit()
 
