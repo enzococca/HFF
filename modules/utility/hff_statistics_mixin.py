@@ -77,8 +77,30 @@ class StatisticsMixin:
     # ------------------------------------------------------------------
     # UI builder (pyarchinit pattern)
     # ------------------------------------------------------------------
+    def _find_statistics_tab(self):
+        """Locate the statistics tab, tolerating different objectNames across forms."""
+        # Direct well-known names
+        for name in ('tab_statistics', 'tabWidgetPage_Statistics',
+                     'tabWidgetPage_statistics', 'tab_statistic'):
+            tab = self.findChild(QWidget, name)
+            if tab is not None:
+                return tab
+        # Fallback: walk up from widget_stats until we find the tab page
+        chart = self.findChild(QWidget, 'widget_stats')
+        if chart is None:
+            return None
+        # Climb parents until we hit the widget that is a direct child of a QTabWidget
+        from qgis.PyQt.QtWidgets import QTabWidget
+        w = chart
+        while w is not None:
+            parent = w.parentWidget()
+            if isinstance(parent, QTabWidget):
+                return w
+            w = parent
+        return None
+
     def setup_statistics_tab_pyarchinit_style(self):
-        tab = self.findChild(QWidget, 'tab_statistics')
+        tab = self._find_statistics_tab()
         if tab is None:
             return
 
@@ -291,7 +313,9 @@ class StatisticsMixin:
             self.calculate_statistics()
 
     def _fill_summary_table(self, data):
-        t = self.tableWidget_stats_summary
+        t = getattr(self, 'tableWidget_stats_summary', None)
+        if t is None:
+            return
         t.setRowCount(len(data))
         total = sum(c for _, c in data) or 1
         for r, (cat, cnt) in enumerate(data):
@@ -302,7 +326,9 @@ class StatisticsMixin:
         t.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
 
     def _fill_measures_table(self, data):
-        t = self.tableWidget_stats_measures
+        t = getattr(self, 'tableWidget_stats_measures', None)
+        if t is None:
+            return
         t.setRowCount(len(data))
         for r, (field_name, s) in enumerate(data):
             t.setItem(r, 0, QTableWidgetItem(str(field_name)))
