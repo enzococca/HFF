@@ -517,10 +517,29 @@ class HffPlugin_s(object):
         tutorialViewer.exec_()
         self.pluginGui = tutorialViewer  # save
 
+    def _current_server(self):
+        """Read the current SERVER from config.cfg fresh.
+
+        PARAMS_DICT is a class attribute populated at import time, so it may
+        be stale after the user saves a new connection via the Config dialog
+        without reloading the plugin.
+        """
+        try:
+            path_rel = os.path.join(os.sep, self.HOME, 'HFF_DB_folder', 'config.cfg')
+            with open(path_rel, 'rb') as f:
+                data = f.read()
+            cfg = eval(data)
+            # Refresh the class-level dict so downstream callers see the latest
+            type(self).PARAMS_DICT = cfg
+            return str(cfg.get('SERVER', '')).strip().lower()
+        except Exception:
+            return str(self.PARAMS_DICT.get('SERVER', '')).strip().lower()
+
     def runUserManagement(self):
         # Check if we're connected to PostgreSQL before showing user management
         try:
-            if self.PARAMS_DICT.get('SERVER', '') == 'postgres':
+            server = self._current_server()
+            if server in ('postgres', 'postgresql'):
                 userMgmtDialog = UserManagementDialog(parent=self.iface.mainWindow())
                 userMgmtDialog.exec_()
                 self.pluginGui = userMgmtDialog
@@ -530,6 +549,7 @@ class HffPlugin_s(object):
                     self.iface.mainWindow(),
                     "User Management",
                     "User Management is only available when connected to a PostgreSQL database.\n\n"
+                    f"Current SERVER in config.cfg: '{server}'. "
                     "Please configure a PostgreSQL connection in the Config dialog first."
                 )
         except Exception as e:
