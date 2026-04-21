@@ -157,10 +157,14 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         self.test()
 
     def _install_openai_group(self):
-        """Inject an OpenAI API key / model QGroupBox at the top of the dialog."""
+        """Inject an AI & external-tools configuration tab."""
         from ..modules.utility.hff_openai import (
             get_api_key, set_api_key, get_model, set_model, SUPPORTED_MODELS,
         )
+
+        # Postgres bin path (pg_dump / pg_restore) — QgsSettings key HFF/postgresBinPath
+        s = QgsSettings()
+        pgbin_saved = s.value('HFF/postgresBinPath', '', type=str)
 
         group = QGroupBox('OpenAI (AI Report)', self)
         form = QFormLayout(group)
@@ -215,6 +219,60 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             self.comboBox_openai_model.setEditText(current)
         form.addRow(QLabel('Model:'), self.comboBox_openai_model)
 
+        # ---- PostgreSQL bin folder (pg_dump / pg_restore) ----
+        pg_group = QGroupBox('PostgreSQL bin folder (pg_dump / pg_restore)', self)
+        pg_form = QFormLayout(pg_group)
+
+        pg_row = QHBoxLayout()
+        self.lineEdit_postgres_bin = QLineEdit(pgbin_saved, pg_group)
+        self.lineEdit_postgres_bin.setPlaceholderText(
+            '/Applications/Postgres.app/Contents/Versions/latest/bin'
+        )
+        self.lineEdit_postgres_bin.setMinimumWidth(320)
+        pg_row.addWidget(self.lineEdit_postgres_bin)
+
+        self.pushButton_browse_pgbin = QPushButton('Browse…', pg_group)
+        self.pushButton_browse_pgbin.setMaximumWidth(100)
+
+        def _browse_pgbin():
+            start_dir = self.lineEdit_postgres_bin.text() or (
+                getattr(self, 'HOME', '') or os.path.expanduser('~')
+            )
+            path = QFileDialog.getExistingDirectory(
+                self, 'Select PostgreSQL bin directory', start_dir,
+                QFileDialog.ShowDirsOnly,
+            )
+            if path:
+                self.lineEdit_postgres_bin.setText(path)
+
+        self.pushButton_browse_pgbin.clicked.connect(_browse_pgbin)
+        pg_row.addWidget(self.pushButton_browse_pgbin)
+
+        self.pushButton_save_pgbin = QPushButton('Save', pg_group)
+        self.pushButton_save_pgbin.setMaximumWidth(80)
+
+        def _save_pgbin():
+            path = self.lineEdit_postgres_bin.text().strip()
+            QgsSettings().setValue('HFF/postgresBinPath', path)
+            if path and os.path.isdir(path):
+                # Make the tools discoverable for the current QGIS session too
+                os.environ['PATH'] = path + os.pathsep + os.environ.get('PATH', '')
+                QMessageBox.information(
+                    self, 'PostgreSQL',
+                    f'Saved and prepended to PATH:\n{path}'
+                )
+            else:
+                QMessageBox.information(
+                    self, 'PostgreSQL',
+                    'Path saved. It will be used as soon as it points to a '
+                    'directory containing pg_dump / pg_restore.'
+                )
+
+        self.pushButton_save_pgbin.clicked.connect(_save_pgbin)
+        pg_row.addWidget(self.pushButton_save_pgbin)
+
+        pg_form.addRow(QLabel('Path:'), pg_row)
+
         # Add as a new tab in the existing QTabWidget so we don't fight the
         # main QGridLayout. Fallback: append to whatever layout the dialog has.
         tab_host = self.findChild(QWidget, 'tabWidget')
@@ -223,17 +281,19 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             page = QWidget()
             page_layout = QVBoxLayout(page)
             page_layout.addWidget(group)
+            page_layout.addWidget(pg_group)
             page_layout.addStretch()
-            tab_host.addTab(page, 'OpenAI')
+            tab_host.addTab(page, 'AI & Tools')
             return
 
         layout = self.layout()
         if layout is not None:
-            # QGridLayout / QBoxLayout both expose addWidget — append at end
             layout.addWidget(group)
+            layout.addWidget(pg_group)
         else:
             v = QVBoxLayout(self)
             v.addWidget(group)
+            v.addWidget(pg_group)
 
     def test(self):
         try:

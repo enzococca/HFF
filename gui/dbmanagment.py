@@ -33,6 +33,21 @@ from ..modules.utility.hff_system__OS_utility import Hff_OS_Utility
 from ..modules.utility.settings import Settings
 from ..modules.utility.hff_i18n import tr
 from ..modules.db.hff_system__conn_strings import Connection
+from qgis.core import QgsSettings
+
+
+def _pg_bin_path() -> str:
+    """Return the user-configured PostgreSQL bin directory (or empty)."""
+    return QgsSettings().value('HFF/postgresBinPath', '', type=str) or ''
+
+
+def _env_with_pg_bin(base_env=None):
+    """Return an os.environ-style dict with the Postgres bin dir prepended to PATH."""
+    env = dict(os.environ if base_env is None else base_env)
+    pgbin = _pg_bin_path()
+    if pgbin and os.path.isdir(pgbin):
+        env['PATH'] = pgbin + os.pathsep + env.get('PATH', '')
+    return env
 
 from qgis.PyQt import QtCore
 from qgis.PyQt.QtCore import (
@@ -147,8 +162,8 @@ class BackupThread(QThread):
                 self.settings.DATABASE
             )
 
-            # Set environment for password
-            env = os.environ.copy()
+            # Set environment for password (and prepend user-configured pg bin path)
+            env = _env_with_pg_bin()
             if self.settings.PASSWORD:
                 env['PGPASSWORD'] = self.settings.PASSWORD
             if self.settings.HOST:
@@ -580,8 +595,8 @@ class hff_system__dbmanagment(QDialog, MAIN_DIALOG_CLASS):
             settings = Settings(data)
             settings.set_configuration()
 
-            # Set environment for password
-            env = os.environ.copy()
+            # Set environment for password (and prepend user-configured pg bin path)
+            env = _env_with_pg_bin()
             if settings.PASSWORD:
                 env['PGPASSWORD'] = settings.PASSWORD
             if settings.HOST:
