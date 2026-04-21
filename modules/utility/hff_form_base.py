@@ -900,11 +900,15 @@ class HffFormMixin:
         ThemeManager.instance().apply_theme(self)
 
     def apply_rtl_if_needed(self):
-        """Apply RTL layout if current language requires it."""
-        if self.i18n.is_rtl():
-            self.setLayoutDirection(Qt.RightToLeft)
-        else:
-            self.setLayoutDirection(Qt.LeftToRight)
+        """Apply RTL direction to text-only widgets when the language is RTL.
+
+        Many HFF .ui forms position widgets with absolute <geometry>. Setting
+        layoutDirection=RightToLeft on the whole form mirrors only layout-based
+        children, leaving absolute-positioned widgets in place and causing
+        overlaps. We only flip text-containing widgets so Arabic reads right
+        while the visual layout stays put.
+        """
+        _apply_rtl_to_text_widgets(self, self.i18n.is_rtl())
 
     def translate_ui(self):
         """Translate UI elements.
@@ -1262,17 +1266,27 @@ def apply_i18n_to_form(form):
     """
     i18n = HffI18n.instance()
 
-    # Apply RTL if needed
-    if i18n.is_rtl():
-        form.setLayoutDirection(Qt.RightToLeft)
-    else:
-        form.setLayoutDirection(Qt.LeftToRight)
+    # Apply RTL only to text-holding widgets (see apply_rtl_if_needed docstring
+    # in HffFormBase for rationale — absolute-geometry widgets would overlap).
+    _apply_rtl_to_text_widgets(form, i18n.is_rtl())
 
     # Apply theme
     ThemeManager.instance().apply_theme(form)
 
     # Translate all widgets
     translate_all_widgets(form)
+
+
+def _apply_rtl_to_text_widgets(root, rtl: bool):
+    """Set layoutDirection on text widgets only, leaving containers LTR."""
+    from qgis.PyQt.QtWidgets import (
+        QLabel, QLineEdit, QTextEdit, QPlainTextEdit, QTextBrowser, QComboBox,
+    )
+    direction = Qt.RightToLeft if rtl else Qt.LeftToRight
+    text_classes = (QLabel, QLineEdit, QTextEdit, QPlainTextEdit, QTextBrowser, QComboBox)
+    root.setLayoutDirection(Qt.LeftToRight)
+    for w in root.findChildren(text_classes):
+        w.setLayoutDirection(direction)
 
 
 # Export common translated strings for PDF/Excel exports
