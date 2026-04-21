@@ -318,7 +318,7 @@ class hff_system__ART_CON(QDialog, MAIN_DIALOG_CLASS):
         if ok and custom_prompt:
             api_key = self.apikey_gpt()  # Retrieve the OpenAI API key
             if ReportGenerator.is_connected():
-                models = ["gpt-4o", "gpt-4o-mini"]  # Replace with actual model names
+                models = ["gpt-5.4", "gpt-4o", "gpt-4o-mini"]  # Replace with actual model names
                 selected_model, ok = QInputDialog.getItem(self, "Select Model", "Choose a model for GPT:", models, 0,
                                                           False)
 

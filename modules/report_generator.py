@@ -87,10 +87,12 @@ class ReportGenerator(QWidget):
 
         client = openai.OpenAI(api_key=api_key)
         try:
+            # Newer OpenAI models (gpt-5.x / o-series) require max_completion_tokens
             response = client.chat.completions.create(
                 model=model,
                 messages=[
-                    {"role": "system", "content": prompt}]
+                    {"role": "system", "content": prompt}],
+                max_completion_tokens=2000,
             )
             return response.choices[0].message.content
         except openai.OpenAIError as e:
