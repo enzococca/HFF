@@ -196,6 +196,14 @@ class RestoreSchema(object):
 
         finally:
 
+            try:
+                conn.commit()
+            except Exception:
+                pass
+            try:
+                conn.close()
+            except Exception:
+                pass
             session.close()
 
         return True
@@ -230,6 +238,14 @@ class RestoreSchema(object):
 
         finally:
 
+            try:
+                conn.commit()
+            except Exception:
+                pass
+            try:
+                conn.close()
+            except Exception:
+                pass
             session.close()
 
         return True
@@ -288,6 +304,14 @@ class RestoreSchema(object):
 
         finally:
 
+            try:
+                conn.commit()
+            except Exception:
+                pass
+            try:
+                conn.close()
+            except Exception:
+                pass
             session.close()
 
         return True
