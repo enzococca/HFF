@@ -335,14 +335,31 @@ class Worker(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     package_status = pyqtSignal(str)
+    # Emitted before installation starts for each package: (row_index, package)
+    package_started = pyqtSignal(int, str)
+    # Emitted after a single package's pip call: (row_index, package, success, error)
+    package_finished = pyqtSignal(int, str, bool, str)
 
     def install_packages(self, packages: List[str]) -> None:
-        """Install a list of packages and emit progress signals."""
-        total = len(packages)
+        """Install packages sequentially and emit per-package progress."""
+        total = len(packages) or 1
         for i, package in enumerate(packages):
-            self.package_status.emit(f"Installing {package}...")
+            self.package_started.emit(i, package)
+            self.package_status.emit(f"Installing {package}…")
+            # Progress reflects work started (ceil style) so the bar advances
+            # before the long-running pip call, then settles on completion.
+            self.progress.emit(int(i / total * 100))
+
+            success = True
+            err = ''
+            try:
+                PackageManager.install(package)
+            except Exception as exc:
+                success = False
+                err = str(exc)
+
+            self.package_finished.emit(i, package, success, err)
             self.progress.emit(int((i + 1) / total * 100))
-            PackageManager.install(package)
 
         self.finished.emit()
 
@@ -390,14 +407,20 @@ class InstallDialog(QDialog):
             self.setWindowIcon(QIcon(icon_path))
 
     def install_selected_packages(self) -> None:
+        from qgis.PyQt.QtGui import QBrush, QColor
+        self._row_index = {}
         selected_packages = []
         for i in range(self.table.rowCount()):
             if self.table.cellWidget(i, 1).isChecked():
-                selected_packages.append(self.table.item(i, 0).text())
+                pkg = self.table.item(i, 0).text()
+                self._row_index[pkg] = i
+                selected_packages.append(pkg)
 
         if selected_packages:
             self.install_button.setEnabled(False)
-            self.install_button.setText("Installing...")
+            self.install_button.setText("Installing…")
+            self.progress.setRange(0, 100)
+            self.progress.setValue(0)
 
             self.thread = QThread(self)
             self.worker = Worker()
@@ -409,9 +432,38 @@ class InstallDialog(QDialog):
             self.thread.finished.connect(self.thread.deleteLater)
             self.worker.progress.connect(self.update_progress)
             self.worker.package_status.connect(lambda msg: self.label.setText(msg))
+            self.worker.package_started.connect(self._on_package_started)
+            self.worker.package_finished.connect(self._on_package_finished)
             self.worker.finished.connect(self.finish_install)
 
             self.thread.start()
+
+    # ------------------------------------------------------------------
+    # Per-row colour feedback
+    # ------------------------------------------------------------------
+    def _colour_row(self, row: int, foreground: str, bold: bool = False):
+        from qgis.PyQt.QtGui import QBrush, QColor, QFont
+        item = self.table.item(row, 0)
+        if item is None:
+            return
+        item.setForeground(QBrush(QColor(foreground)))
+        font: QFont = item.font()
+        font.setBold(bold)
+        item.setFont(font)
+
+    def _on_package_started(self, row: int, package: str):
+        # Amber while installation is in-flight
+        self._colour_row(row, '#d79400', bold=True)
+
+    def _on_package_finished(self, row: int, package: str, success: bool, err: str):
+        if success:
+            self._colour_row(row, '#0a8a0a', bold=True)   # green
+        else:
+            self._colour_row(row, '#aa0000', bold=True)   # red
+            if err:
+                tooltip_item = self.table.item(row, 0)
+                if tooltip_item is not None:
+                    tooltip_item.setToolTip(err)
 
     def update_progress(self, value: int) -> None:
         self.progress.setValue(value)
@@ -420,8 +472,12 @@ class InstallDialog(QDialog):
         self.progress.setValue(100)
         self.label.setText("Installation complete")
         self.install_button.setEnabled(True)
-        self.install_button.setText("Install Packages")
-        self.accept()
+        self.install_button.setText("Close")
+        try:
+            self.install_button.clicked.disconnect()
+        except (TypeError, RuntimeError):
+            pass
+        self.install_button.clicked.connect(self.accept)
 
 
 def initialize_environment() -> None:
