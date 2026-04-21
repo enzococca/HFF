@@ -227,12 +227,34 @@ class PackageManager:
         return out
 
     @staticmethod
-    def check_required_packages(requirements_path: str) -> List[str]:
-        """Return a list of requirement strings that are missing or version-mismatched.
+    def _version_lt(current: str, want: str) -> bool:
+        """Return True when ``current`` is older than ``want`` (PEP 440 aware)."""
+        try:
+            from packaging.version import Version
+            return Version(current) < Version(want)
+        except Exception:
+            # Fallback: naive tuple compare on integer dotted segments
+            def parts(v):
+                out = []
+                for chunk in v.split('.'):
+                    num = ''
+                    for ch in chunk:
+                        if ch.isdigit():
+                            num += ch
+                        else:
+                            break
+                    out.append(int(num) if num else 0)
+                return out
+            return parts(current) < parts(want)
 
-        A requirement is considered satisfied when the installed version matches
-        the pin in requirements.txt (``name==version``). Any mismatch (older or
-        newer) is flagged so pip can re-align the environment.
+    @staticmethod
+    def check_required_packages(requirements_path: str) -> List[str]:
+        """Return requirement strings that are missing or version-unsatisfied.
+
+        - ``==`` pins flag any mismatch (older or newer).
+        - ``>=`` / ``>`` / ``~=`` flag only when the installed version is
+          below the declared minimum.
+        - no operator (bare name) flags only when the package is absent.
         """
         installed = PackageManager._installed_versions()
         to_install: List[str] = []
@@ -247,7 +269,13 @@ class PackageManager:
                     to_install.append(line)
                     continue
                 cur_ver, _ = cur
-                if op == '==' and want and cur_ver != want:
+                if not want:
+                    continue
+                if op == '==' and cur_ver != want:
+                    to_install.append(line)
+                elif op in ('>=', '~=') and PackageManager._version_lt(cur_ver, want):
+                    to_install.append(line)
+                elif op == '>' and not PackageManager._version_lt(want, cur_ver):
                     to_install.append(line)
         return to_install
 
