@@ -54,6 +54,7 @@ from .gui.hff_system_InfoDialog import HFF_systemDialog_Info
 from .gui.hff_user_management_dialog import UserManagementDialog, LoginDialog
 from .gui.hff_connection_settings_dialog import ConnectionSettingsDialog
 from .gui.hff_remote_storage_dialog import RemoteStorageDialog
+from .gui.hff_bot_sync_dialog import BotSyncDialog
 from .modules.utility.hff_theme_manager import ThemeManager
 from .modules.utility.hff_i18n import HffI18n, tr
 
@@ -324,9 +325,18 @@ class HffPlugin_s(object):
         self.actionRemoteStorage.setWhatsThis("Configure remote storage for media files")
         self.actionRemoteStorage.triggered.connect(self.runRemoteStorage)
 
+        # Bot Media Sync button — pulls /data/media/<alias>/ from the
+        # hff-telegram-bot deployment to the local THUMB_PATH so the
+        # existing display path keeps working unchanged.
+        icon_bot_sync = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', '5_leftArrows.png'))
+        self.actionBotSync = QAction(QIcon(icon_bot_sync), "Bot Media Sync", self.iface.mainWindow())
+        self.actionBotSync.setWhatsThis("Pull media files from the HFF Telegram bot")
+        self.actionBotSync.triggered.connect(self.runBotSync)
+
         self.manageToolButton.addActions(
             [self.actionConf, self.actionConnectionSettings, self.actionDbmanagment,
-             self.actionRemoteStorage, self.actionUserManagement, self.actionTutorial, self.actionInfo])
+             self.actionRemoteStorage, self.actionBotSync,
+             self.actionUserManagement, self.actionTutorial, self.actionInfo])
         self.manageToolButton.setDefaultAction(self.actionConf)
 
         self.toolBar.addWidget(self.manageToolButton)
@@ -386,6 +396,7 @@ class HffPlugin_s(object):
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionConnectionSettings)
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionDbmanagment)
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionRemoteStorage)
+        self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionBotSync)
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionUserManagement)
         self.iface.addPluginToMenu("HFF - Help", self.actionTutorial)
         self.iface.addPluginToMenu("HFF - Info GIS Tools", self.actionInfo)
@@ -588,6 +599,20 @@ class HffPlugin_s(object):
                 f"Could not open Remote Storage: {str(e)}"
             )
 
+    def runBotSync(self):
+        """Open the HFF Telegram bot media sync dialog."""
+        try:
+            botSyncDialog = BotSyncDialog(parent=self.iface.mainWindow())
+            botSyncDialog.exec_()
+            self.pluginGui = botSyncDialog
+        except Exception as e:
+            from qgis.PyQt.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self.iface.mainWindow(),
+                "Error",
+                f"Could not open Bot Media Sync: {str(e)}"
+            )
+
     def toggleTheme(self):
         """Toggle between dark and light theme."""
         theme_manager = ThemeManager.instance()
@@ -653,6 +678,7 @@ class HffPlugin_s(object):
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionDbmanagment)
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionConnectionSettings)
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionRemoteStorage)
+        self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionBotSync)
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionUserManagement)
         self.iface.removePluginMenu("HFF - Help", self.actionTutorial)
 
