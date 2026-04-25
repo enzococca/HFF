@@ -831,3 +831,51 @@ CREATE or replace VIEW public.eamena_poligon_view AS
      JOIN public.site_poligon ON (((site_poligon.name_feat)::text = (eamena_table.name_site)::text)));
 ALTER TABLE public.eamena_poligon_view OWNER TO postgres;
 
+
+--
+-- divers + diver_segments tables (added in plugin v11.0)
+--
+
+CREATE TABLE IF NOT EXISTS public.divers (
+    id SERIAL PRIMARY KEY,
+    site TEXT NOT NULL,
+    divelog_id INTEGER NOT NULL,
+    years INTEGER NOT NULL,
+    diver_name TEXT NOT NULL,
+    role TEXT,
+    time_in TEXT,
+    time_out TEXT,
+    max_depth NUMERIC(5,2),
+    CONSTRAINT divers_unique_per_dive UNIQUE (site, divelog_id, years, diver_name),
+    CONSTRAINT divers_dive_fk FOREIGN KEY (site, divelog_id, years)
+        REFERENCES public.dive_log(site, divelog_id, years)
+);
+CREATE INDEX IF NOT EXISTS idx_divers_dive
+    ON public.divers (site, divelog_id, years);
+ALTER TABLE public.divers OWNER TO postgres;
+
+CREATE TABLE IF NOT EXISTS public.diver_segments (
+    id SERIAL PRIMARY KEY,
+    diver_id INTEGER NOT NULL,
+    seq INTEGER NOT NULL,
+    breathing_mix TEXT,
+    bar_start TEXT,
+    bar_end TEXT,
+    delta_p TEXT,
+    CONSTRAINT diver_segments_seq_unique UNIQUE (diver_id, seq),
+    CONSTRAINT diver_segments_diver_fk FOREIGN KEY (diver_id)
+        REFERENCES public.divers(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_segments_diver
+    ON public.diver_segments (diver_id, seq);
+ALTER TABLE public.diver_segments OWNER TO postgres;
+
+CREATE TABLE IF NOT EXISTS public.hff_schema_version (
+    component TEXT PRIMARY KEY,
+    version INTEGER NOT NULL,
+    applied_at TEXT NOT NULL
+);
+ALTER TABLE public.hff_schema_version OWNER TO postgres;
+INSERT INTO public.hff_schema_version (component, version, applied_at)
+    VALUES ('divers', 1, now()::text)
+    ON CONFLICT (component) DO NOTHING;
