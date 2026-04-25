@@ -88,6 +88,17 @@ class Hff_db_management(object):
                 self.engine = create_engine(self.conn_str, max_overflow=-1, echo=eval(self.boolean))
 
             self.metadata = MetaData()
+
+            # Idempotent schema migration: adds divers + diver_segments
+            # tables and promotes legacy dive_log diver columns. Wrapped in
+            # try/except so a migration failure (e.g. read-only DB, missing
+            # dive_log) NEVER prevents the plugin from connecting.
+            try:
+                from .hff_divers_migration import ensure_divers_schema
+                ensure_divers_schema(self.engine)
+            except Exception as migration_exc:
+                print(f"[hff_divers_migration] skipped: {migration_exc}")
+
             conn = self.engine.connect()
 
         except Exception as e:
