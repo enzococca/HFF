@@ -331,25 +331,31 @@ class single_US_pdf_sheet:
         divelog = Paragraph("<b>Dive log number:  </b>"  + str(self.divelog_id), styNormal)
         area_id = Paragraph("<b>Area</b><br/>"  + str(self.area_id), styNormal)
         years = Paragraph("<b>Year</b><br/>"  + str(self.years), styNormal)
-        diver_1 = Paragraph("<b>Diver 1</b><br/>" + self.diver_1, styNormal)
-        diver_2 = Paragraph("<b>Diver 2</b><br/>"  + self.diver_2, styNormal)
-        diver_3 = Paragraph("<b>Additional Diver</b><br/>"  + self.diver_3, styNormal)
+        # Legacy per-diver paragraphs (diver_1/2, additional_diver,
+        # bar_start/end_diver1/2, dp_diver1/2, breathing_mix, time_in,
+        # time_out, max_depth) are intentionally blanked: the canonical
+        # source of diver info is now the "Divers" block appended below
+        # by _render_divers_block(). The cell_schema slots they used to
+        # occupy stay empty so the existing layout grid is preserved.
+        diver_1 = ''
+        diver_2 = ''
+        diver_3 = ''
         standby = Paragraph("<b>Standby Diver</b><br/>"  + self.standby_diver, styNormal)
         tender = Paragraph("<b>Dive Supervisor</b><br/>" + self.tender,styNormal)
-        bar_start = Paragraph("<b>Bar Start Diver 1: </b>" + self.bar_start +"<br/>""<b>Bar Start Diver 2: </b>" + self.bar_start_2,styNormal )
-        bar_end = Paragraph("<b>Bar End Diver 1: </b>"+ self.bar_end +"<br/>""<b>Bar End Diver 2: </b>" + self.bar_end_2,styNormal )
+        bar_start = ''
+        bar_end = ''
         bottom_time = Paragraph("<b>Bottom Time</b><br/>"+ self.bottom_time,styNormal)
         temperature = Paragraph("<b>UW Temperature</b><br/>"+ self.temperature,styNormal)
         visibility = Paragraph("<b>UW Visibility</b><br/>" + self.visibility,styNormal)
         current = Paragraph("<b>UW Current direction & strength</b><br/>" + self.current_,styNormal)
         wind = Paragraph("<b>Wind</b><br/>"+ self.wind,styNormal)
-        breathing_mix = Paragraph("<b>Breathing mix</b><br/>" + self.breathing_mix,styNormal)
-        max_depth = Paragraph("<b>Max Depth</b><br/>" + self.max_depth,styNormal)
+        breathing_mix = ''
+        max_depth = ''
         surface_interval = Paragraph("<b>Surface Interval</b><br/>"+ self.surface_interval,styNormal)
-        time_in = Paragraph("<b>Time in</b><br/>" + self.time_in,styNormal)
-        time_out = Paragraph("<b>Time out</b><br/>"  + self.time_out, styNormal)
+        time_in = ''
+        time_out = ''
         date_ = Paragraph("<b>Date</b><br/>"  + self.date_, styNormal)
-        dp = Paragraph("<b>DP Diver 1: </b>"  + self.dp + "<br/>""<b>DP Diver 2: </b>" + self.dp_2,styNormal )
+        dp = ''
         # photos_taken = Paragraph("<b>Photos Taken</b><br/>"  , styInt)
         # videos_taken = Paragraph("<b>Videos taken</b><br/>"  , styInt)
         conditions = Paragraph("<b>U/W Conditions</b><br/>"  , styInt)

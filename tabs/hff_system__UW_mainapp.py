@@ -435,26 +435,44 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     lay.addWidget(box)
 
     def _hide_legacy_diver_widgets(self):
-        """Hide the per-diver and per-segment-style QLineEdits + labels
-        that the new divers tree replaces. Hidden, not deleted, because
-        legacy save/fill_fields code still references them; they keep
-        empty strings around without occupying screen real-estate."""
+        """Hide the per-diver / per-segment widgets that the new divers
+        tree replaces. The Qt Designer .ui uses unintuitive widget names
+        (`comboBox_diver` rather than `lineEdit_diver_1`, generic
+        `label_NN` rather than semantic names) — list is enumerated from
+        a grep of `gui/ui/hff_system__UW_ui.ui`. Hidden, not deleted,
+        so legacy save/fill_fields code that still touches them keeps
+        working with empty strings.
+
+        Kept VISIBLE: standby_diver and dive_supervisor (`comboBox_standby_diver`
+        and `comboBox_supervisor`) — they are surface team, not divers,
+        and remain in dive_log columns rather than the new divers table."""
         legacy = [
-            "lineEdit_diver_1", "lineEdit_diver_2",
-            "lineEdit_additional_diver", "lineEdit_standby_diver",
-            "lineEdit_bar_start1", "lineEdit_bar_end1", "lineEdit_dp_diver1",
-            "lineEdit_bar_start_2", "lineEdit_bar_end_2", "lineEdit_dp_diver2",
-            "lineEdit_breathing_mix", "lineEdit_time_in", "lineEdit_time_out",
+            # in-water diver QComboBoxes
+            "comboBox_diver",         # was 'Diver 1' (lead)
+            "comboBox_buddy",         # was 'Diver 2' (buddy)
+            "comboBox_add_diver",     # was 'Additional diver'
+            # per-diver-1 / per-diver-2 QLineEdits
+            "lineEdit_bar_start1", "lineEdit_bar_start_2",
+            "lineEdit_bar_end1", "lineEdit_bar_end_2",
+            "lineEdit_dp1", "lineEdit_dp_2",
+            # dive-level fields now per-diver in the new tables
+            "lineEdit_breathing_mix",
             "lineEdit_max_depth",
-            # Companion labels follow the same naming pattern; some forms
-            # use label_<n> indexing rather than label_<field_name>.
-            # Try both. Missing widgets are silently skipped.
-            "label_diver_1", "label_diver_2",
-            "label_additional_diver", "label_standby_diver",
-            "label_bar_start1", "label_bar_end1", "label_dp_diver1",
-            "label_bar_start_2", "label_bar_end_2", "label_dp_diver2",
-            "label_breathing_mix", "label_time_in", "label_time_out",
-            "label_max_depth",
+            "lineEdit_time_in", "lineEdit_time_out",
+            # accompanying QLabels (text scraped from the .ui)
+            "label",       # "Diver 1"
+            "label_3",     # "Diver 2"
+            "label_4",     # "Additional diver"
+            "label_7",     # "Time out"
+            "label_8",     # "Time in"
+            "label_14",    # "Bar start Diver 1"
+            "label_15",    # "Bar end Diver 1"
+            "label_16",    # "Breathing mix"
+            "label_19",    # "Max depth"
+            "label_22",    # "Δ P Diver 1"
+            "label_30",    # "Bar end Diver 2"
+            "label_31",    # "Bar start Diver 2"
+            "label_32",    # "Δ P Diver 2"
         ]
         for name in legacy:
             w = getattr(self, name, None)
