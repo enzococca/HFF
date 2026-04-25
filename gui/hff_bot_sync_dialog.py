@@ -18,7 +18,15 @@ import json
 import os
 from pathlib import Path
 from urllib.error import HTTPError, URLError
+from urllib.parse import quote
 from urllib.request import Request, urlopen
+
+
+def _media_url(base: str, rel_path: str) -> str:
+    """Build a /media/<rel_path> URL with proper percent-encoding so
+    filenames with spaces or other special characters survive urllib's
+    strict control-character check."""
+    return f"{base.rstrip('/')}/media/{quote(rel_path, safe='/')}"
 
 from qgis.PyQt.QtCore import Qt, QThread, pyqtSignal
 from qgis.PyQt.QtWidgets import (
@@ -111,7 +119,7 @@ class BotSyncWorker(QThread):
         try:
             list_url = f"{self._url}/media/list"
             if self._alias:
-                list_url += f"?alias={self._alias}"
+                list_url += f"?alias={quote(self._alias, safe='')}"
             manifest = json.loads(self._req(list_url))
             files = manifest.get("files", [])
         except HTTPError as e:
@@ -149,7 +157,7 @@ class BotSyncWorker(QThread):
                 continue
             try:
                 content = self._req(
-                    f"{self._url}/media/{remote_rel}", timeout=120.0
+                    _media_url(self._url, remote_rel), timeout=120.0
                 )
                 local_path.parent.mkdir(parents=True, exist_ok=True)
                 local_path.write_bytes(content)
@@ -193,9 +201,10 @@ class BotSqliteWorker(QThread):
 
     def run(self) -> None:
         try:
-            self.progress.emit(f"GET /media/{self._remote_rel}")
+            url = _media_url(self._url, self._remote_rel)
+            self.progress.emit(f"GET {url}")
             req = Request(
-                f"{self._url}/media/{self._remote_rel}",
+                url,
                 headers={"Authorization": f"Bearer {self._token}"},
             )
             with urlopen(req, timeout=300.0) as r:

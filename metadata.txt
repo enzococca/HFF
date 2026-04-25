@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=10.6
+version=10.6.1
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
