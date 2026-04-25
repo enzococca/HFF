@@ -131,59 +131,57 @@ def _strip_unit_suffix(value):
     return s
 
 
-def _render_divers_block(divers, styles_normal):
-    """Build a list of ReportLab flowables (one per diver) showing the
-    normalized divers + segments. Returns [] if `divers` is empty —
-    callers should skip the block entirely in that case.
-
-    Legacy multi-segment data stored as ' - ' delimited strings inside a
-    single seg row is expanded into one visual row per pipe entry, so
-    the PDF reads as a uniform N-row segment table regardless of how
-    the source data was authored."""
-    if not divers:
-        return []
-    from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
+def _render_divers_inline_table(divers, styles_normal, styles_header):
+    """Build a single ReportLab Table flowable containing the diver +
+    segment data, sized to fit inside a cell of the main divelog Table.
+    When `divers` is empty, returns a small Paragraph saying 'No
+    normalized diver data.' rather than an empty Table."""
+    from reportlab.platypus import Paragraph, Table, TableStyle
     from reportlab.lib import colors as _colors
+    if not divers:
+        return Paragraph("<i>No normalized diver data.</i>", styles_normal)
 
-    flowables = [
-        Paragraph(
-            "<b>Divers</b>",
-            styles_normal,
-        ),
-        Spacer(0, 4),
-    ]
+    rows = [["Diver", "Role", "Time in", "Time out", "Max depth",
+             "Mix", "Start", "End", "ΔP"]]
     for d in divers:
-        header = (
-            "<b>{name}</b> ({role})  ·  {ti} → {to}  ·  max {md} m"
-        ).format(
-            name=d.get("name") or "—",
-            role=d.get("role") or "no role",
-            ti=d.get("time_in") or "–",
-            to=d.get("time_out") or "–",
-            md=_strip_unit_suffix(d.get("max_depth")) or "–",
-        )
-        flowables.append(Paragraph(header, styles_normal))
-        seg_rows = [["Seg", "Mix", "Start", "End", "ΔP"]]
+        name = d.get("name") or "—"
+        role = d.get("role") or "no role"
+        ti = d.get("time_in") or "–"
+        to = d.get("time_out") or "–"
+        md = _strip_unit_suffix(d.get("max_depth")) or "–"
+        # First row per diver: identity columns + first segment.
         expanded = _expand_segments(d.get("segments", []))
-        for i, s in enumerate(expanded):
-            seg_rows.append([
-                str(i),
-                s.get("mix") or "–",
-                s.get("bar_start") or "–",
-                s.get("bar_end") or "–",
-                s.get("delta_p") or "–",
-            ])
-        if len(seg_rows) > 1:
-            t = Table(seg_rows, hAlign="LEFT")
-            t.setStyle(TableStyle([
-                ("BACKGROUND", (0, 0), (-1, 0), _colors.lightgrey),
-                ("BOX", (0, 0), (-1, -1), 0.4, _colors.grey),
-                ("INNERGRID", (0, 0), (-1, -1), 0.2, _colors.grey),
-                ("FONTSIZE", (0, 0), (-1, -1), 8),
-            ]))
-            flowables.append(t)
-        flowables.append(Spacer(0, 6))
-    return flowables
+        if not expanded:
+            rows.append([name, role, ti, to, "{} m".format(md),
+                         "–", "–", "–", "–"])
+            continue
+        first = expanded[0]
+        rows.append([name, role, ti, to, "{} m".format(md),
+                     first.get("mix") or "–",
+                     first.get("bar_start") or "–",
+                     first.get("bar_end") or "–",
+                     first.get("delta_p") or "–"])
+        # Continuation rows for additional segments — leave the diver
+        # identity cells blank so the eye groups them visually.
+        for seg in expanded[1:]:
+            rows.append(["", "", "", "", "",
+                         seg.get("mix") or "–",
+                         seg.get("bar_start") or "–",
+                         seg.get("bar_end") or "–",
+                         seg.get("delta_p") or "–"])
+
+    nested = Table(rows, hAlign="LEFT")
+    nested.setStyle(TableStyle([
+        ("GRID", (0, 0), (-1, -1), 0.3, _colors.grey),
+        ("BACKGROUND", (0, 0), (-1, 0), _colors.HexColor("#dcdcdc")),
+        ("FONTSIZE", (0, 0), (-1, -1), 8),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("TOPPADDING", (0, 0), (-1, -1), 3),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ("LEFTPADDING", (0, 0), (-1, -1), 4),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+    ]))
+    return nested
 
 
 class NumberedCanvas_USsheet(canvas.Canvas):
@@ -381,106 +379,141 @@ class single_US_pdf_sheet:
             comments_ = Paragraph("<b>Comments</b><br/>" + self.comments_,styDescrizione)
         except:
             pass
-        #schema
-        cell_schema =  [
-                        #00, 01, 02, 03, 04, 05, 06, 07, 08, 09 rows
-                        [logo2, '01', intestazione,'03' , '04','05', '06', '07', '08', '09','10','11','12','13', '14','15',logo,'17'], #0 row ok
-                        [sito, '01', '02', '03', '04','05', '06', '07', '08',divelog,'10','11','12','13', '14','15','16','17'], #1 row ok
-                        [diver_1, '01', '02', '03', '04','05', date_, '07', '08', '09','10','11',area_id,'13', '14','15','16','17'], #2 row ok
-                        [diver_2, '01', '02', '03', '04','05', time_in, '07', '08', '09','10','11',time_out,'13', '14','15','16','17'], #3 row ok
-                        [standby, '01', '02', '03', '04','05', bottom_time, '07', '08', '09','10','11',max_depth,'13', '14','15','16','17'], #4 row ok
-                        [tender, '01', '02', '03', '04','05', bar_start, '07', '08', '09','10','11',bar_end,'13', '14','15','16','17'], #5 row ok
-                        [dp, '01', '02', '03', '04','05', breathing_mix, '07', '08', '09','10','11',wind,'13', '14','15','16','17'], #6 row ok
-                        [photo_nbr,'01', '02', '03', '04','05', video_nbr, '07','08' , '09','10','11',camera_of,'13', '14','15','16','17'], #7
-                        [task, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #8 row ok
-                        [result, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #9 row ok
-                        [comments_, '01', '02', '03', '04','05', '06', '07', '08', '09','10','11','12','13', '14','15','16','17'], #10 row ok
-                        [conditions, '01', '02', '03', '04','05', '08', '07', '08', '09','10','11','12','13', '14','15','16','17'], #11 row ok
-                        [current, '01', '02', '03', '04','05',visibility, '07', '08', '09','10','11',temperature,'13', '14','15','16','17'], #12
-                        
-                        
-                        # [photo_id,'01', '02', '03', '04','05', video_id, '07', '08', '09','10','11',current,'13', '14','15','16','17'], #13
-                        ]
-        #table style - Professional styling with blue header
-        table_style=[
-                    ('GRID',(0,0),(-1,-1),0.5,HFF_GRAY_DARK),
-                    # Header row styling
-                    ('BACKGROUND', (0,0), (-1,0), HFF_BLUE),
-                    ('TEXTCOLOR', (0,0), (-1,0), colors.white),
-                    # Alternating row backgrounds
-                    ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, HFF_GRAY]),
-                    # Cell padding
-                    ('TOPPADDING', (0,0), (-1,-1), 6),
-                    ('BOTTOMPADDING', (0,0), (-1,-1), 6),
-                    ('LEFTPADDING', (0,0), (-1,-1), 4),
-                    ('RIGHTPADDING', (0,0), (-1,-1), 4),
-                    #0 row
-                    ('SPAN', (0,0),(1,0)),  #logo2
-                    ('SPAN', (2,0),(15,0)),  #intestazione
-                    ('SPAN', (16,0),(17,0)),  #logo
-                    
-                    ('SPAN', (0,1),(8,1)),  #sito
-                    ('SPAN', (9,1),(17,1)),#divelogid
-                    
-                    ('SPAN', (0,2),(5,2)),  #diver1
-                    ('SPAN', (6,2),(11,2)),  #date_
-                    ('SPAN', (12,2),(17,2)),  #area_id
-                    
-                    ('SPAN', (0,3),(5,3)),  #diver2
-                    ('SPAN', (6,3),(11,3)),  #time_in
-                    ('SPAN', (12,3),(17,3)),  #time_out
-                    
-                    ('SPAN', (0,4),(5,4)),  #standby
-                    ('SPAN', (6,4),(11,4)),  #bottom_time
-                    ('SPAN', (12,4),(17,4)),  #maxdepth
-                    
-                    ('SPAN', (0,5),(5,5)),  #standby
-                    ('SPAN', (6,5),(11,5)),  #bottom_time
-                    ('SPAN', (12,5),(17,5)),  #maxdepth 
-                    
-                    ('SPAN', (0,6),(5,6)),  #standby
-                    ('SPAN', (6,6),(11,6)),  #bottom_time
-                    ('SPAN', (12,6),(17,6)),  #maxdepth 
-                    
-                    ('SPAN', (0,7),(5,7)),  #standby
-                    ('SPAN', (6,7),(11,7)),  #standby
-                    ('SPAN', (12,7),(17,7)),  #standby
-                    
-                    ('SPAN', (0,8),(17,8)),  #standby
-                    
-                    ('SPAN', (0,9),(17,9)),  #standby
-                    
-                    ('SPAN', (0,10),(17,10)),  #standby
-                    # ('SPAN', (6,10),(11,10)),  #bottom_time
-                    # ('SPAN', (12,10),(17,10)),  #maxdepth 
-                    
-                    ('SPAN', (0,11),(17,11)),  #standby
-                   
-                    
-                   
-                    ('SPAN', (0,12),(5,12)),  #bottom_time
-                    ('SPAN', (6,12),(11,12)),  #maxdepth 
-                    ('SPAN', (12,12),(17,12)),  #maxdepth 
-                    
-                    # ('SPAN', (0,13),(5,13)),  #standby
-                    # ('SPAN', (6,13),(11,13)),  #bottom_time
-                    # ('SPAN', (12,13),(17,13)),  #maxdepth 
-                    ]
-        colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
-        rowHeights = None
-        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
-        lst = [t]
-        # --- Divers (normalized — new tables) ------------------------
+        # ----------------------------------------------------------------
+        # Build a nested divers sub-Table that gets embedded as the LAST
+        # row of the main cell_schema so it inherits the same styling.
+        # ----------------------------------------------------------------
         try:
             _divers = _fetch_divers_for_dive(
                 self.sito, self.divelog_id, self.years
             )
-            for f in _render_divers_block(_divers, styNormal):
-                lst.append(f)
         except Exception as _exc:
-            print("[divers PDF] block skipped: {}".format(_exc))
-        # -------------------------------------------------------------
-        return lst
+            print("[divers PDF] fetch skipped: {}".format(_exc))
+            _divers = []
+
+        divers_flowable = _render_divers_inline_table(
+            _divers, styNormal, styInt
+        )
+
+        # ----------------------------------------------------------------
+        # Compact 13-row layout — the legacy per-diver paragraphs (which
+        # were turned to '' earlier) are gone entirely. The "Divers"
+        # row at the bottom hosts a nested Table whose contents come from
+        # the divers + diver_segments tables (or a placeholder when empty).
+        # ----------------------------------------------------------------
+        years_p = Paragraph(
+            "<b>Year</b><br/>" + str(self.years or ""), styNormal
+        )
+        surf_int_p = Paragraph(
+            "<b>Surface Interval</b><br/>" + str(self.surface_interval or ""),
+            styNormal,
+        )
+        divers_label = Paragraph("<b>Divers</b>", styInt)
+
+        cell_schema = [
+            # Row 0 — banner
+            [logo2, '', intestazione, '', '', '', '', '', '', '',
+             '', '', '', '', '', '', logo, ''],
+            # Row 1 — location | dive log number
+            [sito, '', '', '', '', '', '', '', '',
+             divelog, '', '', '', '', '', '', '', ''],
+            # Row 2 — date | area | year
+            [date_, '', '', '', '', '',
+             area_id, '', '', '', '', '',
+             years_p, '', '', '', '', ''],
+            # Row 3 — standby | dive supervisor | wind
+            [standby, '', '', '', '', '',
+             tender, '', '', '', '', '',
+             wind, '', '', '', '', ''],
+            # Row 4 — bottom time | surface interval | (empty)
+            [bottom_time, '', '', '', '', '',
+             surf_int_p, '', '', '', '', '',
+             '', '', '', '', '', ''],
+            # Row 5 — photo count | video count | camera
+            [photo_nbr, '', '', '', '', '',
+             video_nbr, '', '', '', '', '',
+             camera_of, '', '', '', '', ''],
+            # Row 6 — task (full width)
+            [task, '', '', '', '', '', '', '', '', '',
+             '', '', '', '', '', '', '', ''],
+            # Row 7 — result (full width)
+            [result, '', '', '', '', '', '', '', '', '',
+             '', '', '', '', '', '', '', ''],
+            # Row 8 — comments (full width)
+            [comments_, '', '', '', '', '', '', '', '', '',
+             '', '', '', '', '', '', '', ''],
+            # Row 9 — U/W Conditions header
+            [conditions, '', '', '', '', '', '', '', '', '',
+             '', '', '', '', '', '', '', ''],
+            # Row 10 — current | visibility | temperature
+            [current, '', '', '', '', '',
+             visibility, '', '', '', '', '',
+             temperature, '', '', '', '', ''],
+            # Row 11 — Divers label
+            [divers_label, '', '', '', '', '', '', '', '', '',
+             '', '', '', '', '', '', '', ''],
+            # Row 12 — Divers nested Table (or placeholder)
+            [divers_flowable, '', '', '', '', '', '', '', '', '',
+             '', '', '', '', '', '', '', ''],
+        ]
+
+        table_style = [
+            ('GRID', (0, 0), (-1, -1), 0.5, HFF_GRAY_DARK),
+            # Header row blue band
+            ('BACKGROUND', (0, 0), (-1, 0), HFF_BLUE),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            # Alternating row backgrounds for the body
+            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, HFF_GRAY]),
+            # Cell padding
+            ('TOPPADDING', (0, 0), (-1, -1), 6),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+            ('LEFTPADDING', (0, 0), (-1, -1), 4),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 4),
+            # Row 0 — banner
+            ('SPAN', (0, 0), (1, 0)),
+            ('SPAN', (2, 0), (15, 0)),
+            ('SPAN', (16, 0), (17, 0)),
+            # Row 1 — sito | divelog
+            ('SPAN', (0, 1), (8, 1)),
+            ('SPAN', (9, 1), (17, 1)),
+            # Rows 2-5 — three cells per row, each spanning 6 columns
+            ('SPAN', (0, 2), (5, 2)),
+            ('SPAN', (6, 2), (11, 2)),
+            ('SPAN', (12, 2), (17, 2)),
+            ('SPAN', (0, 3), (5, 3)),
+            ('SPAN', (6, 3), (11, 3)),
+            ('SPAN', (12, 3), (17, 3)),
+            ('SPAN', (0, 4), (5, 4)),
+            ('SPAN', (6, 4), (11, 4)),
+            ('SPAN', (12, 4), (17, 4)),
+            ('SPAN', (0, 5), (5, 5)),
+            ('SPAN', (6, 5), (11, 5)),
+            ('SPAN', (12, 5), (17, 5)),
+            # Rows 6-9 — full width
+            ('SPAN', (0, 6), (17, 6)),
+            ('SPAN', (0, 7), (17, 7)),
+            ('SPAN', (0, 8), (17, 8)),
+            ('SPAN', (0, 9), (17, 9)),
+            # Row 10 — three cells per row
+            ('SPAN', (0, 10), (5, 10)),
+            ('SPAN', (6, 10), (11, 10)),
+            ('SPAN', (12, 10), (17, 10)),
+            # Row 11 — Divers label
+            ('SPAN', (0, 11), (17, 11)),
+            ('BACKGROUND', (0, 11), (-1, 11), HFF_BLUE_LIGHT),
+            # Row 12 — Divers nested Table
+            ('SPAN', (0, 12), (17, 12)),
+            ('LEFTPADDING', (0, 12), (-1, 12), 8),
+            ('RIGHTPADDING', (0, 12), (-1, 12), 8),
+        ]
+        colWidths = (15, 30, 30, 30, 30, 30, 30, 30, 30, 30,
+                     30, 30, 30, 30, 30, 30, 30, 30)
+        rowHeights = None
+        t = Table(
+            cell_schema, colWidths=colWidths, rowHeights=rowHeights,
+            style=table_style,
+        )
+        return [t]
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
         ])  #finale
