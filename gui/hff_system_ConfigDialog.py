@@ -3345,6 +3345,91 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
             else:
                 QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
 
+            # --- Copy divers + diver_segments source → destination ----
+            # Migration paths (sqlite↔sqlite, sqlite↔postgres, postgres↔
+            # postgres) must propagate the new normalized diver tables.
+            # Done in raw SQL because the divers tables aren't part of
+            # the existing ORM mapper. Idempotent via the UNIQUE
+            # constraints; safe to re-run.
+            try:
+                from sqlalchemy import text as _sa_text
+                from ..modules.db.hff_divers_migration import (
+                    ensure_divers_schema as _ensure_divers,
+                )
+                _ensure_divers(self.DB_MANAGER_write.engine)
+                divers_imported = 0
+                divers_skipped = 0
+                segs_imported = 0
+                with self.DB_MANAGER_read.engine.connect() as _r:
+                    src_divers = _r.execute(_sa_text(
+                        "SELECT id, site, divelog_id, years, diver_name, "
+                        "role, time_in, time_out, max_depth FROM divers "
+                        "ORDER BY id"
+                    )).fetchall()
+                    for sd in src_divers:
+                        src_id = int(sd[0])
+                        with self.DB_MANAGER_write.engine.begin() as _w:
+                            existing = _w.execute(_sa_text(
+                                "SELECT id FROM divers WHERE site=:s "
+                                "AND divelog_id=:d AND years=:y "
+                                "AND diver_name=:n"
+                            ), {"s": sd[1], "d": sd[2], "y": sd[3],
+                                "n": sd[4]}).fetchone()
+                            if existing:
+                                divers_skipped += 1
+                                continue
+                            if _w.dialect.name == "sqlite":
+                                _w.execute(_sa_text(
+                                    "INSERT INTO divers (site, divelog_id, "
+                                    "years, diver_name, role, time_in, "
+                                    "time_out, max_depth) VALUES "
+                                    "(:s, :d, :y, :n, :r, :ti, :to, :md)"
+                                ), {"s": sd[1], "d": sd[2], "y": sd[3],
+                                    "n": sd[4], "r": sd[5], "ti": sd[6],
+                                    "to": sd[7], "md": sd[8]})
+                                new_id = int(_w.execute(_sa_text(
+                                    "SELECT last_insert_rowid()"
+                                )).scalar_one())
+                            else:
+                                new_id = int(_w.execute(_sa_text(
+                                    "INSERT INTO divers (site, divelog_id, "
+                                    "years, diver_name, role, time_in, "
+                                    "time_out, max_depth) VALUES "
+                                    "(:s, :d, :y, :n, :r, :ti, :to, :md) "
+                                    "RETURNING id"
+                                ), {"s": sd[1], "d": sd[2], "y": sd[3],
+                                    "n": sd[4], "r": sd[5], "ti": sd[6],
+                                    "to": sd[7], "md": sd[8]}).scalar_one())
+                            divers_imported += 1
+                            src_segs = _r.execute(_sa_text(
+                                "SELECT seq, breathing_mix, bar_start, "
+                                "bar_end, delta_p FROM diver_segments "
+                                "WHERE diver_id=:i ORDER BY seq"
+                            ), {"i": src_id}).fetchall()
+                            for ss in src_segs:
+                                _w.execute(_sa_text(
+                                    "INSERT INTO diver_segments ("
+                                    "diver_id, seq, breathing_mix, "
+                                    "bar_start, bar_end, delta_p) "
+                                    "VALUES (:i, :q, :m, :bs, :be, :dp)"
+                                ), {"i": new_id, "q": ss[0],
+                                    "m": ss[1], "bs": ss[2],
+                                    "be": ss[3], "dp": ss[4]})
+                                segs_imported += 1
+                QMessageBox.information(
+                    self, tr('title_message'),
+                    "Divers migrated — divers imported: %d, skipped "
+                    "(already present): %d, segments imported: %d"
+                    % (divers_imported, divers_skipped, segs_imported),
+                )
+            except Exception as _div_exc:
+                QMessageBox.warning(
+                    self, "Divers migration",
+                    "Skipped divers/segments copy: %s" % str(_div_exc),
+                    QMessageBox.Ok,
+                )
+            # ----------------------------------------------------------
+
 
         elif mapper_class_write == 'MEDIA' :
             skipped = 0
