@@ -325,6 +325,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.setupUi(self)
         self._install_divers_widget()
         self._hide_legacy_diver_widgets()
+        self._compact_after_hide()
         apply_i18n_to_form(self)
         standardize_toolbar(self)
         self.i18n = HffI18n.instance()
@@ -490,6 +491,84 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         Each diver dialog edit produces one of these dicts."""
         if not hasattr(self, "_divers_payload"):
             self._divers_payload = []
+
+    def _compact_after_hide(self):
+        """After _hide_legacy_diver_widgets has set 25+ widgets to
+        invisible, the form has visual gaps where they used to live.
+        This method shifts the SURVIVING widgets in the same parent up
+        by the cumulative height of any hidden sibling that was above
+        them on the canvas. The hidden widgets stay invisible (legacy
+        save/fill_fields code still pokes their .setText() / .currentText()
+        calls — they're real Qt widgets, just off-screen)."""
+        from qgis.PyQt.QtCore import QRect
+        legacy_names = {
+            "comboBox_diver", "comboBox_buddy", "comboBox_add_diver",
+            "lineEdit_bar_start1", "lineEdit_bar_start_2",
+            "lineEdit_bar_end1", "lineEdit_bar_end_2",
+            "lineEdit_dp1", "lineEdit_dp_2",
+            "lineEdit_breathing_mix",
+            "lineEdit_max_depth",
+            "lineEdit_time_in", "lineEdit_time_out",
+            "label", "label_3", "label_4", "label_7", "label_8",
+            "label_14", "label_15", "label_16", "label_19", "label_22",
+            "label_30", "label_31", "label_32",
+        }
+        # Group hidden widgets by parent.
+        from collections import defaultdict
+        by_parent = defaultdict(list)  # id(parent) -> [(y, h), ...]
+        parent_ref = {}                # id(parent) -> parent
+        for name in legacy_names:
+            w = getattr(self, name, None)
+            if w is None:
+                continue
+            try:
+                geom = w.geometry()
+                p = w.parent()
+            except Exception:
+                continue
+            if p is None or geom.width() == 0:
+                continue
+            by_parent[id(p)].append((geom.y(), geom.height()))
+            parent_ref[id(p)] = p
+        # For each parent, shift surviving siblings up by the cumulative
+        # height of hidden siblings that lived above them.
+        SPACING = 2
+        shifted_count = 0
+        for pid, removed in by_parent.items():
+            parent = parent_ref[pid]
+            removed_sorted = sorted(removed)
+            for child in parent.children():
+                # Skip the hidden widgets themselves and the parent's
+                # own non-widget children (layouts, etc.).
+                if not hasattr(child, "geometry"):
+                    continue
+                if not hasattr(child, "objectName"):
+                    continue
+                if child.objectName() in legacy_names:
+                    continue
+                try:
+                    g = child.geometry()
+                except Exception:
+                    continue
+                if g.width() == 0:
+                    continue
+                shift = sum(
+                    h + SPACING for (y, h) in removed_sorted if y < g.y()
+                )
+                if shift > 0:
+                    new_y = max(0, g.y() - shift)
+                    try:
+                        child.setGeometry(QRect(g.x(), new_y, g.width(),
+                                                g.height()))
+                        shifted_count += 1
+                    except Exception:
+                        pass
+        # Quiet log — useful when toggling but never user-facing.
+        try:
+            print(f"[divelog form] compacted: shifted {shifted_count} "
+                  f"widgets across {len(by_parent)} parent(s)")
+        except Exception:
+            pass
 
     def _refresh_divers_tree(self):
         """Render self._divers_payload into self.tree_divers."""

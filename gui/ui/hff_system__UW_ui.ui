@@ -781,11 +781,64 @@
       <attribute name="title">
        <string>Dive Log Form</string>
       </attribute>
+      <widget class="QComboBox" name="comboBox_diver">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
       <widget class="QLineEdit" name="lineEdit_surface_interval">
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>0</y>
+         <y>350</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QLineEdit" name="lineEdit_bar_start1">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>170</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QLineEdit" name="lineEdit_max_depth">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>100</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QLineEdit" name="lineEdit_bar_end1">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>220</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QLineEdit" name="lineEdit_breathing_mix">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>100</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -795,7 +848,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>420</y>
          <width>181</width>
          <height>31</height>
         </rect>
@@ -805,17 +858,33 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>360</y>
          <width>181</width>
          <height>31</height>
         </rect>
        </property>
        </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>181</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Diver 1</string>
+       </property>
+      </widget>
       <widget class="QLabel" name="label_2">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>280</y>
          <width>181</width>
          <height>20</height>
         </rect>
@@ -827,11 +896,43 @@
         <string>Dive Supervisor</string>
        </property>
       </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>181</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Diver 2</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>150</y>
+         <width>181</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Additional diver</string>
+       </property>
+      </widget>
       <widget class="QLabel" name="label_5">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>220</y>
          <width>181</width>
          <height>20</height>
         </rect>
@@ -843,11 +944,43 @@
         <string>Standby diver</string>
        </property>
       </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>9</y>
+         <width>151</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Time out</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_8">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>10</y>
+         <width>151</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Time in</string>
+       </property>
+      </widget>
       <widget class="QLineEdit" name="lineEdit_bottom_time">
        <property name="geometry">
         <rect>
          <x>360</x>
-         <y>0</y>
+         <y>420</y>
          <width>141</width>
          <height>31</height>
         </rect>
@@ -857,7 +990,7 @@
        <property name="geometry">
         <rect>
          <x>360</x>
-         <y>0</y>
+         <y>400</y>
          <width>141</width>
          <height>20</height>
         </rect>
@@ -873,7 +1006,7 @@
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>0</y>
+         <y>330</y>
          <width>151</width>
          <height>20</height>
         </rect>
@@ -885,11 +1018,59 @@
         <string>Surface interval</string>
        </property>
       </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>150</y>
+         <width>151</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Bar start Diver 1</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>200</y>
+         <width>151</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Bar end Diver 1</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_16">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>80</y>
+         <width>151</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Breathing mix</string>
+       </property>
+      </widget>
       <widget class="QLabel" name="label_17">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>400</y>
          <width>181</width>
          <height>20</height>
         </rect>
@@ -905,7 +1086,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>340</y>
          <width>181</width>
          <height>20</height>
         </rect>
@@ -917,11 +1098,27 @@
         <string>UW Temperature</string>
        </property>
       </widget>
+      <widget class="QLabel" name="label_19">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>80</y>
+         <width>151</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Max depth</string>
+       </property>
+      </widget>
       <widget class="QLabel" name="label_20">
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>0</y>
+         <y>400</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -937,7 +1134,7 @@
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>0</y>
+         <y>470</y>
          <width>151</width>
          <height>20</height>
         </rect>
@@ -953,7 +1150,7 @@
        <property name="geometry">
         <rect>
          <x>360</x>
-         <y>0</y>
+         <y>470</y>
          <width>151</width>
          <height>20</height>
         </rect>
@@ -969,7 +1166,7 @@
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>0</y>
+         <y>490</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -982,7 +1179,7 @@
        <property name="geometry">
         <rect>
          <x>360</x>
-         <y>0</y>
+         <y>490</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -995,7 +1192,7 @@
        <property name="geometry">
         <rect>
          <x>360</x>
-         <y>0</y>
+         <y>330</y>
          <width>151</width>
          <height>20</height>
         </rect>
@@ -1011,7 +1208,7 @@
        <property name="geometry">
         <rect>
          <x>360</x>
-         <y>0</y>
+         <y>350</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -1091,7 +1288,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>460</y>
          <width>181</width>
          <height>31</height>
         </rect>
@@ -1107,7 +1304,7 @@
        <property name="geometry">
         <rect>
          <x>550</x>
-         <y>0</y>
+         <y>300</y>
          <width>1051</width>
          <height>251</height>
         </rect>
@@ -1170,7 +1367,7 @@
        <property name="geometry">
         <rect>
          <x>550</x>
-         <y>0</y>
+         <y>260</y>
          <width>91</width>
          <height>30</height>
         </rect>
@@ -1183,7 +1380,7 @@
        <property name="geometry">
         <rect>
          <x>670</x>
-         <y>0</y>
+         <y>260</y>
          <width>121</width>
          <height>30</height>
         </rect>
@@ -1196,7 +1393,7 @@
        <property name="geometry">
         <rect>
          <x>660</x>
-         <y>0</y>
+         <y>560</y>
          <width>121</width>
          <height>30</height>
         </rect>
@@ -1209,7 +1406,7 @@
        <property name="geometry">
         <rect>
          <x>550</x>
-         <y>0</y>
+         <y>560</y>
          <width>91</width>
          <height>30</height>
         </rect>
@@ -1218,11 +1415,57 @@
         <string>Insert row</string>
        </property>
       </widget>
+      <widget class="QLineEdit" name="lineEdit_time_in">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>31</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QLineEdit" name="lineEdit_time_out">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>30</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QComboBox" name="comboBox_buddy">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_add_diver">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>170</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
       <widget class="QComboBox" name="comboBox_standby_diver">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>240</y>
          <width>181</width>
          <height>31</height>
         </rect>
@@ -1235,7 +1478,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>300</y>
          <width>181</width>
          <height>31</height>
         </rect>
@@ -1248,7 +1491,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>0</y>
+         <y>490</y>
          <width>181</width>
          <height>31</height>
         </rect>
@@ -1280,11 +1523,37 @@
         </property>
        </item>
       </widget>
+      <widget class="QLabel" name="label_22">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>260</y>
+         <width>151</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Δ P Diver 1</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_dp1">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>280</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
       <widget class="QComboBox" name="comboBox_wind">
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>0</y>
+         <y>430</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -1293,7 +1562,85 @@
         <bool>true</bool>
        </property>
       </widget>
+      <widget class="QLineEdit" name="lineEdit_bar_start_2">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>170</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QLabel" name="label_30">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>200</y>
+         <width>151</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Bar end Diver 2</string>
+       </property>
       </widget>
+      <widget class="QLabel" name="label_31">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>150</y>
+         <width>151</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Bar start Diver 2</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_bar_end_2">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>220</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QLineEdit" name="lineEdit_dp_2">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>280</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       </widget>
+      <widget class="QLabel" name="label_32">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>260</y>
+         <width>151</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="text">
+        <string>Δ P Diver 2</string>
+       </property>
+      </widget>
+     </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
        <string>Media</string>
