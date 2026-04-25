@@ -68,10 +68,78 @@ def _fetch_divers_for_dive(site, divelog_id, years):
     return out
 
 
+def _split_pipeish(value):
+    """Split a legacy pipe-style string like 'EAN28 - EAN50 - EAN100'
+    or '200 - 140 - 110' into a list of trimmed parts. Empty / None
+    becomes ['']. Single-value strings come back as a 1-element list.
+    Used to expand legacy single-row segments (where the user crammed
+    multiple gas changes into one VARCHAR field) into multiple visual
+    seg rows in the PDF."""
+    if value is None:
+        return [""]
+    s = str(value).strip()
+    if not s:
+        return [""]
+    # split on " - " (with surrounding spaces) but tolerate " -" / "- "
+    import re
+    parts = re.split(r"\s*-\s*", s)
+    parts = [p.strip() for p in parts if p.strip() != ""]
+    return parts or [""]
+
+
+def _expand_segments(segments):
+    """Walk each persisted segment and, when its fields contain pipe-
+    style ' - ' delimiters, expand into multiple visual rows. Returns a
+    flat list of dicts with single-value fields, ready for direct PDF
+    table rendering. Single-value segments pass through unchanged."""
+    out = []
+    for s in segments or []:
+        mixes = _split_pipeish(s.get("mix"))
+        starts = _split_pipeish(s.get("bar_start"))
+        ends = _split_pipeish(s.get("bar_end"))
+        dps = _split_pipeish(s.get("delta_p"))
+        n = max(len(mixes), len(starts), len(ends), len(dps), 1)
+
+        def _pick(arr, i):
+            if i < len(arr):
+                return arr[i]
+            return arr[-1] if arr else ""
+
+        for i in range(n):
+            out.append({
+                "mix": _pick(mixes, i),
+                "bar_start": _pick(starts, i),
+                "bar_end": _pick(ends, i),
+                "delta_p": _pick(dps, i),
+            })
+    return out
+
+
+def _strip_unit_suffix(value):
+    """Trim a trailing 'm' or 'meter(s)' so headers render 'max 32.6 m'
+    even when the legacy column already had the unit baked in (avoids
+    'max 32.6 m m')."""
+    if value is None:
+        return ""
+    s = str(value).strip()
+    if not s:
+        return ""
+    low = s.lower()
+    for suffix in (" meters", " meter", " m"):
+        if low.endswith(suffix):
+            return s[: -len(suffix)].strip()
+    return s
+
+
 def _render_divers_block(divers, styles_normal):
     """Build a list of ReportLab flowables (one per diver) showing the
     normalized divers + segments. Returns [] if `divers` is empty —
-    callers should skip the block entirely in that case."""
+    callers should skip the block entirely in that case.
+
+    Legacy multi-segment data stored as ' - ' delimited strings inside a
+    single seg row is expanded into one visual row per pipe entry, so
+    the PDF reads as a uniform N-row segment table regardless of how
+    the source data was authored."""
     if not divers:
         return []
     from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
@@ -79,7 +147,7 @@ def _render_divers_block(divers, styles_normal):
 
     flowables = [
         Paragraph(
-            "<b>DIVERS (normalized)</b>",
+            "<b>Divers</b>",
             styles_normal,
         ),
         Spacer(0, 4),
@@ -92,11 +160,12 @@ def _render_divers_block(divers, styles_normal):
             role=d.get("role") or "no role",
             ti=d.get("time_in") or "–",
             to=d.get("time_out") or "–",
-            md=d.get("max_depth") or "–",
+            md=_strip_unit_suffix(d.get("max_depth")) or "–",
         )
         flowables.append(Paragraph(header, styles_normal))
         seg_rows = [["Seg", "Mix", "Start", "End", "ΔP"]]
-        for i, s in enumerate(d.get("segments", [])):
+        expanded = _expand_segments(d.get("segments", []))
+        for i, s in enumerate(expanded):
             seg_rows.append([
                 str(i),
                 s.get("mix") or "–",
