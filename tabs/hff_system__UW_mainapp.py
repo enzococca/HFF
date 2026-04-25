@@ -4002,29 +4002,34 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         data_list = []
         for i in range(len(self.DATA_LIST)):
         
+            row = self.DATA_LIST[i]
+            # Defensive int() coercion: divelog_id / photo_nbr / video_nbr
+            # may be NULL on rows authored before those columns had defaults
+            # (or freshly inserted by the new wizard which doesn't always
+            # populate counts). int(None) crashes the whole PDF; treat as 0.
             data_list.append([
-            int(self.DATA_LIST[i].divelog_id),                                  #1 - Sito
-            str(self.DATA_LIST[i].area_id),                                 #2 - Area                       #1 - Sito
-            str(self.DATA_LIST[i].diver_1),                                         #3 - US
-            str(self.DATA_LIST[i].diver_2),                     #4 - Definizione stratigrafica
-            str(self.DATA_LIST[i].additional_diver),                     #5 - Definizione intepretata
-            str(self.DATA_LIST[i].standby_diver),                   #6 - descrizione
-            str(self.DATA_LIST[i].task),
-            str(self.DATA_LIST[i].result),      #7 - interpretazione
-            str(self.DATA_LIST[i].dive_supervisor),                      #11 - fase finale
-            str(self.DATA_LIST[i].bar_start_diver1),                       #12 - scavato
-            str(self.DATA_LIST[i].bar_end_diver1),                         #13 - attivita
-            str(self.DATA_LIST[i].uw_temperature),                             #14 - anno scavo
-            str(self.DATA_LIST[i].uw_visibility),                      #15 - metodo
-            str(self.DATA_LIST[i].uw_current_),                                                    #16 - inclusi
-            str(self.DATA_LIST[i].wind),                                                    #17 - campioni
-            str(self.DATA_LIST[i].breathing_mix),                                                   #18 - rapporti
-            str(self.DATA_LIST[i].max_depth),                       #19 - data schedatura
-            str(self.DATA_LIST[i].surface_interval),                    #20 - schedatore
-            str(self.DATA_LIST[i].comments_),                   #21 - formazione
-            str(self.DATA_LIST[i].bottom_time),             #22 - conservazione
-            int(self.DATA_LIST[i].photo_nbr),                   #24 - consistenza
-            int(self.DATA_LIST[i].video_nbr),                               #25 - struttura
+            int(row.divelog_id or 0),                                  #1 - Sito
+            str(row.area_id),                                 #2 - Area                       #1 - Sito
+            str(row.diver_1),                                         #3 - US
+            str(row.diver_2),                     #4 - Definizione stratigrafica
+            str(row.additional_diver),                     #5 - Definizione intepretata
+            str(row.standby_diver),                   #6 - descrizione
+            str(row.task),
+            str(row.result),      #7 - interpretazione
+            str(row.dive_supervisor),                      #11 - fase finale
+            str(row.bar_start_diver1),                       #12 - scavato
+            str(row.bar_end_diver1),                         #13 - attivita
+            str(row.uw_temperature),                             #14 - anno scavo
+            str(row.uw_visibility),                      #15 - metodo
+            str(row.uw_current_),                                                    #16 - inclusi
+            str(row.wind),                                                    #17 - campioni
+            str(row.breathing_mix),                                                   #18 - rapporti
+            str(row.max_depth),                       #19 - data schedatura
+            str(row.surface_interval),                    #20 - schedatore
+            str(row.comments_),                   #21 - formazione
+            str(row.bottom_time),             #22 - conservazione
+            int(row.photo_nbr or 0),                   #24 - consistenza
+            int(row.video_nbr or 0),                               #25 - struttura
             str(self.DATA_LIST[i].camera),
             str(self.DATA_LIST[i].time_in),                     #9 - fase iniziale
             str(self.DATA_LIST[i].time_out),
