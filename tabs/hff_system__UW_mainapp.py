@@ -323,6 +323,8 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.iface = iface
         self.pyQGIS = Hff_pyqgis(iface)
         self.setupUi(self)
+        self._install_divers_widget()
+        self._hide_legacy_diver_widgets()
         apply_i18n_to_form(self)
         standardize_toolbar(self)
         self.i18n = HffI18n.instance()
@@ -363,6 +365,118 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
         # Initialize statistics tab
         self.init_statistics(UW_STATS_FIELDS)
+
+    # ------------------------------------------------------------------
+    # Divers widget (programmatic, Task B4)
+    # ------------------------------------------------------------------
+
+    def _install_divers_widget(self):
+        """Programmatically add a 'Divers' tab to the form's tabWidget
+        (or, if absent, append a QGroupBox to the central layout).
+        Sets the instance attributes B5 expects:
+          self.tree_divers      QTreeWidget (9 cols)
+          self.btn_add_diver    QPushButton
+          self.btn_edit_diver   QPushButton
+          self.btn_remove_diver QPushButton
+        """
+        from qgis.PyQt.QtWidgets import (
+            QGroupBox, QHBoxLayout, QPushButton, QTreeWidget,
+            QVBoxLayout, QWidget,
+        )
+
+        container = QWidget(self)
+        outer = QVBoxLayout(container)
+        outer.setContentsMargins(6, 6, 6, 6)
+
+        self.tree_divers = QTreeWidget(container)
+        self.tree_divers.setColumnCount(9)
+        self.tree_divers.setHeaderLabels([
+            "Diver", "Role", "Time in", "Time out", "Max depth",
+            "Mix", "Start", "End", "ΔP",
+        ])
+        self.tree_divers.setRootIsDecorated(True)
+        self.tree_divers.setAlternatingRowColors(True)
+        outer.addWidget(self.tree_divers)
+
+        btn_row = QHBoxLayout()
+        self.btn_add_diver = QPushButton("+ Add diver", container)
+        self.btn_edit_diver = QPushButton("Edit selected", container)
+        self.btn_remove_diver = QPushButton("Remove selected", container)
+        self.btn_add_diver.clicked.connect(self._on_add_diver)
+        self.btn_edit_diver.clicked.connect(self._on_edit_diver)
+        self.btn_remove_diver.clicked.connect(self._on_remove_diver)
+        btn_row.addWidget(self.btn_add_diver)
+        btn_row.addWidget(self.btn_edit_diver)
+        btn_row.addWidget(self.btn_remove_diver)
+        btn_row.addStretch(1)
+        outer.addLayout(btn_row)
+
+        # Try to add as a tab; fall back to appending under the form's
+        # main vertical layout if no tabWidget is available.
+        tab_widget = getattr(self, "tabWidget", None) or getattr(
+            self, "tabWidget_main", None
+        )
+        if tab_widget is not None:
+            tab_widget.addTab(container, "Divers")
+        else:
+            # Last resort: stick it inside a QGroupBox and dock it on top.
+            box = QGroupBox("Divers", self)
+            box_layout = QVBoxLayout(box)
+            box_layout.addWidget(container)
+            # Use whatever the central layout exposes. Fall back to setting
+            # as a window of its own so the widget at least exists.
+            central = getattr(self, "centralwidget", None) or self.layout()
+            if hasattr(central, "addWidget"):
+                central.addWidget(box)
+            elif central is not None:
+                # central might be a QWidget with a layout
+                lay = central.layout()
+                if lay is not None and hasattr(lay, "addWidget"):
+                    lay.addWidget(box)
+
+    def _hide_legacy_diver_widgets(self):
+        """Hide the per-diver and per-segment-style QLineEdits + labels
+        that the new divers tree replaces. Hidden, not deleted, because
+        legacy save/fill_fields code still references them; they keep
+        empty strings around without occupying screen real-estate."""
+        legacy = [
+            "lineEdit_diver_1", "lineEdit_diver_2",
+            "lineEdit_additional_diver", "lineEdit_standby_diver",
+            "lineEdit_bar_start1", "lineEdit_bar_end1", "lineEdit_dp_diver1",
+            "lineEdit_bar_start_2", "lineEdit_bar_end_2", "lineEdit_dp_diver2",
+            "lineEdit_breathing_mix", "lineEdit_time_in", "lineEdit_time_out",
+            "lineEdit_max_depth",
+            # Companion labels follow the same naming pattern; some forms
+            # use label_<n> indexing rather than label_<field_name>.
+            # Try both. Missing widgets are silently skipped.
+            "label_diver_1", "label_diver_2",
+            "label_additional_diver", "label_standby_diver",
+            "label_bar_start1", "label_bar_end1", "label_dp_diver1",
+            "label_bar_start_2", "label_bar_end_2", "label_dp_diver2",
+            "label_breathing_mix", "label_time_in", "label_time_out",
+            "label_max_depth",
+        ]
+        for name in legacy:
+            w = getattr(self, name, None)
+            if w is not None:
+                try:
+                    w.setVisible(False)
+                except Exception:
+                    pass
+
+    def _on_add_diver(self):
+        """Stub — wired in Task B5."""
+        pass
+
+    def _on_edit_diver(self):
+        """Stub — wired in Task B5."""
+        pass
+
+    def _on_remove_diver(self):
+        """Stub — wired in Task B5."""
+        pass
+
+    # ------------------------------------------------------------------
 
     def get_stats_records(self):
         """Get records for statistics - override from StatisticsMixin."""
