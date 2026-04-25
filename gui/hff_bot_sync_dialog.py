@@ -28,8 +28,39 @@ def _media_url(base: str, rel_path: str) -> str:
     strict control-character check."""
     return f"{base.rstrip('/')}/media/{quote(rel_path, safe='/')}"
 
+
+def _hff_home() -> Path:
+    return Path(os.environ.get("HFF_HOME", str(Path.home() / "HFF")))
+
+
+def _config_cfg_path() -> Path:
+    return _hff_home() / "HFF_DB_folder" / "config.cfg"
+
+
+def _read_config_dict() -> dict:
+    """Parse ~/HFF/HFF_DB_folder/config.cfg as a Python dict literal.
+    Returns {} on any error."""
+    cfg_path = _config_cfg_path()
+    if not cfg_path.is_file():
+        return {}
+    try:
+        cfg = ast.literal_eval(cfg_path.read_text(encoding="utf-8"))
+        return cfg if isinstance(cfg, dict) else {}
+    except Exception:
+        return {}
+
+
+def _write_config_dict(cfg: dict) -> Path:
+    """Persist the dict back to config.cfg using the same str(dict) format
+    the existing plugin code uses (eval-compatible)."""
+    cfg_path = _config_cfg_path()
+    cfg_path.parent.mkdir(parents=True, exist_ok=True)
+    cfg_path.write_text(str(cfg), encoding="utf-8")
+    return cfg_path
+
 from qgis.PyQt.QtCore import Qt, QThread, pyqtSignal
 from qgis.PyQt.QtWidgets import (
+    QCheckBox,
     QComboBox,
     QDialog,
     QFileDialog,
@@ -99,12 +130,13 @@ class BotSyncWorker(QThread):
     failed = pyqtSignal(str)               # unrecoverable error
 
     def __init__(self, url: str, token: str, alias: str, local_dir: str,
-                 parent=None):
+                 preserve_local: bool = True, parent=None):
         super().__init__(parent)
         self._url = url.rstrip("/")
         self._token = token
         self._alias = alias
         self._local_dir = Path(local_dir).expanduser()
+        self._preserve_local = preserve_local
         self._cancelled = False
 
     def cancel(self) -> None:
@@ -151,10 +183,21 @@ class BotSyncWorker(QThread):
             if self._alias and local_rel.startswith(f"{self._alias}/"):
                 local_rel = local_rel[len(self._alias) + 1:]
             local_path = self._local_dir / local_rel
-            if local_path.is_file() and local_path.stat().st_size == size:
-                skipped += 1
-                self.progress.emit(idx, total, f"skip  {local_rel}")
-                continue
+            if local_path.is_file():
+                # Preserve-local mode: never overwrite an existing file even
+                # if size differs. This protects against id_media collisions
+                # when the local THUMB_PATH was populated by a different DB
+                # whose media filenames happen to overlap with the bot's.
+                if self._preserve_local:
+                    skipped += 1
+                    self.progress.emit(
+                        idx, total, f"keep  {local_rel}  (local exists)"
+                    )
+                    continue
+                if local_path.stat().st_size == size:
+                    skipped += 1
+                    self.progress.emit(idx, total, f"skip  {local_rel}")
+                    continue
             try:
                 content = self._req(
                     _media_url(self._url, remote_rel), timeout=120.0
@@ -230,28 +273,31 @@ def _patch_config_for_sqlite(sqlite_filename: str) -> Path:
     Preserves THUMB_PATH/THUMB_RESIZE/SITE_SET/LOGO if present. Clears
     HOST/PORT/USER/PASSWORD because they are postgres-only.
     """
-    home = Path(
-        os.environ.get("HFF_HOME", str(Path.home() / "HFF"))
-    )
-    cfg_path = home / "HFF_DB_folder" / "config.cfg"
-    cfg_path.parent.mkdir(parents=True, exist_ok=True)
-    if cfg_path.is_file():
-        try:
-            existing = ast.literal_eval(cfg_path.read_text(encoding="utf-8"))
-            if not isinstance(existing, dict):
-                existing = {}
-        except Exception:
-            existing = {}
-    else:
-        existing = {}
-    existing["SERVER"] = "sqlite"
-    existing["DATABASE"] = sqlite_filename
-    existing["HOST"] = ""
-    existing["PORT"] = ""
-    existing["USER"] = ""
-    existing["PASSWORD"] = ""
-    cfg_path.write_text(str(existing), encoding="utf-8")
-    return cfg_path
+    cfg = _read_config_dict()
+    cfg["SERVER"] = "sqlite"
+    cfg["DATABASE"] = sqlite_filename
+    cfg["HOST"] = ""
+    cfg["PORT"] = ""
+    cfg["USER"] = ""
+    cfg["PASSWORD"] = ""
+    return _write_config_dict(cfg)
+
+
+def _patch_config_thumb_paths(local_dir: str) -> Path:
+    """Idempotently set THUMB_PATH / THUMB_RESIZE in config.cfg to the
+    given local sync directory if either is currently empty. Returns the
+    config.cfg path. Never narrows an already-configured path."""
+    cfg = _read_config_dict()
+    changed = False
+    if not cfg.get("THUMB_PATH"):
+        cfg["THUMB_PATH"] = local_dir
+        changed = True
+    if not cfg.get("THUMB_RESIZE"):
+        cfg["THUMB_RESIZE"] = local_dir
+        changed = True
+    if changed:
+        return _write_config_dict(cfg)
+    return _config_cfg_path()
 
 
 class BotSyncDialog(QDialog):
@@ -294,7 +340,7 @@ class BotSyncDialog(QDialog):
         local_row = QHBoxLayout()
         self.local_edit = QLineEdit()
         self.local_edit.setPlaceholderText(
-            "must match THUMB_PATH in config.cfg (trailing slash OK)"
+            "auto-detected from config.cfg THUMB_PATH"
         )
         browse_btn = QPushButton("Browse…")
         browse_btn.clicked.connect(self._pick_dir)
@@ -306,6 +352,19 @@ class BotSyncDialog(QDialog):
         form.addRow("Alias (filter):", self.alias_edit)
         form.addRow("Local directory:", local_row)
         layout.addLayout(form)
+
+        self.preserve_chk = QCheckBox(
+            "Preserve local edits (skip files that already exist locally, "
+            "even if size differs)"
+        )
+        self.preserve_chk.setChecked(True)
+        self.preserve_chk.setToolTip(
+            "ON (default): never overwrite a local file. Safe for existing "
+            "DBs whose media filenames may collide with the bot's id_media "
+            "numbering. OFF: re-download when local size differs from "
+            "remote."
+        )
+        layout.addWidget(self.preserve_chk)
 
         btn_row = QHBoxLayout()
         self.save_btn = QPushButton("Save settings")
@@ -382,7 +441,17 @@ class BotSyncDialog(QDialog):
         self.url_edit.setText(s["url"])
         self.token_edit.setText(s["token"])
         self.alias_edit.setText(s["alias"])
-        self.local_edit.setText(s["local_dir"])
+        # Local directory resolution priority:
+        #   1. value previously saved by this dialog (QgsSettings)
+        #   2. THUMB_PATH from config.cfg
+        #   3. ~/HFF/HFF_DB_folder/  as a sane default
+        local = s["local_dir"]
+        if not local:
+            cfg = _read_config_dict()
+            local = (cfg.get("THUMB_PATH") or "").strip()
+        if not local:
+            local = str(_hff_home() / "HFF_DB_folder")
+        self.local_edit.setText(local)
 
     def _save_settings(self) -> None:
         BotSyncSettings.save(
@@ -412,7 +481,14 @@ class BotSyncDialog(QDialog):
         self.run_btn.setEnabled(False)
         self.save_btn.setEnabled(False)
         self.cancel_btn.setEnabled(True)
-        self._worker = BotSyncWorker(url, token, alias, local, parent=self)
+        self._worker = BotSyncWorker(
+            url=url,
+            token=token,
+            alias=alias,
+            local_dir=local,
+            preserve_local=self.preserve_chk.isChecked(),
+            parent=self,
+        )
         self._worker.progress.connect(self._on_progress)
         self._worker.finished.connect(self._on_finished)
         self._worker.failed.connect(self._on_failed)
@@ -433,6 +509,20 @@ class BotSyncDialog(QDialog):
         self.log.appendPlainText(
             f"— done. synced={synced} skipped={skipped} errors={errors}"
         )
+        # If config.cfg has no THUMB_PATH yet, write the directory we just
+        # used. Idempotent — never narrows an existing path.
+        local_dir = self.local_edit.text().strip()
+        if local_dir and errors == 0:
+            try:
+                cfg_path = _patch_config_thumb_paths(local_dir)
+                cfg = _read_config_dict()
+                if cfg.get("THUMB_PATH") == local_dir:
+                    self.log.appendPlainText(
+                        f"[cfg] THUMB_PATH/THUMB_RESIZE = {local_dir} "
+                        f"(written to {cfg_path})"
+                    )
+            except Exception as e:
+                self.log.appendPlainText(f"[cfg] could not update: {e}")
         self.run_btn.setEnabled(True)
         self.save_btn.setEnabled(True)
         self.cancel_btn.setEnabled(False)
