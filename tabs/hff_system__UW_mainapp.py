@@ -464,17 +464,263 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 except Exception:
                     pass
 
+    def _init_divers_state(self):
+        """Internal payload that mirrors what the form will write back
+        to divers + diver_segments on save. List of dicts:
+          {"name", "role", "time_in", "time_out", "max_depth",
+           "segments": [{"mix", "bar_start", "bar_end", "delta_p"}, ...]}
+        Each diver dialog edit produces one of these dicts."""
+        if not hasattr(self, "_divers_payload"):
+            self._divers_payload = []
+
+    def _refresh_divers_tree(self):
+        """Render self._divers_payload into self.tree_divers."""
+        from qgis.PyQt.QtWidgets import QTreeWidgetItem
+        self.tree_divers.clear()
+        for i, d in enumerate(self._divers_payload):
+            top = QTreeWidgetItem([
+                d.get("name", "") or "",
+                d.get("role") or "",
+                d.get("time_in") or "",
+                d.get("time_out") or "",
+                "" if d.get("max_depth") is None else str(d.get("max_depth")),
+                "", "", "", "",
+            ])
+            top.setData(0, 0x0100, i)  # Qt.UserRole = 0x0100
+            self.tree_divers.addTopLevelItem(top)
+            for seg in d.get("segments", []) or []:
+                child = QTreeWidgetItem([
+                    "", "", "", "", "",
+                    seg.get("mix") or "",
+                    seg.get("bar_start") or "",
+                    seg.get("bar_end") or "",
+                    seg.get("delta_p") or "",
+                ])
+                top.addChild(child)
+            top.setExpanded(True)
+
     def _on_add_diver(self):
-        """Stub — wired in Task B5."""
-        pass
+        """Pop the diver dialog; on accept, append to payload + refresh."""
+        from ..gui.hff_divers_dialog import AddEditDiverDialog
+        from qgis.PyQt.QtWidgets import QDialog
+        self._init_divers_state()
+        dlg = AddEditDiverDialog(self)
+        if dlg.exec_() == QDialog.Accepted:
+            self._divers_payload.append(dlg.value())
+            self._refresh_divers_tree()
 
     def _on_edit_diver(self):
-        """Stub — wired in Task B5."""
-        pass
+        """Pop the diver dialog pre-filled with the selected row."""
+        from ..gui.hff_divers_dialog import AddEditDiverDialog
+        from qgis.PyQt.QtWidgets import QDialog
+        self._init_divers_state()
+        item = self.tree_divers.currentItem()
+        if item is None:
+            return
+        # Walk up to top-level if a segment row is selected.
+        while item.parent() is not None:
+            item = item.parent()
+        idx = item.data(0, 0x0100)
+        if idx is None or idx < 0 or idx >= len(self._divers_payload):
+            return
+        dlg = AddEditDiverDialog(self, self._divers_payload[idx])
+        if dlg.exec_() == QDialog.Accepted:
+            self._divers_payload[idx] = dlg.value()
+            self._refresh_divers_tree()
 
     def _on_remove_diver(self):
-        """Stub — wired in Task B5."""
-        pass
+        """Drop the selected diver from the payload + refresh."""
+        self._init_divers_state()
+        item = self.tree_divers.currentItem()
+        if item is None:
+            return
+        while item.parent() is not None:
+            item = item.parent()
+        idx = item.data(0, 0x0100)
+        if idx is None or idx < 0 or idx >= len(self._divers_payload):
+            return
+        del self._divers_payload[idx]
+        self._refresh_divers_tree()
+
+    def _load_divers(self, site, divelog_id, years):
+        """Read divers + diver_segments for a (site, divelog_id, years)
+        triple and populate self._divers_payload + the tree. Safe to call
+        when the tables don't exist yet (returns empty)."""
+        from sqlalchemy import text
+        self._init_divers_state()
+        self._divers_payload = []
+        if not (site and divelog_id is not None and years is not None):
+            self._refresh_divers_tree()
+            return
+        try:
+            with self.DB_MANAGER.engine.connect() as con:
+                rows = con.execute(text(
+                    "SELECT id, diver_name, role, time_in, time_out, "
+                    "max_depth FROM divers WHERE site=:s "
+                    "AND divelog_id=:d AND years=:y ORDER BY id"
+                ), {"s": str(site), "d": int(divelog_id),
+                    "y": int(years)}).fetchall()
+                for r in rows:
+                    segs = con.execute(text(
+                        "SELECT seq, breathing_mix, bar_start, bar_end, "
+                        "delta_p FROM diver_segments WHERE diver_id=:i "
+                        "ORDER BY seq"
+                    ), {"i": int(r[0])}).fetchall()
+                    md = r[5]
+                    self._divers_payload.append({
+                        "name": r[1] or "",
+                        "role": r[2],
+                        "time_in": r[3],
+                        "time_out": r[4],
+                        "max_depth": (
+                            "" if md is None else str(md)
+                        ),
+                        "segments": [
+                            {
+                                "mix": s[1],
+                                "bar_start": s[2],
+                                "bar_end": s[3],
+                                "delta_p": s[4],
+                            }
+                            for s in segs
+                        ],
+                    })
+        except Exception as exc:
+            print(f"[divers] load failed: {exc}")
+        self._refresh_divers_tree()
+
+    def _save_divers(self, site, divelog_id, years):
+        """DELETE+INSERT divers + diver_segments for the given triple,
+        then dual-write the legacy dive_log diver_* columns. Single
+        transaction. Safe to call on a DB whose divers tables are absent
+        — silently skipped in that case."""
+        from sqlalchemy import text
+        self._init_divers_state()
+        if not (site and divelog_id is not None and years is not None):
+            return
+        try:
+            with self.DB_MANAGER.engine.begin() as con:
+                # Existence guard.
+                if con.dialect.name == "sqlite":
+                    has = con.execute(text(
+                        "SELECT 1 FROM sqlite_master "
+                        "WHERE type='table' AND name='divers'"
+                    )).fetchone()
+                else:
+                    has = con.execute(text(
+                        "SELECT 1 FROM information_schema.tables "
+                        "WHERE table_name='divers' LIMIT 1"
+                    )).fetchone()
+                if not has:
+                    return
+                con.execute(text(
+                    "DELETE FROM divers WHERE site=:s "
+                    "AND divelog_id=:d AND years=:y"
+                ), {"s": str(site), "d": int(divelog_id),
+                    "y": int(years)})
+                for d in self._divers_payload:
+                    md_raw = d.get("max_depth")
+                    md_val = None
+                    if md_raw not in (None, ""):
+                        try:
+                            md_val = float(md_raw)
+                        except (TypeError, ValueError):
+                            md_val = None
+                    if con.dialect.name == "sqlite":
+                        con.execute(text(
+                            "INSERT INTO divers (site, divelog_id, years, "
+                            "diver_name, role, time_in, time_out, "
+                            "max_depth) VALUES "
+                            "(:s, :d, :y, :n, :r, :ti, :to, :md)"
+                        ), {"s": str(site), "d": int(divelog_id),
+                            "y": int(years), "n": d.get("name") or "",
+                            "r": d.get("role"),
+                            "ti": d.get("time_in") or None,
+                            "to": d.get("time_out") or None,
+                            "md": md_val})
+                        diver_id = int(con.execute(
+                            text("SELECT last_insert_rowid()")
+                        ).scalar_one())
+                    else:
+                        res = con.execute(text(
+                            "INSERT INTO divers (site, divelog_id, years, "
+                            "diver_name, role, time_in, time_out, "
+                            "max_depth) VALUES "
+                            "(:s, :d, :y, :n, :r, :ti, :to, :md) "
+                            "RETURNING id"
+                        ), {"s": str(site), "d": int(divelog_id),
+                            "y": int(years), "n": d.get("name") or "",
+                            "r": d.get("role"),
+                            "ti": d.get("time_in") or None,
+                            "to": d.get("time_out") or None,
+                            "md": md_val})
+                        diver_id = int(res.scalar_one())
+                    for seq, seg in enumerate(d.get("segments") or []):
+                        con.execute(text(
+                            "INSERT INTO diver_segments (diver_id, seq, "
+                            "breathing_mix, bar_start, bar_end, delta_p) "
+                            "VALUES (:i, :q, :m, :bs, :be, :dp)"
+                        ), {"i": diver_id, "q": seq,
+                            "m": seg.get("mix") or None,
+                            "bs": seg.get("bar_start") or None,
+                            "be": seg.get("bar_end") or None,
+                            "dp": seg.get("delta_p") or None})
+                # Dual-write: lead → diver_1, buddy → diver_2.
+                def name_with_role(role):
+                    return next(
+                        (d.get("name") for d in self._divers_payload
+                         if d.get("role") == role),
+                        None,
+                    )
+                d1 = name_with_role("lead") or (
+                    self._divers_payload[0].get("name")
+                    if self._divers_payload else None
+                )
+                d2 = name_with_role("buddy")
+                if d2 is None and len(self._divers_payload) > 1:
+                    second = self._divers_payload[1]
+                    if second.get("name") != d1:
+                        d2 = second.get("name")
+                    elif len(self._divers_payload) > 2:
+                        d2 = self._divers_payload[2].get("name")
+                def first_seg_of(name):
+                    for d in self._divers_payload:
+                        if d.get("name") == name:
+                            segs = d.get("segments") or []
+                            return segs[0] if segs else {}
+                    return {}
+                lead_obj = next(
+                    (d for d in self._divers_payload if d.get("name") == d1),
+                    {},
+                )
+                s1 = first_seg_of(d1)
+                s2 = first_seg_of(d2)
+                con.execute(text(
+                    "UPDATE dive_log SET "
+                    "diver_1=:d1, diver_2=:d2, breathing_mix=:bm, "
+                    "bar_start_diver1=:bs1, bar_end_diver1=:be1, "
+                    "dp_diver1=:dp1, "
+                    "bar_start_diver2=:bs2, bar_end_diver2=:be2, "
+                    "dp_diver2=:dp2, "
+                    "time_in=:ti, time_out=:to, max_depth=:md "
+                    "WHERE site=:s AND divelog_id=:d AND years=:y"
+                ), {
+                    "d1": d1, "d2": d2,
+                    "bm": s1.get("mix"),
+                    "bs1": s1.get("bar_start"),
+                    "be1": s1.get("bar_end"),
+                    "dp1": s1.get("delta_p"),
+                    "bs2": s2.get("bar_start"),
+                    "be2": s2.get("bar_end"),
+                    "dp2": s2.get("delta_p"),
+                    "ti": lead_obj.get("time_in") or None,
+                    "to": lead_obj.get("time_out") or None,
+                    "md": lead_obj.get("max_depth") or None,
+                    "s": str(site), "d": int(divelog_id),
+                    "y": int(years),
+                })
+        except Exception as exc:
+            print(f"[divers] save failed: {exc}")
 
     # ------------------------------------------------------------------
 
@@ -3177,6 +3423,20 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             
             try:
                 self.DB_MANAGER.insert_data_session(data)
+                try:
+                    site_w = getattr(self, "comboBox_site", None)
+                    site_val = site_w.currentText() if site_w is not None else None
+                    dl_id_w = getattr(self, "lineEdit_divelog_id", None)
+                    dl_id_txt = dl_id_w.text() if dl_id_w is not None else None
+                    yr_w = getattr(self, "comboBox_years", None)
+                    yr_txt = yr_w.currentText() if yr_w is not None else None
+                    self._save_divers(
+                        site_val,
+                        int(dl_id_txt) if dl_id_txt and dl_id_txt.isdigit() else None,
+                        int(yr_txt) if yr_txt and yr_txt.isdigit() else None,
+                    )
+                except Exception as exc:
+                    print(f"[divers] save_record hook error: {exc}")
                 return 1
             except Exception as e:
                 e_str = str(e)
@@ -3508,6 +3768,20 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     corr = 0
                 else:
                     corr = self.REC_CORR
+                try:
+                    site_w = getattr(self, "comboBox_site", None)
+                    site_val = site_w.currentText() if site_w is not None else None
+                    dl_id_w = getattr(self, "lineEdit_divelog_id", None)
+                    dl_id_txt = dl_id_w.text() if dl_id_w is not None else None
+                    yr_w = getattr(self, "comboBox_years", None)
+                    yr_txt = yr_w.currentText() if yr_w is not None else None
+                    self._save_divers(
+                        site_val,
+                        int(dl_id_txt) if dl_id_txt and dl_id_txt.isdigit() else None,
+                        int(yr_txt) if yr_txt and yr_txt.isdigit() else None,
+                    )
+                except Exception as exc:
+                    print(f"[divers] save_record hook error: {exc}")
                 return 1
             elif test == 0:
                 return 0
@@ -3707,7 +3981,23 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 self.loadMediaPreview_2()
         except Exception as e:
             print("fill_fields error:", e)
-            
+        # Load divers/segments for the displayed dive (uses the
+        # widgets fill_fields already populated for site/divelog_id/years).
+        try:
+            site_w = getattr(self, "comboBox_site", None)
+            site_val = site_w.currentText() if site_w is not None else None
+            dl_id_w = getattr(self, "lineEdit_divelog_id", None)
+            dl_id_txt = dl_id_w.text() if dl_id_w is not None else None
+            yr_w = getattr(self, "comboBox_years", None)
+            yr_txt = yr_w.currentText() if yr_w is not None else None
+            self._load_divers(
+                site_val,
+                int(dl_id_txt) if dl_id_txt and dl_id_txt.isdigit() else None,
+                int(yr_txt) if yr_txt and yr_txt.isdigit() else None,
+            )
+        except Exception as exc:
+            print(f"[divers] fill_fields hook error: {exc}")
+
     def generate_list_pdf(self):
         data_list = []
         for i in range(len(self.DATA_LIST)):
