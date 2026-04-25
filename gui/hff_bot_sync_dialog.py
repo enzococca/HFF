@@ -12,6 +12,7 @@ Persistence: QgsSettings under ``HFF/bot_sync/``.
 """
 from __future__ import annotations
 
+import ast
 import base64
 import json
 import os
@@ -21,9 +22,11 @@ from urllib.request import Request, urlopen
 
 from qgis.PyQt.QtCore import Qt, QThread, pyqtSignal
 from qgis.PyQt.QtWidgets import (
+    QComboBox,
     QDialog,
     QFileDialog,
     QFormLayout,
+    QGroupBox,
     QHBoxLayout,
     QLabel,
     QLineEdit,
@@ -171,6 +174,77 @@ class BotSyncWorker(QThread):
         self.finished.emit(synced, skipped, errors)
 
 
+class BotSqliteWorker(QThread):
+    """Single-file downloader for a SQLite DB hosted at /media/_uploads/.
+    Separate from BotSyncWorker because the UX is different (one specific
+    file, no skipping logic, no progress per-file)."""
+
+    finished_ok = pyqtSignal(str)   # local path written
+    failed = pyqtSignal(str)
+    progress = pyqtSignal(str)      # status line for the dialog log
+
+    def __init__(self, url: str, token: str, remote_rel: str,
+                 local_path: str, parent=None):
+        super().__init__(parent)
+        self._url = url.rstrip("/")
+        self._token = token
+        self._remote_rel = remote_rel
+        self._local_path = Path(local_path).expanduser()
+
+    def run(self) -> None:
+        try:
+            self.progress.emit(f"GET /media/{self._remote_rel}")
+            req = Request(
+                f"{self._url}/media/{self._remote_rel}",
+                headers={"Authorization": f"Bearer {self._token}"},
+            )
+            with urlopen(req, timeout=300.0) as r:
+                content = r.read()
+            self._local_path.parent.mkdir(parents=True, exist_ok=True)
+            self._local_path.write_bytes(content)
+            self.progress.emit(
+                f"wrote {len(content)} bytes -> {self._local_path}"
+            )
+            self.finished_ok.emit(str(self._local_path))
+        except HTTPError as e:
+            self.failed.emit(f"HTTP {e.code} {e.reason}")
+        except URLError as e:
+            self.failed.emit(f"connection error: {e.reason}")
+        except Exception as e:
+            self.failed.emit(str(e))
+
+
+def _patch_config_for_sqlite(sqlite_filename: str) -> Path:
+    """Update ~/HFF/HFF_DB_folder/config.cfg so the plugin opens the
+    given sqlite file on next reload. Returns the config.cfg path.
+
+    Preserves THUMB_PATH/THUMB_RESIZE/SITE_SET/LOGO if present. Clears
+    HOST/PORT/USER/PASSWORD because they are postgres-only.
+    """
+    home = Path(
+        os.environ.get("HFF_HOME", str(Path.home() / "HFF"))
+    )
+    cfg_path = home / "HFF_DB_folder" / "config.cfg"
+    cfg_path.parent.mkdir(parents=True, exist_ok=True)
+    if cfg_path.is_file():
+        try:
+            existing = ast.literal_eval(cfg_path.read_text(encoding="utf-8"))
+            if not isinstance(existing, dict):
+                existing = {}
+        except Exception:
+            existing = {}
+    else:
+        existing = {}
+    existing["SERVER"] = "sqlite"
+    existing["DATABASE"] = sqlite_filename
+    existing["HOST"] = ""
+    existing["PORT"] = ""
+    existing["USER"] = ""
+    existing["PASSWORD"] = ""
+    cfg_path.write_text(str(existing), encoding="utf-8")
+    return cfg_path
+
+
 class BotSyncDialog(QDialog):
     """Config + run UI for bot media sync. One-shot operation — the user
     clicks 'Run sync now' and waits; a thread does the work so the
@@ -179,8 +253,9 @@ class BotSyncDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("HFF — Bot Media Sync")
-        self.resize(640, 520)
+        self.resize(640, 680)
         self._worker: BotSyncWorker | None = None
+        self._sqlite_worker: BotSqliteWorker | None = None
         self._build_ui()
         self._load_settings()
 
@@ -246,6 +321,37 @@ class BotSyncDialog(QDialog):
         self.log.setReadOnly(True)
         self.log.setPlaceholderText("Sync log will appear here.")
         layout.addWidget(self.log)
+
+        # --- SQLite import section ---------------------------------------
+        sqlite_box = QGroupBox(
+            "Switch the plugin to a SQLite DB hosted on the bot"
+        )
+        sqlite_layout = QVBoxLayout(sqlite_box)
+        sqlite_help = QLabel(
+            "Pick a .sqlite file currently stored in /data/media/_uploads/ "
+            "on the bot. It is downloaded into ~/HFF/HFF_DB_folder/ and "
+            "config.cfg is rewritten to SERVER=sqlite + DATABASE=<file>. "
+            "Reload the plugin (or restart QGIS) for the switch to apply."
+        )
+        sqlite_help.setWordWrap(True)
+        sqlite_layout.addWidget(sqlite_help)
+
+        sqlite_row = QHBoxLayout()
+        self.sqlite_combo = QComboBox()
+        self.sqlite_combo.setPlaceholderText("(refresh to load list)")
+        self.sqlite_refresh_btn = QPushButton("Refresh list")
+        self.sqlite_refresh_btn.clicked.connect(self._refresh_sqlite_list)
+        sqlite_row.addWidget(self.sqlite_combo, stretch=1)
+        sqlite_row.addWidget(self.sqlite_refresh_btn)
+        sqlite_layout.addLayout(sqlite_row)
+
+        self.sqlite_download_btn = QPushButton(
+            "Download && Configure plugin to use this DB"
+        )
+        self.sqlite_download_btn.clicked.connect(self._download_sqlite)
+        sqlite_layout.addWidget(self.sqlite_download_btn)
+
+        layout.addWidget(sqlite_box)
 
         close_row = QHBoxLayout()
         close_btn = QPushButton("Close")
@@ -331,9 +437,159 @@ class BotSyncDialog(QDialog):
         self.cancel_btn.setEnabled(False)
         self._worker = None
 
+    # --- SQLite import section ------------------------------------------
+
+    def _refresh_sqlite_list(self) -> None:
+        url = self.url_edit.text().strip()
+        token = self.token_edit.text().strip()
+        if not url or not token:
+            QMessageBox.warning(
+                self,
+                "Missing fields",
+                "Bot URL and Bearer token must be set first.",
+            )
+            return
+        self.log.appendPlainText("[sqlite] fetching manifest…")
+        try:
+            req = Request(
+                f"{url.rstrip('/')}/media/list",
+                headers={"Authorization": f"Bearer {token}"},
+            )
+            with urlopen(req, timeout=30.0) as r:
+                manifest = json.loads(r.read())
+        except HTTPError as e:
+            QMessageBox.critical(
+                self, "List failed", f"HTTP {e.code} {e.reason}"
+            )
+            return
+        except URLError as e:
+            QMessageBox.critical(
+                self, "List failed", f"connection error: {e.reason}"
+            )
+            return
+        except Exception as e:
+            QMessageBox.critical(self, "List failed", str(e))
+            return
+
+        sqlites = [
+            entry for entry in manifest.get("files", [])
+            if str(entry.get("path", "")).lower().endswith((".sqlite", ".db"))
+        ]
+        self.sqlite_combo.clear()
+        if not sqlites:
+            self.sqlite_combo.setPlaceholderText(
+                "(no .sqlite files on the bot)"
+            )
+            self.log.appendPlainText("[sqlite] no .sqlite files on the bot.")
+            return
+        for entry in sqlites:
+            display = f"{entry['path']}  ({entry['size']} B)"
+            self.sqlite_combo.addItem(display, entry["path"])
+        self.log.appendPlainText(
+            f"[sqlite] found {len(sqlites)} candidate(s)."
+        )
+
+    def _download_sqlite(self) -> None:
+        if self.sqlite_combo.count() == 0 or self.sqlite_combo.currentIndex() < 0:
+            QMessageBox.warning(
+                self,
+                "Nothing selected",
+                "Refresh the list and pick a .sqlite file first.",
+            )
+            return
+        remote_rel = self.sqlite_combo.currentData()
+        if not remote_rel:
+            return
+        url = self.url_edit.text().strip()
+        token = self.token_edit.text().strip()
+        if not url or not token:
+            QMessageBox.warning(
+                self,
+                "Missing fields",
+                "Bot URL and Bearer token must be set first.",
+            )
+            return
+        # Local destination = ~/HFF/HFF_DB_folder/<basename> regardless of
+        # whether the remote path includes _uploads/.
+        filename = Path(remote_rel).name
+        home = Path(
+            os.environ.get("HFF_HOME", str(Path.home() / "HFF"))
+        )
+        dest = home / "HFF_DB_folder" / filename
+        if dest.is_file():
+            confirm = QMessageBox.question(
+                self,
+                "Overwrite?",
+                f"{dest} already exists. Overwrite with the bot copy?",
+                QMessageBox.Yes | QMessageBox.No,
+            )
+            if confirm != QMessageBox.Yes:
+                return
+        BotSyncSettings.save(
+            url=url,
+            token=token,
+            alias=self.alias_edit.text().strip(),
+            local_dir=self.local_edit.text().strip(),
+        )
+        self.log.appendPlainText(
+            f"[sqlite] downloading {remote_rel} -> {dest}"
+        )
+        self.sqlite_download_btn.setEnabled(False)
+        self.sqlite_refresh_btn.setEnabled(False)
+        self._sqlite_worker = BotSqliteWorker(
+            url=url,
+            token=token,
+            remote_rel=remote_rel,
+            local_path=str(dest),
+            parent=self,
+        )
+        self._sqlite_worker.progress.connect(
+            lambda m: self.log.appendPlainText(f"[sqlite] {m}")
+        )
+        self._sqlite_worker.finished_ok.connect(self._on_sqlite_downloaded)
+        self._sqlite_worker.failed.connect(self._on_sqlite_failed)
+        self._sqlite_worker.start()
+
+    def _on_sqlite_downloaded(self, local_path: str) -> None:
+        try:
+            cfg_path = _patch_config_for_sqlite(Path(local_path).name)
+            self.log.appendPlainText(
+                f"[sqlite] config.cfg patched -> {cfg_path}"
+            )
+            QMessageBox.information(
+                self,
+                "Done",
+                (
+                    f"Downloaded {Path(local_path).name} to "
+                    f"{Path(local_path).parent}\n\n"
+                    f"config.cfg switched to SERVER=sqlite + "
+                    f"DATABASE={Path(local_path).name}.\n\n"
+                    "Reload the HFF plugin (or restart QGIS) for the new "
+                    "DB to take effect."
+                ),
+            )
+        except Exception as e:
+            QMessageBox.critical(
+                self, "Config patch failed", f"{e}"
+            )
+            self.log.appendPlainText(f"[sqlite] config patch FAILED: {e}")
+        finally:
+            self.sqlite_download_btn.setEnabled(True)
+            self.sqlite_refresh_btn.setEnabled(True)
+            self._sqlite_worker = None
+
+    def _on_sqlite_failed(self, err: str) -> None:
+        QMessageBox.critical(self, "Download failed", err)
+        self.log.appendPlainText(f"[sqlite] FAILED: {err}")
+        self.sqlite_download_btn.setEnabled(True)
+        self.sqlite_refresh_btn.setEnabled(True)
+        self._sqlite_worker = None
+
     def closeEvent(self, event) -> None:
         # If a sync is in flight, cancel it so we don't leak a QThread.
         if self._worker is not None and self._worker.isRunning():
             self._worker.cancel()
             self._worker.wait(3000)
+        if self._sqlite_worker is not None and self._sqlite_worker.isRunning():
+            self._sqlite_worker.wait(3000)
         super().closeEvent(event)
