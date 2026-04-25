@@ -15,6 +15,108 @@ from .hff_system__OS_utility import *
 from .hff_pdf_base import (
     safe_eval_list, HFF_BLUE, HFF_BLUE_LIGHT, HFF_GRAY, HFF_GRAY_DARK, HFF_WHITE
 )
+from ..db.hff_system__conn_strings import Connection as _DiversConnection
+
+
+def _fetch_divers_for_dive(site, divelog_id, years):
+    """Query divers + diver_segments for one dive. Returns a list of
+    dicts: [{"name", "role", "time_in", "time_out", "max_depth",
+    "segments": [{"mix","bar_start","bar_end","delta_p"}, ...]}, ...].
+    Empty list when the new tables are absent or have no rows."""
+    if not (site and divelog_id is not None and years is not None):
+        return []
+    try:
+        from sqlalchemy import create_engine, text
+        conn = _DiversConnection()
+        engine = create_engine(conn.conn_str())
+    except Exception:
+        return []
+    out = []
+    try:
+        with engine.connect() as con:
+            rows = con.execute(text(
+                "SELECT id, diver_name, role, time_in, time_out, "
+                "max_depth FROM divers WHERE site=:s AND "
+                "divelog_id=:d AND years=:y ORDER BY id"
+            ), {"s": str(site), "d": int(divelog_id),
+                "y": int(years)}).fetchall()
+            for r in rows:
+                segs = con.execute(text(
+                    "SELECT seq, breathing_mix, bar_start, bar_end, "
+                    "delta_p FROM diver_segments WHERE diver_id=:i "
+                    "ORDER BY seq"
+                ), {"i": int(r[0])}).fetchall()
+                out.append({
+                    "name": r[1] or "",
+                    "role": r[2] or "",
+                    "time_in": r[3] or "",
+                    "time_out": r[4] or "",
+                    "max_depth": "" if r[5] is None else str(r[5]),
+                    "segments": [
+                        {
+                            "mix": s[1] or "",
+                            "bar_start": s[2] or "",
+                            "bar_end": s[3] or "",
+                            "delta_p": s[4] or "",
+                        }
+                        for s in segs
+                    ],
+                })
+    except Exception as exc:
+        print("[divers PDF] fetch failed: {}".format(exc))
+        return []
+    return out
+
+
+def _render_divers_block(divers, styles_normal):
+    """Build a list of ReportLab flowables (one per diver) showing the
+    normalized divers + segments. Returns [] if `divers` is empty —
+    callers should skip the block entirely in that case."""
+    if not divers:
+        return []
+    from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
+    from reportlab.lib import colors as _colors
+
+    flowables = [
+        Paragraph(
+            "<b>DIVERS (normalized)</b>",
+            styles_normal,
+        ),
+        Spacer(0, 4),
+    ]
+    for d in divers:
+        header = (
+            "<b>{name}</b> ({role})  ·  {ti} → {to}  ·  max {md} m"
+        ).format(
+            name=d.get("name") or "—",
+            role=d.get("role") or "no role",
+            ti=d.get("time_in") or "–",
+            to=d.get("time_out") or "–",
+            md=d.get("max_depth") or "–",
+        )
+        flowables.append(Paragraph(header, styles_normal))
+        seg_rows = [["Seg", "Mix", "Start", "End", "ΔP"]]
+        for i, s in enumerate(d.get("segments", [])):
+            seg_rows.append([
+                str(i),
+                s.get("mix") or "–",
+                s.get("bar_start") or "–",
+                s.get("bar_end") or "–",
+                s.get("delta_p") or "–",
+            ])
+        if len(seg_rows) > 1:
+            t = Table(seg_rows, hAlign="LEFT")
+            t.setStyle(TableStyle([
+                ("BACKGROUND", (0, 0), (-1, 0), _colors.lightgrey),
+                ("BOX", (0, 0), (-1, -1), 0.4, _colors.grey),
+                ("INNERGRID", (0, 0), (-1, -1), 0.2, _colors.grey),
+                ("FONTSIZE", (0, 0), (-1, -1), 8),
+            ]))
+            flowables.append(t)
+        flowables.append(Spacer(0, 6))
+    return flowables
+
+
 class NumberedCanvas_USsheet(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
@@ -292,7 +394,18 @@ class single_US_pdf_sheet:
         colWidths = (15,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30)
         rowHeights = None
         t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
-        return t
+        lst = [t]
+        # --- Divers (normalized — new tables) ------------------------
+        try:
+            _divers = _fetch_divers_for_dive(
+                self.sito, self.divelog_id, self.years
+            )
+            for f in _render_divers_block(_divers, styNormal):
+                lst.append(f)
+        except Exception as _exc:
+            print("[divers PDF] block skipped: {}".format(_exc))
+        # -------------------------------------------------------------
+        return lst
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
         ])  #finale
@@ -419,7 +532,7 @@ class generate_US_pdf:
         elements = []
         for i in range(len(records)):
             single_US_sheet = single_US_pdf_sheet(records[i])
-            elements.append(single_US_sheet.create_sheet())
+            elements.extend(single_US_sheet.create_sheet())
             elements.append(PageBreak())
         filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Divelog_forms.pdf')
         f = open(filename, "wb")
