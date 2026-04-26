@@ -503,7 +503,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
             ("Camera",              "lineEdit_camera",       4, 0, 7),
         ]
-        from qgis.PyQt.QtWidgets import QSizePolicy
+        from qgis.PyQt.QtWidgets import QComboBox, QSizePolicy
         for label_text, attr, row, col, colspan in schema:
             w = getattr(self, attr, None)
             if w is None:
@@ -517,6 +517,10 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 w.setMinimumSize(0, 0)
                 w.setMaximumSize(16777215, 16777215)
                 w.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                # Force a minimum width on combos so the dropdown arrow
+                # zone (~20 px on the right) is never clipped.
+                if isinstance(w, QComboBox):
+                    w.setMinimumWidth(140)
                 w.setVisible(True)
             except Exception:
                 pass
@@ -569,26 +573,44 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             pass
 
     def _prune_legacy_tabs(self):
-        """Remove the redundant 'Dive Log Form' (legacy positional layout)
-        and 'Task' (now part of Dive summary) tabs from self.tabWidget.
-        Qt's removeTab does NOT delete the page widget — it only unparents
-        from the tab bar — so the legacy hidden widgets inside survive
-        and `self.comboBox_diver` etc. still resolve."""
+        """Remove redundant top-level tabs from self.tabWidget and move
+        the Divers tab to position 1 (right after Dive summary).
+
+        Pruned: 'Tools' (functionality already in Statistics).
+        KEPT: 'Dive Log Form' (it hosts the two nested QTabWidgets for
+        videos and images that the form depends on); 'Task' (currently
+        kept too — its content still has unique features).
+
+        Qt's removeTab does NOT delete the page widget, only unparents
+        from the tab bar. The page widget can be re-inserted at a new
+        index via insertTab, which is how the Divers tab is moved."""
         tab_widget = getattr(self, "tabWidget", None) or getattr(
             self, "tabWidget_main", None
         )
         if tab_widget is None:
             return
-        # Remove by tab title to be index-stable.
-        targets = {"Dive Log Form", "Task"}
-        # Loop until no more matches; iterate from the end to keep
-        # indices valid as we remove.
+        targets = {"Tools"}
         for i in range(tab_widget.count() - 1, -1, -1):
             try:
                 if tab_widget.tabText(i) in targets:
                     tab_widget.removeTab(i)
             except Exception:
                 pass
+        # Move "Divers" to position 1 (just after "Dive summary"). B4's
+        # _install_divers_widget added it at the end via addTab.
+        try:
+            divers_idx = -1
+            for i in range(tab_widget.count()):
+                if tab_widget.tabText(i) == "Divers":
+                    divers_idx = i
+                    break
+            if divers_idx > 1:
+                page = tab_widget.widget(divers_idx)
+                tab_widget.removeTab(divers_idx)
+                tab_widget.insertTab(1, page, "Divers")
+                tab_widget.setCurrentIndex(0)
+        except Exception:
+            pass
 
     def _hide_orphan_labels(self):
         """Hide the QLabels that lived above / around the legacy diver
