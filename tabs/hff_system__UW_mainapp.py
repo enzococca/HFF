@@ -325,10 +325,11 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.setupUi(self)
         self._install_divers_widget()
         self._hide_legacy_diver_widgets()
-        # NOTE: _compact_after_hide() exists below but is disabled — it
-        # was too aggressive and caused widget overlap. Hidden widgets
-        # leave gaps in the form but no collisions. To actually compact
-        # the layout, edit gui/ui/hff_system__UW_ui.ui in Qt Designer.
+        # Re-arrange surviving dive-level widgets into a clean
+        # QGridLayout under a new "Dive summary" tab. Reparenting is
+        # Qt-safe: the widget objects are unchanged, so legacy save/
+        # fill code that pokes self.comboBox_site etc. keeps working.
+        self._install_dive_summary_tab()
         apply_i18n_to_form(self)
         standardize_toolbar(self)
         self.i18n = HffI18n.instance()
@@ -437,6 +438,108 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 lay = central.layout()
                 if lay is not None and hasattr(lay, "addWidget"):
                     lay.addWidget(box)
+
+    def _install_dive_summary_tab(self):
+        """Install a compact "Dive summary" tab in self.tabWidget that
+        reparents the surviving dive-level widgets into a clean
+        QGridLayout. Reparent is Qt-safe: each widget stays the same
+        Python object, so existing save_record/fill_fields code that
+        reads self.comboBox_site.currentText() etc. keeps working —
+        the widget just renders in a different place.
+
+        Survivor list comes from a grep of gui/ui/hff_system__UW_ui.ui
+        for QComboBox / QLineEdit / QTextEdit names that are NOT in
+        _hide_legacy_diver_widgets's HIDDEN set. Widget types:
+          - QComboBox: site, years, area_reference, supervisor,
+                       standby_diver, uwcurrents, wind
+          - QLineEdit: divelog_id, date, layers, surface_interval,
+                       uwvisibility, uwtemperature, bottom_time,
+                       video_nbr, photo_nbr, camera
+          - QTextEdit: task, result, comments
+        """
+        from qgis.PyQt.QtWidgets import (
+            QGridLayout, QLabel, QWidget,
+        )
+        tab_widget = getattr(self, "tabWidget", None) or getattr(
+            self, "tabWidget_main", None
+        )
+        if tab_widget is None:
+            return
+        container = QWidget(self)
+        grid = QGridLayout(container)
+        grid.setContentsMargins(8, 8, 8, 8)
+        grid.setHorizontalSpacing(12)
+        grid.setVerticalSpacing(6)
+
+        # Layout schema: (label_text, attr_name, row, col, colspan)
+        # cols: 0=label1, 1=widget1, 2=label2, 3=widget2,
+        #       4=label3, 5=widget3, 6=label4, 7=widget4
+        schema = [
+            ("Site",                "comboBox_site",         0, 0, 1),
+            ("Dive log #",          "lineEdit_divelog_id",   0, 2, 1),
+            ("Year",                "comboBox_years",        0, 4, 1),
+            ("Date",                "lineEdit_date",         0, 6, 1),
+
+            ("Area reference",      "comboBox_area_reference", 1, 0, 1),
+            ("Layer",               "lineEdit_layers",       1, 2, 1),
+            ("Bottom time",         "lineEdit_bottom_time",  1, 4, 1),
+            ("Surface interval",    "lineEdit_surface_interval", 1, 6, 1),
+
+            ("Dive supervisor",     "comboBox_supervisor",   2, 0, 1),
+            ("Standby diver",       "comboBox_standby_diver",2, 2, 1),
+            ("Wind",                "comboBox_wind",         2, 4, 1),
+            ("UW current",          "comboBox_uwcurrents",   2, 6, 1),
+
+            ("UW temperature",      "lineEdit_uwtemperature",3, 0, 1),
+            ("UW visibility",       "lineEdit_uwvisibility", 3, 2, 1),
+            ("Photo count",         "lineEdit_photo_nbr",    3, 4, 1),
+            ("Video count",         "lineEdit_video_nbr",    3, 6, 1),
+
+            ("Camera",              "lineEdit_camera",       4, 0, 7),
+        ]
+        for label_text, attr, row, col, colspan in schema:
+            w = getattr(self, attr, None)
+            if w is None:
+                continue
+            label = QLabel(label_text)
+            grid.addWidget(label, row, col)
+            # widget colspan: occupy (colspan*2 - 1) effective columns
+            # for the form's intended geometry
+            if colspan == 7:  # Camera = full row
+                grid.addWidget(w, row, col + 1, 1, 7)
+            else:
+                grid.addWidget(w, row, col + 1)
+
+        # Multi-line text rows — task / result / comments span all cols
+        text_schema = [
+            ("Task",     "textEdit_task",     5),
+            ("Result",   "textEdit_result",   6),
+            ("Comments", "textEdit_comments", 7),
+        ]
+        for label_text, attr, row in text_schema:
+            w = getattr(self, attr, None)
+            if w is None:
+                continue
+            label = QLabel(label_text)
+            label.setAlignment(0x0001 | 0x0080)  # AlignLeft | AlignTop
+            grid.addWidget(label, row, 0)
+            grid.addWidget(w, row, 1, 1, 7)
+            # Cap minimum height so text areas have room
+            try:
+                w.setMinimumHeight(60)
+            except Exception:
+                pass
+
+        # Stretch the last grid row so content sits at top.
+        grid.setRowStretch(8, 1)
+
+        # Insert as the FIRST tab so it's the default view, label
+        # "Dive summary".
+        tab_widget.insertTab(0, container, "Dive summary")
+        try:
+            tab_widget.setCurrentIndex(0)
+        except Exception:
+            pass
 
     def _hide_legacy_diver_widgets(self):
         """Hide the per-diver / per-segment widgets that the new divers
