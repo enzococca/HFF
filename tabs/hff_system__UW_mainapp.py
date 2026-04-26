@@ -330,6 +330,11 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         # Qt-safe: the widget objects are unchanged, so legacy save/
         # fill code that pokes self.comboBox_site etc. keeps working.
         self._install_dive_summary_tab()
+        # Drop redundant tabs that the new "Dive summary" replaces.
+        self._prune_legacy_tabs()
+        # Hide the now-orphan labels (lived above/around the legacy
+        # fields and would be left dangling in the form's central area).
+        self._hide_orphan_labels()
         apply_i18n_to_form(self)
         standardize_toolbar(self)
         self.i18n = HffI18n.instance()
@@ -498,12 +503,23 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
             ("Camera",              "lineEdit_camera",       4, 0, 7),
         ]
+        from qgis.PyQt.QtWidgets import QSizePolicy
         for label_text, attr, row, col, colspan in schema:
             w = getattr(self, attr, None)
             if w is None:
                 continue
             label = QLabel(label_text)
             grid.addWidget(label, row, col)
+            # Defensive sizing: Qt Designer often baked QRect-based
+            # min/max widths that collapse the widget when reparented
+            # into a layout. Reset size hints so the layout owns sizing.
+            try:
+                w.setMinimumSize(0, 0)
+                w.setMaximumSize(16777215, 16777215)
+                w.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                w.setVisible(True)
+            except Exception:
+                pass
             # widget colspan: occupy (colspan*2 - 1) effective columns
             # for the form's intended geometry
             if colspan == 7:  # Camera = full row
@@ -525,14 +541,24 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
             grid.addWidget(label, row, 0)
             grid.addWidget(w, row, 1, 1, 7)
-            # Cap minimum height so text areas have room
+            # Reset Qt Designer baked sizing so the layout drives geometry.
             try:
-                w.setMinimumHeight(60)
+                w.setMinimumSize(0, 60)
+                w.setMaximumSize(16777215, 16777215)
+                w.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                w.setVisible(True)
             except Exception:
                 pass
 
         # Stretch the last grid row so content sits at top.
         grid.setRowStretch(8, 1)
+        # Give odd-indexed (widget) columns more horizontal weight than
+        # the (label) even columns so the combos / line-edits get most
+        # of the available width.
+        for c in (0, 2, 4, 6):
+            grid.setColumnStretch(c, 0)
+        for c in (1, 3, 5, 7):
+            grid.setColumnStretch(c, 1)
 
         # Insert as the FIRST tab so it's the default view, label
         # "Dive summary".
@@ -541,6 +567,55 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             tab_widget.setCurrentIndex(0)
         except Exception:
             pass
+
+    def _prune_legacy_tabs(self):
+        """Remove the redundant 'Dive Log Form' (legacy positional layout)
+        and 'Task' (now part of Dive summary) tabs from self.tabWidget.
+        Qt's removeTab does NOT delete the page widget — it only unparents
+        from the tab bar — so the legacy hidden widgets inside survive
+        and `self.comboBox_diver` etc. still resolve."""
+        tab_widget = getattr(self, "tabWidget", None) or getattr(
+            self, "tabWidget_main", None
+        )
+        if tab_widget is None:
+            return
+        # Remove by tab title to be index-stable.
+        targets = {"Dive Log Form", "Task"}
+        # Loop until no more matches; iterate from the end to keep
+        # indices valid as we remove.
+        for i in range(tab_widget.count() - 1, -1, -1):
+            try:
+                if tab_widget.tabText(i) in targets:
+                    tab_widget.removeTab(i)
+            except Exception:
+                pass
+
+    def _hide_orphan_labels(self):
+        """Hide the QLabels that lived above / around the legacy diver
+        and task fields and would otherwise dangle in the form area
+        after the tabs they sat on are pruned. List built from a grep
+        of the .ui — every label whose text duplicates a Dive summary
+        row or refers to a hidden diver field."""
+        orphan = [
+            "label_2",   # 'Dive Supervisor' (now in Dive summary)
+            "label_5",   # 'Standby diver'
+            "label_9",   # 'Area' (Dive summary has 'Area reference')
+            "label_11",  # 'Comments'
+            "label_12",  # 'Bottom time'
+            "label_20",  # 'Wind'
+            "label_26",  # 'Site'
+            "label_52",  # 'UW Current dir/str'
+            "label_task",   # 'Task'
+            "label_result", # 'Result'
+        ]
+        for name in orphan:
+            w = getattr(self, name, None)
+            if w is None:
+                continue
+            try:
+                w.setVisible(False)
+            except Exception:
+                pass
 
     def _hide_legacy_diver_widgets(self):
         """Hide the per-diver / per-segment widgets that the new divers
