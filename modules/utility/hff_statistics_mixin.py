@@ -696,10 +696,18 @@ POTTERY_STATS_FIELDS = {
 POTTERY_NUMERIC = ('rim_diameter', 'base_diameter', 'height', 'weight')
 
 UW_STATS_FIELDS = {
-    'Dive Type': 'dive_type',
-    'Task': 'task',
-    'Visibility': 'visibility',
-    'Current': 'current_',
-    'Area': 'area',
+    'Task':            'task',
+    'Site':            'site',
+    'Area':            'area_id',
+    'Year':            'years',
+    'UW visibility':   'uw_visibility',
+    'UW current':      'uw_current_',
+    'UW temperature':  'uw_temperature',
+    'Wind':            'wind',
+    'Dive supervisor': 'dive_supervisor',
+    'Standby diver':   'standby_diver',
+    'Breathing mix':   'breathing_mix',
+    'Max depth':       'max_depth',
+    'Bottom time':     'bottom_time',
 }
-UW_NUMERIC = ('max_depth', 'bottom_time', 'temp')
+UW_NUMERIC = ('max_depth', 'bottom_time', 'uw_temperature')
