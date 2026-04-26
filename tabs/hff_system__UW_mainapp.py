@@ -335,6 +335,9 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         # Hide the now-orphan labels (lived above/around the legacy
         # fields and would be left dangling in the form's central area).
         self._hide_orphan_labels()
+        # Strip the legacy Dive Log Form tab down to just its two media
+        # sub-tabwidgets, expanded to fill the whole page.
+        self._clean_dive_log_form_tab()
         apply_i18n_to_form(self)
         standardize_toolbar(self)
         self.i18n = HffI18n.instance()
@@ -589,7 +592,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         )
         if tab_widget is None:
             return
-        targets = {"Tools"}
+        targets = {"Tools", "Task"}
         for i in range(tab_widget.count() - 1, -1, -1):
             try:
                 if tab_widget.tabText(i) in targets:
@@ -611,6 +614,91 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 tab_widget.setCurrentIndex(0)
         except Exception:
             pass
+
+    def _all_known_diver_names(self):
+        """Return a sorted, deduplicated list of every person who has
+        appeared as a diver in this DB — across the legacy dive_log
+        diver_1 / diver_2 / additional_diver columns AND the new
+        normalized divers.diver_name column. Empty strings filtered
+        out. Falls back to an empty list on any DB error."""
+        from sqlalchemy import text
+        names: set = set()
+        try:
+            with self.DB_MANAGER.engine.connect() as con:
+                for col in ("diver_1", "diver_2", "additional_diver",
+                            "standby_diver", "dive_supervisor"):
+                    try:
+                        rows = con.execute(text(
+                            f"SELECT DISTINCT {col} FROM dive_log "
+                            f"WHERE {col} IS NOT NULL AND {col} != ''"
+                        )).fetchall()
+                        for r in rows:
+                            v = (r[0] or "").strip()
+                            if v:
+                                names.add(v)
+                    except Exception:
+                        pass
+                # Normalized table — silently no-op if the migration
+                # hasn't run yet against this DB.
+                try:
+                    rows = con.execute(text(
+                        "SELECT DISTINCT diver_name FROM divers "
+                        "WHERE diver_name IS NOT NULL AND diver_name != ''"
+                    )).fetchall()
+                    for r in rows:
+                        v = (r[0] or "").strip()
+                        if v:
+                            names.add(v)
+                except Exception:
+                    pass
+        except Exception as exc:
+            print(f"[divelog combos] could not load diver pool: {exc}")
+        return sorted(names)
+
+    def _clean_dive_log_form_tab(self):
+        """Inside the 'Dive Log Form' tab, hide every legacy QLabel /
+        QLineEdit / QComboBox that the new Dive summary tab has
+        replaced, then resize the two media QTabWidgets (tabWidget_2,
+        tabWidget_3) so they together fill the page. The page widget
+        itself is preserved because legacy save/fill code still pokes
+        the hidden widgets via self.NAME."""
+        tab_widget = getattr(self, "tabWidget", None)
+        if tab_widget is None:
+            return
+        page = None
+        for i in range(tab_widget.count()):
+            if tab_widget.tabText(i) == "Dive Log Form":
+                page = tab_widget.widget(i)
+                break
+        if page is None:
+            return
+        media_a = getattr(self, "tabWidget_2", None)
+        media_b = getattr(self, "tabWidget_3", None)
+        # Hide every direct child of `page` that is NOT one of the
+        # media sub-tabwidgets. This sweeps up the legacy diver labels
+        # AND any other Qt Designer artifacts left behind.
+        for child in page.children():
+            if child is media_a or child is media_b:
+                continue
+            try:
+                if hasattr(child, "setVisible"):
+                    child.setVisible(False)
+            except Exception:
+                pass
+        # Resize the two media tabwidgets to split the page vertically.
+        try:
+            from qgis.PyQt.QtCore import QRect
+            page_w = max(page.width(), 600)
+            page_h = max(page.height(), 600)
+            half_h = page_h // 2
+            if media_a is not None:
+                media_a.setVisible(True)
+                media_a.setGeometry(QRect(0, 0, page_w, half_h))
+            if media_b is not None:
+                media_b.setVisible(True)
+                media_b.setGeometry(QRect(0, half_h, page_w, page_h - half_h))
+        except Exception as exc:
+            print(f"[divelog form] media split failed: {exc}")
 
     def _hide_orphan_labels(self):
         """Hide the QLabels that lived above / around the legacy diver
@@ -2979,24 +3067,16 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         add_vl.sort()
         self.comboBox_add_diver.addItems(add_vl)
         
-        stdiver_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('dive_log', 'standby_diver', 'UW'))
-        try:
-            stdiver_vl.remove('')
-        except:
-            pass
+        # Standby + Supervisor combos pull from the WHOLE pool of known
+        # diver names (their own column + diver_1/2/additional + the new
+        # normalized divers.diver_name table) so the same person can be
+        # selected regardless of the role they had in past dives.
+        all_names = self._all_known_diver_names()
         self.comboBox_standby_diver.clear()
-        stdiver_vl.sort()
-        self.comboBox_standby_diver.addItems(stdiver_vl)
-        
-        
-        supervisor = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('dive_log', 'dive_supervisor', 'UW'))
-        try:
-            supervisor.remove('')
-        except:
-            pass
+        self.comboBox_standby_diver.addItems(all_names)
+
         self.comboBox_supervisor.clear()
-        supervisor.sort()
-        self.comboBox_supervisor.addItems(supervisor)
+        self.comboBox_supervisor.addItems(all_names)
         
         wind2_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('dive_log', 'wind', 'UW'))
         try:
