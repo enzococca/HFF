@@ -745,11 +745,21 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         orphan = [
             "label_2",   # 'Dive Supervisor' (now in Dive summary)
             "label_5",   # 'Standby diver'
+            "label_6",   # 'Date'
             "label_9",   # 'Area' (Dive summary has 'Area reference')
+            "label_10",  # 'Year'
             "label_11",  # 'Comments'
             "label_12",  # 'Bottom time'
+            "label_13",  # 'Surface interval'
+            "label_17",  # 'UW Visibility'
+            "label_18",  # 'UW Temperature'
             "label_20",  # 'Wind'
+            "label_21",  # 'DIVE ID'
+            "label_25",  # 'Layer'
             "label_26",  # 'Site'
+            "label_49",  # 'N Video'
+            "label_50",  # 'N Photo'
+            "label_51",  # 'Camera'
             "label_52",  # 'UW Current dir/str'
             "label_task",   # 'Task'
             "label_result", # 'Result'
