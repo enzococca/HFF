@@ -325,7 +325,10 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.setupUi(self)
         self._install_divers_widget()
         self._hide_legacy_diver_widgets()
-        self._compact_after_hide()
+        # NOTE: _compact_after_hide() exists below but is disabled — it
+        # was too aggressive and caused widget overlap. Hidden widgets
+        # leave gaps in the form but no collisions. To actually compact
+        # the layout, edit gui/ui/hff_system__UW_ui.ui in Qt Designer.
         apply_i18n_to_form(self)
         standardize_toolbar(self)
         self.i18n = HffI18n.instance()
