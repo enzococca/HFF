@@ -656,18 +656,24 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         return sorted(names)
 
     def _clean_dive_log_form_tab(self):
-        """Reparent the two media QTabWidgets (tabWidget_2 = photos,
-        tabWidget_3 = videos) into a fresh QVBoxLayout that takes over
-        the 'Dive Log Form' page entirely. The legacy diver labels are
-        left alone here — they're already hidden by name via
-        _hide_orphan_labels and _hide_legacy_diver_widgets — but
-        whatever still lives on the page becomes invisible because the
-        new layout repaints over them.
+        """Strip the 'Dive Log Form' tab down to its two media tables —
+        tableWidget_photo + tableWidget_video — each with its existing
+        insert/remove buttons. Builds a fresh QVBoxLayout container,
+        reparents the four widgets via addWidget, then swaps the page
+        at the same tab index.
 
-        This avoids the previous bug where iterating page.children()
-        and bulk-hiding swept up the parent containers of the media
-        tabwidgets and made everything disappear."""
-        from qgis.PyQt.QtWidgets import QVBoxLayout, QWidget
+        DO NOT touch tabWidget_2 (lives inside the Tools page) or
+        tabWidget_3 (lives inside the References page) — those are
+        unrelated nested QTabWidgets that earlier attempts mistakenly
+        identified as media containers.
+
+        Legacy hidden diver widgets that lived on the original page
+        become orphan children of the now-discarded page widget.
+        They keep their Python identity, so self.comboBox_diver etc.
+        keep resolving for legacy save/fill code."""
+        from qgis.PyQt.QtWidgets import (
+            QGroupBox, QHBoxLayout, QVBoxLayout, QWidget,
+        )
         tab_widget = getattr(self, "tabWidget", None)
         if tab_widget is None:
             return
@@ -678,33 +684,55 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 break
         if page_idx < 0:
             return
-        media_a = getattr(self, "tabWidget_2", None)
-        media_b = getattr(self, "tabWidget_3", None)
-        if media_a is None and media_b is None:
-            return  # nothing to host
 
-        # Build a fresh container with a vertical layout holding the
-        # two media tabwidgets. Reparenting via addWidget moves them.
+        photo_table = getattr(self, "tableWidget_photo", None)
+        video_table = getattr(self, "tableWidget_video", None)
+        if photo_table is None and video_table is None:
+            return
+
+        photo_ins = getattr(self, "pushButton_insert_row_photo", None)
+        photo_rem = getattr(self, "pushButton_remove_row_photo", None)
+        video_ins = getattr(self, "pushButton_insert_row_video", None)
+        video_rem = getattr(self, "pushButton_remove_row_video", None)
+
         container = QWidget()
-        vbox = QVBoxLayout(container)
-        vbox.setContentsMargins(4, 4, 4, 4)
-        vbox.setSpacing(4)
-        if media_a is not None:
-            media_a.setVisible(True)
-            media_a.setMinimumSize(0, 0)
-            media_a.setMaximumSize(16777215, 16777215)
-            vbox.addWidget(media_a, stretch=1)
-        if media_b is not None:
-            media_b.setVisible(True)
-            media_b.setMinimumSize(0, 0)
-            media_b.setMaximumSize(16777215, 16777215)
-            vbox.addWidget(media_b, stretch=1)
+        outer = QVBoxLayout(container)
+        outer.setContentsMargins(4, 4, 4, 4)
+        outer.setSpacing(6)
 
-        # Swap the original page widget for the new container (same
-        # title). removeTab + insertTab keeps the order.
+        def _make_group(title, table, btn_insert, btn_remove):
+            box = QGroupBox(title)
+            v = QVBoxLayout(box)
+            v.setContentsMargins(4, 4, 4, 4)
+            v.setSpacing(4)
+            if table is not None:
+                table.setVisible(True)
+                table.setMinimumSize(0, 0)
+                table.setMaximumSize(16777215, 16777215)
+                v.addWidget(table, stretch=1)
+            btn_row = QHBoxLayout()
+            for b in (btn_insert, btn_remove):
+                if b is not None:
+                    b.setVisible(True)
+                    btn_row.addWidget(b)
+            btn_row.addStretch(1)
+            v.addLayout(btn_row)
+            return box
+
+        if photo_table is not None or photo_ins is not None or photo_rem is not None:
+            outer.addWidget(
+                _make_group("Photos", photo_table, photo_ins, photo_rem),
+                stretch=1,
+            )
+        if video_table is not None or video_ins is not None or video_rem is not None:
+            outer.addWidget(
+                _make_group("Videos", video_table, video_ins, video_rem),
+                stretch=1,
+            )
+
         try:
             tab_widget.removeTab(page_idx)
-            tab_widget.insertTab(page_idx, container, "Dive Log Form")
+            tab_widget.insertTab(page_idx, container, "Photos & Videos")
         except Exception as exc:
             print(f"[divelog form] tab swap failed: {exc}")
 
