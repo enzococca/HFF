@@ -656,49 +656,57 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         return sorted(names)
 
     def _clean_dive_log_form_tab(self):
-        """Inside the 'Dive Log Form' tab, hide every legacy QLabel /
-        QLineEdit / QComboBox that the new Dive summary tab has
-        replaced, then resize the two media QTabWidgets (tabWidget_2,
-        tabWidget_3) so they together fill the page. The page widget
-        itself is preserved because legacy save/fill code still pokes
-        the hidden widgets via self.NAME."""
+        """Reparent the two media QTabWidgets (tabWidget_2 = photos,
+        tabWidget_3 = videos) into a fresh QVBoxLayout that takes over
+        the 'Dive Log Form' page entirely. The legacy diver labels are
+        left alone here — they're already hidden by name via
+        _hide_orphan_labels and _hide_legacy_diver_widgets — but
+        whatever still lives on the page becomes invisible because the
+        new layout repaints over them.
+
+        This avoids the previous bug where iterating page.children()
+        and bulk-hiding swept up the parent containers of the media
+        tabwidgets and made everything disappear."""
+        from qgis.PyQt.QtWidgets import QVBoxLayout, QWidget
         tab_widget = getattr(self, "tabWidget", None)
         if tab_widget is None:
             return
-        page = None
+        page_idx = -1
         for i in range(tab_widget.count()):
             if tab_widget.tabText(i) == "Dive Log Form":
-                page = tab_widget.widget(i)
+                page_idx = i
                 break
-        if page is None:
+        if page_idx < 0:
             return
         media_a = getattr(self, "tabWidget_2", None)
         media_b = getattr(self, "tabWidget_3", None)
-        # Hide every direct child of `page` that is NOT one of the
-        # media sub-tabwidgets. This sweeps up the legacy diver labels
-        # AND any other Qt Designer artifacts left behind.
-        for child in page.children():
-            if child is media_a or child is media_b:
-                continue
-            try:
-                if hasattr(child, "setVisible"):
-                    child.setVisible(False)
-            except Exception:
-                pass
-        # Resize the two media tabwidgets to split the page vertically.
+        if media_a is None and media_b is None:
+            return  # nothing to host
+
+        # Build a fresh container with a vertical layout holding the
+        # two media tabwidgets. Reparenting via addWidget moves them.
+        container = QWidget()
+        vbox = QVBoxLayout(container)
+        vbox.setContentsMargins(4, 4, 4, 4)
+        vbox.setSpacing(4)
+        if media_a is not None:
+            media_a.setVisible(True)
+            media_a.setMinimumSize(0, 0)
+            media_a.setMaximumSize(16777215, 16777215)
+            vbox.addWidget(media_a, stretch=1)
+        if media_b is not None:
+            media_b.setVisible(True)
+            media_b.setMinimumSize(0, 0)
+            media_b.setMaximumSize(16777215, 16777215)
+            vbox.addWidget(media_b, stretch=1)
+
+        # Swap the original page widget for the new container (same
+        # title). removeTab + insertTab keeps the order.
         try:
-            from qgis.PyQt.QtCore import QRect
-            page_w = max(page.width(), 600)
-            page_h = max(page.height(), 600)
-            half_h = page_h // 2
-            if media_a is not None:
-                media_a.setVisible(True)
-                media_a.setGeometry(QRect(0, 0, page_w, half_h))
-            if media_b is not None:
-                media_b.setVisible(True)
-                media_b.setGeometry(QRect(0, half_h, page_w, page_h - half_h))
+            tab_widget.removeTab(page_idx)
+            tab_widget.insertTab(page_idx, container, "Dive Log Form")
         except Exception as exc:
-            print(f"[divelog form] media split failed: {exc}")
+            print(f"[divelog form] tab swap failed: {exc}")
 
     def _hide_orphan_labels(self):
         """Hide the QLabels that lived above / around the legacy diver
