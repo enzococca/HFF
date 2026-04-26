@@ -457,6 +457,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                        video_nbr, photo_nbr, camera
           - QTextEdit: task, result, comments
         """
+        from qgis.PyQt.QtCore import Qt
         from qgis.PyQt.QtWidgets import (
             QGridLayout, QLabel, QWidget,
         )
@@ -521,7 +522,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             if w is None:
                 continue
             label = QLabel(label_text)
-            label.setAlignment(0x0001 | 0x0080)  # AlignLeft | AlignTop
+            label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
             grid.addWidget(label, row, 0)
             grid.addWidget(w, row, 1, 1, 7)
             # Cap minimum height so text areas have room
