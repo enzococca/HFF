@@ -307,6 +307,12 @@ class HffPlugin_s(object):
         self.actionTutorial.setWhatsThis("Tutorials and Help")
         self.actionTutorial.triggered.connect(self.runTutorial)
 
+        # Coordinate Converter button — DDM/DMS/DD/UTM
+        icon_coords = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'GIS.png'))
+        self.actionCoordConverter = QAction(QIcon(icon_coords), "Coordinate Converter", self.iface.mainWindow())
+        self.actionCoordConverter.setWhatsThis("Convert coordinates between DDM/DMS/DD/UTM")
+        self.actionCoordConverter.triggered.connect(self.runCoordConverter)
+
         # User Management button (admin functions for PostgreSQL)
         icon_users = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'users.png'))
         self.actionUserManagement = QAction(QIcon(icon_users), "User Management", self.iface.mainWindow())
@@ -336,6 +342,7 @@ class HffPlugin_s(object):
         self.manageToolButton.addActions(
             [self.actionConf, self.actionConnectionSettings, self.actionDbmanagment,
              self.actionRemoteStorage, self.actionBotSync,
+             self.actionCoordConverter,
              self.actionUserManagement, self.actionTutorial, self.actionInfo])
         self.manageToolButton.setDefaultAction(self.actionConf)
 
@@ -527,6 +534,12 @@ class HffPlugin_s(object):
         tutorialViewer = TutorialViewerDialog(parent=self.iface.mainWindow())
         tutorialViewer.exec_()
         self.pluginGui = tutorialViewer  # save
+
+    def runCoordConverter(self):
+        from gui.hff_coord_converter_dialog import CoordConverterDialog
+        dlg = CoordConverterDialog(parent=self.iface.mainWindow())
+        dlg.show()
+        self.pluginGui = dlg  # keep reference
 
     def _current_server(self):
         """Read the current SERVER from config.cfg fresh.
