@@ -146,20 +146,12 @@ selection-color: rgb(140, 140, 105);</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="0" column="0">
-             <widget class="QWebView" name="webView" native="true">
+             <widget class="QWidget" name="webView" native="true">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
-              </property>
-              <property name="url" stdset="0">
-               <url>
-                <string>https://honorfrostfoundation.org/</string>
-               </url>
-              </property>
-              <property name="zoomFactor" stdset="0">
-               <double>0.500000000000000</double>
               </property>
              </widget>
             </item>
@@ -175,20 +167,12 @@ selection-color: rgb(140, 140, 105);</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="0">
-             <widget class="QWebView" name="webView_2" native="true">
+             <widget class="QWidget" name="webView_2" native="true">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
-              </property>
-              <property name="url" stdset="0">
-               <url>
-                <string>https://marea.soton.ac.uk/</string>
-               </url>
-              </property>
-              <property name="zoomFactor" stdset="0">
-               <double>0.500000000000000</double>
               </property>
              </widget>
             </item>
@@ -332,13 +316,6 @@ p, li { white-space: pre-wrap; }
    </layout>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKit/QWebView</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../../resources/resources.qrc" />
  </resources>

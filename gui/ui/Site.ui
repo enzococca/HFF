@@ -3931,20 +3931,12 @@ p, li { white-space: pre-wrap; }
                     </layout>
                    </item>
                    <item row="2" column="0" rowspan="2">
-                    <widget class="QWebView" name="webView" native="true">
+                    <widget class="QWidget" name="webView" native="true">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
-                     </property>
-                     <property name="url" stdset="0">
-                      <url>
-                       <string>https://hff_system_.github.io/hff_system__doc/03_ilplugin.html#scheda-sito</string>
-                      </url>
-                     </property>
-                     <property name="zoomFactor" stdset="0">
-                      <double>1.000000000000000</double>
                      </property>
                     </widget>
                    </item>
@@ -4168,11 +4160,6 @@ p, li { white-space: pre-wrap; }
    <extends>QDockWidget</extends>
    <header>qgsdockwidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKit/QWebView</header>
   </customwidget>
  </customwidgets>
  <resources>
