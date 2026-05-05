@@ -1328,7 +1328,6 @@ class hff_system__ART_CON(QDialog, MAIN_DIALOG_CLASS):
         self.iconListWidget.setUniformItemSizes(True)
         # self.iconListWidget.setBatchSize(1500)
         self.iconListWidget.setObjectName("iconListWidget")
-        self.iconListWidget.SelectionMode()
         self.iconListWidget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.iconListWidget.itemDoubleClicked.connect(self.openWide_image)
         # aggiungi il DateDelegate alla nuova riga

@@ -3148,7 +3148,6 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.iconListWidget.setLayoutMode(QListView.Batched)
         self.iconListWidget.setUniformItemSizes(True)
         self.iconListWidget.setObjectName("iconListWidget")
-        self.iconListWidget.SelectionMode()
         self.iconListWidget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.iconListWidget.itemDoubleClicked.connect(self.openWide_image)
         
@@ -3161,7 +3160,6 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.icongigi.setLayoutMode(QListView.Batched)
         self.icongigi.setUniformItemSizes(True)
         self.icongigi.setObjectName("iconListWidget_2")
-        self.icongigi.SelectionMode()
         self.icongigi.setSelectionMode(QAbstractItemView.SingleSelection)
         self.icongigi.itemDoubleClicked.connect(self.openWide_image_pano)
     

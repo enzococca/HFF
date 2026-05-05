@@ -1613,7 +1613,6 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.iconListWidget.setUniformItemSizes(True)
         #self.iconListWidget.setBatchSize(1500)
         self.iconListWidget.setObjectName("iconListWidget")
-        self.iconListWidget.SelectionMode()
         self.iconListWidget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.iconListWidget.itemDoubleClicked.connect(self.openWide_image)
     # def loadMedialist(self):

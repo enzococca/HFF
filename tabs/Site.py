@@ -449,7 +449,6 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
         self.iconListWidget.setLayoutMode(QListView.Batched)
         self.iconListWidget.setUniformItemSizes(True)
         self.iconListWidget.setObjectName("iconListWidget")
-        self.iconListWidget.SelectionMode()
         self.iconListWidget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.iconListWidget.itemDoubleClicked.connect(self.openWide_image)
         
@@ -462,7 +461,6 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
         self.iconListWidget_2.setLayoutMode(QListView.Batched)
         self.iconListWidget_2.setUniformItemSizes(True)
         self.iconListWidget_2.setObjectName("iconListWidget_2")
-        self.iconListWidget_2.SelectionMode()
         self.iconListWidget_2.setSelectionMode(QAbstractItemView.SingleSelection)
         self.iconListWidget_2.itemDoubleClicked.connect(self.openWide_image)
         

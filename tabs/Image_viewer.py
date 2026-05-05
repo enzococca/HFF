@@ -135,7 +135,6 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         self.i18n = HffI18n.instance()
         self.customize_gui()
         self.mDockWidget.setHidden(True)  
-        self.iconListWidget.SelectionMode()
         self.iconListWidget.itemSelectionChanged.connect(self.remove_all)
         self.iconListWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.iconListWidget.itemDoubleClicked.connect(self.openWide_image)
