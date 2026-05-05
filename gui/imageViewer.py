@@ -72,7 +72,7 @@ class ImageViewer(QDialog, IMAGE_VIEWER):
 
 
 
-    def show_image(self, path, flags=Qt.KeepAspectRatioByExpanding):
+    def show_image(self, path, flags=Qt.AspectRatioMode.KeepAspectRatioByExpanding):
 
         pic = QPixmap(path)
 
