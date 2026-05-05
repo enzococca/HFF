@@ -220,7 +220,7 @@ class hff_PRINTMAP(QDialog, MAIN_DIALOG_CLASS):
                        QgsPrintLayout,
                        QgsReadWriteContext)
         from qgis.utils import iface
-        from PyQt5.QtXml import QDomDocument
+        from qgis.PyQt.QtXml import QDomDocument
 
         #template_source = '/home/user/Document/Template.qpt'
         #layout_name = 'NewLayout'
