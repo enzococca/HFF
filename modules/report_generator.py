@@ -3,45 +3,11 @@ from sqlalchemy import create_engine, MetaData, Table, select
 from sqlalchemy.orm import sessionmaker
 from qgis.PyQt.QtWidgets import *
 import socket
-import sys, subprocess
-
-try:
-    import openai
-
-    print("openai is already installed")
-except ImportError:
-    print("openai is not installed, installing...")
-    try:
-        if sys.platform.startswith("win"):
-            subprocess.check_call(["pip", "install", "openai"], shell=True)
-        elif sys.platform.startswith("darwin") or sys.platform.startswith("linux"):
-            subprocess.check_call(["python3", "-m", "pip", "install", "openai"], shell=False)
-        else:
-            raise Exception(f"Unsupported platform: {sys.platform}")
-        print("openai installed successfully")
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred while installing openai: {e}")
-        sys.exit(1)
-try:
-    import docx
-
-    print("docx is already installed")
-except ImportError:
-    print("docx is not installed, installing...")
-    try:
-        if sys.platform.startswith("win"):
-            subprocess.check_call(["pip", "install", "python-docx"], shell=True)
-        elif sys.platform.startswith("darwin") or sys.platform.startswith("linux"):
-            subprocess.check_call(["python3", "-m", "pip", "install", "python-docx"], shell=False)
-        else:
-            raise Exception(f"Unsupported platform: {sys.platform}")
-        print("openai installed successfully")
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred while installing python-docx: {e}")
-        sys.exit(1)
-
-
 import time
+
+# openai is imported lazily inside generate_report_with_openai so a broken
+# pydantic/pydantic-core install in the host environment cannot block plugin
+# load. The error surfaces only if the user actually triggers a report.
 
 
 class ReportGenerator(QWidget):
@@ -82,6 +48,7 @@ class ReportGenerator(QWidget):
 
     @staticmethod
     def generate_report_with_openai(descriptions_text, api_key, model):
+        import openai
         prompt = descriptions_text
         prompt += "\n\nReport:"
 
