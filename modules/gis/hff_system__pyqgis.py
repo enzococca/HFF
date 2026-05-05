@@ -2076,7 +2076,7 @@ class Hff_pyqgis(QDialog):
             layer_name = 'artefact_point'
             layer_name_conv = "'"+str(layer_name)+"'"
             #value_conv =  ('"site = %s"') % ("'"+str(self.val)+"'")
-            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s)" % (layer_name_conv, "'the_geom'", value_conv)
+            cmq_set_uri_data_source = "uri.setDataSource('',%s, %s)" % (layer_name_conv, "'the_geom'")
             eval(cmq_set_uri_data_source)
             layer_label = self.LAYERS_CONVERT_DIZ[layer_name]
             layer_label_conv = "'"+layer_label+"'"
