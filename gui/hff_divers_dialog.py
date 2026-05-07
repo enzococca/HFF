@@ -47,13 +47,38 @@ class AddEditSegmentDialog(QDialog):
         layout.addRow("Breathing mix:", self.mix_edit)
         layout.addRow("Bar start:", self.bar_start_edit)
         layout.addRow("Bar end:", self.bar_end_edit)
-        layout.addRow("Delta P:", self.delta_p_edit)
+        layout.addRow("Delta P (auto):", self.delta_p_edit)
+
+        # Auto-compute Delta P = bar_start - bar_end. textEdited fires only
+        # on real user input, so a manual edit of delta_p latches the field
+        # and stops auto-fill from clobbering it.
+        self._delta_p_user_edited = bool(seg.get("delta_p"))
+        self.delta_p_edit.textEdited.connect(self._mark_delta_p_user_edited)
+        self.bar_start_edit.textEdited.connect(self._auto_delta_p)
+        self.bar_end_edit.textEdited.connect(self._auto_delta_p)
+
         buttons = QDialogButtonBox(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel
         )
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addRow(buttons)
+
+    def _mark_delta_p_user_edited(self, _text):
+        self._delta_p_user_edited = True
+
+    def _auto_delta_p(self, _text=None):
+        if self._delta_p_user_edited:
+            return
+        try:
+            start = float(self.bar_start_edit.text().strip())
+            end = float(self.bar_end_edit.text().strip())
+        except (TypeError, ValueError):
+            return
+        delta = start - end
+        # Trim trailing zeros from int-valued floats: 50.0 -> "50".
+        formatted = ("%g" % delta)
+        self.delta_p_edit.setText(formatted)
 
     def value(self):
         return {

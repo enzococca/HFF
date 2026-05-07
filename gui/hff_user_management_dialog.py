@@ -274,6 +274,15 @@ class UserManagementDialog(QDialog):
                 )
                 self.permissions_manager = None
 
+        # Refresh PG grants so existing users pick up any new managed
+        # tables / grant rules added since they were created (e.g. DELETE
+        # on divers and diver_segments for archaeologists).
+        if self.permissions_manager:
+            try:
+                self.permissions_manager.resync_all_pg_grants()
+            except Exception:
+                pass
+
         self.setWindowTitle("HFF - " + tr('user_management', 'User Management'))
         self.setMinimumSize(900, 650)
         self.setup_ui()

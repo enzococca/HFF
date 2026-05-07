@@ -76,8 +76,15 @@ class HffPermissionsManager:
         'site_table',
         'media_table',
         'media_thumb_table',
-        'media_to_entity_table'
+        'media_to_entity_table',
+        'divers',
+        'diver_segments'
     ]
+
+    # Child tables of dive_log. Saving a dive_log record rewrites these
+    # via DELETE + INSERT, so any role allowed to UPDATE dive_log must
+    # also be allowed to DELETE rows here, otherwise the save aborts.
+    DIVE_CHILD_TABLES = ['divers', 'diver_segments']
 
     def __init__(self, engine):
         """Initialize the permissions manager.
@@ -569,6 +576,21 @@ class HffPermissionsManager:
                 f'GRANT {grant} ON TABLE public."{table}" TO "{username}"'
             ))
 
+        # Child tables of dive_log require DELETE for any role that can
+        # UPDATE dive_log, because _save_divers does a DELETE + INSERT
+        # on every save. Without this, archaeologists hit a permission
+        # error when saving a divelog they're allowed to update.
+        if role in ('admin', 'archaeologist'):
+            for table in self.DIVE_CHILD_TABLES:
+                if table in all_tables:
+                    try:
+                        conn.execute(sa_text(
+                            f'GRANT DELETE ON TABLE public."{table}" '
+                            f'TO "{username}"'
+                        ))
+                    except Exception:
+                        pass
+
         # Views: always SELECT
         for view in all_views:
             try:
@@ -756,6 +778,12 @@ class HffPermissionsManager:
         perms = role_defaults.get(role, role_defaults['guest'])
 
         for table in self.MANAGED_TABLES:
+            row = dict(perms)
+            # Dive_log child tables follow the parent's update permission:
+            # if you can UPDATE dive_log, you can rewrite its diver list,
+            # which requires DELETE on these child rows.
+            if table in self.DIVE_CHILD_TABLES and perms['update']:
+                row['delete'] = True
             conn.execute(text("""
                 INSERT INTO hff_permissions (user_id, table_name, can_view, can_insert, can_update, can_delete)
                 VALUES (:user_id, :table_name, :can_view, :can_insert, :can_update, :can_delete)
@@ -765,10 +793,10 @@ class HffPermissionsManager:
             """), {
                 "user_id": user_id,
                 "table_name": table,
-                "can_view": perms['view'],
-                "can_insert": perms['insert'],
-                "can_update": perms['update'],
-                "can_delete": perms['delete']
+                "can_view": row['view'],
+                "can_insert": row['insert'],
+                "can_update": row['update'],
+                "can_delete": row['delete']
             })
 
     def update_user_permissions(self, username: str, table_name: str,
@@ -833,6 +861,38 @@ class HffPermissionsManager:
             return True
         except Exception:
             return False
+
+    def resync_all_pg_grants(self) -> int:
+        """Re-apply role-based PG grants for every active HFF user.
+
+        Useful after MANAGED_TABLES grows or grant logic changes (e.g. when
+        adding the divers / diver_segments DELETE grant): existing users
+        keep their stale grants until their role is changed via
+        update_user, so this method explicitly rewrites them.
+
+        Requires admin / PG superuser. Failures on individual users are
+        swallowed so one bad PG role doesn't abort the rest.
+
+        Returns the number of users successfully resynced.
+        """
+        if not self._is_admin():
+            return 0
+
+        count = 0
+        try:
+            with self.engine.begin() as conn:
+                rows = conn.execute(text(
+                    "SELECT username, role FROM hff_users WHERE is_active = TRUE"
+                )).fetchall()
+                for username, role in rows:
+                    try:
+                        self._grant_pg_permissions(conn, username, role)
+                        count += 1
+                    except Exception:
+                        continue
+        except Exception:
+            return count
+        return count
 
     def list_users(self) -> List[Dict[str, Any]]:
         """List all users.

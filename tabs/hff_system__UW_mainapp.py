@@ -4353,6 +4353,15 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         
         # Clear storage field
         self.lineEdit_storage_.clear()
+
+        # Reset divers tab state. Without this, _divers_payload persists
+        # across saves and the next "new" record inherits the previous
+        # diver list (since _init_divers_state skips re-init when the
+        # attribute already exists).
+        if hasattr(self, '_divers_payload'):
+            self._divers_payload = []
+        if hasattr(self, 'tree_divers'):
+            self.tree_divers.clear()
     def fill_fields(self, n=0):
         self.rec_num = n
         # QMessageBox.warning(self, "Test", str(self.comboBox_per_fin.currentText()),  QMessageBox.Ok)
