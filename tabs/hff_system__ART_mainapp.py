@@ -1515,19 +1515,23 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     self.DB_MANAGER.group_by(table, field, mapper))
             except Exception:
                 return []
-        _populate_cb(self.comboBox_site,      _q('site_table', 'location_', 'SITE'),
+        def _cb(combo, db_values, table=None, field=None, **kw):
+            return _populate_cb(combo, db_values, table, field,
+                                db_manager=self.DB_MANAGER,
+                                locale=getattr(self, 'L', None), **kw)
+        _cb(self.comboBox_site,      _q('site_table', 'location_', 'SITE'),
                      'site_table', 'location_')
-        _populate_cb(self.comboBox_artefact,  _q('artefact_log', 'artefact_id', 'ART'),
+        _cb(self.comboBox_artefact,  _q('artefact_log', 'artefact_id', 'ART'),
                      'artefact_log', 'artefact_id')
-        _populate_cb(self.comboBox_material,  _q('artefact_log', 'material', 'ART'),
+        _cb(self.comboBox_material,  _q('artefact_log', 'material', 'ART'),
                      'artefact_log', 'material')
-        _populate_cb(self.comboBox_area,      _q('artefact_log', 'area', 'ART'),
+        _cb(self.comboBox_area,      _q('artefact_log', 'area', 'ART'),
                      'artefact_log', 'area')
-        _populate_cb(self.comboBox_treatment, _q('artefact_log', 'treatment', 'ART'),
+        _cb(self.comboBox_treatment, _q('artefact_log', 'treatment', 'ART'),
                      'artefact_log', 'treatment')
-        _populate_cb(self.comboBox_obj,       _q('artefact_log', 'obj', 'ART'),
+        _cb(self.comboBox_obj,       _q('artefact_log', 'obj', 'ART'),
                      'artefact_log', 'obj')
-        _populate_cb(self.comboBox_shape,     _q('artefact_log', 'shape', 'ART'),
+        _cb(self.comboBox_shape,     _q('artefact_log', 'shape', 'ART'),
                      'artefact_log', 'shape')
     def customize_GUI(self):
         # self.tableWidget_foto.setColumnWidth(0, 100)

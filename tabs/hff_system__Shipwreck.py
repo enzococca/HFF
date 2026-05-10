@@ -1863,30 +1863,34 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     self.DB_MANAGER.group_by(table, field, mapper))
             except Exception:
                 return []
-        _populate_cb(self.comboBox_code,        _q('shipwreck_table', 'code_id', 'SHIPWRECK'),
+        def _cb(combo, db_values, table=None, field=None, **kw):
+            return _populate_cb(combo, db_values, table, field,
+                                db_manager=self.DB_MANAGER,
+                                locale=getattr(self, 'L', None), **kw)
+        _cb(self.comboBox_code,        _q('shipwreck_table', 'code_id', 'SHIPWRECK'),
                      'shipwreck_table', 'code_id')
-        _populate_cb(self.comboBox_area,        _q('shipwreck_table', 'area', 'SHIPWRECK'),
+        _cb(self.comboBox_area,        _q('shipwreck_table', 'area', 'SHIPWRECK'),
                      'shipwreck_table', 'area')
-        _populate_cb(self.comboBox_confidence,  _q('shipwreck_table', 'confidence', 'SHIPWRECK'),
+        _cb(self.comboBox_confidence,  _q('shipwreck_table', 'confidence', 'SHIPWRECK'),
                      'shipwreck_table', 'confidence')
-        _populate_cb(self.comboBox_owner,       _q('shipwreck_table', 'owner', 'SHIPWRECK'),
+        _cb(self.comboBox_owner,       _q('shipwreck_table', 'owner', 'SHIPWRECK'),
                      'shipwreck_table', 'owner')
-        _populate_cb(self.comboBox_nationality, _q('shipwreck_table', 'nationality', 'SHIPWRECK'),
+        _cb(self.comboBox_nationality, _q('shipwreck_table', 'nationality', 'SHIPWRECK'),
                      'shipwreck_table', 'nationality')
-        _populate_cb(self.comboBox_builder,     _q('shipwreck_table', 'builder', 'SHIPWRECK'),
+        _cb(self.comboBox_builder,     _q('shipwreck_table', 'builder', 'SHIPWRECK'),
                      'shipwreck_table', 'builder')
-        _populate_cb(self.comboBox_purpose,     _q('shipwreck_table', 'purpose', 'SHIPWRECK'),
+        _cb(self.comboBox_purpose,     _q('shipwreck_table', 'purpose', 'SHIPWRECK'),
                      'shipwreck_table', 'purpose')
-        _populate_cb(self.comboBox_name_vessel, _q('shipwreck_table', 'name_vessel', 'SHIPWRECK'),
+        _cb(self.comboBox_name_vessel, _q('shipwreck_table', 'name_vessel', 'SHIPWRECK'),
                      'shipwreck_table', 'name_vessel')
-        _populate_cb(self.comboBox_quality_depth, _q('shipwreck_table', 'depth_quality', 'SHIPWRECK'),
+        _cb(self.comboBox_quality_depth, _q('shipwreck_table', 'depth_quality', 'SHIPWRECK'),
                      'shipwreck_table', 'depth_quality')
-        _populate_cb(self.comboBox_quality_coordinates,
+        _cb(self.comboBox_quality_coordinates,
                      _q('shipwreck_table', 'position_quality_1', 'SHIPWRECK'),
                      'shipwreck_table', 'position_quality_1')
-        _populate_cb(self.comboBox_consulties,  _q('shipwreck_table', 'consulties', 'SHIPWRECK'),
+        _cb(self.comboBox_consulties,  _q('shipwreck_table', 'consulties', 'SHIPWRECK'),
                      'shipwreck_table', 'consulties')
-        _populate_cb(self.comboBox_status,      _q('shipwreck_table', 'status', 'SHIPWRECK'),
+        _cb(self.comboBox_status,      _q('shipwreck_table', 'status', 'SHIPWRECK'),
                      'shipwreck_table', 'status')
     def customize_GUI(self):
         # self.tableWidget_foto.setColumnWidth(0, 100)

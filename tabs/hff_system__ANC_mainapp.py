@@ -1607,15 +1607,19 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     self.DB_MANAGER.group_by(table, field, mapper))
             except Exception:
                 return []
-        _populate_cb(self.comboBox_site,     _q('site_table', 'location_', 'SITE'),
+        def _cb(combo, db_values, table=None, field=None, **kw):
+            return _populate_cb(combo, db_values, table, field,
+                                db_manager=self.DB_MANAGER,
+                                locale=getattr(self, 'L', None), **kw)
+        _cb(self.comboBox_site,     _q('site_table', 'location_', 'SITE'),
                      'site_table', 'location_')
-        _populate_cb(self.comboBox_area,     _q('anchor_table', 'area', 'ANC'),
+        _cb(self.comboBox_area,     _q('anchor_table', 'area', 'ANC'),
                      'anchor_table', 'area')
-        _populate_cb(self.comboBox_artefact, _q('anchor_table', 'anchors_id', 'ANC'),
+        _cb(self.comboBox_artefact, _q('anchor_table', 'anchors_id', 'ANC'),
                      'anchor_table', 'anchors_id')
-        _populate_cb(self.comboBox_origin,   _q('anchor_table', 'origin', 'ANC'),
+        _cb(self.comboBox_origin,   _q('anchor_table', 'origin', 'ANC'),
                      'anchor_table', 'origin')
-        _populate_cb(self.comboBox_typology, _q('anchor_table', 'typology', 'ANC'),
+        _cb(self.comboBox_typology, _q('anchor_table', 'typology', 'ANC'),
                      'anchor_table', 'typology')
     def customize_GUI(self):
         # self.tableWidget_foto.setColumnWidth(0, 100)

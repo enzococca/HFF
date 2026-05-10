@@ -1812,21 +1812,25 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     self.DB_MANAGER.group_by(table, field, mapper))
             except Exception:
                 return []
-        _populate_cb(self.comboBox_site_name, _q('site_table', 'location_', 'SITE'),
+        def _cb(combo, db_values, table=None, field=None, **kw):
+            return _populate_cb(combo, db_values, table, field,
+                                db_manager=self.DB_MANAGER,
+                                locale=getattr(self, 'L', None), **kw)
+        _cb(self.comboBox_site_name, _q('site_table', 'location_', 'SITE'),
                      'site_table', 'location_')
-        _populate_cb(self.comboBox_artefact,  _q('pottery_table', 'artefact_id', 'POTTERY'),
+        _cb(self.comboBox_artefact,  _q('pottery_table', 'artefact_id', 'POTTERY'),
                      'pottery_table', 'artefact_id')
-        _populate_cb(self.comboBox_form,      _q('pottery_table', 'form', 'POTTERY'),
+        _cb(self.comboBox_form,      _q('pottery_table', 'form', 'POTTERY'),
                      'pottery_table', 'form')
-        _populate_cb(self.comboBox_munsell_clay, _q('pottery_table', 'munsell_clay', 'POTTERY'),
+        _cb(self.comboBox_munsell_clay, _q('pottery_table', 'munsell_clay', 'POTTERY'),
                      'pottery_table', 'munsell_clay')
-        _populate_cb(self.comboBox_conservation, _q('pottery_table', 'conservation', 'POTTERY'),
+        _cb(self.comboBox_conservation, _q('pottery_table', 'conservation', 'POTTERY'),
                      'pottery_table', 'conservation')
-        _populate_cb(self.comboBox_samples,   _q('pottery_table', 'samples', 'POTTERY'),
+        _cb(self.comboBox_samples,   _q('pottery_table', 'samples', 'POTTERY'),
                      'pottery_table', 'samples')
-        _populate_cb(self.comboBox_munsell_surf, _q('pottery_table', 'munsell_surf', 'POTTERY'),
+        _cb(self.comboBox_munsell_surf, _q('pottery_table', 'munsell_surf', 'POTTERY'),
                      'pottery_table', 'munsell_surf')
-        _populate_cb(self.comboBox_area,      _q('pottery_table', 'area', 'POTTERY'),
+        _cb(self.comboBox_area,      _q('pottery_table', 'area', 'POTTERY'),
                      'pottery_table', 'area')
     def on_toolButtonPreviewMedia_toggled(self):
         if bool(self.toolButtonPreviewMedia.isChecked()):

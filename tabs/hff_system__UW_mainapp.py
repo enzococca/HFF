@@ -3064,20 +3064,24 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     self.DB_MANAGER.group_by(table, field, mapper))
             except Exception:
                 return []
-        _populate_cb(self.comboBox_site,           _q('site_table', 'location_', 'SITE'),
+        def _cb(combo, db_values, table=None, field=None, **kw):
+            return _populate_cb(combo, db_values, table, field,
+                                db_manager=self.DB_MANAGER,
+                                locale=getattr(self, 'L', None), **kw)
+        _cb(self.comboBox_site,           _q('site_table', 'location_', 'SITE'),
                      'site_table', 'location_')
-        _populate_cb(self.comboBox_area_reference, _q('dive_log', 'area_id', 'UW'),
+        _cb(self.comboBox_area_reference, _q('dive_log', 'area_id', 'UW'),
                      'dive_log', 'area_id')
 
         from datetime import date as _date
         years = [str(y) for y in range(2013, _date.today().year + 1)]
-        _populate_cb(self.comboBox_years, [], defaults=years, sort=False)
+        _cb(self.comboBox_years, [], defaults=years, sort=False)
 
-        _populate_cb(self.comboBox_diver,     _q('dive_log', 'diver_1', 'UW'),
+        _cb(self.comboBox_diver,     _q('dive_log', 'diver_1', 'UW'),
                      'dive_log', 'diver_1')
-        _populate_cb(self.comboBox_buddy,     _q('dive_log', 'diver_2', 'UW'),
+        _cb(self.comboBox_buddy,     _q('dive_log', 'diver_2', 'UW'),
                      'dive_log', 'diver_2')
-        _populate_cb(self.comboBox_add_diver, _q('dive_log', 'additional_diver', 'UW'),
+        _cb(self.comboBox_add_diver, _q('dive_log', 'additional_diver', 'UW'),
                      'dive_log', 'additional_diver')
 
         # Standby + Supervisor combos pull from the WHOLE pool of known
@@ -3085,10 +3089,10 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         # divers.diver_name table) so the same person can be selected
         # regardless of the role they had in past dives.
         all_names = self._all_known_diver_names()
-        _populate_cb(self.comboBox_standby_diver, all_names)
-        _populate_cb(self.comboBox_supervisor,    all_names)
+        _cb(self.comboBox_standby_diver, all_names)
+        _cb(self.comboBox_supervisor,    all_names)
 
-        _populate_cb(self.comboBox_wind, _q('dive_log', 'wind', 'UW'),
+        _cb(self.comboBox_wind, _q('dive_log', 'wind', 'UW'),
                      'dive_log', 'wind')
         
     def customize_GUI(self):

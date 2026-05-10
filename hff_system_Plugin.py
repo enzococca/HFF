@@ -48,6 +48,7 @@ from .tabs.Excel_export import hff_system__excel_export
 from .tabs.Site import hff_system__Site
 from .tabs.PRINTMAP import hff_PRINTMAP
 from .tabs.Tutorial_viewer import TutorialViewerDialog
+from .tabs.hff_system__Thesaurus import HffThesaurusDialog
 from .gui.hff_system_ConfigDialog import HFF_systemDialog_Config
 from .gui.dbmanagment import hff_system__dbmanagment
 from .gui.hff_system_InfoDialog import HFF_systemDialog_Info
@@ -339,10 +340,16 @@ class HffPlugin_s(object):
         self.actionBotSync.setWhatsThis("Pull media files from the HFF Telegram bot")
         self.actionBotSync.triggered.connect(self.runBotSync)
 
+        # Thesaurus button — manages controlled vocabularies for form combos
+        icon_thes = '{}{}'.format(filepath, os.path.join(os.sep, 'resources', 'icons', 'thesaurusicon.png'))
+        self.actionThesaurus = QAction(QIcon(icon_thes), "Thesaurus", self.iface.mainWindow())
+        self.actionThesaurus.setWhatsThis("Manage dropdown vocabularies (Pottery, Anchor, Artefact, ...)")
+        self.actionThesaurus.triggered.connect(self.runThesaurus)
+
         self.manageToolButton.addActions(
             [self.actionConf, self.actionConnectionSettings, self.actionDbmanagment,
              self.actionRemoteStorage, self.actionBotSync,
-             self.actionCoordConverter,
+             self.actionCoordConverter, self.actionThesaurus,
              self.actionUserManagement, self.actionTutorial, self.actionInfo])
         self.manageToolButton.setDefaultAction(self.actionConf)
 
@@ -404,6 +411,7 @@ class HffPlugin_s(object):
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionDbmanagment)
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionRemoteStorage)
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionBotSync)
+        self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionThesaurus)
         self.iface.addPluginToMenu("HFF - Config GIS Tools", self.actionUserManagement)
         self.iface.addPluginToMenu("HFF - Help", self.actionTutorial)
         self.iface.addPluginToMenu("HFF - Info GIS Tools", self.actionInfo)
@@ -626,6 +634,20 @@ class HffPlugin_s(object):
                 f"Could not open Bot Media Sync: {str(e)}"
             )
 
+    def runThesaurus(self):
+        """Open the Thesaurus dialog (controlled vocabularies for form combos)."""
+        try:
+            dlg = HffThesaurusDialog(parent=self.iface.mainWindow())
+            dlg.exec_()
+            self.pluginGui = dlg
+        except Exception as e:
+            from qgis.PyQt.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self.iface.mainWindow(),
+                "Error",
+                f"Could not open Thesaurus: {str(e)}"
+            )
+
     def toggleTheme(self):
         """Toggle between dark and light theme."""
         theme_manager = ThemeManager.instance()
@@ -692,6 +714,7 @@ class HffPlugin_s(object):
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionConnectionSettings)
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionRemoteStorage)
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionBotSync)
+        self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionThesaurus)
         self.iface.removePluginMenu("HFF - Config GIS Tools", self.actionUserManagement)
         self.iface.removePluginMenu("HFF - Help", self.actionTutorial)
 

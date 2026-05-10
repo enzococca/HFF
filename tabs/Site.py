@@ -830,9 +830,13 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
                     self.DB_MANAGER.group_by(table, field, mapper))
             except Exception:
                 return []
-        _populate_cb(self.comboBox_nome_site, _q('site_table', 'name_site', 'SITE'),
+        def _cb(combo, db_values, table=None, field=None, **kw):
+            return _populate_cb(combo, db_values, table, field,
+                                db_manager=self.DB_MANAGER,
+                                locale=getattr(self, 'L', None), **kw)
+        _cb(self.comboBox_nome_site, _q('site_table', 'name_site', 'SITE'),
                      'site_table', 'name_site')
-        _populate_cb(self.comboBox_location,  _q('site_table', 'location_', 'SITE'),
+        _cb(self.comboBox_location,  _q('site_table', 'location_', 'SITE'),
                      'site_table', 'location_')
 
     def generate_list_pdf(self):

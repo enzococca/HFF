@@ -1714,11 +1714,15 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
                     self.DB_MANAGER.group_by(table, field, mapper))
             except Exception:
                 return []
-        _populate_cb(self.comboBox_location, _q('eamena_table', 'location', 'EAMENA'),
+        def _cb(combo, db_values, table=None, field=None, **kw):
+            return _populate_cb(combo, db_values, table, field,
+                                db_manager=self.DB_MANAGER,
+                                locale=getattr(self, 'L', None), **kw)
+        _cb(self.comboBox_location, _q('eamena_table', 'location', 'EAMENA'),
                      'eamena_table', 'location')
 
         grid = ['E35N33-11','E35N33-12','E35N33-13','E35N33-14','E35N33-21','E35N33-23','E35N33-24','E35N33-31','E35N33-32','E35N33-33','E35N33-34','E35N33-41','E35N33-42','E35N33-43','E35N33-44','E35N34-11','E35N34-12','E35N34-13','E35N34-14','E35N34-21','E35N34-22','E35N34-23','E35N34-24','E35N34-31','E35N34-32','E35N34-41','E35N34-42','E36N33-31','E36N33-33','E36N33-34','E36N34-11','E36N34-12','E36N34-13','E36N34-14','E36N34-21','E36N34-23','E36N34-31','E36N34-32']
-        _populate_cb(self.comboBox_grid, [], defaults=grid)
+        _cb(self.comboBox_grid, [], defaults=grid)
     def on_pushButton_sort_pressed(self):
         if self.check_record_state() == 1:
             pass

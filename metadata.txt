@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.3
+version=11.4
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,13 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.3:
+changelog=11.4:
+    - Add Thesaurus dialog (toolbar → "Thesaurus") for managing controlled vocabularies in the dropdown comboboxes (issue #44 follow-up)
+    - Wire populate() helper to query hff_system__thesaurus_sigle and merge thesaurus rows with DB-distinct values + in-code defaults
+    - Auto-seed the thesaurus table on first open from the v11.3 DEFAULTS dict (idempotent — safe on existing DBs)
+    - Register HFF_THESAURUS_SIGLE entity + mapper (uses the existing structure that was previously orphan)
+    - Thesaurus dialog supports: per-(table, field, language) filters, inline editing, Add/Delete/Save, CSV Import/Export, Re-seed defaults
+    11.3:
     - Add default vocabularies for free-text comboboxes across Pottery, Anchor, Artefact, Dive log (UW), Shipwreck, Site, Eamena, ANC_CON, ART_CON, Pottery_CON forms (issue #44)
     - Make all charge_list comboboxes editable (setEditable(True)) so users can both pick from suggestions and type free text — values persist as DB-distinct on the next reload
     - Centralize defaults + populate logic in modules/utility/hff_combobox_defaults.py (single source of truth, ready to be back-ended on the thesaurus table in v11.4)

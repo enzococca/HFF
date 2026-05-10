@@ -95,22 +95,57 @@ DEFAULTS = {
 }
 
 
-def populate(combo, db_values=None, table=None, field=None,
-             defaults=None, editable=True, sort=True):
-    """Merge DB-distinct values with curated defaults and load into combo.
+def _query_thesaurus(db_manager, table, field, locale=None):
+    """Pull `sigla_estesa` rows from `hff_system__thesaurus_sigle` filtered by
+    (nome_tabella=table, tipologia_sigla=field, lingua=locale). Best-effort:
+    on any error (table missing on legacy DBs, no DB connection, etc.) return
+    an empty list so the caller falls back to in-code DEFAULTS.
+    """
+    if db_manager is None or table is None or field is None:
+        return []
+    search = {
+        'nome_tabella': "'" + str(table) + "'",
+        'tipologia_sigla': "'" + str(field) + "'",
+    }
+    if locale:
+        search['lingua'] = "'" + str(locale) + "'"
+    try:
+        rows = db_manager.query_bool(search, 'HFF_THESAURUS_SIGLE')
+    except Exception:
+        return []
+    out = []
+    for r in rows or []:
+        v = getattr(r, 'sigla_estesa', None)
+        if v:
+            out.append(v)
+    return out
 
-    combo:      QComboBox to fill
-    db_values:  iterable of strings already pulled via group_by (may be None)
-    table:      table name key to look up DEFAULTS (e.g. 'pottery_table')
-    field:      field name key (e.g. 'form')
-    defaults:   override list — when provided, ignores DEFAULTS[table,field]
-    editable:   set the combo to editable so the user can type new values
-    sort:       sort merged list alphabetically
+
+def populate(combo, db_values=None, table=None, field=None,
+             defaults=None, editable=True, sort=True,
+             db_manager=None, locale=None):
+    """Merge thesaurus + DB-distinct + in-code defaults, load into combo.
+
+    Lookup order (each merged in):
+      1. thesaurus rows for (table, field, locale)        — if db_manager
+      2. db_values                                         — caller-provided
+      3. DEFAULTS[(table, field)]                          — in-code seed
+
+    combo:       QComboBox to fill
+    db_values:   iterable of strings already pulled via group_by (may be None)
+    table:       table name key (e.g. 'pottery_table')
+    field:       field name key (e.g. 'form')
+    defaults:    override the in-code seed for this call
+    editable:    setEditable so the user can also type free text
+    sort:        sort the merged list alphabetically
+    db_manager:  Hff_db_management instance, used to query the thesaurus
+    locale:      'en', 'ar-lb', 'it' — None means any-language
     """
     db_values = list(db_values or [])
+    thes_values = _query_thesaurus(db_manager, table, field, locale)
     if defaults is None and table is not None and field is not None:
         defaults = DEFAULTS.get((table, field), [])
-    merged = {v for v in (db_values + list(defaults or [])) if v}
+    merged = {v for v in (thes_values + db_values + list(defaults or [])) if v}
     items = sorted(merged) if sort else list(merged)
     combo.clear()
     combo.setEditable(bool(editable))

@@ -2061,11 +2061,15 @@ class hff_system__Pottery_CON(QDialog, MAIN_DIALOG_CLASS):
                     self.DB_MANAGER.group_by(table, field, mapper))
             except Exception:
                 return []
-        _populate_cb(self.comboBox_site_name, _q('site_table', 'location_', 'SITE'),
+        def _cb(combo, db_values, table=None, field=None, **kw):
+            return _populate_cb(combo, db_values, table, field,
+                                db_manager=self.DB_MANAGER,
+                                locale=getattr(self, 'L', None), **kw)
+        _cb(self.comboBox_site_name, _q('site_table', 'location_', 'SITE'),
                      'site_table', 'location_')
-        _populate_cb(self.comboBox_artefact,  _q('pottery_table', 'artefact_id', 'POTTERY'),
+        _cb(self.comboBox_artefact,  _q('pottery_table', 'artefact_id', 'POTTERY'),
                      'pottery_table', 'artefact_id')
-        _populate_cb(self.comboBox_author,    _q('pottery_con', 'author', 'POT_c'))
+        _cb(self.comboBox_author,    _q('pottery_con', 'author', 'POT_c'))
 
     def on_toolButtonPreviewMedia_toggled(self):
         if bool(self.toolButtonPreviewMedia.isChecked()):

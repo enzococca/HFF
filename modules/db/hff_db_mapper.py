@@ -51,6 +51,7 @@ from .entities.GRABSPOT_POINT import GRABSPOT_POINT
 from .entities.POTTERY_POINT import POTTERY_POINT
 from .entities.TRANSECT_POLYGON import TRANSECT_POLYGON
 from .entities.SHIPWRECK_POINT import SHIPWRECK_POINT
+from .entities.HFF_THESAURUS_SIGLE import HFF_THESAURUS_SIGLE
 
 ############################from structures #########################################
 
@@ -81,6 +82,7 @@ from .structures.features_point_table import features_point_table
 from .structures.artefact_point_table import artefact_point_table
 from .structures.anchor_point_table import anchor_point_table
 from .structures.shipwreck_point_table import shipwreck_point_table
+from .structures.Pyarchinit_thesaurus_sigle import Hff_thesaurus_sigle
 
 try:
     
@@ -170,6 +172,10 @@ try:
     
     # mapper
     mapper(SHIPWRECK_POINT, shipwreck_point_table.shipwreck_point)
+
+    # mapper
+    mapper(HFF_THESAURUS_SIGLE,
+           Hff_thesaurus_sigle.hff_system__thesaurus_sigle)
 
 except Exception as e:
     raise
