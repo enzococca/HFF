@@ -52,6 +52,7 @@ from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 from ..modules.utility.hff_system__exp_ARsheet_pdf import *
 
 from ..modules.utility.hff_system__error_check import Error_check
+from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 
 from ..modules.utility.csv_writer import UnicodeWriter
 from ..modules.utility.hff_theme_manager import ThemeManager
@@ -1508,86 +1509,26 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 msg = "Warning bug detected! Report it to the developer. Error: ".format(str(e))
                 self.iface.messageBar().pushMessage(self.tr(msg), Qgis.Warning, 0)
     def charge_list(self):
-        #lista area reference
-        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        try:
-            sito_vl.remove('')
-        except:
-            pass
-        self.comboBox_site.clear()
-        sito_vl.sort()
-        self.comboBox_site.addItems(sito_vl)
-        material_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('artefact_log', 'material', 'ART'))
-        try:
-            material_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in material list:" + str(e), QMessageBox.Ok)
-        
-        #lista sito
-        artefact_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('artefact_log', 'artefact_id', 'ART'))
-        try:
-            sito_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_artefact.clear()
-        artefact_vl.sort()
-        self.comboBox_artefact.addItems(artefact_vl)
-        
-        
-        self.comboBox_material.clear()
-        material_vl.sort()
-        self.comboBox_material.addItems(material_vl)
-        area_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('artefact_log', 'area', 'ART'))
-        try:
-            area_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in area list: " + str(e), QMessageBox.Ok)
-        self.comboBox_area.clear()
-        area_vl.sort()
-        self.comboBox_area.addItems(area_vl)
-        #lista diver reference
-        diver_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('artefact_log', 'treatment', 'ART'))
-        try:
-            diver_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in treatment list: " + str(e), QMessageBox.Ok)
-        self.comboBox_treatment.clear()
-        diver_vl.sort()
-        self.comboBox_treatment.addItems(diver_vl)
-        obj_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('artefact_log', 'obj', 'ART'))
-        try:
-            obj_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in obj list:" + str(e), QMessageBox.Ok)
-        self.comboBox_obj.clear()
-        obj_vl.sort()
-        self.comboBox_obj.addItems(obj_vl)
-        shape_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('artefact_log', 'shape', 'ART'))
-        try:
-            shape_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in shape list:" + str(e), QMessageBox.Ok)
-        self.comboBox_shape.clear()
-        shape_vl.sort()
-        self.comboBox_shape.addItems(shape_vl)
+        def _q(table, field, mapper):
+            try:
+                return self.UTILITY.tup_2_list_III(
+                    self.DB_MANAGER.group_by(table, field, mapper))
+            except Exception:
+                return []
+        _populate_cb(self.comboBox_site,      _q('site_table', 'location_', 'SITE'),
+                     'site_table', 'location_')
+        _populate_cb(self.comboBox_artefact,  _q('artefact_log', 'artefact_id', 'ART'),
+                     'artefact_log', 'artefact_id')
+        _populate_cb(self.comboBox_material,  _q('artefact_log', 'material', 'ART'),
+                     'artefact_log', 'material')
+        _populate_cb(self.comboBox_area,      _q('artefact_log', 'area', 'ART'),
+                     'artefact_log', 'area')
+        _populate_cb(self.comboBox_treatment, _q('artefact_log', 'treatment', 'ART'),
+                     'artefact_log', 'treatment')
+        _populate_cb(self.comboBox_obj,       _q('artefact_log', 'obj', 'ART'),
+                     'artefact_log', 'obj')
+        _populate_cb(self.comboBox_shape,     _q('artefact_log', 'shape', 'ART'),
+                     'artefact_log', 'shape')
     def customize_GUI(self):
         # self.tableWidget_foto.setColumnWidth(0, 100)
         # self.tableWidget_foto.setColumnWidth(1, 100)

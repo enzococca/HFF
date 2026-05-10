@@ -60,6 +60,7 @@ from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 
 from ..modules.utility.hff_system__error_check import Error_check
 from ..modules.utility.csv_writer import UnicodeWriter
+from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 from ..modules.utility.hff_theme_manager import ThemeManager
 from ..modules.utility.hff_i18n import HffI18n, tr
 from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations, standardize_toolbar
@@ -1805,130 +1806,28 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                                 QMessageBox.Ok) 
     
     def charge_list(self):
-        #lista sito
-        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        try:
-            sito_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_site_name.clear()
-        sito_vl.sort()
-        self.comboBox_site_name.addItems(sito_vl)
-        
-        #lista sito
-        artefact_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'artefact_id', 'POTTERY'))
-        try:
-            artefact_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_artefact.clear()
-        artefact_vl.sort()
-        self.comboBox_artefact.addItems(artefact_vl)
-        
-        #--------------------------------------------------------------------------------------------------------------------------------
-        forma_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'form', 'POTTERY'))
-        try:
-            forma_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in form list: " + str(e), QMessageBox.Ok)
-        self.comboBox_form.clear()
-        forma_vl.sort()
-        self.comboBox_form.addItems(forma_vl)
-        #--------------------------------------------------------------------------------------------------------------------------------
-        
-        
-        munsell_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'munsell_clay', 'POTTERY'))
-        try:
-            munsell_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in munsell list: " + str(e), QMessageBox.Ok)
-        self.comboBox_munsell_clay.clear()
-        munsell_vl.sort()
-        self.comboBox_munsell_clay.addItems(munsell_vl)
-        
-        #--------------------------------------------------------------------------------------------------------------------------------
-        # forma_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'form', 'POTTERY'))
-        # try:
-            # forma_vl.remove('')
-        # except Exception as e:
-            # if str(e) == "list.remove(x): x not in list":
-                # pass
-            # else:
-                # QMessageBox.warning(self, tr('system_message', "Message"), "Update system in form list: " + str(e), QMessageBox.Ok)
-        # self.comboBox_form.clear()
-        # forma_vl.sort()
-        # self.comboBox_form.addItems(forma_vl)
-        #--------------------------------------------------------------------------------------------------------------------------------
-        treatment_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'conservation', 'POTTERY'))
-        try:
-            treatment_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in conservation list: " + str(e), QMessageBox.Ok)
-        self.comboBox_conservation.clear()
-        treatment_vl.sort()
-        self.comboBox_conservation.addItems(treatment_vl)
-        #--------------------------------------------------------------------------------------------------------------------------------
-        samples_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'samples', 'POTTERY'))
-        try:
-            samples_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in samples list: " + str(e), QMessageBox.Ok)
-        self.comboBox_samples.clear()
-        samples_vl.sort()
-        self.comboBox_samples.addItems(samples_vl)
-        
-        #--------------------------------------------------------------------------------------------------------------------------------
-        munsell_surf_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'munsell_surf', 'POTTERY'))
-        try:
-            munsell_surf_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in musell surf list: " + str(e), QMessageBox.Ok)
-        try:
-            self.comboBox_munsell_surf.clear()
-            munsell_surf_vl.sort()
-            self.comboBox_munsell_surf.addItems(munsell_surf_vl)
-        except:
-            pass    
-    
-        #--------------------------------------------------------------------------------------------------------------------------------
-        area_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'area', 'POTTERY'))
-        try:
-            area_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in area list: " + str(e), QMessageBox.Ok)
-        self.comboBox_area.clear()
-        area_vl.sort()
-        self.comboBox_area.addItems(area_vl)
-        #--------------------------------------------------------------------------------------------------------------------------------
-        # #lista years reference
-        # anno = ['','2013', '2014', '2015', '2016', '2017', '2018',
-                # '2019', '2020']
-        # self.comboBox_year.clear()
-        # self.comboBox_year.addItems(anno)
+        def _q(table, field, mapper):
+            try:
+                return self.UTILITY.tup_2_list_III(
+                    self.DB_MANAGER.group_by(table, field, mapper))
+            except Exception:
+                return []
+        _populate_cb(self.comboBox_site_name, _q('site_table', 'location_', 'SITE'),
+                     'site_table', 'location_')
+        _populate_cb(self.comboBox_artefact,  _q('pottery_table', 'artefact_id', 'POTTERY'),
+                     'pottery_table', 'artefact_id')
+        _populate_cb(self.comboBox_form,      _q('pottery_table', 'form', 'POTTERY'),
+                     'pottery_table', 'form')
+        _populate_cb(self.comboBox_munsell_clay, _q('pottery_table', 'munsell_clay', 'POTTERY'),
+                     'pottery_table', 'munsell_clay')
+        _populate_cb(self.comboBox_conservation, _q('pottery_table', 'conservation', 'POTTERY'),
+                     'pottery_table', 'conservation')
+        _populate_cb(self.comboBox_samples,   _q('pottery_table', 'samples', 'POTTERY'),
+                     'pottery_table', 'samples')
+        _populate_cb(self.comboBox_munsell_surf, _q('pottery_table', 'munsell_surf', 'POTTERY'),
+                     'pottery_table', 'munsell_surf')
+        _populate_cb(self.comboBox_area,      _q('pottery_table', 'area', 'POTTERY'),
+                     'pottery_table', 'area')
     def on_toolButtonPreviewMedia_toggled(self):
         if bool(self.toolButtonPreviewMedia.isChecked()):
             QMessageBox.warning(self, tr('system_message', "Message"),

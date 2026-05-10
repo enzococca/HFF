@@ -45,6 +45,7 @@ from ..modules.db.hff_db_manager import Hff_db_management
 from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 from ..modules.utility.hff_system__error_check import Error_check
+from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 from ..modules.utility.hff_system__media_utility import *
 from ..modules.utility.hff_system__exp_USsheet_pdf import *
 from ..modules.utility.hff_theme_manager import ThemeManager
@@ -3057,81 +3058,38 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 msg = "Warning bug detected! Report it to the developer. Error: ".format(str(e))
                 self.iface.messageBar().pushMessage(self.tr(msg), Qgis.Warning, 0)
     def charge_list(self):
-        # lista area reference
-        
-        site_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        try:    
-            site_vl.remove('')
-        except:
-            pass   
-        self.comboBox_site.clear()
-        site_vl.sort()
-        self.comboBox_site.addItems(site_vl)
-        #area
-        area_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('dive_log', 'area_id', 'UW'))
-        try:
-            area_vl.remove('')
-        except:
-            pass
-        self.comboBox_area_reference.clear()
-        area_vl.sort()
-        self.comboBox_area_reference.addItems(area_vl)
-        
-        
-        # #lista years reference
-        anno = ['2013', '2014', '2015', '2016', '2017', '2018',
-                '2019', '2020', '2021','2022','2023']
-        self.comboBox_years.clear()
-        self.comboBox_years.addItems(anno)
-        
-        
-        
-        diver_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('dive_log', 'diver_1', 'UW'))
-        try:
-            diver_vl.remove('')
-        except:
-            pass
-        self.comboBox_diver.clear()
-        diver_vl.sort()
-        self.comboBox_diver.addItems(diver_vl)
-        # lista diver reference
-        buddy_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('dive_log', 'diver_2', 'UW'))
-        try:
-            buddy_vl.remove('')
-        except:
-            pass
-        self.comboBox_buddy.clear()
-        buddy_vl.sort()
-        self.comboBox_buddy.addItems(buddy_vl)
-        
-        add_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('dive_log', 'additional_diver', 'UW'))
-        try:
-            add_vl.remove('')
-        except:
-            pass
-        self.comboBox_add_diver.clear()
-        add_vl.sort()
-        self.comboBox_add_diver.addItems(add_vl)
-        
-        # Standby + Supervisor combos pull from the WHOLE pool of known
-        # diver names (their own column + diver_1/2/additional + the new
-        # normalized divers.diver_name table) so the same person can be
-        # selected regardless of the role they had in past dives.
-        all_names = self._all_known_diver_names()
-        self.comboBox_standby_diver.clear()
-        self.comboBox_standby_diver.addItems(all_names)
+        def _q(table, field, mapper):
+            try:
+                return self.UTILITY.tup_2_list_III(
+                    self.DB_MANAGER.group_by(table, field, mapper))
+            except Exception:
+                return []
+        _populate_cb(self.comboBox_site,           _q('site_table', 'location_', 'SITE'),
+                     'site_table', 'location_')
+        _populate_cb(self.comboBox_area_reference, _q('dive_log', 'area_id', 'UW'),
+                     'dive_log', 'area_id')
 
-        self.comboBox_supervisor.clear()
-        self.comboBox_supervisor.addItems(all_names)
-        
-        wind2_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('dive_log', 'wind', 'UW'))
-        try:
-            wind2_vl.remove('')
-        except:
-            pass
-        self.comboBox_wind.clear()
-        wind2_vl.sort()
-        self.comboBox_wind.addItems(wind2_vl)
+        from datetime import date as _date
+        years = [str(y) for y in range(2013, _date.today().year + 1)]
+        _populate_cb(self.comboBox_years, [], defaults=years, sort=False)
+
+        _populate_cb(self.comboBox_diver,     _q('dive_log', 'diver_1', 'UW'),
+                     'dive_log', 'diver_1')
+        _populate_cb(self.comboBox_buddy,     _q('dive_log', 'diver_2', 'UW'),
+                     'dive_log', 'diver_2')
+        _populate_cb(self.comboBox_add_diver, _q('dive_log', 'additional_diver', 'UW'),
+                     'dive_log', 'additional_diver')
+
+        # Standby + Supervisor combos pull from the WHOLE pool of known
+        # diver names (own column + diver_1/2/additional + the normalized
+        # divers.diver_name table) so the same person can be selected
+        # regardless of the role they had in past dives.
+        all_names = self._all_known_diver_names()
+        _populate_cb(self.comboBox_standby_diver, all_names)
+        _populate_cb(self.comboBox_supervisor,    all_names)
+
+        _populate_cb(self.comboBox_wind, _q('dive_log', 'wind', 'UW'),
+                     'dive_log', 'wind')
         
     def customize_GUI(self):
         # self.tableWidget_foto.setColumnWidth(0, 100)

@@ -47,6 +47,7 @@ from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 from ..modules.utility.settings import Settings
 from ..modules.utility.hff_system__error_check import Error_check
+from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 from ..modules.utility.delegateComboBox import ComboBoxDelegate
 from ..test_area import Test_area
 from ..gui.imageViewer import ImageViewer
@@ -823,28 +824,16 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
             #item.data(QtCore.Qt.UserRole).toString()))
             dlg.exec_()
     def charge_list(self):
-        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'name_site', 'SITE'))
-
-        try:
-            sito_vl.remove('')
-        except :
-            pass
-
-        self.comboBox_nome_site.clear()
-        sito_vl.sort()
-        self.comboBox_nome_site.addItems(sito_vl)
-        
-        
-        location_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-
-        try:
-            location_vl.remove('')
-        except :
-            pass
-
-        self.comboBox_location.clear()
-        location_vl.sort()
-        self.comboBox_location.addItems(location_vl)
+        def _q(table, field, mapper):
+            try:
+                return self.UTILITY.tup_2_list_III(
+                    self.DB_MANAGER.group_by(table, field, mapper))
+            except Exception:
+                return []
+        _populate_cb(self.comboBox_nome_site, _q('site_table', 'name_site', 'SITE'),
+                     'site_table', 'name_site')
+        _populate_cb(self.comboBox_location,  _q('site_table', 'location_', 'SITE'),
+                     'site_table', 'location_')
 
     def generate_list_pdf(self):
         data_list = []

@@ -63,6 +63,7 @@ from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 from ..modules.utility.hff_system__exp_ARsheet_pdf import *
 
 from ..modules.utility.hff_system__error_check import Error_check
+from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 
 from ..modules.utility.csv_writer import UnicodeWriter
 
@@ -1856,165 +1857,37 @@ class hff_system__Shipwreck(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 msg = "Warning bug detected! Report it to the developer. Error: ".format(str(e))
                 self.iface.messageBar().pushMessage(self.tr(msg), Qgis.Warning, 0)
     def charge_list(self):
-        code_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'code_id', 'SHIPWRECK'))
-        try:
-            code_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_code.clear()
-        code_vl.sort()
-        self.comboBox_code.addItems(code_vl)
-        
-        
-        area_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'area', 'SHIPWRECK'))
-        try:
-            area_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in area list: " + str(e), QMessageBox.Ok)
-        
-        self.comboBox_area.clear()
-        area_vl.sort()
-        self.comboBox_area.addItems(area_vl)
-        
-        
-        confidence_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'confidence', 'SHIPWRECK'))
-        try:
-            confidence_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_confidence.clear()
-        confidence_vl.sort()
-        self.comboBox_confidence.addItems(confidence_vl)
-        
-        
-        
-        #lista sito
-        owner_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'owner', 'SHIPWRECK'))
-        try:
-            owner_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_owner.clear()
-        owner_vl.sort()
-        self.comboBox_owner.addItems(owner_vl)
-        
-        
-        #lista sito
-        nationality_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'nationality', 'SHIPWRECK'))
-        try:
-            nationality_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_nationality.clear()
-        nationality_vl.sort()
-        self.comboBox_nationality.addItems(nationality_vl)
-        
-        
-        #lista sito
-        builder_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'builder', 'SHIPWRECK'))
-        try:
-            builder_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_builder.clear()
-        builder_vl.sort()
-        self.comboBox_builder.addItems(builder_vl)
-        
-        
-        #lista sito
-        purpose_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'purpose', 'SHIPWRECK'))
-        try:
-            purpose_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_purpose.clear()
-        purpose_vl.sort()
-        self.comboBox_purpose.addItems(purpose_vl)
-        
-        #lista sito
-        name_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'name_vessel', 'SHIPWRECK'))
-        try:
-            name_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_name_vessel.clear()
-        name_vl.sort()
-        self.comboBox_name_vessel.addItems(name_vl)
-        
-        #lista sito
-        depth_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'depth_quality', 'SHIPWRECK'))
-        try:
-            depth_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_quality_depth.clear()
-        depth_vl.sort()
-        self.comboBox_quality_depth.addItems(depth_vl)
-        
-        #lista sito
-        position_1 = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'position_quality_1', 'SHIPWRECK'))
-        try:
-            position_1.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_quality_coordinates.clear()
-        position_1.sort()
-        self.comboBox_quality_coordinates.addItems(position_1)
-        
-        #lista sito
-        position_2 = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'consulties', 'SHIPWRECK'))
-        try:
-            position_2.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_consulties.clear()
-        position_2.sort()
-        self.comboBox_consulties.addItems(position_2)
-        
-        status = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('shipwreck_table', 'status', 'SHIPWRECK'))
-        try:
-            status.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_status.clear()
-        status.sort()
-        self.comboBox_status.addItems(status)
+        def _q(table, field, mapper):
+            try:
+                return self.UTILITY.tup_2_list_III(
+                    self.DB_MANAGER.group_by(table, field, mapper))
+            except Exception:
+                return []
+        _populate_cb(self.comboBox_code,        _q('shipwreck_table', 'code_id', 'SHIPWRECK'),
+                     'shipwreck_table', 'code_id')
+        _populate_cb(self.comboBox_area,        _q('shipwreck_table', 'area', 'SHIPWRECK'),
+                     'shipwreck_table', 'area')
+        _populate_cb(self.comboBox_confidence,  _q('shipwreck_table', 'confidence', 'SHIPWRECK'),
+                     'shipwreck_table', 'confidence')
+        _populate_cb(self.comboBox_owner,       _q('shipwreck_table', 'owner', 'SHIPWRECK'),
+                     'shipwreck_table', 'owner')
+        _populate_cb(self.comboBox_nationality, _q('shipwreck_table', 'nationality', 'SHIPWRECK'),
+                     'shipwreck_table', 'nationality')
+        _populate_cb(self.comboBox_builder,     _q('shipwreck_table', 'builder', 'SHIPWRECK'),
+                     'shipwreck_table', 'builder')
+        _populate_cb(self.comboBox_purpose,     _q('shipwreck_table', 'purpose', 'SHIPWRECK'),
+                     'shipwreck_table', 'purpose')
+        _populate_cb(self.comboBox_name_vessel, _q('shipwreck_table', 'name_vessel', 'SHIPWRECK'),
+                     'shipwreck_table', 'name_vessel')
+        _populate_cb(self.comboBox_quality_depth, _q('shipwreck_table', 'depth_quality', 'SHIPWRECK'),
+                     'shipwreck_table', 'depth_quality')
+        _populate_cb(self.comboBox_quality_coordinates,
+                     _q('shipwreck_table', 'position_quality_1', 'SHIPWRECK'),
+                     'shipwreck_table', 'position_quality_1')
+        _populate_cb(self.comboBox_consulties,  _q('shipwreck_table', 'consulties', 'SHIPWRECK'),
+                     'shipwreck_table', 'consulties')
+        _populate_cb(self.comboBox_status,      _q('shipwreck_table', 'status', 'SHIPWRECK'),
+                     'shipwreck_table', 'status')
     def customize_GUI(self):
         # self.tableWidget_foto.setColumnWidth(0, 100)
         # self.tableWidget_foto.setColumnWidth(1, 100)

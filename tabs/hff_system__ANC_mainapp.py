@@ -62,6 +62,7 @@ from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 
 from ..modules.utility.hff_system__error_check import Error_check
+from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 from ..modules.utility.csv_writer import UnicodeWriter
 from ..modules.utility.hff_theme_manager import ThemeManager
 from ..modules.utility.hff_i18n import HffI18n, tr
@@ -1600,66 +1601,22 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 msg = "Warning bug detected! Report it to the developer. Error: ".format(str(e))
                 self.iface.messageBar().pushMessage(self.tr(msg), Qgis.Warning, 0)
     def charge_list(self):
-        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        try:
-            sito_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_site.clear()
-        sito_vl.sort()
-        self.comboBox_site.addItems(sito_vl)
-        area_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('anchor_table', 'area', 'ANC'))
-        try:
-            area_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in area list: " + str(e), QMessageBox.Ok)
-        
-        #lista sito
-        artefact_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('anchor_table', 'anchors_id', 'ANC'))
-        try:
-            sito_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_artefact.clear()
-        artefact_vl.sort()
-        self.comboBox_artefact.addItems(artefact_vl)
-        
-        self.comboBox_area.clear()
-        area_vl.sort()
-        self.comboBox_area.addItems(area_vl)
-        #lista area reference
-        origin_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('anchor_table', 'origin', 'ANC'))
-        try:
-            origin_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Upload  origin list: " + str(e), QMessageBox.Ok)
-        self.comboBox_origin.clear()
-        origin_vl.sort()
-        self.comboBox_origin.addItems(origin_vl)
-        #lista diver reference
-        t_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('anchor_table', 'typology', 'ANC'))
-        try:
-            t_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Upload  typology list: " + str(e), QMessageBox.Ok)
-        self.comboBox_typology.clear()
-        t_vl.sort()
-        self.comboBox_typology.addItems(t_vl)
+        def _q(table, field, mapper):
+            try:
+                return self.UTILITY.tup_2_list_III(
+                    self.DB_MANAGER.group_by(table, field, mapper))
+            except Exception:
+                return []
+        _populate_cb(self.comboBox_site,     _q('site_table', 'location_', 'SITE'),
+                     'site_table', 'location_')
+        _populate_cb(self.comboBox_area,     _q('anchor_table', 'area', 'ANC'),
+                     'anchor_table', 'area')
+        _populate_cb(self.comboBox_artefact, _q('anchor_table', 'anchors_id', 'ANC'),
+                     'anchor_table', 'anchors_id')
+        _populate_cb(self.comboBox_origin,   _q('anchor_table', 'origin', 'ANC'),
+                     'anchor_table', 'origin')
+        _populate_cb(self.comboBox_typology, _q('anchor_table', 'typology', 'ANC'),
+                     'anchor_table', 'typology')
     def customize_GUI(self):
         # self.tableWidget_foto.setColumnWidth(0, 100)
         # self.tableWidget_foto.setColumnWidth(1, 100)

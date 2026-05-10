@@ -49,6 +49,7 @@ from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 #from ..modules.utility.print_relazione_pdf import exp_rel_pdf
 from ..modules.utility.hff_system__error_check import Error_check
+from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 from ..modules.utility.delegateComboBox import ComboBoxDelegate
 from ..test_area import Test_area
 from ..gui.imageViewer import ImageViewer
@@ -1707,40 +1708,17 @@ class Eamena(QDialog, MAIN_DIALOG_CLASS):
         except Exception as e:         
             QMessageBox.warning(self, tr('error', "Error"), "Error 2 \n" + str(e), QMessageBox.Ok)
     def charge_list(self):
-        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('eamena_table', 'location', 'EAMENA'))
-        try:
-            sito_vl.remove('')
-        except :
-            pass
-        self.comboBox_location.clear()
-        sito_vl.sort()
-        self.comboBox_location.addItems(sito_vl)
-        
-        
-        # location_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        # try:
-            # location_vl.remove('')
-        # except :
-            # pass
-        # self.comboBox_location.clear()
-        
-        # location_vl.sort()
-        # self.comboBox_location.addItems(location_vl)
-        
-        # adress_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        # try:
-            # adress_vl.remove('')
-        # except :
-            # pass
-        # self.comboBox_Address.clear()
-        # adress_vl.sort()
-        # self.comboBox_Address.addItems(adress_vl)
-        
-        
-        # #lista years reference
-        grid = ['','E35N33-11','E35N33-12','E35N33-13','E35N33-14','E35N33-21','E35N33-23','E35N33-24','E35N33-31','E35N33-32','E35N33-33','E35N33-34','E35N33-41','E35N33-42','E35N33-43','E35N33-44','E35N34-11','E35N34-12','E35N34-13','E35N34-14','E35N34-21','E35N34-22','E35N34-23','E35N34-24','E35N34-31','E35N34-32','E35N34-41','E35N34-42','E36N33-31','E36N33-33','E36N33-34','E36N34-11','E36N34-12','E36N34-13','E36N34-14','E36N34-21','E36N34-23','E36N34-31','E36N34-32']
-        self.comboBox_grid.clear()
-        self.comboBox_grid.addItems(grid)
+        def _q(table, field, mapper):
+            try:
+                return self.UTILITY.tup_2_list_III(
+                    self.DB_MANAGER.group_by(table, field, mapper))
+            except Exception:
+                return []
+        _populate_cb(self.comboBox_location, _q('eamena_table', 'location', 'EAMENA'),
+                     'eamena_table', 'location')
+
+        grid = ['E35N33-11','E35N33-12','E35N33-13','E35N33-14','E35N33-21','E35N33-23','E35N33-24','E35N33-31','E35N33-32','E35N33-33','E35N33-34','E35N33-41','E35N33-42','E35N33-43','E35N33-44','E35N34-11','E35N34-12','E35N34-13','E35N34-14','E35N34-21','E35N34-22','E35N34-23','E35N34-24','E35N34-31','E35N34-32','E35N34-41','E35N34-42','E36N33-31','E36N33-33','E36N33-34','E36N34-11','E36N34-12','E36N34-13','E36N34-14','E36N34-21','E36N34-23','E36N34-31','E36N34-32']
+        _populate_cb(self.comboBox_grid, [], defaults=grid)
     def on_pushButton_sort_pressed(self):
         if self.check_record_state() == 1:
             pass

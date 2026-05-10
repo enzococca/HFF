@@ -55,6 +55,7 @@ from ..modules.db.hff_system__utility import Utility
 from ..modules.gis.hff_system__pyqgis import Hff_pyqgis
 from ..modules.utility.delegateComboBox import ComboBoxDelegate, WordWrapDelegate
 from ..modules.utility.hff_system__error_check import Error_check
+from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 from ..modules.utility.hff_system__media_utility import *
 from ..gui.imageViewer import ImageViewer
 from ..gui.sortpanelmain import SortPanelMain
@@ -2054,43 +2055,17 @@ class hff_system__Pottery_CON(QDialog, MAIN_DIALOG_CLASS):
                                 QMessageBox.Ok) 
     
     def charge_list(self):
-        #lista sito
-        sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'location_', 'SITE'))
-        try:
-            sito_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_site_name.clear()
-        sito_vl.sort()
-        self.comboBox_site_name.addItems(sito_vl)
-        
-        #lista sito
-        artefact_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_table', 'artefact_id', 'POTTERY'))
-        try:
-            artefact_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_artefact.clear()
-        artefact_vl.sort()
-        self.comboBox_artefact.addItems(artefact_vl)
-        # lista sito
-        author_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('pottery_con', 'author', 'POT_c'))
-        try:
-            author_vl.remove('')
-        except Exception as e:
-            if str(e) == "list.remove(x): x not in list":
-                pass
-            else:
-                QMessageBox.warning(self, tr('system_message', "Message"), "Update system in site list: " + str(e), QMessageBox.Ok)
-        self.comboBox_author.clear()
-        author_vl.sort()
-        self.comboBox_author.addItems(author_vl)
+        def _q(table, field, mapper):
+            try:
+                return self.UTILITY.tup_2_list_III(
+                    self.DB_MANAGER.group_by(table, field, mapper))
+            except Exception:
+                return []
+        _populate_cb(self.comboBox_site_name, _q('site_table', 'location_', 'SITE'),
+                     'site_table', 'location_')
+        _populate_cb(self.comboBox_artefact,  _q('pottery_table', 'artefact_id', 'POTTERY'),
+                     'pottery_table', 'artefact_id')
+        _populate_cb(self.comboBox_author,    _q('pottery_con', 'author', 'POT_c'))
 
     def on_toolButtonPreviewMedia_toggled(self):
         if bool(self.toolButtonPreviewMedia.isChecked()):

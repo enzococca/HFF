@@ -28,7 +28,13 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=10.4:
+changelog=11.3:
+    - Add default vocabularies for free-text comboboxes across Pottery, Anchor, Artefact, Dive log (UW), Shipwreck, Site, Eamena, ANC_CON, ART_CON, Pottery_CON forms (issue #44)
+    - Make all charge_list comboboxes editable (setEditable(True)) so users can both pick from suggestions and type free text — values persist as DB-distinct on the next reload
+    - Centralize defaults + populate logic in modules/utility/hff_combobox_defaults.py (single source of truth, ready to be back-ended on the thesaurus table in v11.4)
+    - Fix latent bug in ANC and ART charge_list: sito_vl.remove('') called on the wrong list after artefact_vl initialization
+    - Year combo in Dive log now auto-extends to the current year instead of being capped at 2023
+    10.4:
     - Fix UPDATE not persisting: add session.commit() in Hff_db_management.update() and update_find_check() (SQLAlchemy 2.0 regression from 10.3)
     - Fix media preview empty in Dive log tab: add biblio/storage_ columns to UW_table, ANC_table, Shipwreck_table mappers (were missing after silent ALTER TABLE migration) and guard tableInsertData against eval('') on empty biblio
     - Fix VideoPlayer AttributeError 'fps': initialize fps/total_frames in __init__, reset self.cap on failed open, fallback to 25 fps when OpenCV can't read FPS; applied to all 8 VideoPlayer variants
