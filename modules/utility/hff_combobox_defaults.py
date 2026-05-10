@@ -97,9 +97,14 @@ DEFAULTS = {
 
 def _query_thesaurus(db_manager, table, field, locale=None):
     """Pull `sigla_estesa` rows from `hff_system__thesaurus_sigle` filtered by
-    (nome_tabella=table, tipologia_sigla=field, lingua=locale). Best-effort:
-    on any error (table missing on legacy DBs, no DB connection, etc.) return
-    an empty list so the caller falls back to in-code DEFAULTS.
+    (nome_tabella=table, tipologia_sigla=field). Locale is ignored on purpose:
+    if a project lead curates the vocabulary in English, we still want it
+    visible to a user running QGIS in Italian or Arabic. Locale-specific
+    behavior can be reintroduced later via a setting.
+
+    Best-effort: on any error (legacy DB without the thesaurus table, no DB
+    connection, ORM mapping race during plugin load, etc.) return an empty
+    list so the caller falls back to in-code DEFAULTS.
     """
     if db_manager is None or table is None or field is None:
         return []
@@ -107,8 +112,6 @@ def _query_thesaurus(db_manager, table, field, locale=None):
         'nome_tabella': "'" + str(table) + "'",
         'tipologia_sigla': "'" + str(field) + "'",
     }
-    if locale:
-        search['lingua'] = "'" + str(locale) + "'"
     try:
         rows = db_manager.query_bool(search, 'HFF_THESAURUS_SIGLE')
     except Exception:
