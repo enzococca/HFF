@@ -24,6 +24,7 @@ from qgis.PyQt.QtWidgets import (
 from qgis.core import QgsSettings
 
 from ..modules.db.hff_db_manager import Hff_db_management
+from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.entities.HFF_THESAURUS_SIGLE import HFF_THESAURUS_SIGLE
 from ..modules.utility.hff_combobox_defaults import DEFAULTS
 
@@ -46,8 +47,11 @@ class HffThesaurusDialog(QDialog):
         except Exception:
             pass
 
+        self.DB_MANAGER = None
         try:
-            self.DB_MANAGER = Hff_db_management()
+            conn_str = Connection().conn_str()
+            self.DB_MANAGER = Hff_db_management(conn_str)
+            self.DB_MANAGER.connection()
         except Exception as exc:
             QMessageBox.critical(self, "Thesaurus",
                                  "Cannot connect to the database:\n%s" % exc)
