@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.5
+version=11.6
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,9 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.5:
+changelog=11.6:
+    - Fix ANC import "list out of range": the ConfigDialog import path was passing 61 positional args to insert_anc_values, but ANC.__init__ requires 63 (id + 60 fields + biblio + storage_). Append the two missing fields via getattr-with-None so imports from pre-biblio source schemas keep working.
+    11.5:
     - Coexist with pyarchinit: rename resources_rc/mplwidget to hff_-prefixed unique names, qualify all internal imports as HFF.modules/gui/tabs.*, stop polluting sys.path. Both plugins can now be active simultaneously without `modules` / `resources_rc` namespace collisions.
     - Issue #45: bump font size on input widgets (QLineEdit/QTextEdit/QComboBox/QSpin/QDate*) of every log form to 11pt for readability.
     - Issue #45: swap Bottom Time and Maximum Depth — Bottom Time is now captured per-diver inside the Divers tab dialog; Maximum Depth is now a dive-level field on the Dive Summary tab.

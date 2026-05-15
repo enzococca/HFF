@@ -3182,7 +3182,12 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].bfr,
                         data_list_toimp[sing_rec].bfb,
                         data_list_toimp[sing_rec].bft,
-                        data_list_toimp[sing_rec].qty)
+                        data_list_toimp[sing_rec].qty,
+                        # biblio + storage_ are required by ANC.__init__
+                        # (63 positional args). getattr fallback keeps
+                        # imports from pre-biblio source schemas working.
+                        getattr(data_list_toimp[sing_rec], 'biblio', None),
+                        getattr(data_list_toimp[sing_rec], 'storage_', None))
 
                     self.DB_MANAGER_write.insert_data_session(data)
                     imported += 1
