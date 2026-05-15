@@ -544,7 +544,7 @@ class HffPlugin_s(object):
         self.pluginGui = tutorialViewer  # save
 
     def runCoordConverter(self):
-        from gui.hff_coord_converter_dialog import CoordConverterDialog
+        from .gui.hff_coord_converter_dialog import CoordConverterDialog
         dlg = CoordConverterDialog(parent=self.iface.mainWindow())
         dlg.show()
         self.pluginGui = dlg  # keep reference

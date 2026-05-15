@@ -27,7 +27,8 @@ class ThemeManager(QObject):
     """Singleton class to manage dark/light theme switching for HFF plugin.
 
     Usage:
-        from modules.utility.hff_theme_manager import ThemeManager
+        from ..modules.utility.hff_theme_manager import ThemeManager  # from tabs/
+        from .hff_theme_manager import ThemeManager                   # from modules/utility/
 
         # In form __init__:
         ThemeManager.instance().apply_theme(self)

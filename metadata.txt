@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.8
+version=11.9
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,9 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.8:
+changelog=11.9:
+    - Fix two stragglers from v11.8: indented `from gui.hff_coord_converter_dialog import ...` in hff_system_Plugin.runCoordConverter and `from modules.utility.coord_converter import ...` inside gui/hff_coord_converter_dialog were not caught by the previous line-anchored sweep. Converted both to relative imports so the "Coord Converter" toolbar action works regardless of plugin folder name (HFF / HFF-master / HFF-main).
+    11.8:
     - Fix "ModuleNotFoundError: No module named 'HFF'" when the plugin folder is named anything other than literally `HFF` (e.g. `HFF-master` from a GitHub ZIP download). Replace the 27 `from HFF.modules/gui/tabs.x` imports with relative imports (`from ..modules.x`, etc.) so the plugin works regardless of the install-folder name.
     11.7:
     - Fix Anchor form combo defaults: split the chaotic anchor_table/typology list (which mixed stone materials, shapes, hole counts and construction styles) into proper per-field categories — stone_type, anchor_type, anchor_shape, type_hole — each with its own vocabulary. typology now holds only 4 high-level object-kind values.

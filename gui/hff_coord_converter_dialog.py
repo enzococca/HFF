@@ -484,7 +484,7 @@ class CoordConverterDialog(QDialog):
                 skipped += 1
                 continue
             zone = utm_zone_from_lon(lon_dd)
-            from modules.utility.coord_converter import latlon_to_utm
+            from ..modules.utility.coord_converter import latlon_to_utm
             x, y, used_zone, hemi = latlon_to_utm(lat_dd, lon_dd, zone)
             name = str(row.get(name_col) or "").strip() if name_col else ""
             if not name:
