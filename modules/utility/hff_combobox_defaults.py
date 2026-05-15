@@ -33,10 +33,29 @@ DEFAULTS = {
         'Local', 'Imported', 'Mediterranean', 'Eastern Mediterranean',
         'Aegean', 'Levantine', 'Egyptian', 'Phoenician', 'Unknown',
     ],
+    # Per-field anchor vocabularies (issue from WhatsApp video 2026-05-14):
+    # previously the typology list merged stone materials, anchor shapes and
+    # hole counts into one chaotic combobox. Split into proper categories so
+    # each combo only offers its own kind of value.
+    ('anchor_table', 'stone_type'): [
+        'Basalt', 'Conglomerate', 'Granite', 'Limestone', 'Marble',
+        'Sandstone', 'Schist', 'Other',
+    ],
+    ('anchor_table', 'anchor_type'): [
+        'Admiralty', 'Composite', 'Iron', 'Lead-stocked', 'Stockless',
+        'Wooden',
+    ],
+    ('anchor_table', 'anchor_shape'): [
+        'Cylindrical', 'Pyramidal', 'Spherical', 'Trapezoidal',
+        'Triangular', 'Y-shaped',
+    ],
+    ('anchor_table', 'type_hole'): [
+        'No-hole', 'One-hole', 'Two-hole', 'Three-hole',
+    ],
+    # typology is now the high-level "what kind of anchor object" category,
+    # not a dump for every other field's vocabulary.
     ('anchor_table', 'typology'): [
-        'Composite', 'Stone weight', 'Stone with hole', 'One-hole',
-        'Two-hole', 'Three-hole', 'Trapezoidal', 'Triangular', 'Y-shaped',
-        'Lead-stocked', 'Wooden', 'Iron', 'Admiralty', 'Stockless',
+        'Composite', 'Metal', 'Stone weight', 'Stone with hole',
     ],
 
     # ---- Artefact --------------------------------------------------------

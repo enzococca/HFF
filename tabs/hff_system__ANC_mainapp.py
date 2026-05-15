@@ -1621,6 +1621,20 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                      'anchor_table', 'origin')
         _cb(self.comboBox_typology, _q('anchor_table', 'typology', 'ANC'),
                      'anchor_table', 'typology')
+        # Per-field anchor vocabularies (was: 4 untouched combos that
+        # silently fell through to the .ui hardcoded items only).
+        _cb(self.comboBox_stone_type,
+            _q('anchor_table', 'stone_type', 'ANC'),
+            'anchor_table', 'stone_type')
+        _cb(self.comboBox_anchor_type,
+            _q('anchor_table', 'anchor_type', 'ANC'),
+            'anchor_table', 'anchor_type')
+        _cb(self.comboBox_anchor_shape,
+            _q('anchor_table', 'anchor_shape', 'ANC'),
+            'anchor_table', 'anchor_shape')
+        _cb(self.comboBox_type_hole,
+            _q('anchor_table', 'type_hole', 'ANC'),
+            'anchor_table', 'type_hole')
     def customize_GUI(self):
         # self.tableWidget_foto.setColumnWidth(0, 100)
         # self.tableWidget_foto.setColumnWidth(1, 100)

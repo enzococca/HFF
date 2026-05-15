@@ -431,12 +431,56 @@ class HffThesaurusDialog(QDialog):
 
     # ---------- Seed -----------------------------------------------------
 
+    # Values that lived in the pre-11.7 anchor_table/typology DEFAULTS
+    # and have since been split into proper per-field categories. When the
+    # thesaurus contains these under typology we delete them so the new
+    # per-field DEFAULTS can seed cleanly. User-added rows with different
+    # sigla_estesa are not touched.
+    _LEGACY_ANCHOR_TYPOLOGY_VALUES = {
+        'Composite', 'Stone weight', 'Stone with hole', 'One-hole',
+        'Two-hole', 'Three-hole', 'Trapezoidal', 'Triangular', 'Y-shaped',
+        'Lead-stocked', 'Wooden', 'Iron', 'Admiralty', 'Stockless',
+    }
+
     def _maybe_seed(self):
-        """If the table is empty (likely a fresh DB), seed it from DEFAULTS."""
+        """If the table is empty (likely a fresh DB), seed it from DEFAULTS.
+        Also cleans up the legacy mixed anchor_table/typology rows from
+        pre-11.7 seeds so the new per-field DEFAULTS take effect."""
+        self._cleanup_legacy_anchor_typology()
         rows = self._all_rows()
         if rows:
             return 0
         return self._seed_defaults(force=False)
+
+    def _cleanup_legacy_anchor_typology(self):
+        """Delete pre-11.7 anchor_table/typology rows whose sigla_estesa
+        was migrated to a per-field DEFAULTS entry (stone_type, anchor_type,
+        anchor_shape, type_hole). Idempotent: silently no-ops when none
+        match."""
+        if self.DB_MANAGER is None:
+            return 0
+        try:
+            rows = self.DB_MANAGER.query_bool(
+                {
+                    'nome_tabella': "'anchor_table'",
+                    'tipologia_sigla': "'typology'",
+                },
+                'HFF_THESAURUS_SIGLE',
+            ) or []
+        except Exception:
+            return 0
+        removed = 0
+        for r in rows:
+            v = getattr(r, 'sigla_estesa', None)
+            rid = getattr(r, 'id_thesaurus_sigle', None)
+            if v in self._LEGACY_ANCHOR_TYPOLOGY_VALUES and rid is not None:
+                try:
+                    self.DB_MANAGER.delete_one_record(
+                        TABLE_NAME, ID_COLUMN, int(rid))
+                    removed += 1
+                except Exception:
+                    continue
+        return removed
 
     def _seed_defaults(self, force=False):
         """Insert DEFAULTS values that are not already present (en locale).
