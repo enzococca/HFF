@@ -42,7 +42,7 @@ from qgis.PyQt.QtWidgets import (
     QWidget,
 )
 
-from HFF.modules.utility.coord_converter import (
+from ..modules.utility.coord_converter import (
     HAS_PYPROJ,
     convert_all,
     parse_coordinate,

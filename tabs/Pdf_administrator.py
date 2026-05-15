@@ -27,7 +27,7 @@ import sys
 from builtins import range
 from builtins import str
 
-from HFF.gui.sortpanelmain import SortPanelMain
+from ..gui.sortpanelmain import SortPanelMain
 from .US_USM import hff_system__US
 from ..modules.db.hff_system__conn_strings import Connection
 from ..modules.db.hff_db_manager import Hff_db_management
@@ -145,7 +145,7 @@ class hff_system__PDFAdministrator(QDialog, MAIN_DIALOG_CLASS):
         self.pushButton_sort.setEnabled(n)
 
     def connect(self):
-        from HFF.modules.db.hff_system__conn_strings import Connection
+        from ..modules.db.hff_system__conn_strings import Connection
         conn = Connection()
         conn_str = conn.conn_str()
         try:
