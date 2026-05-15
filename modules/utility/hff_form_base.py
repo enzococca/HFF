@@ -1276,6 +1276,43 @@ def apply_i18n_to_form(form):
     # Translate all widgets
     translate_all_widgets(form)
 
+    # Bump input widget font size for readability (issue #45 point 1)
+    _apply_log_font(form)
+
+    # English autocorrect / spellcheck on text inputs (issue #45 point 4).
+    # Only activates when the current i18n language is English and the
+    # pyenchant native lib is available; silently degrades otherwise.
+    try:
+        if i18n.get_current_language() == 'en':
+            from .hff_spellcheck import attach_spellcheck
+            attach_spellcheck(form, 'en_US')
+    except Exception:
+        pass
+
+
+def _apply_log_font(form, size_pt: int = 11):
+    """Increase the font size on log-form input widgets.
+
+    Targeted on QLineEdit / QTextEdit / QPlainTextEdit / QComboBox /
+    QSpinBox / QDoubleSpinBox / QDateEdit / QTimeEdit / QDateTimeEdit.
+    Labels and buttons keep the QGIS default so toolbars stay compact.
+    """
+    from qgis.PyQt.QtWidgets import (
+        QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QSpinBox,
+        QDoubleSpinBox, QDateEdit, QTimeEdit, QDateTimeEdit,
+    )
+    qss = (
+        "QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QSpinBox, "
+        "QDoubleSpinBox, QDateEdit, QTimeEdit, QDateTimeEdit "
+        "{ font-size: %dpt; }" % size_pt
+    )
+    try:
+        current = form.styleSheet() or ""
+        if "QLineEdit, QTextEdit, QPlainTextEdit" not in current:
+            form.setStyleSheet(current + "\n" + qss)
+    except Exception:
+        pass
+
 
 def _apply_rtl_to_text_widgets(root, rtl: bool):
     """Set layoutDirection on text widgets only, leaving containers LTR."""

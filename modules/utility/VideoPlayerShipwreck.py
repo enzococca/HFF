@@ -9,9 +9,9 @@ import cv2
 import numpy as np
 import pygame
 
-from modules.db.hff_system__conn_strings import Connection
-from modules.db.hff_system__utility import Utility
-from modules.utility.hff_i18n import tr
+from HFF.modules.db.hff_system__conn_strings import Connection
+from HFF.modules.db.hff_system__utility import Utility
+from HFF.modules.utility.hff_i18n import tr
 
 
 class VideoPlayerWindow(QMainWindow):

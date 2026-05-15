@@ -50,7 +50,7 @@ from qgis.PyQt.QtSql import QSqlDatabase, QSqlTableModel
 from qgis.PyQt.uic import loadUiType
 
 from ..modules.utility.hff_system__exp_ANCsheet_pdf import generate_ANC_pdf
-from ..modules.utility.mplwidget import *
+from ..modules.utility.hff_mplwidget import *
 from ..modules.utility.hff_system__media_utility import *
 from ..modules.utility.VideoPlayerPottery import VideoPlayerWindow
 from ..modules.report_generator import ReportGenerator

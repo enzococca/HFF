@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from sqlalchemy import text
 from sqlalchemy.engine import Engine
 
-_TARGET_VERSION = 1
+_TARGET_VERSION = 2
 
 
 def _now_iso() -> str:
@@ -89,6 +89,7 @@ def _create_divers_tables(con) -> None:
         "  time_in TEXT,"
         "  time_out TEXT,"
         "  max_depth NUMERIC(5,2),"
+        "  bottom_time TEXT,"
         "  UNIQUE(site, divelog_id, years, diver_name),"
         "  FOREIGN KEY(site, divelog_id, years) "
         "    REFERENCES dive_log(site, divelog_id, years)"
@@ -203,15 +204,41 @@ def _migrate_dive_log_to_divers(con) -> None:
             ), {"i": diver_id, "m": r[5], "bs": bs, "be": be, "dp": dp})
 
 
+def _add_bottom_time_column(con) -> None:
+    """v2 migration: add divers.bottom_time TEXT column for the
+    issue-#45 swap (bottom_time per-diver, max_depth at dive level).
+    Idempotent — silently no-ops if the column already exists."""
+    if con.dialect.name == "sqlite":
+        cols = {r[1] for r in con.execute(text(
+            "PRAGMA table_info(divers)"
+        )).fetchall()}
+    else:
+        cols = {r[0] for r in con.execute(text(
+            "SELECT column_name FROM information_schema.columns "
+            "WHERE table_name='divers'"
+        )).fetchall()}
+    if "bottom_time" in cols:
+        return
+    try:
+        con.execute(text("ALTER TABLE divers ADD COLUMN bottom_time TEXT"))
+    except Exception as exc:
+        print(f"[divers] add bottom_time skipped: {exc}")
+
+
 def ensure_divers_schema(engine: Engine) -> None:
     """Idempotent. Safe to call on every connect; cheap when already
     migrated (one SELECT against hff_schema_version). Creates the
     divers + diver_segments tables and migrates any existing
     dive_log diver columns into the new tables on first call."""
-    if _read_version(engine, "divers") >= _TARGET_VERSION:
+    current = _read_version(engine, "divers")
+    if current >= _TARGET_VERSION:
         return
     with engine.begin() as con:
         _create_version_table(con)
-        _create_divers_tables(con)
-        _migrate_dive_log_to_divers(con)
+        if current < 1:
+            _create_divers_tables(con)
+            _migrate_dive_log_to_divers(con)
+        if current < 2:
+            # v1 → v2: add bottom_time column on pre-existing schemas.
+            _add_bottom_time_column(con)
         _write_version(con, "divers", _TARGET_VERSION)

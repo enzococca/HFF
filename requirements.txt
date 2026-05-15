@@ -26,6 +26,10 @@ opencv-python>=4.8.0  # Optional - may already be installed or cause issues on W
 # Utilities
 psutil>=5.9.0
 nltk>=3.8.0
+# English-spellcheck for log text fields (issue #45). Native enchant
+# library required on the OS — see modules/utility/hff_spellcheck.py
+# for the graceful-degradation path when missing.
+pyenchant>=3.2.0
 
 # AI / LLM
 openai>=1.0.0

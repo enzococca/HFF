@@ -112,7 +112,7 @@
   <customwidget>
    <class>Mplwidget</class>
    <extends>QWidget</extends>
-   <header>mplwidget</header>
+   <header>hff_mplwidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

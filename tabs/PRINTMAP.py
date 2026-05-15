@@ -49,7 +49,7 @@ from ..modules.utility.hff_theme_manager import ThemeManager
 from ..modules.utility.hff_i18n import HffI18n, tr
 from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations
 
-from ..resources.resources_rc import *
+from ..resources.hff_resources_rc import *
 
 MAIN_DIALOG_CLASS, _ = loadUiType(
     os.path.join(os.path.dirname(__file__), os.pardir, 'gui', 'ui', 'Print_map.ui'))

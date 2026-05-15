@@ -41,7 +41,7 @@
    <string>Setting System Excel</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources/resources.qrc">
+   <iconset resource="../../resources/hff_resources.qrc">
     <normaloff>:/icons/excel-export.png</normaloff>:/icons/excel-export.png</iconset>
   </property>
   <property name="styleSheet">
@@ -212,7 +212,7 @@
             <string />
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/eamena.jpg</normaloff>:/icons/eamena.jpg</iconset>
            </property>
            <property name="iconSize">
@@ -255,7 +255,7 @@
             <string />
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/snorkel.png</normaloff>:/icons/snorkel.png</iconset>
            </property>
            <property name="iconSize">
@@ -292,7 +292,7 @@
             <string />
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/radar.png</normaloff>:/icons/radar.png</iconset>
            </property>
            <property name="iconSize">
@@ -329,7 +329,7 @@
             <string />
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/pottery.png</normaloff>:/icons/pottery.png</iconset>
            </property>
            <property name="iconSize">
@@ -372,7 +372,7 @@
             <string />
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/iconANC.png</normaloff>:/icons/iconANC.png</iconset>
            </property>
            <property name="iconSize">
@@ -406,7 +406,7 @@
             <string />
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/Shipwreck.png</normaloff>:/icons/Shipwreck.png</iconset>
            </property>
            <property name="iconSize">
@@ -436,7 +436,7 @@
       <string>Export </string>
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../../resources/hff_resources.qrc">
        <normaloff>:/icons/excel-export.png</normaloff>:/icons/excel-export.png</iconset>
      </property>
     <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -447,7 +447,7 @@
       <string>Open folder EXCEL</string>
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../../resources/hff_resources.qrc">
        <normaloff>:/icons/directoryExp.png</normaloff>:/icons/directoryExp.png</iconset>
      </property>
     <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -455,7 +455,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../resources/resources.qrc" />
+  <include location="../../resources/hff_resources.qrc" />
  </resources>
  <connections>
   <connection>

@@ -405,7 +405,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.tree_divers = QTreeWidget(container)
         self.tree_divers.setColumnCount(9)
         self.tree_divers.setHeaderLabels([
-            "Diver", "Role", "Time in", "Time out", "Max depth",
+            "Diver", "Role", "Time in", "Time out", "Bottom time",
             "Mix", "Start", "End", "ΔP",
         ])
         self.tree_divers.setRootIsDecorated(True)
@@ -492,7 +492,9 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
             ("Area reference",      "comboBox_area_reference", 1, 0, 1),
             ("Layer",               "lineEdit_layers",       1, 2, 1),
-            ("Bottom time",         "lineEdit_bottom_time",  1, 4, 1),
+            # issue #45: max_depth lives at dive level; per-diver
+            # bottom_time is captured inside the Divers tab dialog.
+            ("Max depth (m)",       "lineEdit_max_depth",    1, 4, 1),
             ("Surface interval",    "lineEdit_surface_interval", 1, 6, 1),
 
             ("Dive supervisor",     "comboBox_supervisor",   2, 0, 1),
@@ -797,7 +799,9 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             "lineEdit_dp1", "lineEdit_dp_2",
             # dive-level fields now per-diver in the new tables
             "lineEdit_breathing_mix",
-            "lineEdit_max_depth",
+            # issue #45: bottom_time moved to the per-diver dialog,
+            # max_depth promoted into the dive summary tab.
+            "lineEdit_bottom_time",
             "lineEdit_time_in", "lineEdit_time_out",
             # accompanying QLabels (text scraped from the .ui)
             "label",       # "Diver 1"
@@ -808,7 +812,6 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             "label_14",    # "Bar start Diver 1"
             "label_15",    # "Bar end Diver 1"
             "label_16",    # "Breathing mix"
-            "label_19",    # "Max depth"
             "label_22",    # "Δ P Diver 1"
             "label_30",    # "Bar end Diver 2"
             "label_31",    # "Bar start Diver 2"
@@ -825,7 +828,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     def _init_divers_state(self):
         """Internal payload that mirrors what the form will write back
         to divers + diver_segments on save. List of dicts:
-          {"name", "role", "time_in", "time_out", "max_depth",
+          {"name", "role", "time_in", "time_out", "bottom_time",
            "segments": [{"mix", "bar_start", "bar_end", "delta_p"}, ...]}
         Each diver dialog edit produces one of these dicts."""
         if not hasattr(self, "_divers_payload"):
@@ -846,10 +849,10 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             "lineEdit_bar_end1", "lineEdit_bar_end_2",
             "lineEdit_dp1", "lineEdit_dp_2",
             "lineEdit_breathing_mix",
-            "lineEdit_max_depth",
+            "lineEdit_bottom_time",
             "lineEdit_time_in", "lineEdit_time_out",
             "label", "label_3", "label_4", "label_7", "label_8",
-            "label_14", "label_15", "label_16", "label_19", "label_22",
+            "label_14", "label_15", "label_16", "label_22",
             "label_30", "label_31", "label_32",
         }
         # Group hidden widgets by parent.
@@ -919,7 +922,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 d.get("role") or "",
                 d.get("time_in") or "",
                 d.get("time_out") or "",
-                "" if d.get("max_depth") is None else str(d.get("max_depth")),
+                "" if d.get("bottom_time") is None else str(d.get("bottom_time")),
                 "", "", "", "",
             ])
             top.setData(0, 0x0100, i)  # Qt.UserRole = 0x0100
@@ -990,26 +993,36 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             return
         try:
             with self.DB_MANAGER.engine.connect() as con:
-                rows = con.execute(text(
-                    "SELECT id, diver_name, role, time_in, time_out, "
-                    "max_depth FROM divers WHERE site=:s "
-                    "AND divelog_id=:d AND years=:y ORDER BY id"
-                ), {"s": str(site), "d": int(divelog_id),
-                    "y": int(years)}).fetchall()
+                # bottom_time was added in migration v2; on older DBs the
+                # column may be missing — fall back to a query without it.
+                try:
+                    rows = con.execute(text(
+                        "SELECT id, diver_name, role, time_in, time_out, "
+                        "bottom_time FROM divers WHERE site=:s "
+                        "AND divelog_id=:d AND years=:y ORDER BY id"
+                    ), {"s": str(site), "d": int(divelog_id),
+                        "y": int(years)}).fetchall()
+                except Exception:
+                    rows = con.execute(text(
+                        "SELECT id, diver_name, role, time_in, time_out, "
+                        "NULL FROM divers WHERE site=:s "
+                        "AND divelog_id=:d AND years=:y ORDER BY id"
+                    ), {"s": str(site), "d": int(divelog_id),
+                        "y": int(years)}).fetchall()
                 for r in rows:
                     segs = con.execute(text(
                         "SELECT seq, breathing_mix, bar_start, bar_end, "
                         "delta_p FROM diver_segments WHERE diver_id=:i "
                         "ORDER BY seq"
                     ), {"i": int(r[0])}).fetchall()
-                    md = r[5]
+                    bt = r[5]
                     self._divers_payload.append({
                         "name": r[1] or "",
                         "role": r[2],
                         "time_in": r[3],
                         "time_out": r[4],
-                        "max_depth": (
-                            "" if md is None else str(md)
+                        "bottom_time": (
+                            "" if bt is None else str(bt)
                         ),
                         "segments": [
                             {
@@ -1054,42 +1067,50 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     "AND divelog_id=:d AND years=:y"
                 ), {"s": str(site), "d": int(divelog_id),
                     "y": int(years)})
+                # Probe for the bottom_time column once per save. Older DBs
+                # that haven't run migration v2 fall back to the legacy
+                # column set.
+                if con.dialect.name == "sqlite":
+                    cols = {r[1] for r in con.execute(text(
+                        "PRAGMA table_info(divers)"
+                    )).fetchall()}
+                else:
+                    cols = {r[0] for r in con.execute(text(
+                        "SELECT column_name FROM information_schema.columns "
+                        "WHERE table_name='divers'"
+                    )).fetchall()}
+                has_bt = "bottom_time" in cols
                 for d in self._divers_payload:
-                    md_raw = d.get("max_depth")
-                    md_val = None
-                    if md_raw not in (None, ""):
-                        try:
-                            md_val = float(md_raw)
-                        except (TypeError, ValueError):
-                            md_val = None
+                    bt_val = d.get("bottom_time") or None
+                    params = {
+                        "s": str(site), "d": int(divelog_id),
+                        "y": int(years), "n": d.get("name") or "",
+                        "r": d.get("role"),
+                        "ti": d.get("time_in") or None,
+                        "to": d.get("time_out") or None,
+                    }
+                    if has_bt:
+                        params["bt"] = bt_val
+                        cols_sql = ("diver_name, role, time_in, time_out, "
+                                    "bottom_time")
+                        vals_sql = ":n, :r, :ti, :to, :bt"
+                    else:
+                        cols_sql = "diver_name, role, time_in, time_out"
+                        vals_sql = ":n, :r, :ti, :to"
                     if con.dialect.name == "sqlite":
                         con.execute(text(
-                            "INSERT INTO divers (site, divelog_id, years, "
-                            "diver_name, role, time_in, time_out, "
-                            "max_depth) VALUES "
-                            "(:s, :d, :y, :n, :r, :ti, :to, :md)"
-                        ), {"s": str(site), "d": int(divelog_id),
-                            "y": int(years), "n": d.get("name") or "",
-                            "r": d.get("role"),
-                            "ti": d.get("time_in") or None,
-                            "to": d.get("time_out") or None,
-                            "md": md_val})
+                            f"INSERT INTO divers (site, divelog_id, years, "
+                            f"{cols_sql}) VALUES (:s, :d, :y, {vals_sql})"
+                        ), params)
                         diver_id = int(con.execute(
                             text("SELECT last_insert_rowid()")
                         ).scalar_one())
                     else:
                         res = con.execute(text(
-                            "INSERT INTO divers (site, divelog_id, years, "
-                            "diver_name, role, time_in, time_out, "
-                            "max_depth) VALUES "
-                            "(:s, :d, :y, :n, :r, :ti, :to, :md) "
-                            "RETURNING id"
-                        ), {"s": str(site), "d": int(divelog_id),
-                            "y": int(years), "n": d.get("name") or "",
-                            "r": d.get("role"),
-                            "ti": d.get("time_in") or None,
-                            "to": d.get("time_out") or None,
-                            "md": md_val})
+                            f"INSERT INTO divers (site, divelog_id, years, "
+                            f"{cols_sql}) VALUES (:s, :d, :y, {vals_sql}) "
+                            f"RETURNING id"
+                        ), params)
                         diver_id = int(res.scalar_one())
                     for seq, seg in enumerate(d.get("segments") or []):
                         con.execute(text(
@@ -1131,6 +1152,12 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 )
                 s1 = first_seg_of(d1)
                 s2 = first_seg_of(d2)
+                # NOTE: dive_log.max_depth is no longer derived from the
+                # lead diver — issue #45 moved max_depth to the dive-level
+                # summary form where it's written via the standard
+                # TABLE_FIELDS save path. We still dual-write the legacy
+                # diver/breathing/time columns so older read paths keep
+                # working.
                 con.execute(text(
                     "UPDATE dive_log SET "
                     "diver_1=:d1, diver_2=:d2, breathing_mix=:bm, "
@@ -1138,7 +1165,7 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     "dp_diver1=:dp1, "
                     "bar_start_diver2=:bs2, bar_end_diver2=:be2, "
                     "dp_diver2=:dp2, "
-                    "time_in=:ti, time_out=:to, max_depth=:md "
+                    "time_in=:ti, time_out=:to "
                     "WHERE site=:s AND divelog_id=:d AND years=:y"
                 ), {
                     "d1": d1, "d2": d2,
@@ -1151,7 +1178,6 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     "dp2": s2.get("delta_p"),
                     "ti": lead_obj.get("time_in") or None,
                     "to": lead_obj.get("time_out") or None,
-                    "md": lead_obj.get("max_depth") or None,
                     "s": str(site), "d": int(divelog_id),
                     "y": int(years),
                 })

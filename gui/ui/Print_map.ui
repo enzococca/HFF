@@ -29,7 +29,7 @@
    <string>Make your Map</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources/resources.qrc">
+   <iconset resource="../../resources/hff_resources.qrc">
     <normaloff>:/icons/print_map.png</normaloff>:/icons/print_map.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -148,7 +148,7 @@
       <string />
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../../resources/hff_resources.qrc">
        <normaloff>:/icons/insert_table.png</normaloff>:/icons/insert_table.png</iconset>
      </property>
     <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -255,7 +255,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../resources/resources.qrc" />
+  <include location="../../resources/hff_resources.qrc" />
  </resources>
  <connections>
   <connection>

@@ -252,7 +252,7 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove one tag at a time by selecting it from the TAG TabWidget&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="icon">
-    <iconset resource="../../resources/resources.qrc">
+    <iconset resource="../../resources/hff_resources.qrc">
      <normaloff>:/icons/remove_tag.png</normaloff>:/icons/remove_tag.png</iconset>
    </property>
   <property name="iconSize"><size><width>24</width><height>24</height></size></property></widget>
@@ -423,7 +423,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Assign tag to selected images&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -927,7 +927,7 @@
                <string />
               </property>
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="../../resources/hff_resources.qrc">
                 <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
               </property>
              <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1051,7 +1051,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1168,7 +1168,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1294,7 +1294,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1417,7 +1417,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1560,7 +1560,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1658,7 +1658,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1756,7 +1756,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1807,7 +1807,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Assign tag to selected images&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1908,7 +1908,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2006,7 +2006,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/resources.qrc">
+         <iconset resource="../../resources/hff_resources.qrc">
           <normaloff>:/icons/add_tag.png</normaloff>:/icons/add_tag.png</iconset>
         </property>
        <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2130,7 +2130,7 @@
        <string />
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2156,7 +2156,7 @@
        <string />
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2182,7 +2182,7 @@
        <string />
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2208,7 +2208,7 @@
        <string />
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2253,7 +2253,7 @@
        <string />
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2273,7 +2273,7 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove selected thumbnails&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2296,7 +2296,7 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Upload the photos to the database (link) and view them in the listWidget&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/photo2.png</normaloff>:/icons/photo2.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2310,7 +2310,7 @@
        </size>
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/video.png</normaloff>:/icons/video.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2327,7 +2327,7 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove all tags from selected images&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset resource="../../resources/hff_resources.qrc">
         <normaloff>:/icons/remove_tag.png</normaloff>:/icons/remove_tag.png</iconset>
       </property>
      <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -2350,8 +2350,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../resources/resources.qrc" />
-  <include location="../../../hff_system_-master/resources/resources.qrc" />
+  <include location="../../resources/hff_resources.qrc" />
+  <include location="../../resources/hff_resources.qrc" />
  </resources>
  <connections>
   <connection>

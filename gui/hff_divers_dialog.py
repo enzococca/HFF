@@ -7,7 +7,7 @@ Two dialogs:
   delta_p). Used both for creating a new segment and editing an
   existing one. Pre-fill via the optional `segment` ctor argument.
 - AddEditDiverDialog: a diver (name, role, time_in, time_out,
-  max_depth) plus an embedded list of segments. Add / edit / remove
+  bottom_time) plus an embedded list of segments. Add / edit / remove
   segments via inline buttons that pop AddEditSegmentDialog.
 
 Both expose `value()` after `exec_() == Accepted` returning a plain
@@ -110,14 +110,24 @@ class AddEditDiverDialog(QDialog):
                 self.role_combo.setCurrentIndex(idx)
         self.time_in_edit = QLineEdit(d.get("time_in", "") or "")
         self.time_out_edit = QLineEdit(d.get("time_out", "") or "")
-        md = d.get("max_depth")
-        self.max_depth_edit = QLineEdit("" if md is None else str(md))
+        bt = d.get("bottom_time")
+        self.bottom_time_edit = QLineEdit("" if bt is None else str(bt))
         form.addRow("Name:", self.name_edit)
         form.addRow("Role:", self.role_combo)
-        form.addRow("Time in:", self.time_in_edit)
-        form.addRow("Time out:", self.time_out_edit)
-        form.addRow("Max depth (m):", self.max_depth_edit)
+        form.addRow("Time in (HH:MM):", self.time_in_edit)
+        form.addRow("Time out (HH:MM):", self.time_out_edit)
+        form.addRow("Bottom time (auto, min):", self.bottom_time_edit)
         outer.addLayout(form)
+
+        # Auto-compute bottom_time = time_out - time_in (in minutes).
+        # textEdited fires only on user input, so a manual edit of
+        # bottom_time latches the field.
+        self._bottom_time_user_edited = bool(bt)
+        self.bottom_time_edit.textEdited.connect(
+            self._mark_bottom_time_user_edited
+        )
+        self.time_in_edit.textEdited.connect(self._auto_bottom_time)
+        self.time_out_edit.textEdited.connect(self._auto_bottom_time)
 
         outer.addWidget(QLabel("Segments:"))
         self.segments_list = QListWidget()
@@ -195,13 +205,67 @@ class AddEditDiverDialog(QDialog):
             return
         self.accept()
 
+    def _mark_bottom_time_user_edited(self, _text):
+        self._bottom_time_user_edited = True
+
+    def _auto_bottom_time(self, _text=None):
+        """Recompute bottom_time = time_out − time_in in minutes.
+        Accepts HH:MM, H:MM, or plain minutes for either field. No-op
+        if the user has manually edited bottom_time."""
+        if self._bottom_time_user_edited:
+            return
+        minutes = _diff_minutes(
+            self.time_in_edit.text().strip(),
+            self.time_out_edit.text().strip(),
+        )
+        if minutes is None:
+            return
+        self.bottom_time_edit.setText(str(minutes))
+
     def value(self):
-        md_text = self.max_depth_edit.text().strip()
+        bt_text = self.bottom_time_edit.text().strip()
         return {
             "name": self.name_edit.text().strip(),
             "role": self.role_combo.currentText() or None,
             "time_in": self.time_in_edit.text().strip() or None,
             "time_out": self.time_out_edit.text().strip() or None,
-            "max_depth": md_text or None,
+            "bottom_time": bt_text or None,
             "segments": list(self._segments),
         }
+
+
+def _diff_minutes(t_in: str, t_out: str):
+    """Return (t_out − t_in) in whole minutes, or None if either side
+    cannot be parsed. Accepts 'HH:MM', 'H:MM', or plain minutes.
+    Wraps past midnight: a smaller out value gets +24h."""
+    a = _to_minutes(t_in)
+    b = _to_minutes(t_out)
+    if a is None or b is None:
+        return None
+    diff = b - a
+    if diff < 0:
+        diff += 24 * 60
+    return diff
+
+
+def _to_minutes(s: str):
+    s = (s or "").strip()
+    if not s:
+        return None
+    if ":" in s:
+        parts = s.split(":")
+        try:
+            h = int(parts[0])
+            m = int(parts[1])
+        except (ValueError, IndexError):
+            return None
+        if h < 0 or m < 0 or m >= 60:
+            return None
+        return h * 60 + m
+    try:
+        return int(s)
+    except ValueError:
+        try:
+            return int(float(s))
+        except ValueError:
+            return None

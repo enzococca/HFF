@@ -8,9 +8,9 @@ from qgis.PyQt.QtGui import QImage, QPixmap,QIcon
 from qgis.PyQt.QtWidgets import QTableWidgetItem, QInputDialog, QMainWindow, QListWidgetItem,  QMessageBox, QWidget, QLabel, QSizePolicy, QSlider, QPushButton, QHBoxLayout, QVBoxLayout
 
 
-from modules.db.hff_system__conn_strings import Connection
-from modules.db.hff_system__utility import Utility
-from modules.utility.hff_i18n import tr
+from HFF.modules.db.hff_system__conn_strings import Connection
+from HFF.modules.db.hff_system__utility import Utility
+from HFF.modules.utility.hff_i18n import tr
 
 class VideoPlayerWindow(QMainWindow):
     def __init__(self, parent, db_manager=None, icon_list_widget=None, main_class=None):

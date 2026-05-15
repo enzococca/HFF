@@ -21,7 +21,7 @@
 """
 
 from .hff_system__conn_strings import Connection
-from modules.db.hff_db_manager import Hff_db_management
+from HFF.modules.db.hff_db_manager import Hff_db_management
 
 
 def convert_cell_schema(s, c):

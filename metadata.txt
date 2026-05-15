@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.4
+version=11.5
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,14 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.4:
+changelog=11.5:
+    - Coexist with pyarchinit: rename resources_rc/mplwidget to hff_-prefixed unique names, qualify all internal imports as HFF.modules/gui/tabs.*, stop polluting sys.path. Both plugins can now be active simultaneously without `modules` / `resources_rc` namespace collisions.
+    - Issue #45: bump font size on input widgets (QLineEdit/QTextEdit/QComboBox/QSpin/QDate*) of every log form to 11pt for readability.
+    - Issue #45: swap Bottom Time and Maximum Depth — Bottom Time is now captured per-diver inside the Divers tab dialog; Maximum Depth is now a dive-level field on the Dive Summary tab.
+    - Issue #45: auto-compute Bottom Time (in minutes) from Time In / Time Out in the diver dialog. Manual edit overrides the auto-fill.
+    - Issue #45: English autocorrect via pyenchant — QTextEdit/QPlainTextEdit get red squiggle underlines on misspelled words; QLineEdit gets a right-click "Spell" menu with up to 7 suggestions. Graceful no-op when the native enchant library is unavailable.
+    - Migration v2: add divers.bottom_time TEXT column (idempotent, safe on existing DBs).
+    11.4:
     - Add Thesaurus dialog (toolbar → "Thesaurus") for managing controlled vocabularies in the dropdown comboboxes (issue #44 follow-up)
     - Wire populate() helper to query hff_system__thesaurus_sigle and merge thesaurus rows with DB-distinct values + in-code defaults
     - Auto-seed the thesaurus table on first open from the v11.3 DEFAULTS dict (idempotent — safe on existing DBs)

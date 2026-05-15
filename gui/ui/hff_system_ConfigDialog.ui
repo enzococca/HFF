@@ -41,7 +41,7 @@
    <string>Setting</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources/resources.qrc">
+   <iconset resource="../../resources/hff_resources.qrc">
     <normaloff>:/icons/iconConn.png</normaloff>:/icons/iconConn.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -290,7 +290,7 @@
             <item row="0" column="3">
              <widget class="QPushButton" name="pbnOpenthumbDirectory">
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="../../resources/hff_resources.qrc">
                 <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
               </property>
              <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -325,7 +325,7 @@
             <item row="1" column="3">
              <widget class="QPushButton" name="pbnOpenresizeDirectory">
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="../../resources/hff_resources.qrc">
                 <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
               </property>
              <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -378,7 +378,7 @@
             <string>Save Settings</string>
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/save_setting.png</normaloff>:/icons/save_setting.png</iconset>
            </property>
            <property name="checkable">
@@ -406,7 +406,7 @@
           <string>Active Location</string>
          </property>
          <property name="icon">
-          <iconset resource="../../resources/resources.qrc">
+          <iconset resource="../../resources/hff_resources.qrc">
            <normaloff>:/icons/iconTimeControll.png</normaloff>
            <selectedon>:/icons/layers-icon.png</selectedon>:/icons/iconTimeControll.png</iconset>
          </property>
@@ -486,7 +486,7 @@
             </size>
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/db_update_postgres.png</normaloff>:/icons/db_update_postgres.png</iconset>
            </property>
            <property name="iconSize">
@@ -524,7 +524,7 @@
             <string />
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/db_update_sqlite.png</normaloff>:/icons/db_update_sqlite.png</iconset>
            </property>
            <property name="iconSize">
@@ -612,7 +612,7 @@
                <string>Install</string>
               </property>
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="../../resources/hff_resources.qrc">
                 <normaloff>:/icons/install_db.png</normaloff>:/icons/install_db.png</iconset>
               </property>
              <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -753,7 +753,7 @@
                <string>Install</string>
               </property>
               <property name="icon">
-               <iconset resource="../../resources/resources.qrc">
+               <iconset resource="../../resources/hff_resources.qrc">
                 <normaloff>:/icons/install_db.png</normaloff>:/icons/install_db.png</iconset>
               </property>
              <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1011,7 +1011,7 @@
             <string>Import Geometry</string>
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/insert_geometry.png</normaloff>:/icons/insert_geometry.png</iconset>
            </property>
           <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1035,7 +1035,7 @@
             <string>Import Table</string>
            </property>
            <property name="icon">
-            <iconset resource="../../resources/resources.qrc">
+            <iconset resource="../../resources/hff_resources.qrc">
              <normaloff>:/icons/GIS.png</normaloff>:/icons/GIS.png</iconset>
            </property>
           <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -1769,7 +1769,7 @@
   <tabstop>lineEdit_User</tabstop>
  </tabstops>
  <resources>
-  <include location="../../resources/resources.qrc" />
+  <include location="../../resources/hff_resources.qrc" />
  </resources>
  <connections>
   <connection>

@@ -23,7 +23,7 @@
    <string>HFFsurvey -  Site Management</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources/resources.qrc">
+   <iconset resource="../../resources/hff_resources.qrc">
     <normaloff>:/icons/iconSite.png</normaloff>:/icons/iconSite.png</iconset>
   </property>
   <property name="modal">
@@ -110,7 +110,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Archaeological layers of current site&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/IconPAI.png</normaloff>:/icons/IconPAI.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -136,7 +136,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;active query search &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -162,7 +162,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reload all records&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/view_all.png</normaloff>:/icons/view_all.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -213,7 +213,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Active/deactive media view&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/photo.png</normaloff>:/icons/photo.png</iconset>
        </property>
        <property name="checkable">
@@ -245,7 +245,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/b_save.png</normaloff>:/icons/b_save.png</iconset>
        </property>
        <property name="autoDefault">
@@ -290,7 +290,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;New record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/newrec.png</normaloff>:/icons/newrec.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -316,7 +316,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Filter records&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/sort.png</normaloff>:/icons/sort.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -342,7 +342,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start query search&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/new_search.png</normaloff>:/icons/new_search.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -368,7 +368,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Previus record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/4_leftArrow.png</normaloff>:/icons/4_leftArrow.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -388,7 +388,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;View Layers&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/GIS.png</normaloff>:/icons/GIS.png</iconset>
        </property>
        <property name="checkable">
@@ -417,7 +417,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/7_rightArrows.png</normaloff>:/icons/7_rightArrows.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -443,7 +443,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;First record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/5_leftArrows.png</normaloff>:/icons/5_leftArrows.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -463,7 +463,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;all archaeological layers&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/layers-icon.png</normaloff>:/icons/layers-icon.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -492,7 +492,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Delete single record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -518,7 +518,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Next record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/6_rightArrow.png</normaloff>:/icons/6_rightArrow.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -544,7 +544,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Export Excel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/excel-export.png</normaloff>:/icons/excel-export.png</iconset>
        </property>
        <property name="iconSize">
@@ -3150,7 +3150,7 @@ p, li { white-space: pre-wrap; }
                  <string />
                 </property>
                 <property name="icon">
-                 <iconset resource="../../resources/resources.qrc">
+                 <iconset resource="../../resources/hff_resources.qrc">
                   <normaloff>:/icons/import-excel.png</normaloff>:/icons/import-excel.png</iconset>
                 </property>
                 <property name="iconSize">
@@ -3236,7 +3236,7 @@ p, li { white-space: pre-wrap; }
                 <string />
                </property>
                <property name="icon">
-                <iconset resource="../../resources/resources.qrc">
+                <iconset resource="../../resources/hff_resources.qrc">
                  <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
                </property>
               <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property><property name="maximumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -4000,7 +4000,7 @@ p, li { white-space: pre-wrap; }
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Export Pdf form&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/pdf-icon.png</normaloff>:/icons/pdf-icon.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -4020,7 +4020,7 @@ p, li { white-space: pre-wrap; }
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Convert Pdf to word file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/word.png</normaloff>:/icons/word.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -4065,7 +4065,7 @@ p, li { white-space: pre-wrap; }
         <string />
        </property>
        <property name="icon">
-        <iconset resource="../../resources/resources.qrc">
+        <iconset resource="../../resources/hff_resources.qrc">
          <normaloff>:/icons/open-folder.png</normaloff>:/icons/open-folder.png</iconset>
        </property>
       <property name="iconSize"><size><width>24</width><height>24</height></size></property><property name="minimumSize"><size><width>32</width><height>32</height></size></property></widget>
@@ -4163,7 +4163,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../resources/resources.qrc" />
+  <include location="../../resources/hff_resources.qrc" />
  </resources>
  <connections>
   <connection>

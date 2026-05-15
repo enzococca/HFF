@@ -555,9 +555,25 @@ def initialize_environment() -> None:
     PipManager.configure_pip()
 
     s = QgsSettings()
-    sys.path.append(os.path.dirname(__file__))
-    sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'resources')))
-    sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'gui', 'ui')))
+
+    # Pre-register HFF's compiled Qt resources and mplwidget under their
+    # bare module names. loadUiType compiles .ui files at runtime and the
+    # generated code does plain `import hff_resources_rc` / `import
+    # hff_mplwidget` — sys.modules cache hits short-circuit the lookup so
+    # we do not need to add HFF's resources/ and gui/ui/ folders to
+    # sys.path. The names are hff_-prefixed precisely so they cannot
+    # collide with pyarchinit (which uses the bare `resources_rc` /
+    # `mplwidget` names) when both plugins are active.
+    try:
+        from .resources import hff_resources_rc as _hff_rc
+        sys.modules.setdefault('hff_resources_rc', _hff_rc)
+    except Exception as e:
+        print(f"HFF: failed to preload hff_resources_rc: {e}")
+    try:
+        from .modules.utility import hff_mplwidget as _hff_mpl
+        sys.modules.setdefault('hff_mplwidget', _hff_mpl)
+    except Exception as e:
+        print(f"HFF: failed to preload hff_mplwidget: {e}")
 
     fi = hff_system__Folder_installation()
     if not os.path.exists(HFF_HOME):
