@@ -100,6 +100,17 @@ class Hff_db_management(object):
             except Exception as migration_exc:
                 print(f"[hff_divers_migration] skipped: {migration_exc}")
 
+            # v11.10: normalize media_to_entity_table.entity_type='ANC'
+            # -> 'ANCHORS' for pre-existing anchor media rows so they
+            # become visible again in the Anchor form preview.
+            try:
+                from .hff_anchor_media_migration import (
+                    ensure_anchor_media_entity_type,
+                )
+                ensure_anchor_media_entity_type(self.engine)
+            except Exception as migration_exc:
+                print(f"[hff_anchor_media_migration] skipped: {migration_exc}")
+
             conn = self.engine.connect()
 
         except Exception as e:

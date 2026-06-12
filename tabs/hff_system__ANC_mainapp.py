@@ -666,7 +666,9 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         # QMessageBox.information(self, 'search db', str(record_us_list))
         us_list = []
         for r in record_us_list:
-            us_list.append([r[0].id_anc, 'ANC', 'anchor_table'])
+            # entity_type must be 'ANCHORS' to match what Image_viewer,
+            # Images_directory_export and the MEDIAVIEW SQL all use.
+            us_list.append([r[0].id_anc, 'ANCHORS', 'anchor_table'])
         # QMessageBox.information(self, "Scheda US", str(us_list), QMessageBox.Ok)
         return us_list
 
@@ -892,7 +894,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 record_us_list.append(j)
             us_list = []
             for r in record_us_list:
-                us_list.append([r[0].id_anc, 'ANC', 'anchor_table'])
+                us_list.append([r[0].id_anc, 'ANCHORS', 'anchor_table'])
             # QMessageBox.information(self, "Scheda US", str(us_list), QMessageBox.Ok)
             return us_list
 
@@ -998,7 +1000,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     def on_pushButton_all_images_pressed(self):
         record_us_list = self.DB_MANAGER.query('MEDIA_THUMB')
 
-        et = {'entity_type': "'ANC'"}
+        et = {'entity_type': "'ANCHORS'"}
         ser = self.DB_MANAGER.query_bool(et, 'MEDIATOENTITY')
         # Verifica se record_us_list è vuota
         if not record_us_list and not ser:
@@ -1170,7 +1172,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             for image in all_images:
                 # Crea un nuovo dizionario di ricerca per MEDIATOENTITY
                 search_dict = {'id_media': "'" + str(image.id_media) + "'",
-                               'entity_type': "'ANC'"}
+                               'entity_type': "'ANCHORS'"}
                 search_dict = u.remove_empty_items_fr_dict(search_dict)
 
                 # Recupera l'elenco di 'US' associati all'immagine
@@ -1225,7 +1227,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 self.image_cache.move_to_end(thumb_path)
                 # Crea un nuovo dizionario di ricerca per MEDIATOENTITY
                 search_dict = {'id_media': "'" + str(i.id_media) + "'",
-                               'entity_type': "'ANC'"}
+                               'entity_type': "'ANCHORS'"}
                 search_dict = u.remove_empty_items_fr_dict(search_dict)
                 # Recupera l'elenco di US associati all'immagine
                 mediatoentity_data = self.DB_MANAGER.query_bool(search_dict, "MEDIATOENTITY")
@@ -1327,7 +1329,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             record_us_list.append(j)
             us_list = []
             for r in record_us_list:
-                us_list.append([r[0].id_anc, 'ANC', 'anchor_table'])
+                us_list.append([r[0].id_anc, 'ANCHORS', 'anchor_table'])
             # QMessageBox.information(self, "Scheda US", str(us_list), QMessageBox.Ok)
             return us_list
 
@@ -3551,10 +3553,14 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             if self.toolButtonPreviewMedia.isChecked() == True:
                 self.loadMediaPreview()
                 self.loadMedialist()
-            
-        
+
+
         except Exception as e:
-            pass#QMessageBox.warning(self, "Errore Fill Fields", str(e),  QMessageBox.Ok)   
+            # Surface errors to the QGIS Python console instead of silently
+            # swallowing them — historic `pass` here hid the ANC/ANCHORS
+            # entity_type mismatch and made the media preview look empty
+            # on every record change.
+            print("[ANC fill_fields] %s" % e)
     
     def generate_list_foto(self):
         data_list_foto = []
