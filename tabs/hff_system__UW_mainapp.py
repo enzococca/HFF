@@ -1595,30 +1595,12 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
                     self.iconListWidget.addItem(item)
 
-                    # Aggiungi l'elemento alla tabella appropriata
-                    if mediatype == 'image':
-                        row_position = self.tableWidget_photo.rowCount()
-                        self.tableWidget_photo.insertRow(row_position)
-
-                        # Aggiungi l'ID della foto (nome del file)
-                        id_item = QTableWidgetItem(str(filename_resize))
-                        self.tableWidget_photo.setItem(row_position, 0, id_item)
-
-                        # Aggiungi una descrizione vuota (può essere modificata dall'utente in seguito)
-                        desc_item = QTableWidgetItem("")
-                        self.tableWidget_photo.setItem(row_position, 1, desc_item)
-                    else:  # mediatype == 'video'
-                        row_position = self.tableWidget_video.rowCount()
-                        self.tableWidget_video.insertRow(row_position)
-
-                        # Aggiungi l'ID del video (nome del file)
-                        id_item = QTableWidgetItem(str(filename_resize))
-                        self.tableWidget_video.setItem(row_position, 0, id_item)
-
-                        # Aggiungi una descrizione vuota (può essere modificata dall'utente in seguito)
-                        desc_item = QTableWidgetItem("")
-                        self.tableWidget_video.setItem(row_position, 1, desc_item)
-
+                    # v11.11: do NOT auto-append a row to tableWidget_photo
+                    # / tableWidget_video here. Photos_Videos rows are for
+                    # the human-readable photo IDs typed by the user
+                    # (e.g. QHS.AR5.017(1)); Sketch / Photo Environment
+                    # uploads belong only in iconListWidget + the MEDIA /
+                    # media_to_entity_table records below.
                     self.assignTags_US(item)
                     #self.save_2()
 
@@ -1738,30 +1720,9 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     icon = QIcon(str(thumb_path_str) + filepath_thumb)
                     item.setIcon(icon)
                     self.icongigi.addItem(item)
-                    # Aggiungi l'elemento alla tabella appropriata
-                    if mediatype == 'image':
-                        row_position = self.tableWidget_photo.rowCount()
-                        self.tableWidget_photo.insertRow(row_position)
-
-                        # Aggiungi l'ID della foto (nome del file)
-                        id_item = QTableWidgetItem(str(filename_resize))
-                        self.tableWidget_photo.setItem(row_position, 0, id_item)
-
-                        # Aggiungi una descrizione vuota (può essere modificata dall'utente in seguito)
-                        desc_item = QTableWidgetItem("")
-                        self.tableWidget_photo.setItem(row_position, 1, desc_item)
-                    else:  # mediatype == 'video'
-                        row_position = self.tableWidget_video.rowCount()
-                        self.tableWidget_video.insertRow(row_position)
-
-                        # Aggiungi l'ID del video (nome del file)
-                        id_item = QTableWidgetItem(str(filename_resize))
-                        self.tableWidget_video.setItem(row_position, 0, id_item)
-
-                        # Aggiungi una descrizione vuota (può essere modificata dall'utente in seguito)
-                        desc_item = QTableWidgetItem("")
-                        self.tableWidget_video.setItem(row_position, 1, desc_item)
-
+                    # v11.11: same fix as load_and_process_image — the
+                    # Photo Environment drop must not bleed into the
+                    # Photos_Videos manual table.
                     self.assignTags_pano(item)
                     #self.save_2()
 
@@ -3150,7 +3111,68 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.icongigi.setObjectName("iconListWidget_2")
         self.icongigi.setSelectionMode(QAbstractItemView.SingleSelection)
         self.icongigi.itemDoubleClicked.connect(self.openWide_image_pano)
-    
+        self._wire_media_counts_autoderive()
+
+    # ------------------------------------------------------------------
+    # v11.11: auto-derive Photo count / Video count from the rows the
+    # user actually enters in the Photos_Videos tab so the three values
+    # (Photo count on Dive summary, tableWidget_photo rows, eventual
+    # Sketch / Photo Environment uploads in Media tab) cannot drift
+    # apart. Media-tab uploads stay deliberately independent — they
+    # live in media_to_entity_table, not in photo_id, and should never
+    # inflate photo_nbr.
+    # ------------------------------------------------------------------
+    def _wire_media_counts_autoderive(self):
+        ph = getattr(self, "lineEdit_photo_nbr", None)
+        vi = getattr(self, "lineEdit_video_nbr", None)
+        tip = ("Auto-computed from the Photos / Videos tab. "
+               "Add or remove a row there to change it.")
+        for w in (ph, vi):
+            if w is None:
+                continue
+            try:
+                w.setReadOnly(True)
+                w.setToolTip(tip)
+            except Exception:
+                pass
+        for tname in ("tableWidget_photo", "tableWidget_video"):
+            tw = getattr(self, tname, None)
+            if tw is None:
+                continue
+            try:
+                tw.itemChanged.connect(self._update_media_counts_from_tables)
+            except Exception:
+                pass
+        self._update_media_counts_from_tables()
+
+    def _update_media_counts_from_tables(self, *_args):
+        """Count rows whose Photo id / Video id column (col 0) is
+        non-empty and write the result into lineEdit_photo_nbr /
+        lineEdit_video_nbr. Matches table2dict's persistence rule
+        (rows with no non-None cell are dropped on save)."""
+        def _populated_rows(table_name):
+            tw = getattr(self, table_name, None)
+            if tw is None:
+                return 0
+            count = 0
+            for r in range(tw.rowCount()):
+                it = tw.item(r, 0)
+                if it is not None and str(it.text()).strip():
+                    count += 1
+            return count
+        ph = getattr(self, "lineEdit_photo_nbr", None)
+        vi = getattr(self, "lineEdit_video_nbr", None)
+        if ph is not None:
+            try:
+                ph.setText(str(_populated_rows("tableWidget_photo")))
+            except Exception:
+                pass
+        if vi is not None:
+            try:
+                vi.setText(str(_populated_rows("tableWidget_video")))
+            except Exception:
+                pass
+
     # def loadMedialist(self):
         # self.tableWidget_foto.clear()
         # col =['Site','Area','Year','Divelog ID']
@@ -3869,12 +3891,16 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     # insert new row into tableWidget
     def on_pushButton_insert_row_photo_pressed(self):
         self.insert_new_row('self.tableWidget_photo')
+        self._update_media_counts_from_tables()
     def on_pushButton_remove_row_photo_pressed(self):
         self.remove_row('self.tableWidget_photo')
+        self._update_media_counts_from_tables()
     def on_pushButton_insert_row_video_pressed(self):
         self.insert_new_row('self.tableWidget_video')
+        self._update_media_counts_from_tables()
     def on_pushButton_remove_row_video_pressed(self):
         self.remove_row('self.tableWidget_video')
+        self._update_media_counts_from_tables()
     
     
     def check_record_state(self):
@@ -4350,6 +4376,12 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             self._divers_payload = []
         if hasattr(self, 'tree_divers'):
             self.tree_divers.clear()
+        # v11.11: photo/video counts auto-derive from the now-empty
+        # Photos_Videos tables — reset them to 0.
+        try:
+            self._update_media_counts_from_tables()
+        except Exception:
+            pass
     def fill_fields(self, n=0):
         self.rec_num = n
         # QMessageBox.warning(self, "Test", str(self.comboBox_per_fin.currentText()),  QMessageBox.Ok)
@@ -4385,6 +4417,14 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             str(self.lineEdit_dp1.setText(self.DATA_LIST[self.rec_num].dp_diver1))
             self.tableInsertData("self.tableWidget_photo", self.DATA_LIST[self.rec_num].photo_id)
             self.tableInsertData("self.tableWidget_video", self.DATA_LIST[self.rec_num].video_id)
+            # v11.11: Photo/Video count is now derived from the rows the
+            # user actually enters, not from the legacy photo_nbr column.
+            # Recompute AFTER tableInsertData so a stale stored photo_nbr
+            # cannot disagree with photo_id rows.
+            try:
+                self._update_media_counts_from_tables()
+            except Exception:
+                pass
             str(self.comboBox_site.setEditText(self.DATA_LIST[self.rec_num].site))
             str(self.lineEdit_layers.setText(self.DATA_LIST[self.rec_num].layer))
             str(self.lineEdit_bar_start_2.setText(self.DATA_LIST[self.rec_num].bar_start_diver2))

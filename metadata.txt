@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.10
+version=11.11
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,11 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.10:
+changelog=11.11:
+    - Fix Dive log: dropping a Sketch or Photo Environment file into the Media tab was silently appending a row (with the resized filename as Photo id) into the Photos_Videos tab — bleeding media uploads into a table meant for human-readable photo IDs (e.g. QHS.AR5.017). Both drop handlers (load_and_process_image, load_and_process_pano) no longer touch tableWidget_photo / tableWidget_video. Media uploads remain in iconListWidget + media_to_entity_table only; Photos_Videos rows stay user-typed.
+    - Auto-derive Dive log "Photo count" and "Video count" (Dive summary tab) from the actual rows entered in the Photos_Videos tab. The two fields are now read-only and update live as the user inserts/removes rows or loads a different record. Removes a long-standing source of drift Lucy reported where the typed count could disagree with the photo_id row list.
+    - On records authored before v11.11 whose stored photo_nbr / video_nbr disagrees with photo_id / video_id row counts, the form now shows the row-derived value; the legacy count is overwritten on the next save.
+    11.10:
     - Fix Anchor form media preview going empty after navigating away from a record. The form was inserting media link rows with entity_type='ANC' while the rest of the plugin (Image_viewer, Images_directory_export, MEDIAVIEW SQL) uses 'ANCHORS', so loadMediaPreview / generate_list_foto matched zero rows. Standardized all six call sites in ANC_mainapp.py on 'ANCHORS'.
     - Add idempotent migration (component=anchor_media_entity_type, v1) that rewrites pre-11.10 rows in media_to_entity_table from 'ANC' to 'ANCHORS' (scoped to table_name='anchor_table') so historical uploads become visible again.
     - Stop silently swallowing exceptions in ANC fill_fields — print to the QGIS Python console instead. The historic `except: pass` is what kept this bug invisible for so long.
