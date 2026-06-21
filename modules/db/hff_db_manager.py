@@ -111,6 +111,17 @@ class Hff_db_management(object):
             except Exception as migration_exc:
                 print(f"[hff_anchor_media_migration] skipped: {migration_exc}")
 
+            # v11.12: add pottery_table.qty (issue #48). The Python
+            # layer has carried qty for a while; this backfills the
+            # column on pre-11.12 SQLite / PostgreSQL databases.
+            try:
+                from .hff_pottery_qty_migration import (
+                    ensure_pottery_qty_column,
+                )
+                ensure_pottery_qty_column(self.engine)
+            except Exception as migration_exc:
+                print(f"[hff_pottery_qty_migration] skipped: {migration_exc}")
+
             conn = self.engine.connect()
 
         except Exception as e:

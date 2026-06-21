@@ -841,7 +841,8 @@ CREATE TABLE public.pottery_table (
     area character varying(255),
     munsell_surf character varying(255),
     category character varying(255),
-	wheel_made character varying(10)
+	wheel_made character varying(10),
+	qty integer DEFAULT 1
 );
 ALTER TABLE public.pottery_table OWNER TO postgres;
 --

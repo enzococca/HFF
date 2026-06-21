@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.11
+version=11.12
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,12 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.11:
+changelog=11.12:
+    - Add Quantity (qty) field to the Pottery form (issue #48 — Catnip19). The Python layer (POTTERY entity, POTTERY_table mapper, insert_pottery_values, TABLE_FIELDS, lineEdit_qty in the .ui) was already wired but the column was missing from schema.sql and from databases authored before the bundled SQLite template gained it.
+    - Add idempotent migration (component=pottery_qty_column, v1) that ALTERs pottery_table to ADD COLUMN qty INTEGER DEFAULT 1 on pre-11.12 SQLite and PostgreSQL databases. Pre-existing rows are backfilled to qty=1, matching the form's empty-text fallback.
+    - schema.sql (used to bootstrap new PostgreSQL installs) now includes qty integer DEFAULT 1 in CREATE TABLE public.pottery_table so freshly-created databases ship with the column from day one.
+    - Fix Quantity row not rendering in the Pottery form's Storage tab: the lineEdit_qty widget had been carried in the .ui since the initial commit but lived in gridLayout_31, which was hidden behind the expanding media QgsDockWidget added in later releases. Moved Quantity into gridLayout_30 (next to Washed and Nr. Box), renamed the stray QLabel objectName from "label" to "label_qty" to avoid collisions, and added a placeholder "1" matching the empty-text fallback in Pottery_mainapp.
+    11.11:
     - Fix Dive log: dropping a Sketch or Photo Environment file into the Media tab was silently appending a row (with the resized filename as Photo id) into the Photos_Videos tab — bleeding media uploads into a table meant for human-readable photo IDs (e.g. QHS.AR5.017). Both drop handlers (load_and_process_image, load_and_process_pano) no longer touch tableWidget_photo / tableWidget_video. Media uploads remain in iconListWidget + media_to_entity_table only; Photos_Videos rows stay user-typed.
     - Auto-derive Dive log "Photo count" and "Video count" (Dive summary tab) from the actual rows entered in the Photos_Videos tab. The two fields are now read-only and update live as the user inserts/removes rows or loads a different record. Removes a long-standing source of drift Lucy reported where the typed count could disagree with the photo_id row list.
     - On records authored before v11.11 whose stored photo_nbr / video_nbr disagrees with photo_id / video_id row counts, the form now shows the row-derived value; the legacy count is overwritten on the next save.
