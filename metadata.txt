@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.12
+version=11.13
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,11 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.12:
+changelog=11.13:
+    - Fix Conservation form Observation textbox eating characters when editing existing text (issue #50 — Catnip19). The textEdit_observation QTextEdit in the three Conservation forms (Anchor / Artefact / Pottery) had overwriteMode=true set in Qt Designer, so typing anywhere except at the end of the text overwrote the character to the right of the cursor instead of inserting. Removed the property from ANCHORCON, ARTLOGCON and PotteryCON .ui files so the widgets fall back to normal insert mode.
+    - Fix photos coming out rotated after upload (issue #50 — Catnip19). Media_utility and Media_utility_resize opened images with PIL and thumbnailed/resized them without applying EXIF orientation, so smartphone photos shot in portrait (which are stored as landscape pixels + an EXIF Orientation tag) were saved rotated. Added PIL.ImageOps.exif_transpose after every Image.open() in both classes (local + remote storage paths — 4 call sites total).
+    - Fix photo tagging rows deleted or shifted to a different Photo ID after saving (issue #50 — Catnip19). tableInsertData in 12 form modules had two bugs: (1) self.data_list.sort() reordered rows lexicographically before repopulating, so photo_id "10" landed before "2" and users saw descriptions attached to the wrong row; (2) the row-clearing loop iterated on columnCount() instead of rowCount() and used growing indices while rows shifted down after each removeRow, leaving orphan rows behind that then re-appeared "shifted to the bottom" on the next fill. Replaced with a while rowCount() > 0 loop and dropped the sort. Patched: UW_mainapp, ANC_mainapp, ART_mainapp, Pottery_mainapp, Shipwreck, ANC_CON, ART_CON, Pottery_CON, Site, Image_viewer, Pdf_administrator, Eamena.
+    11.12:
     - Add Quantity (qty) field to the Pottery form (issue #48 — Catnip19). The Python layer (POTTERY entity, POTTERY_table mapper, insert_pottery_values, TABLE_FIELDS, lineEdit_qty in the .ui) was already wired but the column was missing from schema.sql and from databases authored before the bundled SQLite template gained it.
     - Add idempotent migration (component=pottery_qty_column, v1) that ALTERs pottery_table to ADD COLUMN qty INTEGER DEFAULT 1 on pre-11.12 SQLite and PostgreSQL databases. Pre-existing rows are backfilled to qty=1, matching the form's empty-text fallback.
     - schema.sql (used to bootstrap new PostgreSQL installs) now includes qty integer DEFAULT 1 in CREATE TABLE public.pottery_table so freshly-created databases ship with the column from day one.
