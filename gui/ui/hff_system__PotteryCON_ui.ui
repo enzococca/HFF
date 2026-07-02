@@ -1051,9 +1051,6 @@
            <property name="autoFormatting">
             <set>QTextEdit::AutoAll</set>
            </property>
-           <property name="overwriteMode">
-            <bool>true</bool>
-           </property>
            <property name="tabStopDistance">
             <double>80.000000000000000</double>
            </property>
