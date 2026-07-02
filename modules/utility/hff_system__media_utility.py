@@ -24,7 +24,7 @@ from __future__ import print_function
 import os
 import io
 import shutil
-from PIL import Image
+from PIL import Image, ImageOps
 from builtins import object
 from builtins import str
 from qgis.PyQt.QtWidgets import QMessageBox
@@ -449,6 +449,7 @@ class Media_utility(object):
         else:
             # Local storage
             im = Image.open(infile)
+            im = ImageOps.exif_transpose(im)
             im.thumbnail(size, Image.LANCZOS)
             im.save(outfile, dpi=(100, 100))
 
@@ -467,6 +468,8 @@ class Media_utility(object):
             im = Image.open(io.BytesIO(data))
         else:
             im = Image.open(infile)
+
+        im = ImageOps.exif_transpose(im)
 
         # Process thumbnail
         im.thumbnail(size, Image.LANCZOS)
@@ -517,6 +520,7 @@ class Media_utility_resize(object):
         else:
             # Local storage
             im = Image.open(infile)
+            im = ImageOps.exif_transpose(im)
             im.thumbnail(size, Image.LANCZOS)
             im.save(outfile, dpi=(300, 300))
 
@@ -535,6 +539,8 @@ class Media_utility_resize(object):
             im = Image.open(io.BytesIO(data))
         else:
             im = Image.open(infile)
+
+        im = ImageOps.exif_transpose(im)
 
         # Process resize
         im.thumbnail(size, Image.LANCZOS)
