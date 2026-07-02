@@ -2101,16 +2101,13 @@ class hff_system_ANC_CON(QDialog, MAIN_DIALOG_CLASS):
         """Set the value into alls Grid"""
         self.table_name = t
         self.data_list = eval(d)
-        self.data_list.sort()
-        # column table count
-        table_col_count_cmd = ("%s.columnCount()") % (self.table_name)
-        table_col_count = eval(table_col_count_cmd)
-        # clear table
-        table_clear_cmd = ("%s.clearContents()") % (self.table_name)
-        eval(table_clear_cmd)
-        for i in range(table_col_count):
-            table_rem_row_cmd = ("%s.removeRow(%d)") % (self.table_name, i)
-            eval(table_rem_row_cmd)
+        # clear all rows before repopulating — the old loop iterated on
+        # columnCount() (wrong dimension) with growing indices while rows
+        # shifted, leaving orphan rows. self.data_list.sort() was also
+        # reordering rows lexicographically, so photo_id="10" landed before
+        # "2" and descriptions appeared attached to the wrong row.
+        while eval(("%s.rowCount()") % (self.table_name)) > 0:
+            eval(("%s.removeRow(0)") % (self.table_name))
             # for i in range(len(self.data_list)):
             # self.insert_new_row(self.table_name)
         for row in range(len(self.data_list)):

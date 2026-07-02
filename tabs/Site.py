@@ -1247,31 +1247,15 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
 
         self.data_list = eval(d)
 
-        self.data_list.sort()
+        # clear all rows before repopulating — the old loop iterated on
+        # columnCount() (wrong dimension) with growing indices while rows
+        # shifted, leaving orphan rows. self.data_list.sort() was also
+        # reordering rows lexicographically, so photo_id="10" landed before
+        # "2" and descriptions appeared attached to the wrong row.
 
+        while eval("{}.rowCount()".format(self.table_name)) > 0:
 
-
-        # column table count
-
-        table_col_count_cmd = "{}.columnCount()".format(self.table_name)
-
-        table_col_count = eval(table_col_count_cmd)
-
-
-
-        # clear table
-
-        table_clear_cmd = "{}.clearContents()".format(self.table_name)
-
-        eval(table_clear_cmd)
-
-
-
-        for i in range(table_col_count):
-
-            table_rem_row_cmd = "{}.removeRow(int({}))".format(self.table_name, i)
-
-            eval(table_rem_row_cmd)
+            eval("{}.removeRow(0)".format(self.table_name))
 
 
 
