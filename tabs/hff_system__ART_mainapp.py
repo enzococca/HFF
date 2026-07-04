@@ -1051,7 +1051,7 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 # Verifica se l'immagine è già in cache
                 if thumb_path not in self.image_cache:
                     # Se non è in cache, carica l'immagine
-                    icon = QIcon(thumb_path_str + thumb_path)
+                    icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
 
                     # Se la cache ha raggiunto il limite, rimuove l'elemento più vecchio
                     if len(self.image_cache) >= self.cache_limit:
@@ -1067,7 +1067,7 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
                 item = QListWidgetItem(str(i.media_filename))
                 item.setData(Qt.UserRole, str(i.media_filename))
-                icon = QIcon(thumb_path_str + thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
 
                 item.setBackground(ThemeManager.instance().get_table_highlight_color())
@@ -1118,7 +1118,7 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 # Verifica se l'immagine è già in cache
                 if thumb_path not in self.image_cache:
                     # Se non è in cache, carica l'immagine
-                    icon = QIcon(thumb_path_str + thumb_path)
+                    icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
 
                     # Se la cache ha raggiunto il limite, rimuove l'elemento più vecchio
                     if len(self.image_cache) >= self.cache_limit:
@@ -1145,7 +1145,7 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 us_list = [g.id_entity for g in mediatoentity_data if 'POT_CON' in g.entity_type]
                 item = QListWidgetItem(str(i.media_filename))
                 item.setData(Qt.UserRole, str(i.media_filename))
-                icon = QIcon(thumb_path_str + thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 if us_list:
 
@@ -1337,7 +1337,7 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
             # crea una QIcon con l'immagine
             # icon = QIcon(thumb_path_str + thumb_path)
-            icon = QIcon(thumb_path_str + data[0].filepath)  # utilizza il percorso del file per creare l'icona
+            icon = QIcon(Utility.resolve_media_path(thumb_path_str, data[0].filepath))  # utilizza il percorso del file per creare l'icona
             # QMessageBox.information(self,'ok',str(thumb_path_str + data[0].filepath))
             # imposta l'icona dell'elemento
             list_item.setIcon(icon)
@@ -1815,7 +1815,7 @@ class hff_system__ART(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole,str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif mode == 1:

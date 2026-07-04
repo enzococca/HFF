@@ -19,8 +19,49 @@
  ***************************************************************************/
 """
 
+import os
+import re
+
 
 class Utility:
+
+    @staticmethod
+    def resolve_media_path(base_dir, filename):
+        """Resolve the absolute path of a thumbnail/media file.
+
+        The DB stores the bare file name while the folder comes from the
+        config: a plain string concatenation breaks when the configured
+        path has no trailing separator, when the record holds a full
+        path from another machine, or when the file on disk was
+        recreated with a different numeric id prefix. Try the exact
+        locations first, then fall back to matching the logical name
+        inside the folder."""
+        base_dir = str(base_dir or '')
+        filename = str(filename or '')
+
+        # historical concatenation: valid when base_dir ends with a separator
+        direct = base_dir + filename
+        if filename and os.path.exists(direct):
+            return direct
+
+        name = os.path.basename(filename.replace('\\', '/'))
+        joined = os.path.join(base_dir, name)
+        if name and os.path.exists(joined):
+            return joined
+
+        # file saved with a different "<id>_" prefix than the recorded one
+        match = re.match(r'^\d+_(.+)$', name)
+        if match and os.path.isdir(base_dir):
+            tail = '_' + match.group(1)
+            try:
+                for entry in sorted(os.listdir(base_dir)):
+                    if entry.endswith(tail):
+                        return os.path.join(base_dir, entry)
+            except OSError:
+                pass
+
+        return direct
+
     def pos_none_in_list(self, l):
 
         """take a list of values and return the position number of the values

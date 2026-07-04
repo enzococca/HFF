@@ -752,7 +752,7 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path_2 = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole,str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path_2)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path_2))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif mode == 1:
@@ -782,7 +782,7 @@ class hff_system__Site(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole,str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget_2.addItem(item)
         elif mode == 1:

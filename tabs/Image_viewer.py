@@ -1659,7 +1659,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = data[i].filepath
                 # QMessageBox.warning(self, "Errore",str(thumb_path),  QMessageBox.Ok)
                 item.setData(Qt.UserRole, str(data[i].media_filename ))
-                icon = QIcon(thumb_path_str+thumb_path)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
                 # Button utility
@@ -2144,7 +2144,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif self.radioButton_p_uw.isChecked()==True:
@@ -2209,7 +2209,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif self.radioButton_shipwreck.isChecked()==True:
@@ -2274,7 +2274,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         
@@ -2340,7 +2340,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif self.radioButton_art.isChecked()==True:
@@ -2405,7 +2405,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif self.radioButton_pot.isChecked()==True:
@@ -2470,7 +2470,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
 
@@ -2543,7 +2543,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif self.radioButton_art_con.isChecked()==True:
@@ -2608,7 +2608,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif self.radioButton_pot_con.isChecked()==True:
@@ -2673,7 +2673,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
 
@@ -2755,7 +2755,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
         elif self.radioButton_spm.isChecked()==True:
@@ -2820,7 +2820,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
                 item.setData(Qt.UserRole, str(i.media_name))
-                icon = QIcon(thumb_path_str+thumb_path)
+                icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
     
