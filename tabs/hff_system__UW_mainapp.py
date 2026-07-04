@@ -2390,11 +2390,13 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 # self.new_list_widget.clear()
                 self.new_list_widget.addItem(item)
 
-            # Calcola il numero totale di pagine
-            self.total_pages = math.ceil(len(filtered_images) / self.page_size)
+        # Calcola il numero totale di pagine — a livello di metodo così vale
+        # anche per il ramo >100 immagini, che prima lasciava total_pages a 0
+        # e bloccava la navigazione oltre le 5 pagine iniziali
+        self.total_pages = math.ceil(len(filtered_images) / self.page_size)
 
-            # Aggiorna l'aspetto delle etichette dei numeri delle pagine
-            self.update_page_labels()
+        # Aggiorna l'aspetto delle etichette dei numeri delle pagine
+        self.update_page_labels()
 
 
     def on_pushButton_all_images_pressed(self):
@@ -2681,11 +2683,13 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 # self.new_list_widget.clear()
                 self.new_list_widget.addItem(item)
 
-            # Calcola il numero totale di pagine
-            self.total_pages = math.ceil(len(filtered_images) / self.page_size)
+        # Calcola il numero totale di pagine — a livello di metodo così vale
+        # anche per il ramo >100 immagini, che prima lasciava total_pages a 0
+        # e bloccava la navigazione oltre le 5 pagine iniziali
+        self.total_pages = math.ceil(len(filtered_images) / self.page_size)
 
-            # Aggiorna l'aspetto delle etichette dei numeri delle pagine
-            self.update_page_labels()
+        # Aggiorna l'aspetto delle etichette dei numeri delle pagine
+        self.update_page_labels()
 
     def update_page_labels(self):
         # Disabilita il pulsante "Indietro" se siamo alla prima pagina
@@ -2694,10 +2698,24 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         # Disabilita il pulsante "Avanti" se siamo all'ultima pagina
         self.nextButton.setEnabled(self.current_page < self.total_pages)
 
-        # Aggiorna l'aspetto delle etichette dei numeri delle pagine
-        for label in self.pageLabels:
-            page_number = int(label.text())
-            label.setEnabled(page_number != self.current_page)
+        # Le etichette mostrano una finestra scorrevole di pagine centrata
+        # sulla pagina corrente (prima erano fisse su 1-5)
+        start_page = max(1, min(self.current_page - 2,
+                                self.total_pages - len(self.pageLabels) + 1))
+        for offset, label in enumerate(self.pageLabels):
+            page_number = start_page + offset
+            if page_number <= self.total_pages:
+                label.setText(str(page_number))
+                label.setVisible(True)
+                label.setEnabled(page_number != self.current_page)
+                # riaggancia il click al numero di pagina mostrato ora,
+                # riusando l'handler impostato alla creazione dell'etichetta
+                # (on_page_label_clicked o on_page_label_2_clicked)
+                click_handler = getattr(label.mousePressEvent, 'func', None)
+                if click_handler is not None:
+                    label.mousePressEvent = functools.partial(click_handler, page_number)
+            else:
+                label.setVisible(False)
 
         # Aggiorna l'etichetta della pagina corrente e del totale delle pagine
         self.current_page_label.setText(f"Current page: {self.current_page}")
@@ -2722,25 +2740,29 @@ class hff_system__UW(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     def go_to_previous_page_2(self):
         if self.current_page > 1:
             self.current_page -= 1
-            self.load_images(self.current_filter_text)
+            self.load_images_2(self.current_filter_text)
 
     def go_to_next_page_2(self):
         if self.current_page < self.total_pages:
             self.current_page += 1
-            self.load_images(self.current_filter_text)
+            self.load_images_2(self.current_filter_text)
 
     def on_page_label_2_clicked(self, page, _=None):
         if page != self.current_page:
             self.current_page = page
-            self.load_images(self.current_filter_text)
+            self.load_images_2(self.current_filter_text)
 
     def filter_items(self):
         # Ottieni il testo corrente nel campo di ricerca
         self.current_filter_text = self.search_field.text().lower()
+        # Riparti dalla prima pagina quando cambia il filtro
+        self.current_page = 1
         self.load_images(self.current_filter_text)
     def filter_items_2(self):
         # Ottieni il testo corrente nel campo di ricerca
         self.current_filter_text = self.search_field.text().lower()
+        # Riparti dalla prima pagina quando cambia il filtro
+        self.current_page = 1
         self.load_images_2(self.current_filter_text)
     def on_done_selecting_all(self):
 
