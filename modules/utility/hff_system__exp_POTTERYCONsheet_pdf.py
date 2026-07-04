@@ -83,15 +83,19 @@ class single_pottery_pdf_sheet:
         return today
 
     def unzip_ce(self,option):
+        self.inclusi_print = ""
         if option == '':
             pass
         else:
-            self.inclusi_print = ""
             for string_inclusi in safe_eval_list(option):
-                if len(string_inclusi) == 2:
-                    self.inclusi_print += str(string_inclusi[0]) + ": " + str(string_inclusi[1]) + "<br/>"
-                if len(string_inclusi) == 1:
-                    self.inclusi_print += str(string_inclusi[0]) + "<br/>"
+                # righe con un numero variabile di colonne (es. la tabella
+                # desalinizzazione ha Date, PPM, Time, µS/cm): la prima fa da
+                # etichetta, le altre vengono elencate di seguito
+                values = [str(v) for v in string_inclusi if str(v).strip()]
+                if len(values) >= 2:
+                    self.inclusi_print += values[0] + ": " + " - ".join(values[1:]) + "<br/>"
+                elif len(values) == 1:
+                    self.inclusi_print += values[0] + "<br/>"
         return self.inclusi_print
 
     def unzip_damage(self):
@@ -178,7 +182,7 @@ class single_pottery_pdf_sheet:
         l_concretion = Paragraph("<b>Concretion and description</b><br/>" , styNormal)
         l_bio = Paragraph("<b>Bio and description</b><br/>" , styNormal)
         procedure = Paragraph("<b>Procedure</b><br/>" + str(self.procedure), styNormal)
-        l_desalination_date = Paragraph("<b>Desalination Date and PPM</b><br/>" , styNormal)
+        l_desalination_date = Paragraph("<b>Desalination: Date, PPM, Time, µS/cm</b><br/>" , styNormal)
 
         ce_list = self.unzip_ce(self.conserved_element)
         conserved_element = Paragraph(ce_list, styNormal)
