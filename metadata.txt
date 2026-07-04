@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.13
+version=11.14
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,11 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.13:
+changelog=11.14:
+    - Fix media tagging dialog stuck at the first 5 pages when the archive has more than 100 images (issue #52 — Catnip19). load_images only computed total_pages and refreshed the pager in its <=100-images branch, so with big archives total_pages stayed 0: the >>/<< buttons were inert and the only navigation left was the five hard-coded page labels — images beyond page 5 could not be tagged. total_pages is now computed for both branches, the page labels are a sliding window centered on the current page so any page is reachable, and the search filter restarts from page 1. Also fixed the UW form's second tagging dialog, whose prev/next/label handlers reloaded the wrong image list (load_images instead of load_images_2). Patched the duplicated dialog in UW/Pottery/ANC/ART mainapps, Shipwreck and the ANC/ART/Pottery Conservation forms.
+    - Fix thumbnails showing only the photo ID (no image) in the media lists although the thumbnail file exists on disk (issue #52 — Catnip19). Icons were built by naive string concatenation of the configured thumbnail folder and the file name recorded in media_thumb, with no separator handling and no fallback, so any drift between record and disk (folder configured without a trailing separator, a full path from another machine stored in the DB, or a file recreated with a different numeric id prefix) produced an invalid path and the icon silently fell back to text. New Utility.resolve_media_path() tries the legacy concatenation, then os.path.join on the base name, then searches the folder for the same logical file name; used at all 68 icon-loading sites across the 10 form modules.
+    - Add Time and µS/cm (conductivity) columns next to PPM in the Pottery Conservation desalination table (issue #52 — Catnip19). Users were writing the measurement time inside the PPM cell. table2dict now keeps empty cells as '' so values stay aligned to their column; old [date, ppm] records still load and export; the Excel export gains the two new columns and the PDF sheet renders rows with any number of columns.
+    11.13:
     - Fix Conservation form Observation textbox eating characters when editing existing text (issue #50 — Catnip19). The textEdit_observation QTextEdit in the three Conservation forms (Anchor / Artefact / Pottery) had overwriteMode=true set in Qt Designer, so typing anywhere except at the end of the text overwrote the character to the right of the cursor instead of inserting. Removed the property from ANCHORCON, ARTLOGCON and PotteryCON .ui files so the widgets fall back to normal insert mode.
     - Fix photos coming out rotated after upload (issue #50 — Catnip19). Media_utility and Media_utility_resize opened images with PIL and thumbnailed/resized them without applying EXIF orientation, so smartphone photos shot in portrait (which are stored as landscape pixels + an EXIF Orientation tag) were saved rotated. Added PIL.ImageOps.exif_transpose after every Image.open() in both classes (local + remote storage paths — 4 call sites total).
     - Fix photo tagging rows deleted or shifted to a different Photo ID after saving (issue #50 — Catnip19). tableInsertData in 12 form modules had two bugs: (1) self.data_list.sort() reordered rows lexicographically before repopulating, so photo_id "10" landed before "2" and users saw descriptions attached to the wrong row; (2) the row-clearing loop iterated on columnCount() instead of rowCount() and used growing indices while rows shifted down after each removeRow, leaving orphan rows behind that then re-appeared "shifted to the bottom" on the next fill. Replaced with a while rowCount() > 0 loop and dropped the sort. Patched: UW_mainapp, ANC_mainapp, ART_mainapp, Pottery_mainapp, Shipwreck, ANC_CON, ART_CON, Pottery_CON, Site, Image_viewer, Pdf_administrator, Eamena.
