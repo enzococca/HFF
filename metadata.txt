@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.14
+version=11.15
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,11 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.14:
+changelog=11.15:
+    - Add the Conservation forms to the Import data tab (issue #54 — Catnip19). The "HFF mapper table" menu now offers POTTERY_CON, ANC_CON and ART_CON, so Pottery/Anchor/Artefact Conservation records can be transferred between SQLite and PostgreSQL like the other forms. Records are renumbered on the target database and duplicates (same pottery_id / anchor_id / artefact_id) are skipped, ending with an "Imported: N, Skipped (duplicates): M" summary.
+    - Show a readable message when the selected form's table does not exist in the source database ("Unable to read <form> records from the source database…") instead of an unhandled sqlalchemy OperationalError traceback — this is what appeared when importing POTTERY from a SQLite that only contains conservation forms.
+    - Fix the Import data confirmation dialog: pressing Cancel displayed "Action aborted" but the import ran anyway (and could then crash with a NameError). Cancel now really aborts.
+    11.14:
     - Fix media tagging dialog stuck at the first 5 pages when the archive has more than 100 images (issue #52 — Catnip19). load_images only computed total_pages and refreshed the pager in its <=100-images branch, so with big archives total_pages stayed 0: the >>/<< buttons were inert and the only navigation left was the five hard-coded page labels — images beyond page 5 could not be tagged. total_pages is now computed for both branches, the page labels are a sliding window centered on the current page so any page is reachable, and the search filter restarts from page 1. Also fixed the UW form's second tagging dialog, whose prev/next/label handlers reloaded the wrong image list (load_images instead of load_images_2). Patched the duplicated dialog in UW/Pottery/ANC/ART mainapps, Shipwreck and the ANC/ART/Pottery Conservation forms.
     - Fix thumbnails showing only the photo ID (no image) in the media lists although the thumbnail file exists on disk (issue #52 — Catnip19). Icons were built by naive string concatenation of the configured thumbnail folder and the file name recorded in media_thumb, with no separator handling and no fallback, so any drift between record and disk (folder configured without a trailing separator, a full path from another machine stored in the DB, or a file recreated with a different numeric id prefix) produced an invalid path and the icon silently fell back to text. New Utility.resolve_media_path() tries the legacy concatenation, then os.path.join on the base name, then searches the folder for the same logical file name; used at all 68 icon-loading sites across the 10 form modules.
     - Add Time and µS/cm (conductivity) columns next to PPM in the Pottery Conservation desalination table (issue #52 — Catnip19). Users were writing the measurement time inside the PPM cell. table2dict now keeps empty cells as '' so values stay aligned to their column; old [date, ppm] records still load and export; the Excel export gains the two new columns and the PDF sheet renders rows with any number of columns.
