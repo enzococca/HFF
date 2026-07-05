@@ -2108,9 +2108,10 @@ class hff_system_ANC_CON(QDialog, MAIN_DIALOG_CLASS):
             sub_list = []
             for c in range(col):
                 value = eval(self.tablename + ".item(r,c)")
-                if value != None:
-                    sub_list.append(str(value.text()))
-            if bool(sub_list):
+                # le celle vuote diventano '' invece di essere saltate,
+                # così i valori restano allineati alla propria colonna
+                sub_list.append(str(value.text()) if value is not None else '')
+            if any(v.strip() for v in sub_list):
                 lista.append(sub_list)
         return lista
 
@@ -2954,17 +2955,19 @@ class hff_system_ANC_CON(QDialog, MAIN_DIALOG_CLASS):
                 a = a.explode('desalination_date')
 
                 def adjust_value(x):
+                    # normalizza a 4 colonne: i record vecchi hanno solo
+                    # [data, ppm], i nuovi anche time e µS/cm
                     if x is None:
-                        return [None, None]
+                        return [None] * 4
                     elif isinstance(x, float):
-                        return [x, None]
+                        return [x] + [None] * 3
                     else:
-                        return (x + [None, None])[:2]
+                        return (list(x) + [None] * 4)[:4]
 
                 a['desalination_date'] = a['desalination_date'].apply(adjust_value)
 
                 # Create separate DataFrame for Date and PPM
-                a[['Date', 'PPM']] = pd.DataFrame(a.desalination_date.tolist(), index=a.index)
+                a[['Date', 'PPM', 'Time', 'µS/cm']] = pd.DataFrame(a.desalination_date.tolist(), index=a.index)
                 a = a.drop(columns=['desalination_date'])
 
                 # Apri la finestra di dialogo per selezionare la cartella
@@ -2991,17 +2994,19 @@ class hff_system_ANC_CON(QDialog, MAIN_DIALOG_CLASS):
                 a = a.explode('desalination_date')
 
                 def adjust_value(x):
+                    # normalizza a 4 colonne: i record vecchi hanno solo
+                    # [data, ppm], i nuovi anche time e µS/cm
                     if x is None:
-                        return [None, None]
+                        return [None] * 4
                     elif isinstance(x, float):
-                        return [x, None]
+                        return [x] + [None] * 3
                     else:
-                        return (x + [None, None])[:2]
+                        return (list(x) + [None] * 4)[:4]
 
                 a['desalination_date'] = a['desalination_date'].apply(adjust_value)
 
                 # Create separate DataFrame for Date and PPM
-                a[['Date', 'PPM']] = pd.DataFrame(a.desalination_date.tolist(), index=a.index)
+                a[['Date', 'PPM', 'Time', 'µS/cm']] = pd.DataFrame(a.desalination_date.tolist(), index=a.index)
                 a = a.drop(columns=['desalination_date'])
                 # Apri la finestra di dialogo per selezionare la cartella
                 folder_selected = QFileDialog.getSaveFileName(self, "Save File", "", "Excel Files (*.xlsx)")[0]
