@@ -1000,6 +1000,21 @@
              <string>SHIPWRECK</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>POTTERY_CON</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ANC_CON</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ART_CON</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item row="20" column="8">

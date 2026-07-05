@@ -2732,6 +2732,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
 
             else:
                 QMessageBox.warning(self, tr('title_warning'), "Action aborted" ,  QMessageBox.Ok)
+            return 0
 
         else:
         
@@ -2745,8 +2746,11 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 'MEDIA_THUMB': 'id_media_thumb',
                 'MEDIATOENTITY':'id_mediaToEntity',
                 'EAMENA':'id_eamena',
-                'SHIPWRECK':'id_shipwreck'
-            }       
+                'SHIPWRECK':'id_shipwreck',
+                'POT_c':'id_pot',
+                'ANC_c':'id_anc',
+                'ART_c':'id_art'
+            }
             # creazione del cursore di lettura
             # if os.name == 'posix':
                 # home = os.environ['HOME']
@@ -2794,8 +2798,24 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         search_dict = {
             self.lineEdit_field_rd.text(): "'" + str(self.lineEdit_value_rd.text()) + "'"
         }
-        mapper_class_read = str(self.comboBox_mapper_read.currentText())
-        res_read = self.DB_MANAGER_read.query_bool(search_dict, mapper_class_read)
+        mapper_class_display = str(self.comboBox_mapper_read.currentText())
+        # i form Conservation compaiono nel menu con un nome leggibile,
+        # ma le classi entity corrispondenti si chiamano POT_c/ANC_c/ART_c
+        conservation_class_dict = {
+            'POTTERY_CON': 'POT_c',
+            'ANC_CON': 'ANC_c',
+            'ART_CON': 'ART_c'
+        }
+        mapper_class_read = conservation_class_dict.get(mapper_class_display, mapper_class_display)
+        try:
+            res_read = self.DB_MANAGER_read.query_bool(search_dict, mapper_class_read)
+        except Exception as e:
+            QMessageBox.warning(self, tr('title_alert'),
+                                "Unable to read %s records from the source database.<br>"
+                                "Check that the source database really contains data "
+                                "for this form.<br><br>%s" % (mapper_class_display, str(e)),
+                                QMessageBox.Ok)
+            return 0
         ####INSERISCE I DATI DA UPLOADARE DENTRO ALLA LISTA DATA_LIST_TOIMP
         data_list_toimp = []
         for i in res_read:
@@ -2842,7 +2862,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                                 # QMessageBox.Ok)
         # else:
             # QMessageBox.warning(self, tr('title_alert'), tr('msg_connection_error') + ": <br>" + test, QMessageBox.Ok)
-        mapper_class_write = str(self.comboBox_mapper_read.currentText())
+        mapper_class_write = mapper_class_read
         ####eamena table
         if mapper_class_write == 'EAMENA' :
             skipped = 0
@@ -3621,7 +3641,139 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
             else:
                 QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
-    
+        elif mapper_class_write == 'POT_c' :
+            skipped = 0
+            imported = 0
+            for sing_rec in range(len(data_list_toimp)):
+                try:
+                    data = self.DB_MANAGER_write.insert_potterycon_values(
+                        self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                         id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                        data_list_toimp[sing_rec].site,
+                        data_list_toimp[sing_rec].pottery_id,
+                        data_list_toimp[sing_rec].obj_partial,
+                        data_list_toimp[sing_rec].author,
+                        data_list_toimp[sing_rec].star_date,
+                        data_list_toimp[sing_rec].end_date,
+                        data_list_toimp[sing_rec].state_conservation,
+                        data_list_toimp[sing_rec].observation,
+                        data_list_toimp[sing_rec].conserved_element,
+                        data_list_toimp[sing_rec].damage,
+                        data_list_toimp[sing_rec].concretion,
+                        data_list_toimp[sing_rec].bio,
+                        data_list_toimp[sing_rec].procedure,
+                        data_list_toimp[sing_rec].desalination_date)
+
+                    self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
+                    QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
+                    return 0
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+        elif mapper_class_write == 'ANC_c' :
+            skipped = 0
+            imported = 0
+            for sing_rec in range(len(data_list_toimp)):
+                try:
+                    data = self.DB_MANAGER_write.insert_anccon_values(
+                        self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                         id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                        data_list_toimp[sing_rec].site,
+                        data_list_toimp[sing_rec].anchor_id,
+                        data_list_toimp[sing_rec].obj_partial,
+                        data_list_toimp[sing_rec].author,
+                        data_list_toimp[sing_rec].star_date,
+                        data_list_toimp[sing_rec].end_date,
+                        data_list_toimp[sing_rec].state_conservation,
+                        data_list_toimp[sing_rec].observation,
+                        data_list_toimp[sing_rec].measure,
+                        data_list_toimp[sing_rec].damage,
+                        data_list_toimp[sing_rec].concretion,
+                        data_list_toimp[sing_rec].bio,
+                        data_list_toimp[sing_rec].procedure,
+                        data_list_toimp[sing_rec].desalination_date)
+
+                    self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
+                    QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
+                    return 0
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+        elif mapper_class_write == 'ART_c' :
+            skipped = 0
+            imported = 0
+            for sing_rec in range(len(data_list_toimp)):
+                try:
+                    data = self.DB_MANAGER_write.insert_artcon_values(
+                        self.DB_MANAGER_write.max_num_id(mapper_class_write,
+                                                         id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
+                        data_list_toimp[sing_rec].site,
+                        data_list_toimp[sing_rec].artefact_id,
+                        data_list_toimp[sing_rec].obj_partial,
+                        data_list_toimp[sing_rec].author,
+                        data_list_toimp[sing_rec].star_date,
+                        data_list_toimp[sing_rec].end_date,
+                        data_list_toimp[sing_rec].state_conservation,
+                        data_list_toimp[sing_rec].observation,
+                        data_list_toimp[sing_rec].damage,
+                        data_list_toimp[sing_rec].corrosion,
+                        data_list_toimp[sing_rec].concretion,
+                        data_list_toimp[sing_rec].bio,
+                        data_list_toimp[sing_rec].procedure,
+                        data_list_toimp[sing_rec].desalination_date)
+
+                    self.DB_MANAGER_write.insert_data_session(data)
+                    imported += 1
+                    # Calculate the progress as a percentage
+                    value = (float(sing_rec) / float(len(data_list_toimp))) * 100
+                    # Convert the progress value to an integer
+                    int_value = int(value)
+                    # Update the progress bar with the integer value
+                    self.progress_bar.setValue(int_value)
+                    QApplication.processEvents()
+                except IntegrityError:
+                    skipped += 1
+                    self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
+                    QApplication.processEvents()
+                except Exception as e:
+                    QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
+                    return 0
+            if skipped > 0:
+                QMessageBox.information(self, tr('title_message'),
+                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
+            else:
+                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+
     # def on_pushButton_connect_pressed(self):
         # # Defines parameter
         # self.ip=str(self.lineEdit_ip.text())
