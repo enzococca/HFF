@@ -312,6 +312,7 @@ class single_ANC_pdf_sheet:
         #table style - Professional styling with blue header
         table_style=[
                     ('GRID',(0,0),(-1,-1),0.5,HFF_GRAY_DARK),
+                    ('VALIGN', (0,0), (-1,-1), 'TOP'),
                     # Header row styling
                     ('BACKGROUND', (0,0), (-1,0), HFF_BLUE),
                     ('TEXTCOLOR', (0,0), (-1,0), colors.white),
@@ -403,7 +404,11 @@ class single_ANC_pdf_sheet:
 
 
 
-        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style)
+        # splitInRow: i campi liberi (description, comparison...) possono
+        # superare l'altezza della pagina; senza questo flag ReportLab
+        # solleva LayoutError e il PDF non viene generato
+        t = Table(cell_schema, colWidths=colWidths, rowHeights=rowHeights, style=table_style,
+                  splitByRow=1, splitInRow=1)
 
 
 

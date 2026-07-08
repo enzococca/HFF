@@ -2820,15 +2820,25 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         return data_list
     
     def on_pushButton_print_pressed(self):
-       
-        
+        if not (self.checkBox_s_pottery.isChecked()
+                or self.checkBox_e_pottery.isChecked()
+                or self.checkBox_e_foto_t.isChecked()
+                or self.checkBox_e_foto.isChecked()):
+            QMessageBox.warning(self, tr('title_warning'),
+                                "Select at least one export option before printing.",
+                                QMessageBox.Ok)
+            return
+
         if self.checkBox_s_pottery.isChecked():
-            pottery_pdf_sheet = generate_POTTERY_pdf()
-            data_list = self.generate_list_pdf()
-            pottery_pdf_sheet.build_POTTERY_sheets(data_list)
-            QMessageBox.warning(self, tr('success'), tr('msg_export_completed'),QMessageBox.Ok)
-        else:   
-            pass
+            try:
+                pottery_pdf_sheet = generate_POTTERY_pdf()
+                data_list = self.generate_list_pdf()
+                pottery_pdf_sheet.build_POTTERY_sheets(data_list)
+                QMessageBox.warning(self, tr('success'), tr('msg_export_completed'),QMessageBox.Ok)
+            except Exception as e:
+                QMessageBox.warning(self, tr('title_warning'),
+                                    "Unable to export the PDF forms.<br><br>%s" % str(e),
+                                    QMessageBox.Ok)
     
         if self.checkBox_e_pottery.isChecked() :
             POTTERY_index_pdf = generate_POTTERY_pdf()

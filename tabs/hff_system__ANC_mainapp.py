@@ -3713,15 +3713,25 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         return data_list    
     
     def on_pushButton_print_pressed(self):
-       
-        
+        if not (self.checkBox_s_pottery.isChecked()
+                or self.checkBox_e_pottery.isChecked()
+                or self.checkBox_e_foto_t.isChecked()
+                or self.checkBox_e_foto.isChecked()):
+            QMessageBox.warning(self, tr('title_warning'),
+                                "Select at least one export option before printing.",
+                                QMessageBox.Ok)
+            return
+
         if self.checkBox_s_pottery.isChecked():
-            anc_pdf_sheet = generate_ANC_pdf()
-            data_list = self.generate_list_pdf()
-            anc_pdf_sheet.build_ANC_sheets(data_list)
-            QMessageBox.warning(self, tr('success'), tr('msg_export_completed'),QMessageBox.Ok)
-        else:   
-            pass
+            try:
+                anc_pdf_sheet = generate_ANC_pdf()
+                data_list = self.generate_list_pdf()
+                anc_pdf_sheet.build_ANC_sheets(data_list)
+                QMessageBox.warning(self, tr('success'), tr('msg_export_completed'),QMessageBox.Ok)
+            except Exception as e:
+                QMessageBox.warning(self, tr('title_warning'),
+                                    "Unable to export the PDF forms.<br><br>%s" % str(e),
+                                    QMessageBox.Ok)
     
         if self.checkBox_e_pottery.isChecked() :
             ANC_index_pdf = generate_ANC_pdf()
