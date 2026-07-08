@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.16
+version=11.17
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,10 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.16:
+changelog=11.17:
+    - Fix PDF export of the Anchor, Pottery and Artefact forms not saving to HFF_PDF_folder (issue #56 — Catnip19). The single-sheet PDF is one table whose rows could not split across pages: any long free-text field (Description, Comparison, Observation…) made ReportLab abort with "LayoutError: Flowable Table too large on page" and no usable PDF was produced. The sheet tables now split oversized rows onto the next page and cells are top-aligned, so long descriptions flow over multiple pages while short records keep their one-page layout.
+    - Print button in the same three forms: show a warning when no export option checkbox is selected (previously nothing happened, silently) and report export errors with a readable message instead of an unhandled traceback.
+    11.16:
     - Add Time and µS/cm (conductivity) columns next to PPM in the desalination table of the Anchor and Artefact Conservation forms (issue #55 — Catnip19). Same change the Pottery Conservation form received in v11.14: table2dict keeps empty cells as '' so values stay aligned to their column, old [date, ppm] records still load and export, and the Excel export gains the two new columns. No PDF changes needed — the Artefact form reuses the already-generalized Pottery Conservation PDF sheet and the Anchor form's PDF export is disabled.
     11.15:
     - Add the Conservation forms to the Import data tab (issue #54 — Catnip19). The "HFF mapper table" menu now offers POTTERY_CON, ANC_CON and ART_CON, so Pottery/Anchor/Artefact Conservation records can be transferred between SQLite and PostgreSQL like the other forms. Records are renumbered on the target database and duplicates (same pottery_id / anchor_id / artefact_id) are skipped, ending with an "Imported: N, Skipped (duplicates): M" summary.
