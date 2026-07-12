@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.17
+version=11.18
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,10 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.17:
+changelog=11.18:
+    - Divelog PDF: align the sheet with the per-diver data model introduced in issue #45 (issue #56 — Catnip19). The top section now shows the dive-level Max Depth (the old dive-level Bottom Time field was always empty because bottom time is recorded per diver since #45), and the Divers table shows each diver's Bottom time instead of the no-longer-populated per-diver max depth. Works on older databases whose divers table has no bottom_time column yet.
+    - Divelog PDF: the sheet title in the blue banner was rendered blue-on-blue (invisible); it is now white.
+    11.17:
     - Fix PDF export of the Anchor, Pottery and Artefact forms not saving to HFF_PDF_folder (issue #56 — Catnip19). The single-sheet PDF is one table whose rows could not split across pages: any long free-text field (Description, Comparison, Observation…) made ReportLab abort with "LayoutError: Flowable Table too large on page" and no usable PDF was produced. The sheet tables now split oversized rows onto the next page and cells are top-aligned, so long descriptions flow over multiple pages while short records keep their one-page layout.
     - Print button in the same three forms: show a warning when no export option checkbox is selected (previously nothing happened, silently) and report export errors with a readable message instead of an unhandled traceback.
     11.16:
