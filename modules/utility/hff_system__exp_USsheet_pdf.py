@@ -20,7 +20,7 @@ from ..db.hff_system__conn_strings import Connection as _DiversConnection
 
 def _fetch_divers_for_dive(site, divelog_id, years):
     """Query divers + diver_segments for one dive. Returns a list of
-    dicts: [{"name", "role", "time_in", "time_out", "max_depth",
+    dicts: [{"name", "role", "time_in", "time_out", "bottom_time",
     "segments": [{"mix","bar_start","bar_end","delta_p"}, ...]}, ...].
     Empty list when the new tables are absent or have no rows."""
     if not (site and divelog_id is not None and years is not None):
@@ -34,12 +34,22 @@ def _fetch_divers_for_dive(site, divelog_id, years):
     out = []
     try:
         with engine.connect() as con:
-            rows = con.execute(text(
-                "SELECT id, diver_name, role, time_in, time_out, "
-                "max_depth FROM divers WHERE site=:s AND "
-                "divelog_id=:d AND years=:y ORDER BY id"
-            ), {"s": str(site), "d": int(divelog_id),
-                "y": int(years)}).fetchall()
+            # bottom_time was added in migration v2; on older DBs the
+            # column may be missing — fall back to a query without it.
+            try:
+                rows = con.execute(text(
+                    "SELECT id, diver_name, role, time_in, time_out, "
+                    "bottom_time FROM divers WHERE site=:s AND "
+                    "divelog_id=:d AND years=:y ORDER BY id"
+                ), {"s": str(site), "d": int(divelog_id),
+                    "y": int(years)}).fetchall()
+            except Exception:
+                rows = con.execute(text(
+                    "SELECT id, diver_name, role, time_in, time_out, "
+                    "NULL FROM divers WHERE site=:s AND "
+                    "divelog_id=:d AND years=:y ORDER BY id"
+                ), {"s": str(site), "d": int(divelog_id),
+                    "y": int(years)}).fetchall()
             for r in rows:
                 segs = con.execute(text(
                     "SELECT seq, breathing_mix, bar_start, bar_end, "
@@ -51,7 +61,7 @@ def _fetch_divers_for_dive(site, divelog_id, years):
                     "role": r[2] or "",
                     "time_in": r[3] or "",
                     "time_out": r[4] or "",
-                    "max_depth": "" if r[5] is None else str(r[5]),
+                    "bottom_time": "" if r[5] is None else str(r[5]),
                     "segments": [
                         {
                             "mix": s[1] or "",
@@ -141,22 +151,22 @@ def _render_divers_inline_table(divers, styles_normal, styles_header):
     if not divers:
         return Paragraph("<i>No normalized diver data.</i>", styles_normal)
 
-    rows = [["Diver", "Role", "Time in", "Time out", "Max depth",
+    rows = [["Diver", "Role", "Time in", "Time out", "Bottom time",
              "Mix", "Start", "End", "ΔP"]]
     for d in divers:
         name = d.get("name") or "—"
         role = d.get("role") or "no role"
         ti = d.get("time_in") or "–"
         to = d.get("time_out") or "–"
-        md = _strip_unit_suffix(d.get("max_depth")) or "–"
+        bt = d.get("bottom_time") or "–"
         # First row per diver: identity columns + first segment.
         expanded = _expand_segments(d.get("segments", []))
         if not expanded:
-            rows.append([name, role, ti, to, "{} m".format(md),
+            rows.append([name, role, ti, to, bt,
                          "–", "–", "–", "–"])
             continue
         first = expanded[0]
-        rows.append([name, role, ti, to, "{} m".format(md),
+        rows.append([name, role, ti, to, bt,
                      first.get("mix") or "–",
                      first.get("bar_start") or "–",
                      first.get("bar_end") or "–",
@@ -282,6 +292,16 @@ class single_US_pdf_sheet:
         styInt.alignment = 1  # CENTER
         styInt.textColor = HFF_BLUE  # Professional blue color
 
+        # Banner title sits on the HFF_BLUE band: needs white text (the
+        # Paragraph's own textColor wins over the table's TEXTCOLOR).
+        styleSheet = getSampleStyleSheet()
+        styBanner = styleSheet['Normal']
+        styBanner.spaceBefore = 20
+        styBanner.spaceAfter = 20
+        styBanner.fontSize = 12
+        styBanner.alignment = 1  # CENTER
+        styBanner.textColor = colors.white
+
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
@@ -310,7 +330,7 @@ class single_US_pdf_sheet:
         styTitoloComponenti.spaceAfter = 20
         styTitoloComponenti.fontSize = 9  # Increased from 6
         styTitoloComponenti.alignment = 1  # CENTER
-        intestazione = Paragraph("<b>Archaeological Underwater Survey - DIVELOG FORM<br/>" + "</b>", styInt)
+        intestazione = Paragraph("<b>Archaeological Underwater Survey - DIVELOG FORM<br/>" + "</b>", styBanner)
         home = os.environ['HFF_HOME']
         home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
@@ -331,10 +351,13 @@ class single_US_pdf_sheet:
         years = Paragraph("<b>Year</b><br/>"  + str(self.years), styNormal)
         # Legacy per-diver paragraphs (diver_1/2, additional_diver,
         # bar_start/end_diver1/2, dp_diver1/2, breathing_mix, time_in,
-        # time_out, max_depth) are intentionally blanked: the canonical
+        # time_out, bottom_time) are intentionally blanked: the canonical
         # source of diver info is now the "Divers" block appended below
         # by _render_divers_block(). The cell_schema slots they used to
         # occupy stay empty so the existing layout grid is preserved.
+        # Issue #45/#56: bottom_time is per-diver (divers.bottom_time,
+        # rendered inside the Divers table), while max_depth is a
+        # dive-level field shown in the summary rows below.
         diver_1 = ''
         diver_2 = ''
         diver_3 = ''
@@ -342,13 +365,18 @@ class single_US_pdf_sheet:
         tender = Paragraph("<b>Dive Supervisor</b><br/>" + self.tender,styNormal)
         bar_start = ''
         bar_end = ''
-        bottom_time = Paragraph("<b>Bottom Time</b><br/>"+ self.bottom_time,styNormal)
+        bottom_time = ''
         temperature = Paragraph("<b>UW Temperature</b><br/>"+ self.temperature,styNormal)
         visibility = Paragraph("<b>UW Visibility</b><br/>" + self.visibility,styNormal)
         current = Paragraph("<b>UW Current direction & strength</b><br/>" + self.current_,styNormal)
         wind = Paragraph("<b>Wind</b><br/>"+ self.wind,styNormal)
         breathing_mix = ''
-        max_depth = ''
+        _md = _strip_unit_suffix(self.max_depth)
+        if _md in ("None", "NULL"):
+            _md = ""
+        max_depth = Paragraph(
+            "<b>Max Depth</b><br/>" + ("{} m".format(_md) if _md else ""),
+            styNormal)
         surface_interval = Paragraph("<b>Surface Interval</b><br/>"+ self.surface_interval,styNormal)
         time_in = ''
         time_out = ''
@@ -425,8 +453,8 @@ class single_US_pdf_sheet:
             [standby, '', '', '', '', '',
              tender, '', '', '', '', '',
              wind, '', '', '', '', ''],
-            # Row 4 — bottom time | surface interval | (empty)
-            [bottom_time, '', '', '', '', '',
+            # Row 4 — max depth | surface interval | (empty)
+            [max_depth, '', '', '', '', '',
              surf_int_p, '', '', '', '', '',
              '', '', '', '', '', ''],
             # Row 5 — photo count | video count | camera
