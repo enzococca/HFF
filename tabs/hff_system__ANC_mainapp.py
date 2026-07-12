@@ -66,7 +66,7 @@ from ..modules.utility.hff_combobox_defaults import populate as _populate_cb
 from ..modules.utility.csv_writer import UnicodeWriter
 from ..modules.utility.hff_theme_manager import ThemeManager
 from ..modules.utility.hff_i18n import HffI18n, tr
-from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations, standardize_toolbar
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations, log_pdf_export_error, standardize_toolbar
 from ..modules.utility.hff_statistics import HffStatistics, StatisticsWidget
 from ..modules.utility.hff_statistics_mixin import StatisticsMixin, ANCHOR_STATS_FIELDS
 from ..gui.imageViewer import ImageViewer
@@ -3729,6 +3729,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 anc_pdf_sheet.build_ANC_sheets(data_list)
                 QMessageBox.warning(self, tr('success'), tr('msg_export_completed'),QMessageBox.Ok)
             except Exception as e:
+                log_pdf_export_error("Anchor")
                 QMessageBox.warning(self, tr('title_warning'),
                                     "Unable to export the PDF forms.<br><br>%s" % str(e),
                                     QMessageBox.Ok)
@@ -3744,6 +3745,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 else:
                     QMessageBox.warning(self, tr('title_warning'),"List  can't to be exported, you must fill before the form",QMessageBox.Ok)
             except Exception as e :
+                log_pdf_export_error("Anchor")
                 QMessageBox.warning(self, tr('title_warning'),str(e),QMessageBox.Ok)
         else:
             pass
@@ -3760,6 +3762,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     else:
                         QMessageBox.warning(self, tr('title_warning'),"Photo list can't to be exported, you must tag before the pics",QMessageBox.Ok)
             except Exception as e :
+                log_pdf_export_error("Anchor")
                 QMessageBox.warning(self, tr('title_warning'),str(e),QMessageBox.Ok)
         
         if self.checkBox_e_foto.isChecked():
@@ -3774,6 +3777,7 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     else:
                         QMessageBox.warning(self, 'Warniong',"Photo list can't to be exported because the image are not tagged",QMessageBox.Ok)
             except Exception as e :
+                log_pdf_export_error("Anchor")
                 QMessageBox.warning(self, tr('title_warning'),str(e),QMessageBox.Ok)
     def on_pushButton_exppdf_pressed(self):
         ANC_pdf_sheet = generate_ANC_pdf()

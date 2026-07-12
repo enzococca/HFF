@@ -874,6 +874,28 @@ UI_TEXT_TO_KEY = {
 }
 
 
+def log_pdf_export_error(form_name):
+    """Log the PDF-export exception currently being handled (full
+    traceback plus the installed reportlab version) to the QGIS Log
+    Messages panel, tab 'HFF'. The error popups only show str(e); this
+    gives users something complete to screenshot when reporting export
+    failures (issue #56). Call from inside an except block; never raises."""
+    import traceback
+    try:
+        from qgis.core import QgsMessageLog, Qgis
+        try:
+            import reportlab
+            rl_version = reportlab.Version
+        except Exception:
+            rl_version = "unknown"
+        QgsMessageLog.logMessage(
+            "%s PDF export failed (reportlab %s)\n%s"
+            % (form_name, rl_version, traceback.format_exc()),
+            "HFF", Qgis.Critical)
+    except Exception:
+        pass
+
+
 class HffFormMixin:
     """Mixin class providing i18n and theme support for HFF forms.
 
