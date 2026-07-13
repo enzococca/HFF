@@ -1676,3 +1676,12 @@ def standardize_toolbar(form):
             btn = getattr(form, btn_name)
             if isinstance(btn, (QPushButton, QToolButton)):
                 btn.setIconSize(icon_size)
+
+    # pushButton_form is a legacy duplicate of pushButton_print: same PDF
+    # icon, but no form defines a slot or connects it, so clicking it
+    # silently does nothing — users read that as "PDF export is broken"
+    # (issue #56). Hide it wherever it still exists in the .ui files
+    # (ANCHOR, ARTLOG, the three Conservation forms, SHIPWRECK).
+    legacy_form_btn = getattr(form, 'pushButton_form', None)
+    if isinstance(legacy_form_btn, (QPushButton, QToolButton)):
+        legacy_form_btn.setVisible(False)
