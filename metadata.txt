@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.19
+version=11.20
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,9 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.19:
+changelog=11.20:
+    - Hide the legacy second PDF button (pushButton_form) shown next to the working Print button in the Anchor, Artefact, Conservation and Shipwreck forms (issue #56). It had the same PDF icon but no action connected, so clicking it silently did nothing — which reads as "PDF export is broken".
+    11.19:
     - PDF export diagnostics (issue #56 follow-up): when a PDF export fails in the Anchor, Pottery or Artefact form, the full error (traceback and installed reportlab version) is now also written to the QGIS Log Messages panel under the "HFF" tab, so failures can be reported with a single screenshot. The error popup is unchanged.
     11.18:
     - Divelog PDF: align the sheet with the per-diver data model introduced in issue #45 (issue #56 — Catnip19). The top section now shows the dive-level Max Depth (the old dive-level Bottom Time field was always empty because bottom time is recorded per diver since #45), and the Divers table shows each diver's Bottom time instead of the no-longer-populated per-diver max depth. Works on older databases whose divers table has no bottom_time column yet.
