@@ -1692,12 +1692,20 @@ def standardize_toolbar(form):
     # Forms without a print handler hide them instead: the divelog (UW),
     # whose toolbar export already works via pushButton_exppdf, and the
     # ANC Conservation form, whose PDF export is disabled.
+    # The PDF button exports the single-form sheet plus the photo index
+    # (thumbnails) directly: the export dock is unreachable in the
+    # Pottery form (a floating QDockWidget with no geometry inside a
+    # QDialog never shows), so the toolbar click must not depend on
+    # checkboxes the user may be unable to tick. An existing checkbox
+    # selection is respected.
     print_handler = getattr(form, 'on_pushButton_print_pressed', None)
     toolbar_exports = [
-        (('pushButton_form', 'pushbutton_form'), 'checkBox_s_pottery'),
-        (('pushButton_list', 'pushbutton_list'), 'checkBox_e_pottery'),
+        (('pushButton_form', 'pushbutton_form'),
+         ('checkBox_s_pottery', 'checkBox_e_foto_t')),
+        (('pushButton_list', 'pushbutton_list'),
+         ('checkBox_e_pottery',)),
     ]
-    for btn_names, default_box_name in toolbar_exports:
+    for btn_names, default_box_names in toolbar_exports:
         btn = None
         for btn_name in btn_names:
             candidate = getattr(form, btn_name, None)
@@ -1709,14 +1717,16 @@ def standardize_toolbar(form):
         if callable(print_handler):
             def _export_from_toolbar(checked=False, _form=form,
                                      _handler=print_handler,
-                                     _default_box=default_box_name):
+                                     _defaults=default_box_names):
                 boxes = [getattr(_form, n, None) for n in
                          ('checkBox_s_pottery', 'checkBox_e_pottery',
                           'checkBox_e_foto_t', 'checkBox_e_foto')]
                 boxes = [b for b in boxes if b is not None]
                 if boxes and not any(b.isChecked() for b in boxes):
-                    default_box = getattr(_form, _default_box, None)
-                    (default_box or boxes[0]).setChecked(True)
+                    defaults = [getattr(_form, n, None) for n in _defaults]
+                    defaults = [b for b in defaults if b is not None]
+                    for b in (defaults or boxes[:1]):
+                        b.setChecked(True)
                 _handler()
             btn.clicked.connect(_export_from_toolbar)
         else:

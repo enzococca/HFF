@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.21
+version=11.22
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,9 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.21:
+changelog=11.22:
+    - Toolbar PDF button now exports the single form together with the photo index (Photo list with Thumbnail) in one click (issue #56). The export checkbox panel cannot be shown at all in the Pottery form (floating dock without geometry inside a dialog), so the toolbar export no longer depends on it; a selection already made in the panel is still respected, and the photo index still requires the photos to be tagged.
+    11.21:
     - Toolbar PDF and List export buttons now work in the Pottery, Anchor, Artefact, Shipwreck and Conservation forms (issue #56). Since the forms were created those toolbar buttons (pushButton_form / pushButton_list — spelled pushbutton_form/pushbutton_list in the Pottery .ui) were never connected to any action: clicking them silently did nothing, while the working Print button and its export checkboxes live in an export dock inside a tab that users rarely open. The toolbar buttons are now wired to the same print flow; when no export checkbox is ticked they default to the export they advertise (single-form sheet or list). This replaces the 11.20 behaviour that simply hid the PDF button. The never-implemented Word export button is now hidden, and forms whose PDF export is disabled (Anchor Conservation) hide the toolbar export buttons instead.
     11.20:
     - Hide the legacy second PDF button (pushButton_form) shown next to the working Print button in the Anchor, Artefact, Conservation and Shipwreck forms (issue #56). It had the same PDF icon but no action connected, so clicking it silently did nothing — which reads as "PDF export is broken".
