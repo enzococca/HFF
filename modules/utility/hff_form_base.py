@@ -1627,9 +1627,11 @@ def standardize_toolbar(form):
 
         # Export buttons
         ('pushButton_form', 'export_pdf_form', 'Export PDF'),
+        ('pushbutton_form', 'export_pdf_form', 'Export PDF'),  # Pottery .ui typo
         ('pushButton_exppdf', 'export_pdf_form', 'Export PDF'),
         ('pushButton_print', 'export_pdf_form', 'Export PDF'),
         ('pushButton_list', 'export_list', 'Export list'),
+        ('pushbutton_list', 'export_list', 'Export list'),  # Pottery/UW .ui typo
         ('pushButton_explist', 'export_list', 'Export list'),
         ('pushButton_exptab', 'export_tab', 'Export table'),
         ('pushButton_word', 'pdf2word', 'Export to Word'),
@@ -1677,11 +1679,52 @@ def standardize_toolbar(form):
             if isinstance(btn, (QPushButton, QToolButton)):
                 btn.setIconSize(icon_size)
 
-    # pushButton_form is a legacy duplicate of pushButton_print: same PDF
-    # icon, but no form defines a slot or connects it, so clicking it
-    # silently does nothing — users read that as "PDF export is broken"
-    # (issue #56). Hide it wherever it still exists in the .ui files
-    # (ANCHOR, ARTLOG, the three Conservation forms, SHIPWRECK).
-    legacy_form_btn = getattr(form, 'pushButton_form', None)
-    if isinstance(legacy_form_btn, (QPushButton, QToolButton)):
-        legacy_form_btn.setVisible(False)
+    # Toolbar export buttons (issue #56). Every non-divelog form ships a
+    # toolbar button with the pdf icon — pushButton_form, spelled
+    # 'pushbutton_form' (lowercase b) in the Pottery .ui — and most also
+    # a list button (pushButton_list / 'pushbutton_list'), but no form
+    # ever defined a slot for them: since the .ui files were created,
+    # clicking them silently did nothing. The working Print button and
+    # its export checkboxes live in a nested export dock users rarely
+    # open, so wire the toolbar buttons to the same print flow and,
+    # when no export option is ticked, default the hidden checkboxes to
+    # the export each button advertises (single-form sheet / list).
+    # Forms without a print handler hide them instead: the divelog (UW),
+    # whose toolbar export already works via pushButton_exppdf, and the
+    # ANC Conservation form, whose PDF export is disabled.
+    print_handler = getattr(form, 'on_pushButton_print_pressed', None)
+    toolbar_exports = [
+        (('pushButton_form', 'pushbutton_form'), 'checkBox_s_pottery'),
+        (('pushButton_list', 'pushbutton_list'), 'checkBox_e_pottery'),
+    ]
+    for btn_names, default_box_name in toolbar_exports:
+        btn = None
+        for btn_name in btn_names:
+            candidate = getattr(form, btn_name, None)
+            if isinstance(candidate, (QPushButton, QToolButton)):
+                btn = candidate
+                break
+        if btn is None:
+            continue
+        if callable(print_handler):
+            def _export_from_toolbar(checked=False, _form=form,
+                                     _handler=print_handler,
+                                     _default_box=default_box_name):
+                boxes = [getattr(_form, n, None) for n in
+                         ('checkBox_s_pottery', 'checkBox_e_pottery',
+                          'checkBox_e_foto_t', 'checkBox_e_foto')]
+                boxes = [b for b in boxes if b is not None]
+                if boxes and not any(b.isChecked() for b in boxes):
+                    default_box = getattr(_form, _default_box, None)
+                    (default_box or boxes[0]).setChecked(True)
+                _handler()
+            btn.clicked.connect(_export_from_toolbar)
+        else:
+            btn.setVisible(False)
+
+    # pushButton_word (Word export) was never implemented in any form —
+    # hide it rather than leave a dead button whose 'Export to Word'
+    # tooltip invites clicks that do nothing.
+    word_btn = getattr(form, 'pushButton_word', None)
+    if isinstance(word_btn, (QPushButton, QToolButton)):
+        word_btn.setVisible(False)
