@@ -23,7 +23,7 @@ from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtWidgets import (
     QMessageBox, QPushButton, QLabel, QGroupBox, QTabWidget,
     QCheckBox, QRadioButton, QToolButton, QAction, QMenu,
-    QComboBox, QTableWidget
+    QComboBox, QTableWidget, QDockWidget
 )
 
 from .hff_i18n import HffI18n, tr
@@ -1692,16 +1692,16 @@ def standardize_toolbar(form):
     # Forms without a print handler hide them instead: the divelog (UW),
     # whose toolbar export already works via pushButton_exppdf, and the
     # ANC Conservation form, whose PDF export is disabled.
-    # The PDF button exports the single-form sheet plus the photo index
-    # (thumbnails) directly: the export dock is unreachable in the
-    # Pottery form (a floating QDockWidget with no geometry inside a
-    # QDialog never shows), so the toolbar click must not depend on
-    # checkboxes the user may be unable to tick. An existing checkbox
-    # selection is respected.
+    # The PDF button exports everything directly: single-form sheet,
+    # list and photo index with thumbnails. The export dock is
+    # unreachable in the Pottery form (a floating QDockWidget with no
+    # geometry inside a QDialog never shows), so the toolbar click must
+    # not depend on checkboxes the user may be unable to tick. An
+    # existing checkbox selection is respected.
     print_handler = getattr(form, 'on_pushButton_print_pressed', None)
     toolbar_exports = [
         (('pushButton_form', 'pushbutton_form'),
-         ('checkBox_s_pottery', 'checkBox_e_foto_t')),
+         ('checkBox_s_pottery', 'checkBox_e_pottery', 'checkBox_e_foto_t')),
         (('pushButton_list', 'pushbutton_list'),
          ('checkBox_e_pottery',)),
     ]
@@ -1738,3 +1738,30 @@ def standardize_toolbar(form):
     word_btn = getattr(form, 'pushButton_word', None)
     if isinstance(word_btn, (QPushButton, QToolButton)):
         word_btn.setVisible(False)
+
+    # Floating dock panels inside the form dialogs (export pdf, submit,
+    # tools…) open BEHIND the dialog window, and some are defined in the
+    # .ui without a geometry so they surface collapsed to their title
+    # bar with the checkboxes invisible (the Pottery export panel is the
+    # worst case). Whenever any dock of the form becomes visible, give
+    # it a usable size if it is collapsed and raise it in front of the
+    # form.
+    for _dock in form.findChildren(QDockWidget):
+        def _surface_dock(visible, _d=_dock):
+            if not visible:
+                return
+            try:
+                inner = _d.widget()
+                if inner is not None:
+                    inner.show()
+                if _d.isFloating():
+                    size = _d.size()
+                    if size.width() < 120 or size.height() < 80:
+                        hint = _d.sizeHint()
+                        _d.resize(max(hint.width(), 340),
+                                  max(hint.height(), 180))
+                _d.raise_()
+                _d.activateWindow()
+            except Exception:
+                pass
+        _dock.visibilityChanged.connect(_surface_dock)

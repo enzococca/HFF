@@ -3606,6 +3606,18 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     str(self.DATA_LIST[i].anchor_type),
                     str(foto),#5
                     str(thumbnail)])#6
+
+            if not record_doc_list:
+                # issue #56: record without tagged photos — keep it in the
+                # photo index with a 'not present image' placeholder row
+                # instead of aborting the export with a tagging warning.
+                data_list_foto.append([
+                    str(self.DATA_LIST[i].site),
+                    str(self.DATA_LIST[i].area),
+                    str(self.DATA_LIST[i].anchors_id),
+                    str(self.DATA_LIST[i].anchor_type),
+                    '',
+                    ''])
             
         return data_list_foto
     

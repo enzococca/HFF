@@ -451,12 +451,17 @@ class FOTO_index_pdf_sheet(object):
         decription = Paragraph("<b>Anchor Type</b><br/>" + str(self.description), styNormal)
         #us_presenti = Paragraph("<b>US-USM presenti</b><br/>", styNormal)
         
-        logo= Image(self.thumbnail)
-        logo.drawHeight = 1 * inch * logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 1 * inch
-        logo.hAlign = "CENTER"
-        
-        thumbnail= logo
+        # issue #56: a record without a (readable) thumbnail gets a text
+        # placeholder instead of aborting the whole photo index export
+        try:
+            logo= Image(self.thumbnail)
+            logo.drawHeight = 1 * inch * logo.drawHeight / logo.drawWidth
+            logo.drawWidth = 1 * inch
+            logo.hAlign = "CENTER"
+
+            thumbnail= logo
+        except Exception:
+            thumbnail = Paragraph("<i>not present image</i>", styNormal)
         data = [
                 foto,
                 thumbnail,
