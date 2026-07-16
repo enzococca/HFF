@@ -60,7 +60,10 @@ class NumberedCanvas_USindex(canvas.Canvas):
         self.setFont("Helvetica", 8)
         self.drawRightString(270*mm, 10*mm, "Page %d of %d" % (self._pageNumber, page_count)) #scheda us verticale 200mm x 20 mm
 class single_pottery_pdf_sheet:
-    def __init__(self, data):
+    def __init__(self, data, form_title='POTTERY CONSERVATION'):
+        # shared by the Pottery/Anchor/Artefact Conservation forms:
+        # the caller passes the banner title of its own form
+        self.form_title = form_title
         # self.id_dive=data[0]
         self.site = data[0]
         self.pottery_id = data[1]
@@ -125,6 +128,17 @@ class single_pottery_pdf_sheet:
         styInt.alignment = 1  # CENTER
         styInt.textColor = HFF_BLUE  # Professional blue color
 
+        # Banner title sits on the HFF_BLUE band: needs white text (the
+        # Paragraph's own textColor wins over the table's TEXTCOLOR),
+        # same fix as the divelog sheet (issue #56).
+        styleSheet = getSampleStyleSheet()
+        styBanner = styleSheet['Normal']
+        styBanner.spaceBefore = 20
+        styBanner.spaceAfter = 20
+        styBanner.fontSize = 12
+        styBanner.alignment = 1  # CENTER
+        styBanner.textColor = colors.white
+
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
         styNormal.spaceBefore = 20
@@ -153,7 +167,7 @@ class single_pottery_pdf_sheet:
         styTitoloComponenti.spaceAfter = 20
         styTitoloComponenti.fontSize = 9
         styTitoloComponenti.alignment = 1  # CENTER
-        intestazione = Paragraph("<b>Archaeological Underwater Survey - POTTERY CONSERVATION<br/>" + "</b>", styInt)
+        intestazione = Paragraph("<b>Archaeological Underwater Survey - %s<br/></b>" % self.form_title, styBanner)
         home = os.environ['HFF_HOME']
         home_DB_path = '{}{}{}'.format(home, os.sep, 'HFF_DB_folder')
         logo_path = '{}{}{}'.format(home_DB_path, os.sep, 'logo.png')
@@ -169,7 +183,9 @@ class single_pottery_pdf_sheet:
         #1 row
 
         sito = Paragraph("<b>Site</b><br/>"  + self.site, styNormal)
-        pottery_id = Paragraph("<b>Pottery ID</b><br/>" + str(self.pottery_id), styNormal)
+        # 'Anchor ID' / 'Artefact ID' / 'Pottery ID' depending on the form
+        id_label = "%s ID" % self.form_title.split()[0].capitalize()
+        pottery_id = Paragraph("<b>%s</b><br/>" % id_label + str(self.pottery_id), styNormal)
         obj_partial = Paragraph("<b>Partial Object</b><br/>" + str(self.obj_partial), styNormal)
         author = Paragraph("<b>Author</b><br/>" + str(self.author), styNormal)
         start_date = Paragraph("<b>Start Date</b><br/>" + str(self.start_date), styNormal)
@@ -306,10 +322,15 @@ class FOTO_index_pdf_sheet(object):
         decription = Paragraph("<b>Description</b><br/>" + str(self.description), styNormal)
         #us_presenti = Paragraph("<b>US-USM presenti</b><br/>", styNormal)
         
-        logo= Image(self.thumbnail)
-        logo.drawHeight = 1 * inch * logo.drawHeight / logo.drawWidth
-        logo.drawWidth = 1 * inch
-        logo.hAlign = "CENTER"
+        # issue #56/#40: a record without a (readable) thumbnail gets a
+        # text placeholder instead of aborting the photo index export
+        try:
+            logo= Image(self.thumbnail)
+            logo.drawHeight = 1 * inch * logo.drawHeight / logo.drawWidth
+            logo.drawWidth = 1 * inch
+            logo.hAlign = "CENTER"
+        except Exception:
+            logo = Paragraph("<i>not present image</i>", styNormal)
         
         thumbnail= logo
         data = [
@@ -380,10 +401,13 @@ class FOTO_index_pdf_sheet_2(object):
 
         return styles    
 class POTTERY_index_pdf:
+    # issue #40: the conservation forms send [conservation id,
+    # observation] rows — the old 3-slot layout copied from another
+    # exporter (Dive ID / Artefact ID / Year) crashed with IndexError,
+    # so the conservation list export never worked.
     def __init__(self, data):
-        self.divelog_id =                               data[0]
-        self.artefact_id =                          data[1]
-        self.anno =                 data[2]
+        self.conservation_id = data[0]
+        self.observation = data[1]
     def getTable(self):
         styleSheet = getSampleStyleSheet()
         styNormal = styleSheet['Normal']
@@ -391,13 +415,10 @@ class POTTERY_index_pdf:
         styNormal.spaceAfter = 20
         styNormal.alignment = 0 #LEFT
         styNormal.fontSize = 8
-        #self.unzip_rapporti_stratigrafici()
-        divelog_id = Paragraph("<b>Dive ID</b><br/>" + str(self.divelog_id),styNormal)
-        artefact_id = Paragraph("<b>Artefact ID</b><br/>" + str(self.artefact_id),styNormal)
-        anno = Paragraph("<b>Year</b><br/>" + str(self.anno),styNormal)
-        data1 = [divelog_id,
-                artefact_id,
-                anno]
+        conservation_id = Paragraph("<b>ID</b><br/>" + str(self.conservation_id),styNormal)
+        observation = Paragraph("<b>Observation</b><br/>" + str(self.observation),styNormal)
+        data1 = [conservation_id,
+                observation]
         return data1
     def makeStyles(self):
         styles =TableStyle([('GRID',(0,0),(-1,-1),0.0,colors.black),('VALIGN', (0,0), (-1,-1), 'TOP')
@@ -406,6 +427,16 @@ class POTTERY_index_pdf:
 class generate_POTTERY_CON_pdf:
     HOME = os.environ['HFF_HOME']
     PDF_path = '{}{}{}'.format(HOME, os.sep, "HFF_PDF_folder")
+
+    def __init__(self, form_title='POTTERY CONSERVATION',
+                 file_prefix='Pottery'):
+        # Shared by the three Conservation forms (issue #40): each one
+        # passes its own banner title and file prefix, so the Anchor and
+        # Artefact Conservation PDFs stop coming out titled 'POTTERY
+        # CONSERVATION' and overwriting the pottery files.
+        self.form_title = form_title
+        self.file_prefix = file_prefix
+
     def datestrfdate(self):
         now = date.today()
         today = now.strftime("%d-%m-%Y")
@@ -413,10 +444,11 @@ class generate_POTTERY_CON_pdf:
     def build_POTTERY_sheets(self, records):
         elements = []
         for i in range(len(records)):
-            single_POTTERY_sheet = single_pottery_pdf_sheet(records[i])
+            single_POTTERY_sheet = single_pottery_pdf_sheet(records[i],
+                                                            self.form_title)
             elements.append(single_POTTERY_sheet.create_sheet)
             elements.append(PageBreak())
-        filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Pottery.pdf')
+        filename = ('%s%s%s.pdf') % (self.PDF_path, os.sep, self.file_prefix)
         f = open(filename, "wb")
         doc = SimpleDocTemplate(f, pagesize=A4)
         doc.build(elements, canvasmaker=NumberedCanvas_USsheet)
@@ -445,18 +477,18 @@ class generate_POTTERY_CON_pdf:
         data = self.datestrfdate()
         lst = []
         lst.append(logo)
-        lst.append(Paragraph("<b>Pottery</b><br/><b>Date: %s</b>" % (data), styH1))
+        lst.append(Paragraph("<b>%s</b><br/><b>Date: %s</b>" % (self.form_title, data), styH1))
         table_data1 = []
         for i in range(len(records)):
             exp_index = POTTERY_index_pdf(records[i])
             table_data1.append(exp_index.getTable())
         styles = exp_index.makeStyles()
-        colWidths=[42,60,45,45,45,58,45,58,55,64,64,52,52,65]
+        colWidths=[120, 620]
         table_data1_formatted = Table(table_data1, colWidths, style=styles)
         table_data1_formatted.hAlign = "LEFT"
         lst.append(table_data1_formatted)
         lst.append(Spacer(0,2))
-        filename = ('%s%s%s') % (self.PDF_path, os.sep, 'Pottery_list.pdf')
+        filename = ('%s%s%s_list.pdf') % (self.PDF_path, os.sep, self.file_prefix)
         f = open(filename, "wb")
         doc = SimpleDocTemplate(f, pagesize=(29*cm, 21*cm), showBoundary=0)
         doc.build(lst, canvasmaker=NumberedCanvas_USindex)
@@ -482,7 +514,7 @@ class generate_POTTERY_CON_pdf:
         lst = []
         lst.append(logo)
         lst.append(
-            Paragraph("<b>List Photo Pottery</b><br/><b> Site: %s,  Date: %s</b>" % (sito, data), styH1))
+            Paragraph("<b>List Photo %s</b><br/><b> Site: %s,  Date: %s</b>" % (self.file_prefix, sito, data), styH1))
 
         table_data = []
         for i in range(len(records)):
@@ -500,7 +532,7 @@ class generate_POTTERY_CON_pdf:
 
         dt = datetime.datetime.now()
         filename = ('%s%s%s_%s_%s_%s_%s_%s_%s%s') % (
-        self.PDF_path, os.sep, 'List photo thumbnail pottery', dt.day, dt.month, dt.year, dt.hour, dt.minute, dt.second, ".pdf")
+        self.PDF_path, os.sep, 'List photo thumbnail %s' % self.file_prefix.lower(), dt.day, dt.month, dt.year, dt.hour, dt.minute, dt.second, ".pdf")
         f = open(filename, "wb")
 
         doc = SimpleDocTemplate(f, pagesize=A4)
@@ -528,7 +560,7 @@ class generate_POTTERY_CON_pdf:
         lst = []
         lst.append(logo)
         lst.append(
-            Paragraph("<b>List photo pottery</b><br/><b> Site: %s,  Date: %s</b>" % (sito, data), styH1))
+            Paragraph("<b>List photo %s</b><br/><b> Site: %s,  Date: %s</b>" % (self.file_prefix.lower(), sito, data), styH1))
 
         table_data = []
         for i in range(len(records)):
@@ -546,7 +578,7 @@ class generate_POTTERY_CON_pdf:
 
         dt = datetime.datetime.now()
         filename = ('%s%s%s_%s_%s_%s_%s_%s_%s%s') % (
-        self.PDF_path, os.sep, 'List photo pottery', dt.day, dt.month, dt.year, dt.hour, dt.minute, dt.second, ".pdf")
+        self.PDF_path, os.sep, 'List photo %s' % self.file_prefix.lower(), dt.day, dt.month, dt.year, dt.hour, dt.minute, dt.second, ".pdf")
         f = open(filename, "wb")
 
         doc = SimpleDocTemplate(f, pagesize=A4)

@@ -49,6 +49,7 @@ from qgis.PyQt.QtSql import QSqlDatabase, QSqlTableModel
 
 from ..modules.utility.VideoPlayerAnchor_conn import VideoPlayerWindow
 from ..modules.report_generator import ReportGenerator
+from ..modules.utility.hff_system__exp_POTTERYCONsheet_pdf import generate_POTTERY_CON_pdf
 
 from ..modules.utility.hff_system__media_utility import *
 
@@ -2318,12 +2319,29 @@ class hff_system_ANC_CON(QDialog, MAIN_DIALOG_CLASS):
                 thumbnail = (thumb_path_str + e.filepath)
                 foto = (e.id_media)
 
+                # the FOTO_index_pdf_sheet of the conservation exporter
+                # reads 6 slots: [sito, area, id, description, foto,
+                # thumbnail] — the conservation tables have no area, so
+                # keep that slot empty to stay aligned (issue #40).
                 data_list_foto.append([
-                    str(self.DATA_LIST[i].site),  # 1 - Sito
-                    str(self.DATA_LIST[i].anchor_id),  # 2 -
+                    str(self.DATA_LIST[i].site),          # 0 - sito
+                    '',                                   # 1 - area (n/a)
+                    str(self.DATA_LIST[i].anchor_id),     # 2 - id
+                    str(self.DATA_LIST[i].observation),   # 3 - description
+                    str(foto),                            # 4 - photo id
+                    str(thumbnail)])                      # 5 - thumbnail
+
+            if not record_doc_list:
+                # record without tagged photos — keep it in the photo
+                # index with a 'not present image' placeholder row
+                # instead of aborting the export with a tagging warning.
+                data_list_foto.append([
+                    str(self.DATA_LIST[i].site),
+                    '',
+                    str(self.DATA_LIST[i].anchor_id),
                     str(self.DATA_LIST[i].observation),
-                    str(foto),  # 5
-                    str(thumbnail)])  # 6
+                    '',
+                    ''])
 
         return data_list_foto
 
@@ -2350,64 +2368,68 @@ class hff_system_ANC_CON(QDialog, MAIN_DIALOG_CLASS):
             ])
         return data_list
 
-    # def on_pushButton_print_pressed(self):
-    #
-    #     if self.checkBox_s_pottery.isChecked():
-    #         pottery_pdf_sheet = generate_POTTERY_CON_pdf()
-    #         data_list = self.generate_list_pdf()
-    #         pottery_pdf_sheet.build_POTTERY_sheets(data_list)
-    #         QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
-    #     else:
-    #         pass
-    #
-    #     if self.checkBox_e_pottery.isChecked():
-    #         POTTERY_index_pdf = generate_POTTERY_CON_pdf()
-    #         data_list = self.generate_list_pdf2()
-    #
-    #         try:
-    #             if bool(data_list):
-    #                 POTTERY_index_pdf.build_index_POTTERY(data_list, data_list[0][0])
-    #                 QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
-    #             else:
-    #                 QMessageBox.warning(self, tr('title_warning'),
-    #                                     "Pottery list  can't to be exported, you must fill before the form",
-    #                                     QMessageBox.Ok)
-    #         except Exception as e:
-    #             QMessageBox.warning(self, tr('title_warning'), str(e), QMessageBox.Ok)
-    #     else:
-    #         pass
-    #
-    #     if self.checkBox_e_foto_t.isChecked():
-    #         POTTERY_index_pdf = generate_POTTERY_CON_pdf()
-    #         data_list_foto = self.generate_list_foto()
-    #
-    #         try:
-    #             if bool(data_list_foto):
-    #                 POTTERY_index_pdf.build_index_Foto(data_list_foto, data_list_foto[0][0])
-    #                 QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
-    #
-    #             else:
-    #                 QMessageBox.warning(self, tr('title_warning'),
-    #                                     "Pottery list photo can't to be exported, you must tag before the pics",
-    #                                     QMessageBox.Ok)
-    #         except Exception as e:
-    #             QMessageBox.warning(self, tr('title_warning'), str(e), QMessageBox.Ok)
-    #
-    #     if self.checkBox_e_foto.isChecked():
-    #         POTTERY_index_pdf = generate_POTTERY_CON_pdf()
-    #         data_list_foto = self.generate_list_foto()
-    #
-    #         try:
-    #             if bool(data_list_foto):
-    #                 POTTERY_index_pdf.build_index_Foto_2(data_list_foto, data_list_foto[0][0])
-    #                 QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
-    #
-    #             else:
-    #                 QMessageBox.warning(self, 'Warniong',
-    #                                     "Pottery list photo can't to be exported because the image are not tagged",
-    #                                     QMessageBox.Ok)
-    #         except Exception as e:
-    #             QMessageBox.warning(self, tr('title_warning'), str(e), QMessageBox.Ok)
+    def on_pushButton_print_pressed(self):
+
+        if self.checkBox_s_pottery.isChecked():
+            anchor_pdf_sheet = generate_POTTERY_CON_pdf('ANCHOR CONSERVATION',
+                                                        'Anchor_conservation')
+            data_list = self.generate_list_pdf()
+            anchor_pdf_sheet.build_POTTERY_sheets(data_list)
+            QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
+        else:
+            pass
+
+        if self.checkBox_e_pottery.isChecked():
+            ANC_index_pdf = generate_POTTERY_CON_pdf('ANCHOR CONSERVATION',
+                                                     'Anchor_conservation')
+            data_list = self.generate_list_pdf2()
+
+            try:
+                if bool(data_list):
+                    ANC_index_pdf.build_index_POTTERY(data_list, data_list[0][0])
+                    QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
+                else:
+                    QMessageBox.warning(self, tr('title_warning'),
+                                        "Anchor conservation list can't to be exported, you must fill before the form",
+                                        QMessageBox.Ok)
+            except Exception as e:
+                QMessageBox.warning(self, tr('title_warning'), str(e), QMessageBox.Ok)
+        else:
+            pass
+
+        if self.checkBox_e_foto_t.isChecked():
+            ANC_index_pdf = generate_POTTERY_CON_pdf('ANCHOR CONSERVATION',
+                                                     'Anchor_conservation')
+            data_list_foto = self.generate_list_foto()
+
+            try:
+                if bool(data_list_foto):
+                    ANC_index_pdf.build_index_Foto(data_list_foto, data_list_foto[0][0])
+                    QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
+
+                else:
+                    QMessageBox.warning(self, tr('title_warning'),
+                                        "Anchor conservation photo list can't to be exported, you must tag before the pics",
+                                        QMessageBox.Ok)
+            except Exception as e:
+                QMessageBox.warning(self, tr('title_warning'), str(e), QMessageBox.Ok)
+
+        if self.checkBox_e_foto.isChecked():
+            ANC_index_pdf = generate_POTTERY_CON_pdf('ANCHOR CONSERVATION',
+                                                     'Anchor_conservation')
+            data_list_foto = self.generate_list_foto()
+
+            try:
+                if bool(data_list_foto):
+                    ANC_index_pdf.build_index_Foto_2(data_list_foto, data_list_foto[0][0])
+                    QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
+
+                else:
+                    QMessageBox.warning(self, tr('title_warning'),
+                                        "Anchor conservation photo list can't to be exported because the image are not tagged",
+                                        QMessageBox.Ok)
+            except Exception as e:
+                QMessageBox.warning(self, tr('title_warning'), str(e), QMessageBox.Ok)
 
     def loadMediaPreview(self, mode=0):
         self.iconListWidget.clear()

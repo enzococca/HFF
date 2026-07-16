@@ -2390,12 +2390,29 @@ class hff_system__ART_CON(QDialog, MAIN_DIALOG_CLASS):
                 thumbnail = (thumb_path_str + e.filepath)
                 foto = (e.id_media)
 
+                # the FOTO_index_pdf_sheet of the conservation exporter
+                # reads 6 slots: [sito, area, id, description, foto,
+                # thumbnail] — the conservation tables have no area, so
+                # keep that slot empty to stay aligned (issue #40).
                 data_list_foto.append([
-                    str(self.DATA_LIST[i].site),  # 1 - Sito
-                    str(self.DATA_LIST[i].artefact_id),  # 2 -
+                    str(self.DATA_LIST[i].site),          # 0 - sito
+                    '',                                   # 1 - area (n/a)
+                    str(self.DATA_LIST[i].artefact_id),   # 2 - id
+                    str(self.DATA_LIST[i].observation),   # 3 - description
+                    str(foto),                            # 4 - photo id
+                    str(thumbnail)])                      # 5 - thumbnail
+
+            if not record_doc_list:
+                # record without tagged photos — keep it in the photo
+                # index with a 'not present image' placeholder row
+                # instead of aborting the export with a tagging warning.
+                data_list_foto.append([
+                    str(self.DATA_LIST[i].site),
+                    '',
+                    str(self.DATA_LIST[i].artefact_id),
                     str(self.DATA_LIST[i].observation),
-                    str(foto),  # 5
-                    str(thumbnail)])  # 6
+                    '',
+                    ''])
 
         return data_list_foto
 
@@ -2426,7 +2443,7 @@ class hff_system__ART_CON(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_print_pressed(self):
 
         if self.checkBox_s_pottery.isChecked():
-            pottery_pdf_sheet = generate_POTTERY_CON_pdf()
+            pottery_pdf_sheet = generate_POTTERY_CON_pdf('ARTEFACT CONSERVATION', 'Artefact_conservation')
             data_list = self.generate_list_pdf()
             pottery_pdf_sheet.build_POTTERY_sheets(data_list)
             QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
@@ -2434,7 +2451,7 @@ class hff_system__ART_CON(QDialog, MAIN_DIALOG_CLASS):
             pass
 
         if self.checkBox_e_pottery.isChecked():
-            POTTERY_index_pdf = generate_POTTERY_CON_pdf()
+            POTTERY_index_pdf = generate_POTTERY_CON_pdf('ARTEFACT CONSERVATION', 'Artefact_conservation')
             data_list = self.generate_list_pdf2()
 
             try:
@@ -2451,7 +2468,7 @@ class hff_system__ART_CON(QDialog, MAIN_DIALOG_CLASS):
             pass
 
         if self.checkBox_e_foto_t.isChecked():
-            POTTERY_index_pdf = generate_POTTERY_CON_pdf()
+            POTTERY_index_pdf = generate_POTTERY_CON_pdf('ARTEFACT CONSERVATION', 'Artefact_conservation')
             data_list_foto = self.generate_list_foto()
 
             try:
@@ -2467,7 +2484,7 @@ class hff_system__ART_CON(QDialog, MAIN_DIALOG_CLASS):
                 QMessageBox.warning(self, tr('title_warning'), str(e), QMessageBox.Ok)
 
         if self.checkBox_e_foto.isChecked():
-            POTTERY_index_pdf = generate_POTTERY_CON_pdf()
+            POTTERY_index_pdf = generate_POTTERY_CON_pdf('ARTEFACT CONSERVATION', 'Artefact_conservation')
             data_list_foto = self.generate_list_foto()
 
             try:
