@@ -122,6 +122,21 @@ class Hff_db_management(object):
             except Exception as migration_exc:
                 print(f"[hff_pottery_qty_migration] skipped: {migration_exc}")
 
+            # issue #40: the structure modules create their tables only
+            # on the connection active at import time, so the TARGET
+            # database of the Import data / Import Geometry tab (or any
+            # database created before a feature existed) can lack the
+            # conservation and geometry tables entirely — every import
+            # INSERT then fails with 'no such table'. Create whatever
+            # is missing here, on every connection.
+            try:
+                from .hff_import_tables_migration import (
+                    ensure_import_target_tables,
+                )
+                ensure_import_target_tables(self.engine)
+            except Exception as migration_exc:
+                print(f"[hff_import_tables_migration] skipped: {migration_exc}")
+
             conn = self.engine.connect()
 
         except Exception as e:
