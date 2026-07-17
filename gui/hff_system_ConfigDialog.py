@@ -1081,10 +1081,13 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
     
     
     def geometry_conn(self):
-        if self.comboBox_server_rd.currentText()!='sqlite':
-            self.pushButton_import_geometry.setEnabled(False)
-        else:
-            self.pushButton_import_geometry.setEnabled(True)
+        # issue #40: the geometry import used to be disabled whenever the
+        # SOURCE connection was not sqlite, which made the documented
+        # postgres -> sqlite geometry transfer impossible: with a postgres
+        # source the button was permanently greyed out. The import flow
+        # handles both server types on both sides (and since v11.24 the
+        # target tables are created automatically), so keep it enabled.
+        self.pushButton_import_geometry.setEnabled(True)
     
     def setComboBoxEnable(self, f, v):
         field_names = f
