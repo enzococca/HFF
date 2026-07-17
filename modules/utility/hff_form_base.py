@@ -1715,6 +1715,10 @@ def standardize_toolbar(form):
         if btn is None:
             continue
         if callable(print_handler):
+            # the ANCHORCON/ARTLOGCON .ui files ship the button with
+            # enabled=false (left over from when their PDF export was
+            # disabled): a wired button must also be clickable.
+            btn.setEnabled(True)
             def _export_from_toolbar(checked=False, _form=form,
                                      _handler=print_handler,
                                      _defaults=default_box_names):
