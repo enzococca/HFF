@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.24
+version=11.25
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,11 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.24:
+changelog=11.25:
+    - Import Geometry (issue #40 — Catnip19): the button was disabled whenever the SOURCE connection was not sqlite, making the postgres -> sqlite geometry transfer impossible (permanently greyed out, as in the reported screenshot). It is now always enabled; together with the automatic table creation from 11.24 the geometry import works into older SQLite files too.
+    - Conservation forms: the single-sheet PDF export branch now reports failures with a readable popup and logs the full traceback to the QGIS Log Messages "HFF" tab, instead of dying silently on data it cannot render.
+    - Import data tab: wider dialog and full-width "Import Table" / "Import Geometry" buttons (they were clipped to 32px icons), wider "HFF mapper table" / "Import Geometry" selectors.
+    11.24:
     - Import data / Import Geometry (issue #40 — Catnip19): tables missing on the target database are now created automatically at connection time — the conservation tables (pottery_con / anchor_con / artefact_con, which no SQLite database ever had because even the shipped template lacks them) and all the geometry tables (site/anchor/artefact/pottery/features/shipwreck/grabspot/transect). Importing from PostgreSQL into an older SQLite file no longer fails with "no such table".
     - Anchor Conservation: PDF export enabled (issue #40) — single sheet, list and photo index with thumbnails, one click from the toolbar PDF button like the other forms.
     - Conservation PDF exports now write per-form files (Anchor_conservation.pdf, Artefact_conservation.pdf, Pottery_conservation.pdf, plus _list and photo index) with the correct banner title and ID label. Previously every conservation sheet came out titled POTTERY CONSERVATION and overwrote Pottery.pdf / Pottery_list.pdf, colliding with the Pottery form exports as well; the conservation list export had crashed with an IndexError since it was written, the photo index rows were misaligned with the exporter, and the banner title was rendered blue-on-blue (invisible). Records without tagged photos now appear in the photo index with the "not present image" placeholder.
