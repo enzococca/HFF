@@ -64,7 +64,7 @@ from ..gui.imageViewer import ImageViewer
 from ..gui.sortpanelmain import SortPanelMain
 from ..modules.utility.hff_theme_manager import ThemeManager
 from ..modules.utility.hff_i18n import HffI18n, tr
-from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations, standardize_toolbar
+from ..modules.utility.hff_form_base import apply_i18n_to_form, get_export_translations, log_pdf_export_error, standardize_toolbar
 
 
 
@@ -2443,10 +2443,16 @@ class hff_system__ART_CON(QDialog, MAIN_DIALOG_CLASS):
     def on_pushButton_print_pressed(self):
 
         if self.checkBox_s_pottery.isChecked():
-            pottery_pdf_sheet = generate_POTTERY_CON_pdf('ARTEFACT CONSERVATION', 'Artefact_conservation')
-            data_list = self.generate_list_pdf()
-            pottery_pdf_sheet.build_POTTERY_sheets(data_list)
-            QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
+            try:
+                pottery_pdf_sheet = generate_POTTERY_CON_pdf('ARTEFACT CONSERVATION', 'Artefact_conservation')
+                data_list = self.generate_list_pdf()
+                pottery_pdf_sheet.build_POTTERY_sheets(data_list)
+                QMessageBox.warning(self, tr('success'), tr('msg_export_completed'), QMessageBox.Ok)
+            except Exception as e:
+                log_pdf_export_error("Artefact Conservation")
+                QMessageBox.warning(self, tr('title_warning'),
+                                    "Unable to export the PDF forms.<br><br>%s" % str(e),
+                                    QMessageBox.Ok)
         else:
             pass
 
