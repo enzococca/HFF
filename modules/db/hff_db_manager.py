@@ -66,15 +66,23 @@ class Hff_db_management(object):
         self.conn_str = c
 
     def load_spatialite(self, dbapi_conn, connection_record):
-        dbapi_conn.enable_load_extension(True)
-        
-        if Hff_OS_Utility.isWindows()== True:
-            dbapi_conn.load_extension('mod_spatialite.dll')
-        
-        elif Hff_OS_Utility.isMac()== True:
-            dbapi_conn.load_extension('mod_spatialite')
-        else:
-            dbapi_conn.load_extension('mod_spatialite.so')
+        # Best-effort (issue #40): SQLite databases created from the old
+        # template carry spatialite triggers on the geometry tables that
+        # call GeometryConstraints(); without the extension every INSERT
+        # of the geometry import dies with 'no such function:
+        # GeometryConstraints'. If the extension is unavailable, plain
+        # tables keep working — never raise from here.
+        try:
+            dbapi_conn.enable_load_extension(True)
+        except Exception:
+            return
+        for extension in ('mod_spatialite', 'mod_spatialite.dll',
+                          'mod_spatialite.so', 'mod_spatialite.dylib'):
+            try:
+                dbapi_conn.load_extension(extension)
+                return
+            except Exception:
+                continue
 
     def connection(self):
         global conn
@@ -84,7 +92,7 @@ class Hff_db_management(object):
             test_conn = self.conn_str.find("sqlite")
             if test_conn == 0:
                 self.engine = create_engine(self.conn_str, echo=eval(self.boolean))
-                #listen(self.engine, 'connect', self.load_spatialite)
+                listen(self.engine, 'connect', self.load_spatialite)
             else:
                 self.engine = create_engine(self.conn_str, max_overflow=-1, echo=eval(self.boolean))
 

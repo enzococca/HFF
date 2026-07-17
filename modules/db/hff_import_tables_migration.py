@@ -22,6 +22,9 @@ PostgreSQL targets.
 '''
 import importlib
 
+from sqlalchemy import inspect as _sqla_inspect
+from sqlalchemy import text as _sqla_text
+
 # (module in .structures, class name). Each class owns a MetaData that
 # contains just its own table, so create_all is a cheap checkfirst.
 _STRUCTURES = (
@@ -45,8 +48,43 @@ _STRUCTURES = (
 )
 
 
+def _add_missing_columns(engine, table):
+    """ALTER TABLE ADD COLUMN for every column the live table lacks.
+
+    Old databases can have the table but an older shape — e.g. a
+    postgres artefact_point/pottery_point without x, y, rotation,
+    "Layer" (issue #40): every SELECT the mapper builds then dies with
+    psycopg2 UndefinedColumn. Adding the missing columns (NULL for the
+    existing rows) realigns the schema on sqlite and postgres alike.
+    """
+    try:
+        inspector = _sqla_inspect(engine)
+        if not inspector.has_table(table.name):
+            return
+        existing = {c['name'] for c in inspector.get_columns(table.name)}
+    except Exception as exc:
+        print('[hff_import_tables_migration] inspect %s skipped: %s'
+              % (table.name, exc))
+        return
+    preparer = engine.dialect.identifier_preparer
+    for column in table.columns:
+        if column.name in existing:
+            continue
+        try:
+            ddl = 'ALTER TABLE %s ADD COLUMN %s %s' % (
+                preparer.quote(table.name),
+                preparer.quote(column.name),
+                column.type.compile(engine.dialect))
+            with engine.begin() as con:
+                con.execute(_sqla_text(ddl))
+        except Exception as exc:
+            print('[hff_import_tables_migration] add column %s.%s '
+                  'skipped: %s' % (table.name, column.name, exc))
+
+
 def ensure_import_target_tables(engine):
-    """Create on `engine` any HFF table an old database may lack.
+    """Create on `engine` any HFF table an old database may lack, and
+    add any column an existing table is missing.
 
     Uses the same SQLAlchemy Table definitions the plugin writes
     through, so the created tables match exactly what the insert
@@ -57,8 +95,10 @@ def ensure_import_target_tables(engine):
         try:
             mod = importlib.import_module(
                 '.structures.' + module_name, __package__)
-            getattr(mod, class_name).metadata.create_all(
-                engine, checkfirst=True)
+            metadata = getattr(mod, class_name).metadata
+            metadata.create_all(engine, checkfirst=True)
+            for table in metadata.tables.values():
+                _add_missing_columns(engine, table)
         except Exception as exc:
             print('[hff_import_tables_migration] %s skipped: %s'
                   % (module_name, exc))

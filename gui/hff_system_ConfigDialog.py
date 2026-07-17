@@ -2526,7 +2526,7 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         # Update the progress bar with the integer value
                         self.progress_bar.setValue(int_value)
                         QApplication.processEvents()
-                    except AssertionError as e:
+                    except Exception as e:
                         QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                         return 0
                 self.progress_bar.reset()
