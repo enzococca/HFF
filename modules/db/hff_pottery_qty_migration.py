@@ -5,18 +5,25 @@ The Python layer (POTTERY entity, POTTERY_table mapper, insert_pottery_values,
 TABLE_FIELDS, lineEdit_qty in the .ui) has been carrying `qty` for a while,
 and the bundled SQLite template already had the column — but databases
 created from schema.sql before v11.12 (and live user databases on either
-SQLite or PostgreSQL) do not. This migration adds it with DEFAULT 1 so
-historical rows get a sensible value and the form's empty-text fallback
-(qty = 1) stays consistent.
+SQLite or PostgreSQL) do not. This migration adds it.
+
+v2 (issue #57): the column must also accept NULL. The shipped SQLite
+template declares it `not null DEFAULT 1`, so a Quantity left empty was
+stored as 1 — the reason every record in the field databases reads
+Quantity 1. The NOT NULL is dropped here, and the column is no longer
+added with a DEFAULT/backfill of 1 on databases that still lack it.
 """
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 
 from sqlalchemy import text
 from sqlalchemy.engine import Engine
 
-_TARGET_VERSION = 1
+# v2 (issue #57): the column must also be NULLABLE — an empty Quantity
+# has to stay empty instead of falling back to the DEFAULT 1.
+_TARGET_VERSION = 2
 _COMPONENT = "pottery_qty_column"
 
 
@@ -88,20 +95,71 @@ def _write_version(con, component: str, version: int) -> None:
 
 
 def _add_qty_column(con) -> bool:
-    """ADD COLUMN qty INTEGER DEFAULT 1 to pottery_table. Returns True
-    if the column was added, False if it was already present or the
-    table is missing. Safe on both SQLite and PostgreSQL: SQLite ALTER
-    rewrites every row with the default; PostgreSQL is metadata-only."""
+    """ADD COLUMN qty INTEGER to pottery_table. Returns True if the
+    column was added, False if it was already present or the table is
+    missing.
+
+    No DEFAULT and no backfill (changed for issue #57): records written
+    before the Quantity field existed have an UNKNOWN quantity, and
+    stamping 1 on them made every historical record read as "one item".
+    """
     if not _table_exists(con, "pottery_table"):
         return False
     if _column_exists(con, "pottery_table", "qty"):
         return False
+    con.execute(text("ALTER TABLE pottery_table ADD COLUMN qty INTEGER"))
+    return True
+
+
+def _qty_is_not_null(con) -> bool:
+    if con.dialect.name == "sqlite":
+        rows = con.execute(text("PRAGMA table_info(pottery_table)")).fetchall()
+        return any(r[1] == "qty" and r[3] for r in rows)
+    row = con.execute(
+        text(
+            "SELECT is_nullable FROM information_schema.columns "
+            "WHERE table_name='pottery_table' AND column_name='qty'"
+        )
+    ).fetchone()
+    return bool(row) and str(row[0]).upper() == "NO"
+
+
+def _make_qty_nullable(con) -> bool:
+    """Drop the NOT NULL on pottery_table.qty (issue #57).
+
+    The shipped SQLite template declares `qty INTEGER not null DEFAULT 1`,
+    so a Quantity the user leaves empty cannot be stored: it either fails
+    or silently falls back to 1 — which is why every record in the field
+    databases carries Quantity 1. SQLite cannot relax a column constraint
+    in place, so the table is rebuilt from its own DDL with the NOT NULL
+    removed (column order, types and the unique constraint are preserved
+    verbatim; pottery_table carries no user index nor trigger).
+    """
+    if not _table_exists(con, "pottery_table"):
+        return False
+    if not _qty_is_not_null(con):
+        return False
+    if con.dialect.name != "sqlite":
+        con.execute(text(
+            "ALTER TABLE pottery_table ALTER COLUMN qty DROP NOT NULL"))
+        return True
+    ddl = con.execute(text(
+        "SELECT sql FROM sqlite_master WHERE type='table' "
+        "AND name='pottery_table'"
+    )).scalar_one()
+    new_ddl, subs = re.subn(
+        r"(\bqty\b\s+INTEGER)\s+NOT\s+NULL", r"\1", ddl, flags=re.IGNORECASE)
+    if not subs:
+        return False
+    columns = ", ".join(
+        '"%s"' % r[1]
+        for r in con.execute(text("PRAGMA table_info(pottery_table)")))
+    con.execute(text("ALTER TABLE pottery_table RENAME TO _hff_qty_old"))
+    con.execute(text(new_ddl))
     con.execute(text(
-        "ALTER TABLE pottery_table ADD COLUMN qty INTEGER DEFAULT 1"
-    ))
-    con.execute(text(
-        "UPDATE pottery_table SET qty = 1 WHERE qty IS NULL"
-    ))
+        "INSERT INTO pottery_table (%s) SELECT %s FROM _hff_qty_old"
+        % (columns, columns)))
+    con.execute(text("DROP TABLE _hff_qty_old"))
     return True
 
 
@@ -118,5 +176,10 @@ def ensure_pottery_qty_column(engine: Engine) -> None:
             print(
                 "[hff_pottery_qty_migration] added pottery_table.qty "
                 "INTEGER DEFAULT 1"
+            )
+        if _make_qty_nullable(con):
+            print(
+                "[hff_pottery_qty_migration] pottery_table.qty is now "
+                "nullable (empty Quantity stays empty)"
             )
         _write_version(con, _COMPONENT, _TARGET_VERSION)
