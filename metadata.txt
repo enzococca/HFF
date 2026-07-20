@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.27
+version=11.28
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,10 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.27:
+changelog=11.28:
+    - Pottery Nr. Box / Quantity, follow-up to issue #57 (Catnip19): clearing the field and saving an existing record failed on PostgreSQL with "invalid input syntax for integer" — the forms hand every field over as text, so a cleared numeric field reached the UPDATE as an empty string. Empty text on a numeric column is now written as NULL for every form and every numeric field, on insert and on update alike (this failure predates 11.27; it simply became easy to hit once empty values were allowed).
+    - Pottery Quantity: the bundled SQLite template declares qty "not null DEFAULT 1", so an empty Quantity could never be stored — the database itself turned it back into 1, which is the real reason every record in the field databases reads Quantity 1. The column is now made nullable at connection time (ALTER on PostgreSQL, table rebuild preserving data, column order and constraints on SQLite). On databases that still lack the column it is added without DEFAULT and without backfilling 1: records written before the Quantity field existed have an unknown quantity, not "one item".
+    11.27:
     - Import data (issue #57 — Catnip19): media links now survive the import. Every import renumbers the records it writes, but media_to_entity_table and media_thumb_table rows were copied with the SOURCE numeric ids: as soon as the source numbering had gaps, every photo/video tag slid onto the wrong record (in the reported Qalamoun database 521 of 732 links pointed at the wrong form — wrong dive logs, missing Environment videos). Both imports now translate id_media and id_entity through the natural keys (media filepath; divelog_id+years+site; artefact/anchors/pottery codes; ...), thumbs already present are re-pointed at the correct media, and after a fully-resolved re-import the system offers to delete the stale wrong links left behind by earlier imports.
     - Import data (issue #57): the divers copy of the UW import now carries bottom_time (it was the only column left behind, so the Dive Log form showed empty Bottom Time after every import) and backfills it on divers already imported by older versions.
     - Pottery form (issue #57): Nr. Box and Quantity are no longer forced to 1 when left empty — an empty field stays empty, on screen and in the database. The systematic "1" in every record came from that default (plus the 11.12 qty backfill), not from user data.
