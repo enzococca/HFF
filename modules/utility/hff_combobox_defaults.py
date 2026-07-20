@@ -20,7 +20,13 @@ DEFAULTS = {
         'Pitcher', 'Krater', 'Lekythos', 'Pyxis', 'Cooking pot', 'Lamp',
         'Storage jar', 'Pithos', 'Basin',
     ],
+    # issue #57: conservation is a yes/no flag ("is it in conservation?",
+    # the column is even a String(4)); the preservation vocabulary that
+    # used to sit here belongs to the State of Preservation field below.
     ('pottery_table', 'conservation'): [
+        'Yes', 'No',
+    ],
+    ('pottery_table', 'state'): [
         'Excellent', 'Good', 'Fair', 'Poor', 'Fragmentary',
     ],
     ('pottery_table', 'samples'): [

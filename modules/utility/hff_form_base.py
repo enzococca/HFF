@@ -200,6 +200,7 @@ UI_TEXT_TO_KEY = {
     'Category': 'category',
     'Status': 'status',
     'State': 'state',
+    'State of Preservation': 'state_of_preservation',
     'Date': 'date',
     'Year': 'year',
     'Period': 'period',

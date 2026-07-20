@@ -178,6 +178,7 @@ class HffI18n:
         'category': {'en': 'Category', 'ar-lb': 'الفئة'},
         'status': {'en': 'Status', 'ar-lb': 'الحالة'},
         'state': {'en': 'State', 'ar-lb': 'الحالة'},
+        'state_of_preservation': {'en': 'State of Preservation', 'ar-lb': 'حالة الحفظ'},
         'date': {'en': 'Date', 'ar-lb': 'التاريخ'},
         'year': {'en': 'Year', 'ar-lb': 'السنة'},
         'period': {'en': 'Period', 'ar-lb': 'الفترة'},

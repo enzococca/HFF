@@ -164,7 +164,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     "Depth":"depth",
     "Storage":"storage_",
     "Period":"period",
-    "State":"state",
+    "State of Preservation":"state",
     "Samples":"samples",
     "Washed":"washed",
     "Diameter max":"dm",
@@ -206,7 +206,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 "Depth",
                 "Storage",
                 "Period",
-                "State",
+                "State of Preservation",
                 "Sample",
                 "Washed",
                 "Diametro max",
@@ -247,7 +247,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 'Depth',
                 'Storage',
                 'Period',
-                'State',
+                'State of Preservation',
                 'Sample',
                 'Washed',
                 'Diameter max',
@@ -1841,8 +1841,16 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                      'pottery_table', 'form')
         _cb(self.comboBox_munsell_clay, _q('pottery_table', 'munsell_clay', 'POTTERY'),
                      'pottery_table', 'munsell_clay')
-        _cb(self.comboBox_conservation, _q('pottery_table', 'conservation', 'POTTERY'),
-                     'pottery_table', 'conservation')
+        # issue #57: Conservation must offer ONLY Yes / No, so no merge
+        # with the legacy DB values (Excellent, Good, ... belong to the
+        # State of Preservation field). Editable so that old records
+        # still display whatever they have stored.
+        self.comboBox_conservation.clear()
+        self.comboBox_conservation.setEditable(True)
+        self.comboBox_conservation.addItems(['Yes', 'No'])
+        self.comboBox_conservation.setEditText('')
+        _cb(self.comboBox_state, _q('pottery_table', 'state', 'POTTERY'),
+                     'pottery_table', 'state')
         _cb(self.comboBox_samples,   _q('pottery_table', 'samples', 'POTTERY'),
                      'pottery_table', 'samples')
         _cb(self.comboBox_munsell_surf, _q('pottery_table', 'munsell_surf', 'POTTERY'),
@@ -2018,15 +2026,17 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             years = ''
         else:
             years = int(self.comboBox_year.currentText())
+        # issue #57: an empty field must stay empty. Forcing 1 here is
+        # what filled every record with Nr. Box = 1 / Quantity = 1.
         if self.lineEdit_box.text() == "":
-            box = 1
+            box = None
         else:
             box = int(self.lineEdit_box.text())
 
         if self.lineEdit_qty.text() == "":
-            qty = 1
+            qty = None
         else:
-            qty = int(self.lineEdit_qty.text())           
+            qty = int(self.lineEdit_qty.text())
         try:
             data = self.DB_MANAGER.insert_pottery_values(
             self.DB_MANAGER.max_num_id(self.MAPPER_TABLE_CLASS, self.ID_TABLE)+1,
@@ -2049,7 +2059,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     str(self.lineEdit_depth.text()),
                     str(self.lineEdit_storage_.text()),
                     str(self.lineEdit_period.text()),
-                    str(self.lineEdit_state.text()),
+                    str(self.comboBox_state.currentText()),
                     str(self.comboBox_samples.currentText()),
                     str(self.comboBox_washed.currentText()),
                     str(self.lineEdit_dm.text()),
@@ -2306,7 +2316,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             self.TABLE_FIELDS[16] : "'"+str(self.lineEdit_depth.text())+"'",#16 - data schedatura
             self.TABLE_FIELDS[17] : "'"+str(self.lineEdit_storage_.text())+ "'",
             self.TABLE_FIELDS[18] : "'"+str(self.lineEdit_period.text())+ "'",
-            self.TABLE_FIELDS[19] : "'"+str(self.lineEdit_state.text())+ "'",               #19 - conservazione
+            self.TABLE_FIELDS[19] : "'"+str(self.comboBox_state.currentText())+ "'",               #19 - conservazione
             self.TABLE_FIELDS[20] : "'"+str(self.comboBox_samples.currentText())+ "'",  
             self.TABLE_FIELDS[21] : "'"+str(self.comboBox_washed.currentText())+ "'",
             self.TABLE_FIELDS[22] : "'"+str(self.lineEdit_dm.text())+ "'",                              #15 - metodo
@@ -2507,7 +2517,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.lineEdit_depth.clear()
         self.lineEdit_storage_.clear()
         self.lineEdit_period.clear()
-        self.lineEdit_state.clear()
+        self.comboBox_state.setEditText("")
         self.comboBox_samples.setEditText("")
         self.comboBox_washed.setEditText("")
         self.lineEdit_dm.clear()
@@ -2555,7 +2565,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             str(self.lineEdit_depth.setText(self.DATA_LIST[self.rec_num].depth))
             str(self.lineEdit_storage_.setText(self.DATA_LIST[self.rec_num].storage_))
             str(self.lineEdit_period.setText(self.DATA_LIST[self.rec_num].period))
-            str(self.lineEdit_state.setText(self.DATA_LIST[self.rec_num].state))
+            str(self.comboBox_state.setEditText(self.DATA_LIST[self.rec_num].state))
             str(self.comboBox_samples.setEditText(self.DATA_LIST[self.rec_num].samples))
             str(self.comboBox_washed.setEditText(self.DATA_LIST[self.rec_num].washed))
             str(self.lineEdit_dm.setText(self.DATA_LIST[self.rec_num].dm))
@@ -2599,15 +2609,17 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 # str(self.lineEdit_thickmax.setText(""))
             # else:
                 # self.lineEdit_thickmax.setText(str(self.DATA_LIST[self.rec_num].thickmax))
-            self.comboBox_year.setEditText(str(self.DATA_LIST[self.rec_num].years)) 
-            self.lineEdit_box.setText(str(self.DATA_LIST[self.rec_num].box))
+            self.comboBox_year.setEditText(str(self.DATA_LIST[self.rec_num].years))
+            _box = self.DATA_LIST[self.rec_num].box
+            self.lineEdit_box.setText('' if _box is None else str(_box))
             self.tableInsertData("self.tableWidget_rif_biblio",self.DATA_LIST[self.rec_num].biblio)
             str(self.textEdit_description.setText(self.DATA_LIST[self.rec_num].description))
             str(self.comboBox_area.setEditText(self.DATA_LIST[self.rec_num].area))
             str(self.comboBox_munsell_surf.setEditText(self.DATA_LIST[self.rec_num].munsell_surf))
             str(self.comboBox_category.setEditText(self.DATA_LIST[self.rec_num].category))
             str(self.comboBox_wheelmade.setEditText(self.DATA_LIST[self.rec_num].wheel_made))
-            self.lineEdit_qty.setText(str(self.DATA_LIST[self.rec_num].qty))
+            _qty = self.DATA_LIST[self.rec_num].qty
+            self.lineEdit_qty.setText('' if _qty is None else str(_qty))
             if self.toolButtonPreviewMedia.isChecked() == True:
                 self.loadMediaPreview()
                 self.loadMedialist()
@@ -2674,7 +2686,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         str(self.lineEdit_depth.text()),
         str(self.lineEdit_storage_.text()),
         str(self.lineEdit_period.text()),
-        str(self.lineEdit_state.text()),
+        str(self.comboBox_state.currentText()),
         str(self.comboBox_samples.currentText()),
         str(self.comboBox_washed.currentText()),
         str(self.lineEdit_dm.text()),
@@ -2698,7 +2710,10 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
     def set_LIST_REC_CORR(self):
         self.DATA_LIST_REC_CORR = []
         for i in self.TABLE_FIELDS:
-            self.DATA_LIST_REC_CORR.append(eval("str(self.DATA_LIST[self.REC_CORR]." + i + ")"))
+            # NULL in the db and an empty widget are the same thing:
+            # str(None) would flag every record as modified.
+            _v = getattr(self.DATA_LIST[self.REC_CORR], i)
+            self.DATA_LIST_REC_CORR.append('' if _v is None else str(_v))
     def records_equal_check(self):
         self.set_LIST_REC_TEMP()
         self.set_LIST_REC_CORR()

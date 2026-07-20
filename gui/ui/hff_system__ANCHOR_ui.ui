@@ -1388,12 +1388,12 @@
          </property>
          <item>
           <property name="text">
-           <string>no</string>
+           <string>No</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>yes</string>
+           <string>Yes</string>
           </property>
          </item>
         </widget>

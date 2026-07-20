@@ -1290,7 +1290,7 @@ font: 75 10pt "MS Shell Dlg 2";</string>
             <locale language="English" country="UnitedKingdom" />
            </property>
            <property name="text">
-            <string>State</string>
+            <string>State of Preservation</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1333,7 +1333,7 @@ font: 75 10pt "MS Shell Dlg 2";</string>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit_state">
+          <widget class="QComboBox" name="comboBox_state">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -1343,8 +1343,8 @@ font: 75 10pt "MS Shell Dlg 2";</string>
            <property name="locale">
             <locale language="English" country="UnitedKingdom" />
            </property>
-           <property name="text">
-            <string />
+           <property name="editable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
