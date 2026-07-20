@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.26
+version=11.27
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,12 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.26:
+changelog=11.27:
+    - Import data (issue #57 — Catnip19): media links now survive the import. Every import renumbers the records it writes, but media_to_entity_table and media_thumb_table rows were copied with the SOURCE numeric ids: as soon as the source numbering had gaps, every photo/video tag slid onto the wrong record (in the reported Qalamoun database 521 of 732 links pointed at the wrong form — wrong dive logs, missing Environment videos). Both imports now translate id_media and id_entity through the natural keys (media filepath; divelog_id+years+site; artefact/anchors/pottery codes; ...), thumbs already present are re-pointed at the correct media, and after a fully-resolved re-import the system offers to delete the stale wrong links left behind by earlier imports.
+    - Import data (issue #57): the divers copy of the UW import now carries bottom_time (it was the only column left behind, so the Dive Log form showed empty Bottom Time after every import) and backfills it on divers already imported by older versions.
+    - Pottery form (issue #57): Nr. Box and Quantity are no longer forced to 1 when left empty — an empty field stays empty, on screen and in the database. The systematic "1" in every record came from that default (plus the 11.12 qty backfill), not from user data.
+    - Pottery / Anchor / Artefact forms (issue #57): the Conservation dropdown now offers only Yes / No (the pottery column is even a 4-char field — the preservation vocabulary never belonged there; old stored values remain visible). The Pottery "State" field is renamed "State of Preservation" and is now a dropdown with the Conservation-form vocabulary: Excellent, Good, Fair, Poor, Fragmentary (with Arabic translation).
+    11.26:
     - Geometry import, second round of issue #40 fixes from Catnip19's reports: (1) SQLite engines now load the spatialite extension (best-effort) — databases created from the old template carry spatialite triggers on the geometry tables, and without the extension every INSERT died with "no such function: GeometryConstraints"; (2) the schema migration now also ADDs missing COLUMNS on existing tables, on SQLite and PostgreSQL alike — older postgres artefact_point/pottery_point tables lack x, y, rotation, "Layer" and every read died with psycopg2 UndefinedColumn; (3) the ANCHOR_POINT import branch caught only AssertionError, so real errors escaped as an unhandled QGIS traceback instead of a readable popup.
     - Conservation forms: the toolbar PDF button was shipped DISABLED in the Anchor and Artefact Conservation .ui files (left over from when their export was disabled) — it looked grey and unclickable even though v11.24 enabled the export. Wired buttons are now always enabled.
     11.25:
