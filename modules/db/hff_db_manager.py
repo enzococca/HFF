@@ -1159,6 +1159,7 @@ class Hff_db_management(object):
         Session = sessionmaker(bind=self.engine, autoflush=False)
         session = Session()
         try:
+            self.null_empty_numeric_attrs(data)
             session.add(data)
             session.commit()
         except:
@@ -1166,6 +1167,42 @@ class Hff_db_management(object):
             raise
         finally:
             session.close()
+
+    @staticmethod
+    def _numeric_column_names(mapped):
+        """Names of the mapped numeric columns, or an empty set.
+
+        `mapped` is either a mapped class or an instance of one.
+        """
+        try:
+            from sqlalchemy import inspect as _sa_inspect
+            mapper = _sa_inspect(mapped)
+            columns = getattr(mapper, 'columns', None)
+            if columns is None:          # instance -> its mapper
+                columns = mapper.mapper.columns
+            names = set()
+            for column in columns:
+                try:
+                    if column.type.python_type in (int, float):
+                        names.add(column.key)
+                except (NotImplementedError, AttributeError):
+                    continue
+            return names
+        except Exception:
+            return set()
+
+    def null_empty_numeric_attrs(self, data):
+        """Empty text on a numeric column must be stored as NULL.
+
+        The forms hand every field over as a string, so a field the user
+        left empty arrives as ''. SQLite accepts it, PostgreSQL rejects
+        the whole statement with `invalid input syntax for integer: ""`
+        (issue #57: clearing the Pottery Nr. Box made saving impossible).
+        """
+        for name in self._numeric_column_names(data):
+            if getattr(data, name, None) == '':
+                setattr(data, name, None)
+        return data
 
     def update(self, table_class_str, id_table_str, value_id_list, columns_name_list, values_update_list):
         """
@@ -1212,6 +1249,16 @@ class Hff_db_management(object):
             column_list.append(column_str)
 
         u.add_item_to_dict(changes_dict, list(zip(self.columns_name_list, update_value_list)))
+
+        # issue #57: '' from a cleared numeric field must be written as
+        # NULL — PostgreSQL rejects the whole UPDATE otherwise.
+        try:
+            numeric = self._numeric_column_names(eval(self.table_class_str))
+        except Exception:
+            numeric = set()
+        for _name in numeric:
+            if changes_dict.get(_name) == '':
+                changes_dict[_name] = None
 
         Session = sessionmaker(bind=self.engine, autoflush=True)
         session = Session()
