@@ -3388,11 +3388,23 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 divers_imported = 0
                 divers_skipped = 0
                 segs_imported = 0
+                # issue #57: bottom_time (divers migration v2) must travel
+                # with the divers or the DL form shows it empty after an
+                # import. Sources older than v2 may not have the column.
+                from sqlalchemy import inspect as _sa_inspect
+                try:
+                    _src_cols = {
+                        c['name'] for c in _sa_inspect(
+                            self.DB_MANAGER_read.engine).get_columns('divers')}
+                except Exception:
+                    _src_cols = set()
+                _bt_sel = ("bottom_time" if "bottom_time" in _src_cols
+                           else "NULL AS bottom_time")
                 with self.DB_MANAGER_read.engine.connect() as _r:
                     src_divers = _r.execute(_sa_text(
                         "SELECT id, site, divelog_id, years, diver_name, "
-                        "role, time_in, time_out, max_depth FROM divers "
-                        "ORDER BY id"
+                        "role, time_in, time_out, max_depth, %s "
+                        "FROM divers ORDER BY id" % _bt_sel
                     )).fetchall()
                     for sd in src_divers:
                         src_id = int(sd[0])
@@ -3404,17 +3416,26 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                             ), {"s": sd[1], "d": sd[2], "y": sd[3],
                                 "n": sd[4]}).fetchone()
                             if existing:
+                                # heal targets filled by pre-#57 imports:
+                                # same diver, bottom_time never copied
+                                if sd[9] not in (None, ''):
+                                    _w.execute(_sa_text(
+                                        "UPDATE divers SET bottom_time=:bt "
+                                        "WHERE id=:i AND (bottom_time IS "
+                                        "NULL OR bottom_time='')"
+                                    ), {"bt": sd[9],
+                                        "i": int(existing[0])})
                                 divers_skipped += 1
                                 continue
                             if _w.dialect.name == "sqlite":
                                 _w.execute(_sa_text(
                                     "INSERT INTO divers (site, divelog_id, "
                                     "years, diver_name, role, time_in, "
-                                    "time_out, max_depth) VALUES "
-                                    "(:s, :d, :y, :n, :r, :ti, :to, :md)"
+                                    "time_out, max_depth, bottom_time) VALUES "
+                                    "(:s, :d, :y, :n, :r, :ti, :to, :md, :bt)"
                                 ), {"s": sd[1], "d": sd[2], "y": sd[3],
                                     "n": sd[4], "r": sd[5], "ti": sd[6],
-                                    "to": sd[7], "md": sd[8]})
+                                    "to": sd[7], "md": sd[8], "bt": sd[9]})
                                 new_id = int(_w.execute(_sa_text(
                                     "SELECT last_insert_rowid()"
                                 )).scalar_one())
@@ -3422,12 +3443,13 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                                 new_id = int(_w.execute(_sa_text(
                                     "INSERT INTO divers (site, divelog_id, "
                                     "years, diver_name, role, time_in, "
-                                    "time_out, max_depth) VALUES "
-                                    "(:s, :d, :y, :n, :r, :ti, :to, :md) "
+                                    "time_out, max_depth, bottom_time) VALUES "
+                                    "(:s, :d, :y, :n, :r, :ti, :to, :md, :bt) "
                                     "RETURNING id"
                                 ), {"s": sd[1], "d": sd[2], "y": sd[3],
                                     "n": sd[4], "r": sd[5], "ti": sd[6],
-                                    "to": sd[7], "md": sd[8]}).scalar_one())
+                                    "to": sd[7], "md": sd[8],
+                                    "bt": sd[9]}).scalar_one())
                             divers_imported += 1
                             src_segs = _r.execute(_sa_text(
                                 "SELECT seq, breathing_mix, bar_start, "
@@ -3500,13 +3522,38 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
         elif mapper_class_write == 'MEDIA_THUMB' :
             skipped = 0
             imported = 0
+            healed = 0
+            unresolved = 0
+            # issue #57: id_media is renumbered by the MEDIA import, so
+            # the source value cannot be copied verbatim — translate it
+            # through the media filepath (the media natural key).
+            from ..modules.db.hff_import_id_remap import build_media_id_map
+            from sqlalchemy import text as _sa_text2
+            try:
+                media_map = build_media_id_map(
+                    self.DB_MANAGER_read.engine, self.DB_MANAGER_write.engine)
+            except Exception as _remap_exc:
+                QMessageBox.warning(self, tr('title_alert'),
+                                    "Unable to map media ids between the two "
+                                    "databases (did you import MEDIA first?)."
+                                    "<br><br>%s" % str(_remap_exc),
+                                    QMessageBox.Ok)
+                return 0
             for sing_rec in range(len(data_list_toimp)):
+                try:
+                    _src_id_media = int(data_list_toimp[sing_rec].id_media)
+                except (TypeError, ValueError):
+                    _src_id_media = None
+                new_id_media = media_map.get(_src_id_media)
+                if new_id_media is None:
+                    unresolved += 1
+                    continue
                 try:
                     data = self.DB_MANAGER_write.insert_mediathumb_values(
                         self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                          id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                         #data_list_toimp[sing_rec].id_media_thumb,
-                        data_list_toimp[sing_rec].id_media,
+                        new_id_media,
                         data_list_toimp[sing_rec].mediatype,
                         data_list_toimp[sing_rec].media_filename,
                         data_list_toimp[sing_rec].media_thumb_filename,
@@ -3524,32 +3571,92 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                     self.progress_bar.setValue(int_value)
                     QApplication.processEvents()
                 except IntegrityError:
-                    skipped += 1
+                    # thumb already in the target (unique on
+                    # media_thumb_filename): repoint its id_media, so
+                    # databases filled by pre-#57 imports get healed
+                    # instead of being skipped forever.
+                    try:
+                        with self.DB_MANAGER_write.engine.begin() as _w:
+                            _res = _w.execute(_sa_text2(
+                                "UPDATE media_thumb_table SET id_media=:m "
+                                "WHERE media_thumb_filename=:f "
+                                "AND id_media<>:m"
+                            ), {"m": new_id_media,
+                                "f": data_list_toimp[sing_rec].media_thumb_filename})
+                            if getattr(_res, 'rowcount', 0):
+                                healed += 1
+                            else:
+                                skipped += 1
+                    except Exception:
+                        skipped += 1
                     self.progress_bar.setValue(int((float(sing_rec) / float(len(data_list_toimp))) * 100))
                     QApplication.processEvents()
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            if skipped > 0:
-                QMessageBox.information(self, tr('title_message'),
-                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
-            else:
-                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+            msg_parts = ["Imported: %d, Skipped (duplicates): %d" % (imported, skipped)]
+            if healed:
+                msg_parts.append("Re-linked to the correct media: %d" % healed)
+            if unresolved:
+                msg_parts.append("Skipped (media not found in the target "
+                                 "database — import MEDIA first): %d" % unresolved)
+            QMessageBox.information(self, tr('title_message'),
+                                    "\n".join(msg_parts))
 
 
         elif mapper_class_write == 'MEDIATOENTITY' :
             skipped = 0
             imported = 0
+            unresolved_media = 0
+            unresolved_entity = 0
+            # issue #57: both sides of the link are renumbered ids —
+            # id_media by the MEDIA import, id_entity by the form
+            # imports (SITE/UW/POTTERY/...). Copying them verbatim tags
+            # photos and videos onto the wrong records. Translate both
+            # through their natural keys before inserting.
+            from ..modules.db.hff_import_id_remap import (
+                build_media_id_map, EntityIdRemapper)
+            from sqlalchemy import text as _sa_text3
+            try:
+                media_map = build_media_id_map(
+                    self.DB_MANAGER_read.engine, self.DB_MANAGER_write.engine)
+            except Exception as _remap_exc:
+                QMessageBox.warning(self, tr('title_alert'),
+                                    "Unable to map media ids between the two "
+                                    "databases (did you import MEDIA first?)."
+                                    "<br><br>%s" % str(_remap_exc),
+                                    QMessageBox.Ok)
+                return 0
+            entity_remap = EntityIdRemapper(
+                self.DB_MANAGER_read.engine, self.DB_MANAGER_write.engine)
+            valid_links = set()
             for sing_rec in range(len(data_list_toimp)):
+                try:
+                    _src_id_media = int(data_list_toimp[sing_rec].id_media)
+                except (TypeError, ValueError):
+                    _src_id_media = None
+                new_id_media = media_map.get(_src_id_media)
+                if new_id_media is None:
+                    unresolved_media += 1
+                    continue
+                new_id_entity = entity_remap.remap(
+                    data_list_toimp[sing_rec].entity_type,
+                    data_list_toimp[sing_rec].id_entity)
+                if new_id_entity is None:
+                    unresolved_entity += 1
+                    continue
+                valid_links.add((new_id_entity,
+                                 str(data_list_toimp[sing_rec].entity_type),
+                                 new_id_media))
                 try:
                     data = self.DB_MANAGER_write.insert_media2entity_values(
                         self.DB_MANAGER_write.max_num_id(mapper_class_write,
                                                          id_table_class_mapper_conv_dict[mapper_class_write]) + 1,
                         #data_list_toimp[sing_rec].id_mediaToEntity,
-                        data_list_toimp[sing_rec].id_entity,
+                        new_id_entity,
                         data_list_toimp[sing_rec].entity_type,
                         data_list_toimp[sing_rec].table_name,
-                        data_list_toimp[sing_rec].id_media,
+                        new_id_media,
                         data_list_toimp[sing_rec].filepath,
                         data_list_toimp[sing_rec].media_name)
 
@@ -3569,11 +3676,60 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                 except Exception as e:
                     QMessageBox.warning(self, "Errore", "Error ! \n" + str(e), QMessageBox.Ok)
                     return 0
-            if skipped > 0:
-                QMessageBox.information(self, tr('title_message'),
-                    "Imported: %d, Skipped (duplicates): %d" % (imported, skipped))
-            else:
-                QMessageBox.information(self, tr('title_message'), tr('msg_data_loaded'))
+            # Targets filled by pre-#57 imports contain links pointing at
+            # the wrong record. Those rows are not covered by the loop
+            # above (the correct link is a NEW triple, the wrong one just
+            # stays). Offer to align the target with the source.
+            pruned = 0
+            try:
+                if unresolved_media or unresolved_entity:
+                    # partial remap: a link that looks stale may simply
+                    # involve a record not imported yet — never prune here
+                    raise RuntimeError(
+                        "%d links could not be resolved (import MEDIA and "
+                        "the form tables first), stale-link cleanup skipped"
+                        % (unresolved_media + unresolved_entity))
+                with self.DB_MANAGER_write.engine.connect() as _w:
+                    tgt_links = _w.execute(_sa_text3(
+                        'SELECT "id_mediaToEntity", id_entity, entity_type, '
+                        'id_media FROM media_to_entity_table')).fetchall()
+                stale = [int(r[0]) for r in tgt_links
+                         if (r[1] is None or r[3] is None
+                             or (int(r[1]), str(r[2]), int(r[3]))
+                             not in valid_links)]
+                if stale:
+                    prune_msg = QMessageBox.question(
+                        self, tr('title_warning'),
+                        "%d media links in the target database do not match "
+                        "any link of the source database (typically leftovers "
+                        "of an import made before the id fix — images tagged "
+                        "under the wrong logs).<br><br>Remove them so the "
+                        "target matches the source?" % len(stale),
+                        QMessageBox.Yes | QMessageBox.No)
+                    if prune_msg == QMessageBox.Yes:
+                        with self.DB_MANAGER_write.engine.begin() as _w:
+                            for _sid in stale:
+                                _w.execute(_sa_text3(
+                                    'DELETE FROM media_to_entity_table '
+                                    'WHERE "id_mediaToEntity"=:i'), {"i": _sid})
+                                pruned += 1
+            except Exception as _prune_exc:
+                QMessageBox.warning(self, tr('title_alert'),
+                                    "Could not check for stale media links: "
+                                    "%s" % str(_prune_exc), QMessageBox.Ok)
+            msg_parts = ["Imported: %d, Skipped (already linked): %d"
+                         % (imported, skipped)]
+            if pruned:
+                msg_parts.append("Removed stale/wrong links: %d" % pruned)
+            if unresolved_media:
+                msg_parts.append("Skipped (media not found in the target — "
+                                 "import MEDIA first): %d" % unresolved_media)
+            if unresolved_entity:
+                msg_parts.append("Skipped (record not found in the target — "
+                                 "import the form tables first): %d"
+                                 % unresolved_entity)
+            QMessageBox.information(self, tr('title_message'),
+                                    "\n".join(msg_parts))
         elif mapper_class_write == 'SHIPWRECK' :
             skipped = 0
             imported = 0
