@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.28
+version=11.29
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,10 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.28:
+changelog=11.29:
+    - Anchor form (issue #57 follow-up — Catnip19): Nr. Box and Quantity are now grouped in the Storage tab, matching the Pottery form. Quantity already existed (as "Qty" in the header) but had no companion Nr. Box; the new "box" column is added to anchor_table automatically. Both fields left empty are stored as NULL instead of falling back to 0/1 — anchor_table.qty shipped as "not null DEFAULT 1" (the same defect as pottery) and is now made nullable at connection time (ALTER on PostgreSQL, view-safe table rebuild on SQLite), so an empty Quantity stays empty on screen and in the database.
+    - SQLite view integrity: the 11.28 pottery Quantity rebuild renamed pottery_table without disabling SQLite's automatic reference-rewriting, which left the pyarchinit_pot_view view pointing at the dropped temporary table (a dangling view that stayed silent until the next table rebuild). Both the pottery and the new anchor rebuilds now run with legacy_alter_table=ON so dependent views (pyarchinit_pot_view / pyarchinit_anchor_view) survive intact, and any view already broken by 11.28 is repaired automatically at connection time.
+    11.28:
     - Pottery Nr. Box / Quantity, follow-up to issue #57 (Catnip19): clearing the field and saving an existing record failed on PostgreSQL with "invalid input syntax for integer" — the forms hand every field over as text, so a cleared numeric field reached the UPDATE as an empty string. Empty text on a numeric column is now written as NULL for every form and every numeric field, on insert and on update alike (this failure predates 11.27; it simply became easy to hit once empty values were allowed).
     - Pottery Quantity: the bundled SQLite template declares qty "not null DEFAULT 1", so an empty Quantity could never be stored — the database itself turned it back into 1, which is the real reason every record in the field databases reads Quantity 1. The column is now made nullable at connection time (ALTER on PostgreSQL, table rebuild preserving data, column order and constraints on SQLite). On databases that still lack the column it is added without DEFAULT and without backfilling 1: records written before the Quantity field existed have an unknown quantity, not "one item".
     11.27:
