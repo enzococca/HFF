@@ -38,22 +38,79 @@ def _quoted(engine, identifier):
     return engine.dialect.identifier_preparer.quote(identifier)
 
 
-def build_media_id_map(src_engine, dst_engine):
-    """Return {source id_media: target id_media}, matched on filepath.
+def _has_column(engine, table, column):
+    """True if ``table.column`` exists (media_uuid/media_sha256 are only
+    present after the media-identity migration, issue #58 follow-up)."""
+    try:
+        if engine.dialect.name == "sqlite":
+            with engine.connect() as con:
+                rows = con.execute(_sql("PRAGMA table_info(%s)" % table)).fetchall()
+            return any(r[1] == column for r in rows)
+        with engine.connect() as con:
+            row = con.execute(_sql(
+                "SELECT 1 FROM information_schema.columns "
+                "WHERE table_name = :t AND column_name = :c LIMIT 1"),
+                {"t": table, "c": column}).fetchone()
+        return row is not None
+    except Exception:
+        return False
 
-    Media whose filepath does not exist in the target (record skipped or
-    not yet imported) are simply absent from the map — the caller
-    decides how to report them.
+
+def _load_media_identity(engine):
+    """Rows of (id_media, filepath, media_uuid, media_sha256), tolerating
+    databases that predate the media-identity columns."""
+    cols = ["id_media", "filepath"]
+    cols.append("media_uuid" if _has_column(engine, "media_table", "media_uuid")
+                else "NULL AS media_uuid")
+    cols.append("media_sha256" if _has_column(engine, "media_table", "media_sha256")
+                else "NULL AS media_sha256")
+    with engine.connect() as con:
+        return con.execute(
+            _sql("SELECT %s FROM media_table" % ", ".join(cols))).fetchall()
+
+
+def build_media_id_map(src_engine, dst_engine):
+    """Return {source id_media: target id_media}.
+
+    Each source media is matched to a target media by the most stable key
+    available, in this order:
+
+      1. ``media_uuid``   -- a stable identity copied verbatim on import;
+      2. ``media_sha256`` -- content hash, identical across databases that were
+         populated independently (this is what reconciles already-diverged
+         databases);
+      3. ``filepath``     -- the legacy natural key; still used as a fallback,
+         but it breaks when files are moved/renamed or the two databases live
+         on machines with different paths.
+
+    Media with no match in the target are simply absent from the map — the
+    caller decides how to report them.
     """
-    with src_engine.connect() as con:
-        src = con.execute(
-            _sql("SELECT id_media, filepath FROM media_table")).fetchall()
-    with dst_engine.connect() as con:
-        dst = con.execute(
-            _sql("SELECT id_media, filepath FROM media_table")).fetchall()
-    by_path = {r[1]: int(r[0]) for r in dst if r[1] is not None}
-    return {int(r[0]): by_path[r[1]] for r in src
-            if r[1] is not None and r[1] in by_path}
+    src = _load_media_identity(src_engine)
+    dst = _load_media_identity(dst_engine)
+
+    dst_by_uuid, dst_by_sha, dst_by_path = {}, {}, {}
+    for r in dst:
+        idm = int(r[0])
+        path, muuid, msha = r[1], r[2], r[3]
+        if muuid:
+            dst_by_uuid.setdefault(muuid, idm)
+        if msha:
+            dst_by_sha.setdefault(msha, idm)
+        if path is not None:
+            dst_by_path.setdefault(path, idm)
+
+    result = {}
+    for r in src:
+        idm = int(r[0])
+        path, muuid, msha = r[1], r[2], r[3]
+        if muuid and muuid in dst_by_uuid:
+            result[idm] = dst_by_uuid[muuid]
+        elif msha and msha in dst_by_sha:
+            result[idm] = dst_by_sha[msha]
+        elif path is not None and path in dst_by_path:
+            result[idm] = dst_by_path[path]
+    return result
 
 
 # entity_type value (as written by the tagging code all over the forms)

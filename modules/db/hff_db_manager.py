@@ -21,6 +21,9 @@
 
 import os
 
+import hashlib
+import uuid
+
 import psycopg2
 from builtins import object
 from builtins import range
@@ -141,6 +144,20 @@ class Hff_db_management(object):
                 ensure_anchor_box_qty_column(self.engine)
             except Exception as migration_exc:
                 print(f"[hff_anchor_box_qty_migration] skipped: {migration_exc}")
+
+            # issue #58 follow-up: give every media a stable cross-database
+            # identity -- media_uuid (a uuid4 copied verbatim on import) and
+            # media_sha256 (content hash, identical across databases). Adds the
+            # two columns and backfills existing rows on SQLite and PostgreSQL,
+            # so import can match media by a stable key instead of the
+            # renumbered integer id_media.
+            try:
+                from .hff_media_identity_migration import (
+                    ensure_media_identity_columns,
+                )
+                ensure_media_identity_columns(self.engine)
+            except Exception as migration_exc:
+                print(f"[hff_media_identity_migration] skipped: {migration_exc}")
 
             # issue #40: the structure modules create their tables only
             # on the connection active at import time, so the TARGET
@@ -910,15 +927,49 @@ class Hff_db_management(object):
 
     
 
+    @staticmethod
+    def _sha256_of_file(path):
+        """Hex sha256 of a file's content, or None if unreadable.
+
+        Gives each media a content-based identity that is identical across
+        databases (issue #58 follow-up), so the same photo can be matched even
+        when two databases were populated independently.
+        """
+        try:
+            if not path or not os.path.isfile(path):
+                return None
+            h = hashlib.sha256()
+            with open(path, 'rb') as fh:
+                for chunk in iter(lambda: fh.read(1 << 20), b''):
+                    h.update(chunk)
+            return h.hexdigest()
+        except Exception:
+            return None
+
     def insert_media_values(self, *arg):
-        """Istanzia la classe MEDIA da hff_system__db_mapper"""
+        """Istanzia la classe MEDIA da hff_system__db_mapper.
+
+        arg[0..6] = id_media, mediatype, filename, filetype, filepath,
+        descrizione, tags. Optional arg[7]=media_uuid, arg[8]=media_sha256:
+        supplied (e.g. the Import tab copying a row) -> preserved so the media
+        keeps ONE identity across databases; absent (a form creating a new
+        media) -> a fresh uuid4 is generated and the sha256 computed from the
+        file (issue #58 follow-up)."""
+        media_uuid = arg[7] if len(arg) > 7 and arg[7] else None
+        media_sha256 = arg[8] if len(arg) > 8 and arg[8] else None
+        if not media_uuid:
+            media_uuid = uuid.uuid4().hex
+        if not media_sha256:
+            media_sha256 = self._sha256_of_file(arg[4])
         media = MEDIA(arg[0],
                       arg[1],
                       arg[2],
                       arg[3],
                       arg[4],
                       arg[5],
-                      arg[6])
+                      arg[6],
+                      media_uuid,
+                      media_sha256)
 
         return media
 

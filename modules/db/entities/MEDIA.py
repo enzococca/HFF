@@ -15,7 +15,9 @@ class MEDIA(object):
                  filetype,
                  filepath,
                  descrizione,
-                 tags
+                 tags,
+                 media_uuid=None,
+                 media_sha256=None
                  ):
         self.id_media = id_media  # 0
         self.mediatype = mediatype  # 1
@@ -23,16 +25,19 @@ class MEDIA(object):
         self.filetype = filetype  # 3
         self.filepath = filepath  # 4
         self.descrizione = descrizione  # 5
-        self.tags = tags  # 5
+        self.tags = tags  # 6
+        self.media_uuid = media_uuid  # 7 - stable cross-db identity (issue #58)
+        self.media_sha256 = media_sha256  # 8 - content hash
 
     # def __repr__"
     def __repr__(self):
-        return "<MEDIA('%d', '%s', '%s', %s, '%s','%s', '%s')>" % (
+        return "<MEDIA('%s', '%s', '%s', %s, '%s','%s', '%s', uuid=%s)>" % (
             self.id_media,
             self.mediatype,
             self.filename,
             self.filetype,
             self.filepath,
             self.descrizione,
-            self.tags
+            self.tags,
+            self.media_uuid
         )
