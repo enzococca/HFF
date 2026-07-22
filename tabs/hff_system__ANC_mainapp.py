@@ -374,7 +374,8 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                     'bft',
                     'qty',
                     'biblio',
-                    'storage_'
+                    'storage_',
+                    'box'
                     ]
     # LANG = {
         # "IT": ['it_IT', 'IT', 'it', 'IT_IT'],
@@ -2687,10 +2688,15 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             bft = float(self.lineEdit_bft.text())
             
         if self.lineEdit_qty.text() == "":
-            qty = 0
+            qty = None
         else:
-            qty = int(self.lineEdit_qty.text())    
-        
+            qty = int(self.lineEdit_qty.text())
+
+        if self.lineEdit_box.text() == "":
+            box = None
+        else:
+            box = int(self.lineEdit_box.text())
+
         biblio = self.table2dict("self.tableWidget_rif_biblio")
         
         try:
@@ -2759,7 +2765,8 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             bft,
             qty,
             str(biblio),
-            str(self.lineEdit_storage_.text())
+            str(self.lineEdit_storage_.text()),
+            box
                 )
             try:
                 self.DB_MANAGER.insert_data_session(data)
@@ -3087,7 +3094,11 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             if self.lineEdit_qty.text() != "":
                 qty = int(self.lineEdit_qty.text())
             else:
-                qty = ""        
+                qty = ""
+            if self.lineEdit_box.text() != "":
+                box = int(self.lineEdit_box.text())
+            else:
+                box = ""
             search_dict = {
             self.TABLE_FIELDS[0]  : "'"+str(self.comboBox_site.currentText())+"'",
             self.TABLE_FIELDS[1]  : divelog_id,
@@ -3149,7 +3160,8 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             self.TABLE_FIELDS[57]  : bfb,
             self.TABLE_FIELDS[58]  : bft,
             self.TABLE_FIELDS[59]  : qty,
-            }   
+            self.TABLE_FIELDS[62]  : box,
+            }
             u = Utility()
             search_dict = u.remove_empty_items_fr_dict(search_dict)
             if not bool(search_dict):
@@ -3369,7 +3381,8 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         self.lineEdit_bfb.clear()
         self.lineEdit_bft.clear()
         self.lineEdit_qty.clear()
-        
+        self.lineEdit_box.clear()
+
         # Clear bibliography table
         biblio_row_count = self.tableWidget_rif_biblio.rowCount()
         for i in range(biblio_row_count):
@@ -3555,8 +3568,12 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             else:
                 self.lineEdit_bft.setText(str(self.DATA_LIST[self.rec_num].bft))    
             
-            self.lineEdit_qty.setText(str(self.DATA_LIST[self.rec_num].qty))
-            
+            _qty = self.DATA_LIST[self.rec_num].qty
+            self.lineEdit_qty.setText('' if _qty is None else str(_qty))
+
+            _box = self.DATA_LIST[self.rec_num].box
+            self.lineEdit_box.setText('' if _box is None else str(_box))
+
             # Fill bibliography table
             self.tableInsertData("self.tableWidget_rif_biblio", self.DATA_LIST[self.rec_num].biblio)
             
@@ -4018,12 +4035,21 @@ class hff_system__ANC(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         str(bft),
         str(self.lineEdit_qty.text()),
         str(self.table2dict("self.tableWidget_rif_biblio")),
-        str(self.lineEdit_storage_.text())
+        str(self.lineEdit_storage_.text()),
+        str(self.lineEdit_box.text())
         ]
     def set_LIST_REC_CORR(self):
         self.DATA_LIST_REC_CORR = []
         for i in self.TABLE_FIELDS:
-            self.DATA_LIST_REC_CORR.append(eval("str(self.DATA_LIST[self.REC_CORR]." + i + ")"))
+            _v = eval("self.DATA_LIST[self.REC_CORR]." + i)
+            # NULL in the db and an empty widget must compare equal for the
+            # numeric Nr. Box / Quantity fields, whose temp values come
+            # straight from the widget as '' — str(None) would flag every
+            # record as modified. Other fields keep their str() form.
+            if i in ('box', 'qty') and _v is None:
+                self.DATA_LIST_REC_CORR.append('')
+            else:
+                self.DATA_LIST_REC_CORR.append(str(_v))
     def records_equal_check(self):
         self.set_LIST_REC_TEMP()
         self.set_LIST_REC_CORR()

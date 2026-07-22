@@ -146,7 +146,9 @@ class ANC(object):
 
                 biblio,
 
-                storage_
+                storage_,
+
+                box
 
                 ):
 
@@ -275,11 +277,12 @@ class ANC(object):
         self.qty=qty
         self.biblio=biblio
         self.storage_=storage_
+        self.box=box
 
-    
+
     def __repr__(self):
 
-        return "<ANC('%d', '%s', '%d', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d','%s','%f','%s','%s','%s','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%s','%f','%f','%f','%f','%f','%f','%d', '%s', '%s')>" % (
+        return "<ANC('%d', '%s', '%d', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d','%s','%f','%s','%s','%s','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%f','%s','%f','%f','%f','%f','%f','%f','%d', '%s', '%s', '%s')>" % (
 
         self.id_anc,
 
@@ -407,7 +410,9 @@ class ANC(object):
 
         self.biblio,
 
-        self.storage_
+        self.storage_,
+
+        self.box
 
         )
 

@@ -875,22 +875,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="7">
-        <widget class="QLineEdit" name="lineEdit_qty" />
-       </item>
-       <item row="0" column="6">
-        <widget class="QLabel" name="label_14">
-         <property name="frameShape">
-          <enum>QFrame::WinPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Qty&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="12">
         <widget class="QLabel" name="label_6">
          <property name="frameShape">
@@ -2485,13 +2469,41 @@
           </attribute>
           <layout class="QGridLayout" name="gridLayout_storage">
            <item row="0" column="0">
+            <widget class="QLabel" name="label_box">
+             <property name="text">
+              <string>Nr. Box</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineEdit_box">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_quantity">
+             <property name="text">
+              <string>Quantity</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="lineEdit_qty">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
             <widget class="QLabel" name="label_storage">
              <property name="text">
               <string>Storage Location</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="2" column="1">
             <widget class="QLineEdit" name="lineEdit_storage_">
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255);</string>

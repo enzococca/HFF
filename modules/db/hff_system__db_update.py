@@ -78,8 +78,11 @@ class DB_update(object):
         table_column_names_list = self._get_table_columns("anchor_table")
 
         if table_column_names_list is not None:
+            # issue #57: qty must be NULLABLE with no DEFAULT — an empty
+            # Quantity has to stay empty, not fall back to 1 (the same bug
+            # that affected pottery_table.qty).
             if 'qty' not in table_column_names_list:
-                self._execute_sql("ALTER TABLE anchor_table ADD COLUMN qty INTEGER not null DEFAULT 1")
+                self._execute_sql("ALTER TABLE anchor_table ADD COLUMN qty INTEGER")
 
         # ####shipwreck table
         table_column_names_list = self._get_table_columns("shipwreck_table")
@@ -102,9 +105,11 @@ class DB_update(object):
             if 'coord' not in table_column_names_list:
                 self._execute_sql("ALTER TABLE site_poligon ADD COLUMN coord TEXT DEFAULT ''")
 
-        # ####anchor_table - add biblio and storage columns (silent migration)
+        # ####anchor_table - add biblio, storage and box columns (silent migration)
         self._safe_add_column("anchor_table", "biblio", "TEXT DEFAULT ''")
         self._safe_add_column("anchor_table", "storage_", "TEXT DEFAULT ''")
+        # issue #57 follow-up: Nr. Box on the Anchor form (nullable, no default).
+        self._safe_add_column("anchor_table", "box", "INTEGER")
 
         # ####shipwreck_table - add biblio and storage columns (silent migration)
         self._safe_add_column("shipwreck_table", "biblio", "TEXT DEFAULT ''")

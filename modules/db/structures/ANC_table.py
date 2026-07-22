@@ -149,6 +149,8 @@ class ANC_table(object):
 
 	Column('storage_', Text, default=''),
 
+    Column('box', Integer),
+
     UniqueConstraint('anchors_id', name='ANCHORS_id_unico')
 
 	)

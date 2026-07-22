@@ -130,6 +130,18 @@ class Hff_db_management(object):
             except Exception as migration_exc:
                 print(f"[hff_pottery_qty_migration] skipped: {migration_exc}")
 
+            # issue #57 follow-up: add anchor_table.box (Nr. Box) and make
+            # anchor_table.qty nullable, mirroring the pottery fix, so the
+            # Anchor form gains Nr. Box + Quantity and an empty value stays
+            # empty instead of falling back to 1.
+            try:
+                from .hff_anchor_box_qty_migration import (
+                    ensure_anchor_box_qty_column,
+                )
+                ensure_anchor_box_qty_column(self.engine)
+            except Exception as migration_exc:
+                print(f"[hff_anchor_box_qty_migration] skipped: {migration_exc}")
+
             # issue #40: the structure modules create their tables only
             # on the connection active at import time, so the TARGET
             # database of the Import data / Import Geometry tab (or any
@@ -781,7 +793,8 @@ class Hff_db_management(object):
                     arg[59],
                     arg[60],
                     arg[61],
-                    arg[62]
+                    arg[62],
+                    arg[63]
                     )
 
         return anc
