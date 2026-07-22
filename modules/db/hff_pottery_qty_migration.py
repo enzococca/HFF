@@ -23,7 +23,10 @@ from sqlalchemy.engine import Engine
 
 # v2 (issue #57): the column must also be NULLABLE — an empty Quantity
 # has to stay empty instead of falling back to the DEFAULT 1.
-_TARGET_VERSION = 2
+# v3 (issue #57 follow-up): the v2 SQLite rebuild renamed pottery_table
+# without legacy_alter_table=ON and so left pyarchinit_pot_view dangling;
+# v3 rebuilds view-safely and repairs any view already broken by v2.
+_TARGET_VERSION = 3
 _COMPONENT = "pottery_qty_column"
 
 
@@ -154,13 +157,53 @@ def _make_qty_nullable(con) -> bool:
     columns = ", ".join(
         '"%s"' % r[1]
         for r in con.execute(text("PRAGMA table_info(pottery_table)")))
-    con.execute(text("ALTER TABLE pottery_table RENAME TO _hff_qty_old"))
-    con.execute(text(new_ddl))
-    con.execute(text(
-        "INSERT INTO pottery_table (%s) SELECT %s FROM _hff_qty_old"
-        % (columns, columns)))
-    con.execute(text("DROP TABLE _hff_qty_old"))
+    # Modern SQLite (legacy_alter_table=OFF, the default) rewrites the
+    # table name inside dependent views/triggers when a table is RENAMEd.
+    # Renaming pottery_table to a temp and dropping it would therefore
+    # leave pyarchinit_pot_view pointing at the dropped temp table. With
+    # legacy_alter_table=ON the rewrite is disabled, so the view keeps
+    # referencing pottery_table, which exists again after the rebuild.
+    con.execute(text("PRAGMA legacy_alter_table=ON"))
+    try:
+        con.execute(text("ALTER TABLE pottery_table RENAME TO _hff_qty_old"))
+        con.execute(text(new_ddl))
+        con.execute(text(
+            "INSERT INTO pottery_table (%s) SELECT %s FROM _hff_qty_old"
+            % (columns, columns)))
+        con.execute(text("DROP TABLE _hff_qty_old"))
+    finally:
+        con.execute(text("PRAGMA legacy_alter_table=OFF"))
     return True
+
+
+def _repair_rebuild_views(con) -> bool:
+    """Heal views/triggers broken by the v2 rebuild (issue #57).
+
+    v2 rebuilt pottery_table without legacy_alter_table=ON, so on SQLite
+    the RENAME rewrote pyarchinit_pot_view to reference the temporary
+    ``_hff_qty_old`` table, which was then dropped — leaving the view
+    dangling ("no such table: _hff_qty_old"). A dangling view is silent
+    until the next ALTER TABLE ... RENAME, which then fails. Rewrite the
+    stale reference back to pottery_table and recreate the object.
+    """
+    if con.dialect.name != "sqlite":
+        return False
+    rows = con.execute(text(
+        "SELECT type, name, sql FROM sqlite_master "
+        "WHERE type IN ('view', 'trigger') "
+        "AND sql LIKE '%_hff_qty_old%'"
+    )).fetchall()
+    repaired = False
+    for typ, name, sql_text in rows:
+        fixed = re.sub(r"\b_hff_qty_old\b", "pottery_table", sql_text or "")
+        con.execute(text('DROP %s IF EXISTS "%s"' % (typ.upper(), name)))
+        con.execute(text(fixed))
+        repaired = True
+        print(
+            "[hff_pottery_qty_migration] repaired %s %s broken by the v2 "
+            "rebuild" % (typ, name)
+        )
+    return repaired
 
 
 def ensure_pottery_qty_column(engine: Engine) -> None:
@@ -182,4 +225,6 @@ def ensure_pottery_qty_column(engine: Engine) -> None:
                 "[hff_pottery_qty_migration] pottery_table.qty is now "
                 "nullable (empty Quantity stays empty)"
             )
+        # heal pyarchinit_pot_view if the v2 rebuild left it dangling
+        _repair_rebuild_views(con)
         _write_version(con, _COMPONENT, _TARGET_VERSION)
