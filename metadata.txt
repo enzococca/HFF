@@ -5,7 +5,7 @@ qgisMaximumVersion=4.99
 supportsQt6=True
 description=HFF-survey - A tool for underwater and terrestrial archaeological survey and data management.
 
-version=11.29
+version=11.30
 
 author=Enzo Cocca
 email=enzo.ccc@gmail.com
@@ -28,7 +28,10 @@ about=HFF (Honor Frost Foundation) is a comprehensive open-source plugin for arc
 tracker=https://github.com/enzococca/HFF/issues
 repository=https://github.com/enzococca/HFF
 
-changelog=11.29:
+changelog=11.30:
+    - Media tagging (issue #58 — Catnip19): tagged photos are now resolved by the unique id_media instead of the base file name. Media files are unique on disk only through an embedded id ({id_media}_{name}.png), but every tag/open/delete keyed off the non-unique base name and took the first match, so two photos sharing a name tagged the wrong record, opened a blank or different image and — worst — deleting one thumbnail wiped another photo's files. List entries now carry id_media (Qt.UserRole) and every lookup resolves through it in Image_viewer and the six media forms (with a legacy filename fallback); a new delete-by-id path removes only the selected thumbnail; a photo added in one form (e.g. Conservation) can now also be tagged from another (e.g. Pottery) instead of being silently skipped; and the data-entry forms can be minimized.
+    - Media stable identity (issue #58 follow-up): every media now carries a media_uuid (a uuid4 copied verbatim on import) and a media_sha256 (content hash, identical across databases populated independently). The two columns are added to media_table and backfilled on SQLite and PostgreSQL at connection time (idempotent), so the Import data tab can match the same photo across databases by a stable key instead of the integer id_media that every import renumbers — the root cause behind media links sliding onto the wrong record. Import now matches media by uuid, then sha256, then filepath.
+    11.29:
     - Anchor form (issue #57 follow-up — Catnip19): Nr. Box and Quantity are now grouped in the Storage tab, matching the Pottery form. Quantity already existed (as "Qty" in the header) but had no companion Nr. Box; the new "box" column is added to anchor_table automatically. Both fields left empty are stored as NULL instead of falling back to 0/1 — anchor_table.qty shipped as "not null DEFAULT 1" (the same defect as pottery) and is now made nullable at connection time (ALTER on PostgreSQL, view-safe table rebuild on SQLite), so an empty Quantity stays empty on screen and in the database.
     - SQLite view integrity: the 11.28 pottery Quantity rebuild renamed pottery_table without disabling SQLite's automatic reference-rewriting, which left the pyarchinit_pot_view view pointing at the dropped temporary table (a dangling view that stayed silent until the next table rebuild). Both the pottery and the new anchor rebuilds now run with legacy_alter_table=ON so dependent views (pyarchinit_pot_view / pyarchinit_anchor_view) survive intact, and any view already broken by 11.28 is repaired automatically at connection time.
     11.28:
