@@ -3495,7 +3495,12 @@ class HFF_systemDialog_Config(QDialog, MAIN_DIALOG_CLASS):
                         data_list_toimp[sing_rec].filetype,
                         data_list_toimp[sing_rec].filepath,
                         data_list_toimp[sing_rec].descrizione,
-                        data_list_toimp[sing_rec].tags)
+                        data_list_toimp[sing_rec].tags,
+                        # issue #58 follow-up: carry the source media's stable
+                        # identity so the SAME media keeps one uuid/sha256 across
+                        # databases (id_media itself is renumbered above).
+                        getattr(data_list_toimp[sing_rec], 'media_uuid', None),
+                        getattr(data_list_toimp[sing_rec], 'media_sha256', None))
 
                     self.DB_MANAGER_write.insert_data_session(data)
                     imported += 1

@@ -56,6 +56,17 @@ class Media_table(object):
 
                         Column('tags', Text),
 
+                        # Stable cross-database identity (issue #58 follow-up).
+                        # media_uuid: a random uuid4 assigned once at creation and
+                        # copied verbatim on export/import, so the same media keeps
+                        # one identity across databases (integer id_media is
+                        # renumbered on import). media_sha256: hash of the file
+                        # content, deterministic, so the SAME photo matches across
+                        # databases even when they were populated independently.
+                        Column('media_uuid', Text),
+
+                        Column('media_sha256', Text),
+
 
 
                         # explicit/composite unique constraint.  'name' is optional.
