@@ -446,6 +446,9 @@ class HffPlugin_s(object):
     ##
     def runSite(self):
         pluginGui = hff_system__Site(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
     
@@ -457,6 +460,9 @@ class HffPlugin_s(object):
     
     def runEamena(self):
         pluginGui = Eamena(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save    
     
@@ -464,40 +470,64 @@ class HffPlugin_s(object):
     
     def runUW(self):
         pluginGui = hff_system__UW(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
 
     def runANC(self):
         pluginGui = hff_system__ANC(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
 
     def runART(self):
         pluginGui = hff_system__ART(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
 
     def runPottery(self):
         pluginGui = hff_system__Pottery(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
     def runANCCON(self):
         pluginGui = hff_system_ANC_CON(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
 
     def runARTCON(self):
         pluginGui = hff_system__ART_CON(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
 
     def runPotteryCON(self):
         pluginGui = hff_system__Pottery_CON(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save
         
     def runShipwreck(self):
         pluginGui = hff_system__Shipwreck(self.iface)
+        # Issue #58 (pt.4): let each form be minimised so users can park it and
+        # cross-reference other forms. Preserves any flags the form already set.
+        pluginGui.setWindowFlags(pluginGui.windowFlags() | Qt.WindowMinimizeButtonHint)
         pluginGui.show()
         self.pluginGui = pluginGui  # save    
     

@@ -748,7 +748,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                             try:
                                 self.iconListWidget.clear()
                                 thumb_path = data_for_thumb[0].filepath_thumb
-                                item.setData(Qt.UserRole, thumb_path)
+                                item.setData(Qt.UserRole, str(id_media))  # issue #58: unique id_media
                                 icon = QIcon(str(thumb_path_str)+filepath_thumb)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
                                 item.setIcon(icon)
                                 self.iconListWidget.addItem(item)
@@ -842,7 +842,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                         try:
                             self.iconListWidget.clear()
                             thumb_path = data_for_thumb[0].filepath_thumb
-                            item.setData(Qt.UserRole, thumb_path)
+                            item.setData(Qt.UserRole, str(id_media))  # issue #58: unique id_media
                             icon = QIcon(str(thumb_path_str)+filepath_thumb)  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
                             item.setIcon(icon)
                             self.iconListWidget.addItem(item)
@@ -935,6 +935,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
 
                         elif bool(idunique_model_check):
                             data = idunique_model_check
+                            id_media = data[0].id_media
                             media_filename = data[0].filename
                             item = QListWidgetItem(str(media_filename))
                             data_for_thumb = self.db_search_check(self.MAPPER_TABLE_CLASS_thumb, 'media_filename',
@@ -942,7 +943,7 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                             try:
                                 self.iconListWidget.clear()
                                 thumb_path = data_for_thumb[0].filepath_thumb
-                                item.setData(Qt.UserRole, thumb_path)
+                                item.setData(Qt.UserRole, str(id_media))  # issue #58: unique id_media
                                 icon = QIcon(str(thumb_path_str) + thumb_path)
                                 item.setIcon(icon)
                                 self.iconListWidget.addItem(item)
@@ -1023,6 +1024,27 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         except Exception as  e:
             QMessageBox.warning(self, tr('error', "Error"), "Warning 2 ! \n"+str(e),  QMessageBox.Ok)
             return 0
+
+    def _resolve_media_list(self, item):
+        """Resolve the MEDIA row(s) for a media-manager item.
+
+        Issue #58: the media base name (``filename`` / ``media_filename``) is
+        NOT unique -- only ``id_media`` and ``filepath`` are. Resolving by base
+        name and taking ``[0]`` tags/opens/deletes the wrong image whenever two
+        media share a base name. The list items now carry the unique
+        ``id_media`` in ``Qt.UserRole``; use it when present, and fall back to
+        the legacy filename lookup only for items created before this fix.
+
+        Returns a list (possibly empty) so callers can keep using ``[0]``.
+        """
+        key = item.data(Qt.UserRole)
+        if key is not None and str(key).isdigit():
+            res = self.DB_MANAGER.query_bool(
+                {'id_media': "'" + str(key) + "'"}, 'MEDIA')
+            if res:
+                return res
+        return self.DB_MANAGER.query_bool(
+            {'filename': "'" + str(item.text()) + "'"}, 'MEDIA')
 
     def insert_mediaToEntity_rec(self, id_entity, entity_type, table_name, id_media, filepath, media_name):
         """
@@ -1175,37 +1197,22 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
         thumb_resize_str = thumb_resize['thumb_resize']
         for item in items:
             dlg = ImageViewer()
-            id_orig_item = item.text()  # return the name of original file
-            search_dict = {'media_filename': "'" + str(id_orig_item) + "'", 'mediatype': "'" + 'video' + "'"}
-            u = Utility()
-            search_dict = u.remove_empty_items_fr_dict(search_dict)
-            
-            res = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
-            
-            
-            search_dict_2 = {'media_filename': "'" + str(id_orig_item) + "'", 'mediatype': "'" + 'image' + "'"}
-            
-            search_dict_2 = u.remove_empty_items_fr_dict(search_dict_2)
-            
-            res_2 = self.DB_MANAGER.query_bool(search_dict_2, "MEDIA_THUMB")
-            
-            search_dict_3 = {'media_filename': "'" + str(id_orig_item) + "'"}  
-            
-            search_dict_3 = u.remove_empty_items_fr_dict(search_dict_3)
-            
-            res_3 = self.DB_MANAGER.query_bool(search_dict_3, "MEDIA_THUMB")
-            
-            file_path_3 = str(res_3[0].path_resize)
-            if bool(res):
-            
+            # Issue #58: resolve the exact media by its UNIQUE id_media (carried
+            # in UserRole) instead of the non-unique base name, so the right
+            # resize copy is opened rather than an arbitrary same-named one.
+            media_list = self._resolve_media_list(item)
+            if not media_list:
+                continue
+            thumb_res = self.DB_MANAGER.query_bool(
+                {'id_media': "'" + str(media_list[0].id_media) + "'"}, "MEDIA_THUMB")
+            if not thumb_res:
+                continue
+            file_path_3 = str(thumb_res[0].path_resize)
+            if str(thumb_res[0].mediatype) == 'video':
                 os.startfile(str(thumb_resize_str+file_path_3))
             else:
-                pass
-            if bool(res_2):
-                dlg.show_image(str(thumb_resize_str+file_path_3))  
+                dlg.show_image(str(thumb_resize_str+file_path_3))
                 dlg.exec_()
-            else:
-                pass
 
     def charge_sito_list(self):
         sito_vl = self.UTILITY.tup_2_list_III(self.DB_MANAGER.group_by('site_table', 'name_site', 'SITE'))
@@ -1658,7 +1665,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
                 # data_for_thumb = self.db_search_check(self.MAPPER_TABLE_CLASS_thumb, 'id_media', id_media) # recupera i valori della thumb in base al valore id_media del file originale
                 thumb_path = data[i].filepath
                 # QMessageBox.warning(self, "Errore",str(thumb_path),  QMessageBox.Ok)
-                item.setData(Qt.UserRole, str(data[i].media_filename ))
+                # Issue #58: carry the UNIQUE id_media (not the non-unique base
+                # name) so tag/open/delete resolve the exact image.
+                item.setData(Qt.UserRole, str(data[i].id_media))
                 icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))  # os.path.join('%s/%s' % (directory.toUtf8(), image)))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
@@ -1756,9 +1765,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for uw_data in doc_list:
-                id_orig_item = item.text() #return the name of original file
-                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(uw_data[0], uw_data[1], uw_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
 
@@ -1779,9 +1788,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for art_data in art_list:
-                id_orig_item = item.text() #return the name of original file
-                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(art_data[0], art_data[1], art_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
 
@@ -1801,9 +1810,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for art_data in art_list:
-                id_orig_item = item.text()  # return the name of original file
-                search_dict = {'filename': "'" + str(id_orig_item) + "'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(art_data[0], art_data[1], art_data[2], media_data[0].id_media,
                                               media_data[0].filepath, media_data[0].filename)
@@ -1824,9 +1833,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for anc_data in anc_list:
-                id_orig_item = item.text()  # return the name of original file
-                search_dict = {'filename': "'" + str(id_orig_item) + "'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(anc_data[0], anc_data[1], anc_data[2], media_data[0].id_media,
                                               media_data[0].filepath, media_data[0].filename)
@@ -1847,9 +1856,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for pottery_data in pottery_list:
-                id_orig_item = item.text()  # return the name of original file
-                search_dict = {'filename': "'" + str(id_orig_item) + "'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(pottery_data[0], pottery_data[1], pottery_data[2], media_data[0].id_media,
                                               media_data[0].filepath, media_data[0].filename)
@@ -1870,9 +1879,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for uw_data in pe_list:
-                id_orig_item = item.text() #return the name of original file
-                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(uw_data[0], uw_data[1], uw_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
     
@@ -1893,9 +1902,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for ship_data in ship_list:
-                id_orig_item = item.text() #return the name of original file
-                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(ship_data[0], ship_data[1], ship_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
 
@@ -1916,9 +1925,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for anc_data in anc_list:
-                id_orig_item = item.text() #return the name of original file
-                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(anc_data[0], anc_data[1], anc_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
     
@@ -1938,9 +1947,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for pottery_data in pottery_list:
-                id_orig_item = item.text() #return the name of original file
-                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(pottery_data[0], pottery_data[1], pottery_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
     
@@ -1960,9 +1969,9 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for survey_data in survey_list:
-                id_orig_item = item.text() #return the name of original file
-                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(survey_data[0], survey_data[1], survey_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
     
@@ -1982,17 +1991,23 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             return
         for item in items_selected:
             for survey2_data in survey2_list:
-                id_orig_item = item.text() #return the name of original file
-                search_dict = {'filename' : "'"+str(id_orig_item)+"'"}
-                media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+                media_data = self._resolve_media_list(item)
+                if not media_data:
+                    continue
 
                 self.insert_mediaToEntity_rec(survey2_data[0], survey2_data[1], survey2_data[2], media_data[0].id_media, media_data[0].filepath, media_data[0].filename)
    
    #######################funzione per rimuovere tutti i tag da una foto da selezione thumbnail#########################
     def remove_img1(self, path, img_name):
-        os.remove(path + img_name)
+        # Issue #58: guard against removing a non-existent (or already-removed)
+        # file so a stale/mismatched name can't raise mid-loop.
+        target = path + img_name
+        if os.path.exists(target):
+            os.remove(target)
     def remove_img2(self, path, img_name):
-        os.remove(path + img_name)
+        target = path + img_name
+        if os.path.exists(target):
+            os.remove(target)
     
     def on_pushButton_remove_tags_pressed(self):
         if not bool(self.tableWidget_tags.selectedItems()):
@@ -2839,13 +2854,21 @@ class Main(QDialog, MAIN_DIALOG_CLASS):
             else:
                 try:
                     for item in items_selected:
-                        id_orig_item = item.text()  # return the name of original file
-                        s= str(id_orig_item)
-                        search_dict = {'filename': "'" + str(id_orig_item) + "'"}
-                        id_media = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
-                        self.remove_img1(thumb_path_str, str(id_media[0].id_media) + '_' + s + '_thumb' + '.png')
-                        self.remove_img2(thumb_resize_str, str(id_media[0].id_media) + '_' + s + '.png')
-                        self.DB_MANAGER.delete_thumb_from_db_sql(s)
+                        # Issue #58: resolve the exact media by unique id_media
+                        # and delete the actual thumb/resize files recorded for
+                        # it, then delete only that thumb row. The old code keyed
+                        # off the non-unique base name and could wipe another
+                        # image's files and thumb rows.
+                        media_row = self._resolve_media_list(item)
+                        if not media_row:
+                            continue
+                        idm = media_row[0].id_media
+                        thumb_rows = self.DB_MANAGER.query_bool(
+                            {'id_media': "'" + str(idm) + "'"}, 'MEDIA_THUMB')
+                        if thumb_rows:
+                            self.remove_img1(thumb_path_str, str(thumb_rows[0].media_thumb_filename))
+                            self.remove_img2(thumb_resize_str, str(thumb_rows[0].path_resize))
+                        self.DB_MANAGER.delete_thumb_from_db_sql_by_id(idm)
 
                 except Exception as e:
                     QMessageBox.warning(self, "Message!!!", "Error: " + str(e))    

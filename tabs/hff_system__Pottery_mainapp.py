@@ -628,6 +628,18 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
         # QMessageBox.information(self, "Scheda US", str(us_list), QMessageBox.Ok)
         return us_list
 
+    def _resolve_media_list(self, item):
+        """Resolve MEDIA row(s) for a media list item by the UNIQUE id_media
+        carried in Qt.UserRole (issue #58), falling back to the legacy
+        non-unique filename lookup only for items without a numeric id.
+        Returns a list so callers can keep using [0]."""
+        key = item.data(Qt.UserRole)
+        if key is not None and str(key).isdigit():
+            res = self.DB_MANAGER.query_bool({'id_media': "'" + str(key) + "'"}, 'MEDIA')
+            if res:
+                return res
+        return self.DB_MANAGER.query_bool({'filename': "'" + str(item.text()) + "'"}, 'MEDIA')
+
     def assignTags_US(self, item):
         """
         id_mediaToEntity,
@@ -644,9 +656,9 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
             return
 
         for us_data in us_list:
-            id_orig_item = item.text()  # return the name of original file
-            search_dict = {'filename': "'" + str(id_orig_item) + "'"}
-            media_data = self.DB_MANAGER.query_bool(search_dict, 'MEDIA')
+            media_data = self._resolve_media_list(item)
+            if not media_data:
+                continue
             self.insert_mediaToEntity_rec(us_data[0], us_data[1], us_data[2], media_data[0].id_media,
                                           media_data[0].filepath, media_data[0].filename)
 
@@ -706,8 +718,14 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
             try:
                 if bool(idunique_image_check):
-
-                    return
+                    # Issue #58 (pt.3): image already in media_table (e.g.
+                    # added via the conservation form). Reuse it and still
+                    # create the link for THIS form instead of returning,
+                    # so the same photo can belong to both forms.
+                    existing = idunique_image_check[0]
+                    item = QListWidgetItem(str(existing.filename))
+                    item.setData(Qt.UserRole, str(existing.id_media))
+                    self.iconListWidget.addItem(item)
                 else:
                     # mediatype = 'image'
                     self.insert_record_media(mediatype, filename, filetype, filepath)
@@ -2932,7 +2950,7 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
                 mediathumb_data = self.DB_MANAGER.query_bool(search_dict, "MEDIA_THUMB")
                 thumb_path = str(mediathumb_data[0].filepath)
                 item = QListWidgetItem(str(i.media_name))
-                item.setData(Qt.UserRole,str(i.media_name))
+                item.setData(Qt.UserRole, str(i.id_media))
                 icon = QIcon(Utility.resolve_media_path(thumb_path_str, thumb_path))
                 item.setIcon(icon)
                 self.iconListWidget.addItem(item)
@@ -3390,7 +3408,11 @@ class hff_system__Pottery(QDialog, MAIN_DIALOG_CLASS, StatisticsMixin):
 
         for item in items:
             id_orig_item = item.text()
-            search_dict = {'media_filename': f"'{id_orig_item}'"}
+            _key = item.data(Qt.UserRole)
+            if _key is not None and str(_key).isdigit():
+                search_dict = {'id_media': f"'{_key}'"}
+            else:
+                search_dict = {'media_filename': f"'{id_orig_item}'"}
             res = query_media(search_dict)
 
             if res:
